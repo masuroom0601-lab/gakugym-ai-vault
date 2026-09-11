@@ -2,7 +2,7 @@ name: instagram-tiktok-daily-draft
 
 on:
   schedule:
-    - cron: '0 21 * * *'   # 毎日 06:00 JST に実行
+    - cron: '0 21 * * *'
   workflow_dispatch: {}
 
 permissions:
@@ -19,6 +19,7 @@ jobs:
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          show_full_output: true
           claude_args: |
             --allowedTools "Write,Bash(git *)"
           prompt: |
@@ -40,6 +41,6 @@ jobs:
             最後に、以下のコマンドで変更をコミット・プッシュしてください:
             git config user.name "gakugym-ai-bot"
             git config user.email "bot@example.com"
-            git add 02_departments/instagram_tiktok/drafts/  
+            git add 02_departments/instagram_tiktok/drafts/
             git commit -m "instagram/tiktok daily draft $(date +%F)"
             git push
