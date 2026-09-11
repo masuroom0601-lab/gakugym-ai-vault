@@ -40,4 +40,6 @@ jobs:
             最後に、以下のコマンドで変更をコミット・プッシュしてください:
             git config user.name "gakugym-ai-bot"
             git config user.email "bot@example.com"
-            git add 02_departments/instagram_tiktok/drafts/
+            git add 02_departments/instagram_tiktok/drafts/  
+            git commit -m "instagram/tiktok daily draft $(date +%F)"
+            git push
