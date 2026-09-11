@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02_departments/x_threads/department.md",
+                "file": "02_departments/instagram_tiktok/drafts/task-2026-09-11-ig-001.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "department"
+              "title": "task-2026-09-11-ig-001"
             }
           }
         ]
@@ -190,6 +190,8 @@
   },
   "active": "200ac095fe3848f5",
   "lastOpenFiles": [
-    "02_departments/instagram_tiktok/department.md"
+    "02_departments/instagram_tiktok/department.md",
+    "02_departments/instagram_tiktok/drafts/task-2026-09-11-ig-001.md",
+    "02_departments/x_threads/department.md"
   ]
 }
