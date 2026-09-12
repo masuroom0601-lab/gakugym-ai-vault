@@ -1,6 +1,6 @@
 ---
 title: Canva日次クリエイティブ生成 Routine 設定手順書(claude.ai Routines)
-status: 未着手(益田さんがclaude.ai Routines画面から設定)
+status: 着手済
 ---
 
 ## 背景
