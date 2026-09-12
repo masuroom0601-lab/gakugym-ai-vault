@@ -1,0 +1,44 @@
+name: note-ameba-weekly-draft
+
+on:
+  schedule:
+    - cron: '0 21 * * 0'   # 毎週月曜 06:00 JST
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate note/Ameba draft
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: |
+            --allowedTools "Write,Bash(git *)"
+          prompt: |
+            あなたは「学ジム」のnote/Amebaブログ担当AIです。
+            以下のファイルを読み、そこに書かれたルールに厳密に従ってください:
+            - 02_departments/note_ameba/department.md
+            - 03_assets/brand-guide.md
+
+            保護者向けの学習・子育ての悩みに寄り添う長文記事を、
+            department.md の構成(導入→理論的背景→実践ステップ→
+            フレーズ変換集→まとめ)に厳密に従って1本作成してください。
+            noteとAmebaで同一原稿として使えるものにしてください。
+
+            作成したファイルは
+            02_departments/note_ameba/drafts/task-<今日の日付YYYY-MM-DD>-note-001.md
+            という名前で保存してください(frontmatter込み)。
+
+            最後に、以下のコマンドで変更をコミット・プッシュしてください:
+            git config user.name "gakugym-ai-bot"
+            git config user.email "bot@example.com"
+            git add 02_departments/note_ameba/drafts/
+            git commit -m "note/ameba weekly draft $(date +%F)"
+            git push
