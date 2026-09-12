@@ -1,0 +1,47 @@
+name: line-broadcast-publish
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '02_departments/line/drafts/**'
+  schedule:
+    - cron: '15 21 * * *'   # 毎日06:15 JST相当のフォールバック(pushトリガーの取りこぼし対策)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  broadcast:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: tools/line
+        run: npm install
+
+      - name: Broadcast approved LINE drafts
+        working-directory: tools/line
+        env:
+          LINE_CHANNEL_ACCESS_TOKEN: ${{ secrets.LINE_CHANNEL_ACCESS_TOKEN }}
+          LINE_MONTHLY_QUOTA: ${{ vars.LINE_MONTHLY_QUOTA }}
+        run: node broadcast.js
+
+      - name: Commit and push results
+        run: |
+          git config user.name "gakugym-ai-bot"
+          git config user.email "bot@example.com"
+          git add 02_departments/line/ 04_analytics/line-message-usage.json
+          if ! git diff --cached --quiet; then
+            git commit -m "line broadcast run $(date +%F)"
+            git push
+          else
+            echo "No changes to commit."
+          fi

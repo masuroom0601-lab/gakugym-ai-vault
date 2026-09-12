@@ -1,0 +1,13 @@
+{
+  "name": "gakugym-line-broadcast",
+  "private": true,
+  "version": "1.0.0",
+  "description": "学ジム LINE公式担当: 承認済みドラフトをLINE Messaging APIで配信する決定的スクリプト",
+  "main": "broadcast.js",
+  "scripts": {
+    "broadcast": "node broadcast.js"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}

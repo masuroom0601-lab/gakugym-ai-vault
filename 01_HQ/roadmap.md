@@ -44,6 +44,11 @@ Claude Codeセッションを跨いでも迷わないよう、常にこのファ
 - `.github/workflows/analytics-weekly-report.yml`: 週次レポート生成+翌週分シート作成
 - `.github/workflows/improvement-weekly-suggestions.yml`: 週次改善提案タスクの自動起票
 - `.github/workflows/analytics-monthly-summary.yml`: 月次サマリー集計
+- `01_HQ/setup guides/tiktok-content-posting-api-setup.md.md` / `youtube-data-api-setup.md.md`:
+  TikTok/YouTubeのセットアップ手順書(監査・審査の制約を明記)
+- `tools/line/broadcast.js`: LINE配信の決定的スクリプト(Claudeを経由しない。テスト済み)
+- `.github/workflows/line-broadcast-publish.yml`: 承認即配信+日次フォールバック
+- `04_analytics/line-message-usage.json`: LINE月間メッセージ上限の追跡ファイル
 
 これでPhase1(HQ運用ループ)・Phase2(クリエイティブ制作の画像生成)・
 Phase5(分析・改善ループ)まで実装が完了しています。
@@ -244,13 +249,28 @@ department.mdのアウトプット定義、トークン管理エスカレーシ�
 3. 慣れてきたら`analytics-weekly-report.yml`を`workflow_dispatch`で一度手動実行し、
    weekly-report.mdが期待通りに生成されるか確認する
 
-### Phase 6: LINE公式配信の完全自動化
+### Phase 6: LINE公式配信の完全自動化(実装済み、要・トークン発行)
 目的: 現状「published/フォルダに置くだけ」のLINE配信を、Messaging APIで実配信まで自動化する。
 
+- [x] `01_HQ/setup guides/line-messaging-api-setup.md.md` を作成
+      (無料プランの月間メッセージ上限リスクを明記。Instagram/TikTok/YouTubeと違い、
+      チャネルアクセストークンは長期(無期限)なので定期更新は不要)
+- [x] line/department.mdの承認フローを更新:
+      `status: approved` に変更してpushすると自動配信される仕組みに変更
+- [x] 誤配信防止ガード: `status: approved` のファイルのみ配信対象
+      (`tools/line/broadcast.js`)
+- [x] **月間メッセージ上限の自動追跡・超過時の自動見送り**を実装
+      (`04_analytics/line-message-usage.json`。フォロワー数×配信回数で
+      無料枠を使い切るリスクに対する安全装置)
+- [x] `line-broadcast-publish.yml`: drafts/へのpush時に即実行+毎日06:15 JST相当の
+      フォールバック実行
+- [x] 配信処理自体は**Claudeを経由しない決定的スクリプト**として実装
+      (取り消せない配信のため、LLMの解釈ではなく固定ロジックで処理する方針。
+      frontmatter解析・本文抽出・上限判定のロジックはこのセッション内でテスト済み)
 - [ ] LINE公式アカウント(Messaging API)のチャネル作成・アクセストークン取得
-- [ ] `01_HQ/setup guides/line-messaging-api-setup.md.md` を新規作成
-- [ ] line/department.mdの承認フロー(published → 配信)の「配信」ステップをAPI連携に置き換え
-- [ ] 誤配信防止のため、承認済み(status: approved)のファイルのみ配信対象にするガードを実装
+      (**益田さん対応**。トークン発行後は追加のコード変更なしで動くはず)
+- [ ] 実際の配信(1通)での動作確認 — トークン発行後、まず`workflow_dispatch`で
+      1件だけ承認した状態で手動実行し、正常に届くか確認する
 
 ### Phase 7: 電子書籍・特典コンテンツ制作
 目的: 「英語音読法」「モチベに左右されない学習習慣作り」の電子書籍を、
@@ -305,6 +325,8 @@ LINE特典・Amazon自費出版用に制作する。
 | TikTok for Developersアプリ申請・アプリ監査 | Phase3 | `tiktok-content-posting-api-setup.md.md`。監査前は非公開投稿のみ |
 | YouTube OAuth同意画面の本番公開審査 | Phase3 | `youtube-data-api-setup.md.md`。プライバシーポリシーページが必要(Phase4依存) |
 | 著作権フリーのストック動画素材の用意 | Phase2/3 | `03_assets/videos/`。Phase3の横展開はこの動画が前提 |
+| LINE公式アカウントのMessaging APIチャネル作成・長期トークン発行 | Phase6 | `line-messaging-api-setup.md.md`。発行後は自動配信が有効になる |
+| LINE配信の月間メッセージ上限確認・プラン判断 | Phase6 | 無料枠超過時、待つか有料プランにするかは本人判断(追加予算の方針に関わる) |
 | ドメイン取得・DNS設定 | Phase4 | 実費(年額) |
 | お問い合わせフォームサービスの選定・契約(無料枠) | Phase4 | |
 | LINE公式アカウント(Messaging API)チャネル開設 | Phase6 | |
