@@ -1,8 +1,13 @@
 name: creative-pipeline
 
+# 2026-09-12: 益田さんの希望でcreative生成をCanvaベース(claude.aiのRoutineから
+# 実際のCanvaデザインを複製・編集)に切り替えたため、日次cronは無効化。
+# このPlaywrightパイプラインはフォールバック用にworkflow_dispatchで手動実行可能な
+# 状態のまま残してある。再度自動化したくなったら、下記のcronを戻せばよい。
+# 詳細: 01_HQ/setup guides/canva-routine-setup.md.md / 01_HQ/roadmap.md Phase2
 on:
-  schedule:
-    - cron: '5 21 * * *'   # 毎日 06:05 JST(Instagram/TikTok下書き生成の後、校正担当の前)
+  # schedule:
+  #   - cron: '5 21 * * *'   # 毎日 06:05 JST(Instagram/TikTok下書き生成の後、校正担当の前)
   workflow_dispatch: {}
 
 permissions:

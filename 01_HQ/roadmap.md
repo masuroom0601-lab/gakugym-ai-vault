@@ -133,8 +133,10 @@ department.mdのアウトプット定義、トークン管理エスカレーシ�
 
 ### 日次ワークフローの実行順序(JST)
 1. 06:00 各部署の下書き生成(instagram-tiktok / x-threads / ※月木のみline / ※月のみnote-ameba)
-2. 06:05 クリエイティブ制作(`creative-pipeline.yml`、サムネ・フィード画像を自動生成)
-3. 06:10 校正担当チェック(`proofreading-daily-check.yml`、生成画像の文字化けも目視対象)
+2. 06:10 校正担当チェック(`proofreading-daily-check.yml`)
+3. 06:15 クリエイティブ制作(claude.aiのRoutine、Canvaで実デザインを複製・編集して
+   サムネ・本編動画を生成。GitHub Actionsではなくclaude.ai側で動く点に注意。
+   `01_HQ/setup guides/canva-routine-setup.md.md`参照)
 4. 06:20 秘書担当タスクカード起票・承認待ちリスト更新(`hq-secretary-daily-tasks.yml`)
 5. 06:30 統括担当の日次集計・ダッシュボード更新(`hq-director-daily-report.yml`)
 
@@ -144,28 +146,42 @@ department.mdのアウトプット定義、トークン管理エスカレーシ�
 **このPhaseが終わると**: 益田さんは毎朝daily-logとdashboardを見るだけで、
 「何が承認待ちか」「何が滞留しているか」が一目でわかる状態になる。
 
-### Phase 2: クリエイティブ制作パイプライン
+### Phase 2: クリエイティブ制作パイプライン(2026-09-12: Canvaベースに方針転換)
 目的: Instagram/TikTokのサムネイル画像・リール動画を、文字化けせず自動生成する。
 
-- [x] Playwright実行環境をGitHub Actions上に用意(`actions/setup-node` + `npx playwright install --with-deps chromium`)
-- [x] テンプレA/B/C(フィード用)・リールサムネの固定HTML/CSSテンプレートを作成
-      (`03_assets/creative-templates/`、Noto Sans JP埋め込み+CI側にfonts-noto-cjkも
-      インストールして二重に文字化け対策)。**益田さんによる目視確認がまだ残っています**
-      (テンプレートのデザイン自体をこの目で見て問題なければ「確認済み」として以後固定にしてください)
-- [x] 「テキスト内容+科目別配色パラメータ」だけを差し込んでスクリーンショット→PNG化するスクリプトを作成
-      (`tools/creative/render.js`。ローカルで実データを使って動作確認済み)
-- [x] 文字数ルール(縦4行まで/横17文字まで=サムネの煽り文句・見出し)の自動検証を組み込み、
-      フィード本文は自然に折り返す長文のため詰め込み過ぎのみを緩くチェック
-- [x] creative部署のGitHub Actionsワークフロー(`creative-pipeline.yml`、06:05 JST)を新規作成し、
-      Instagram/TikTok担当の台本 → spec.json変換(Claude) → 画像生成(Playwright、決定的処理)
-      → コミットまで自動化
-- [ ] 動画側(リール本編)は未着手。テキストを透過PNGで書き出しffmpegでoverlay合成する
-      手順は、**背景となる著作権フリーのストック動画素材(勉強机/コーヒー/キャンドル等)を
-      益田さんに用意してもらってから**着手する(`03_assets/videos/`に配置)
-- [ ] 背景写真素材(`03_assets/images/backgrounds/`)の投入待ち。投入されるまでは
-      サムネイルはグラデーションのプレースホルダー背景で生成される
+**方針転換の経緯**: 当初PlaywrightでHTML/CSSテンプレートを自前レンダリングする
+方式を実装したが、益田さんの希望で「実際にご自身が使っているCanvaデザインを
+複製・編集する」方式に切り替えた。Instagram/TikTokの自動投稿(API経由)も
+「不要かもしれない」との判断で見送り、投稿自体は引き続き手動。
 
-**依存**: Instagram/TikTok部署のdrafts生成が安定稼働していること(Phase 1完了、達成済み)
+- [x] 益田さんの過去のCanvaデザイン(サムネ5ページセット+本編5種)を実際に確認し、
+      構造を把握(本編は静止画ではなく**動画背景**であることが判明。エクスポートすれば
+      そのままリール動画になる)
+- [x] `copy-design`(複製)+`edit-design`(テキスト差し替え)+`export-design`
+      (PNG/MP4書き出し)の一連の流れを、実際に1件試作して動作確認済み
+      (試作: https://www.canva.com/d/TPF9ZlphVqKrfs4)
+- [x] **重要な不具合を発見・修正**: 元デザインは番号(1.〜7.)が本文と別の固定位置
+      要素だったため、文字数が変わると本文とズレる。番号を本文のテキストに統合する
+      形に直し、文字数に依存しない安定した構造にした
+- [x] `01_HQ/setup guides/canva-routine-setup.md.md`: claude.ai Routinesでの
+      設定手順+貼り付け用プロンプトを作成
+- [x] 旧Playwrightパイプライン(`creative-pipeline.yml`)の日次cronは無効化
+      (workflow_dispatchでの手動実行はフォールバックとして残す)
+- [ ] **益田さん対応**: claude.aiのRoutines画面で、Canvaコネクタをアタッチした
+      Routineを実際に作成する(このリポジトリのGitHub ActionsからはCanva連携を
+      スケジュール実行に持たせられないという組織設定の制約があったため、
+      claude.ai側で設定する必要がある)
+- [ ] Routineの初回実行結果を確認し、`02_departments/creative/drafts/`に
+      期待通りのファイルが生成されるか検証する
+- [ ] フィード(カルーセル)側もCanvaベースに合わせて同様の複製元デザインを用意する
+      (今回確認したのはリールのサムネ・本編のみ。フィード用の参考デザインは
+      益田さんから別途共有してもらう)
+
+**技術的な制約メモ(重要)**: Claude Code(GitHub Actions経由)からはCanvaの
+公式開発者API(Autofill等)を使った完全無人の自動化は、調査の結果
+**Canva Enterprise(高額な法人プラン)が事実上必須**と判明し、無料方針に反するため
+見送った。今回のRoutine方式は、益田さんのClaude.aiアカウントに紐づくCanva連携を
+「毎日決まった時刻に呼び出す」形なので、追加コストはかからない。
 
 **次のアクション(益田さん対応)**:
 1. `creative-pipeline.yml` を`workflow_dispatch`で一度手動実行し、生成された
@@ -350,14 +366,12 @@ LINE特典・Amazon自費出版用に制作する。
 | お問い合わせフォーム(Formspree)・reCAPTCHA設定 | Phase4 | `contact-form-setup.md.md` |
 | profile.html/pricing.htmlの「✏️ 要記入」箇所への実データ入力 | Phase4 | 資格・ストーリー・事業者情報・規定文言など、本人にしか書けない内容 |
 | 著作権フリーの人物写真・トップページ用画像の調達 | Phase4 | プレースホルダーのままでは公開に適さない |
-| ドメイン取得・DNS設定 | Phase4 | 実費(年額) |
-| お問い合わせフォームサービスの選定・契約(無料枠) | Phase4 | |
-| LINE公式アカウント(Messaging API)チャネル開設 | Phase6 | |
 | Amazon KDPアカウント開設 | Phase7 | |
 | 各drafts/reviewの最終承認・編集 | 日次運用 | brand-guide.md「6. AI生成コンテンツの扱い」に基づく必須ステップ |
 | 景品表示法等、法令に抵触しうる表現の最終判断 | 日次運用 | AIはNGルールでガードするが最終責任は本人 |
 | 週次アナリティクス入力シートへの数値記入 | Phase5 | `04_analytics/manual-input/<週の月曜日>.md`。公式APIトークン未設定のため唯一の情報源 |
-| 著作権フリーの背景写真の追加 | Phase2 | `03_assets/images/backgrounds/`。未追加の間はプレースホルダー背景 |
+| **claude.ai Routinesで「Canva日次クリエイティブ生成」を作成(Canvaコネクタ必須)** | Phase2 | `canva-routine-setup.md.md`。GitHub Actions側では設定不可だったための対応 |
+| (フォールバック用途のみ)著作権フリーの背景写真の追加 | Phase2 | `03_assets/images/backgrounds/`。Canva経路が使えない場合のPlaywright代替経路向け |
 
 ---
 
