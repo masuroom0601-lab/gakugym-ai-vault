@@ -21,7 +21,8 @@ reports_to: 統括担当
 - 学ジムの宣伝は付けない、または文末に軽く触れる程度
 
 ## 承認フロー
-drafts → review(校正担当) → あなたが最終承認 → published(Threadsは公式API、Xは当面手動投稿)
+- X・Threadsとも: drafts → review(校正担当) → あなたが最終承認 → 手動投稿
+- 補足: ThreadsはAPIセットアップ(OAuthリダイレクトURI設定)でつまずいたため、当面は下書き自動生成までとし、投稿は手動で行う。Xは2026年2月のAPI有料化以降、当面自動投稿化しない。どちらも将来的に余裕があれば自動投稿化を再検討する
 
 ## 禁止事項
 03_assets/brand-guide.md のNG表現ルールに準拠

@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02_departments/instagram_tiktok/published/task-2026-09-11-ig-001.md",
+                "file": "02_departments/x_threads/department.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "task-2026-09-11-ig-001"
+              "title": "department"
             }
           }
         ]
@@ -188,10 +188,14 @@
       "bases:新規ベースを作成": false
     }
   },
-  "active": "48ee94c3c2812642",
+  "active": "200ac095fe3848f5",
   "lastOpenFiles": [
-    "02_departments/instagram_tiktok/department.md",
+    "02_departments/hq_director/department.md",
+    "01_HQ/setup guides/threads-api-setup.md.md",
+    "01_HQ/setup guides/instagram-graph-api-setup.md.md",
+    "01_HQ/setup guides",
+    "02_departments/x_threads/department.md",
     "02_departments/instagram_tiktok/published/task-2026-09-11-ig-001.md",
-    "02_departments/x_threads/department.md"
+    "02_departments/instagram_tiktok/department.md"
   ]
 }
