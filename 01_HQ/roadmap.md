@@ -47,13 +47,14 @@ Claude Codeセッションを跨いでも迷わないよう、常にこのファ
 
 これでPhase1(HQ運用ループ)・Phase2(クリエイティブ制作の画像生成)・
 Phase5(分析・改善ループ)まで実装が完了しています。
-残りはPhase3(TikTok/YouTube横展開)・Phase4(自社HP)・Phase6(LINE実配信)・
-Phase7(電子書籍)と、Omniroute接続、creativeの動画生成です。
+Phase3(TikTok/YouTube横展開)は、ドキュメント・設定ルール面(セットアップ手順書、
+department.mdのアウトプット定義、トークン管理エスカレーション)は整備済みですが、
+**実際のアップロード自動化コードはまだ書いていません**(理由は下記Phase3の節を参照)。
 
 ### まだ手つかず(次フェーズ)
 - hp の自動化ワークフロー(Phase4)
-- creativeの動画生成(ストック動画素材が届いてから着手)
-- TikTok/YouTube個別投稿(Phase3、API審査待ち)
+- creativeの動画生成(ストック動画素材が届いてから着手、Phase3の前提でもある)
+- TikTok/YouTubeへの実際のアップロード自動化(トークン発行後に実装。Phase3参照)
 - LINE実配信のMessaging API連携(Phase6)
 - クリエイティブ制作の実技術パイプライン(Playwrightレンダリング環境)
 - TikTok/YouTube Shortsへの横展開(現状は「Instagram/TikTok」department.mdに統合されているが、
@@ -169,18 +170,37 @@ Phase7(電子書籍)と、Omniroute接続、creativeの動画生成です。
 ### Phase 3: 横展開の拡大(TikTok単独投稿・YouTube Shorts)
 目的: Instagramリールで作った動画をTikTok・YouTube Shortsにも展開する。
 
-- [ ] TikTok for Developers(Content Posting API)のアプリ申請・審査
-      (個人利用でも審査が必要な場合があるため早めに申請)
-- [ ] YouTube Data API v3の認証設定(OAuth、Shorts判定は動画の縦横比・尺で自動)
-- [ ] 各APIのアクセストークン管理を`01_HQ/setup guides/`に手順書として追加
-      (Threads同様、有効期限管理をhq_directorのエスカレーション対象に追加)
-- [ ] Instagram/TikTok部署のdepartment.mdを更新し、「TikTok単独投稿」「YouTube Shorts」を
-      明示的なアウトプット単位として追加
+- [x] 各APIのアクセストークン管理手順書を`01_HQ/setup guides/`に追加
+      (`tiktok-content-posting-api-setup.md.md` / `youtube-data-api-setup.md.md`)
+- [x] hq_directorのエスカレーション基準にTikTok/YouTubeのトークン期限管理を追加
+- [x] instagram_tiktok/department.mdに「TikTok単独投稿」「YouTube Shorts」を
+      明示的なアウトプット単位として追加(キャプション・タイトル・公開範囲のルール)
+- [ ] TikTok for Developers(Content Posting API)のアプリ申請・監査
+      (**益田さん対応。申請してもすぐには公開投稿できず、監査通過まで非公開投稿限定**)
+- [ ] YouTube Data API v3のOAuth同意画面 本番公開審査
+      (**益田さん対応。プライバシーポリシーページが必要=Phase4のHP完成が実質的な前提**)
+- [ ] 実際のアップロード自動化ワークフローの実装
+      (下記「実装時の技術メモ」を参照。**トークンが実際に発行されてから実装・動作確認する**
+      方針とした。認証情報なしに書いたAPI呼び出しコードは検証できず、後で書き直しになる
+      可能性が高いため、今回はガイドと仕様メモの整備までに留めている)
 - [ ] 当面は「動画ファイルの自動生成まで」とし、実際のアップロードは承認後に
-      益田さんが手動 or 半自動(承認後ワンクリックでAPI投稿)で行う運用から始める
+      益田さんが手動で行う運用を継続する(Phase2の動画パイプライン自体もまだ未着手のため、
+      実質的にはPhase2の動画生成が先に必要)
 
-**リスク**: 各プラットフォームのAPI審査・規約変更に時間がかかる可能性が高いため、
-このPhaseは並行してPhase 4(HP)を進めながら気長に進める。
+**依存関係(重要)**: このPhaseは以下の順で詰まっている、いわば「三重待ち」の状態です。
+1. Phase2の動画生成(ストック動画素材待ち)がまだ完了していない → 横展開する動画そのものがない
+2. TikTokのアプリ監査、YouTubeのOAuth審査(ともに益田さん申請・数日〜数週間)
+3. YouTubeの審査にはプライバシーポリシーページが必要 → 実質Phase4(HP)完成が前提
+上記1・2は今すぐ並行着手可能なので、**動画素材の用意とAPI申請だけでも先に進めておく**
+ことを強く推奨する(承認・監査の待ち時間そのものは短縮できないため)。
+
+**実装時の技術メモ(トークン発行後に着手)**:
+- TikTok: `/v2/post/publish/video/init/` で初期化→`upload_url`にチャンクアップロード。
+  実行のたびにrefresh_tokenからaccess_tokenを再発行する処理が必須(24時間で失効するため)
+- YouTube: resumable upload(`/upload/youtube/v3/videos`)。`privacyStatus`は
+  最初`private`にし、益田さんの確認後に`public`へ切り替えるステップを挟む
+- どちらも、creative-pipelineが将来生成する動画ファイルのパスをGitHub Actions内で
+  参照できるようにする必要がある(現状のcreative-pipelineは画像のみ生成)
 
 ### Phase 4: 自社ドメインHP構築
 目的: readdy版サイトを踏襲しつつ、自社ドメイン+無料ホスティングで再構築する。
@@ -282,7 +302,9 @@ LINE特典・Amazon自費出版用に制作する。
 | Instagram/Threads長期トークンの初回取得・60日毎の更新 | Phase1 | セットアップ手順書済み、実行は本人 |
 | Omnirouteアカウント・APIキー発行 | Phase1 | omniroute-setup.md.mdの前提条件 |
 | GitHub Secretsへのトークン登録 | 各Phase共通 | Settings → Secrets and variables → Actions |
-| TikTok Developer / YouTube Data API 申請 | Phase3 | 審査に時間がかかる可能性 |
+| TikTok for Developersアプリ申請・アプリ監査 | Phase3 | `tiktok-content-posting-api-setup.md.md`。監査前は非公開投稿のみ |
+| YouTube OAuth同意画面の本番公開審査 | Phase3 | `youtube-data-api-setup.md.md`。プライバシーポリシーページが必要(Phase4依存) |
+| 著作権フリーのストック動画素材の用意 | Phase2/3 | `03_assets/videos/`。Phase3の横展開はこの動画が前提 |
 | ドメイン取得・DNS設定 | Phase4 | 実費(年額) |
 | お問い合わせフォームサービスの選定・契約(無料枠) | Phase4 | |
 | LINE公式アカウント(Messaging API)チャネル開設 | Phase6 | |

@@ -32,6 +32,24 @@ reports_to: 統括担当
 2. 中面: 1テーマ1枚、チェックリスト型 or 解説型(小見出し+2〜3行、重要語を強調)
 3. 締め: まとめ3点+保存/フォロー訴求
 
+### TikTok単独投稿(横展開)
+- Instagram Reelsに投稿した動画ファイルを、そのままTikTokにも投稿する
+  (新規に台本・素材を作らない。同一動画・同一キャプションを流用)
+- キャプション・ハッシュタグのルールはInstagram Reelsと同じ(最大5個)
+- 投稿手段: `01_HQ/setup guides/tiktok-content-posting-api-setup.md.md` 参照。
+  TikTok側のアプリ監査が通るまでは非公開投稿しかできないため、
+  それまでは動画ファイル生成までを自動化し、投稿は益田さんが手動で行う
+
+### YouTube Shorts(横展開)
+- Instagram Reelsに投稿した動画ファイルを、そのままYouTube Shortsにも投稿する
+  (縦長9:16・60秒以内であれば自動的にShorts判定される)
+- タイトル: リール台本の「インパクト大文字」見出しをそのまま使う
+- 説明欄: リール本編のキャプション相当の文章+文末に `#Shorts` を含める
+- 投稿手段: `01_HQ/setup guides/youtube-data-api-setup.md.md` 参照。
+  OAuth同意画面の本番審査が通るまでは公開投稿の自動化ができないため、
+  それまでは動画ファイル生成までを自動化し、投稿は益田さんが手動で行う
+- 初期の公開範囲は `private`/`unlisted` を推奨し、益田さんの最終確認後に`public`へ切り替える
+
 ## インプット
 - 00_INBOX のネタ
 - 企画担当が作る月間テーマカレンダー
@@ -39,3 +57,4 @@ reports_to: 統括担当
 
 ## 承認フロー
 drafts → review(校正担当がコメント)→ あなたが最終承認 → published
+(published後のTikTok/YouTube Shorts横展開は、各APIが使えるようになるまでは手動)
