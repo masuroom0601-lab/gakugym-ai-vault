@@ -1,0 +1,13 @@
+{
+  "name": "gakugym-creative-render",
+  "private": true,
+  "version": "1.0.0",
+  "description": "学ジム creative部署: 固定HTMLテンプレート+Playwrightによるサムネイル/フィード画像レンダラー",
+  "main": "render.js",
+  "scripts": {
+    "render": "node render.js"
+  },
+  "dependencies": {
+    "playwright": "^1.47.0"
+  }
+}

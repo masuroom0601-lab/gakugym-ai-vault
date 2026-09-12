@@ -37,12 +37,17 @@ Claude Codeセッションを跨いでも迷わないよう、常にこのファ
 - `proofreading-daily-check.yml`: 校正担当の自動チェック(status: draft → review、または差し戻し)
 - `hq-secretary-daily-tasks.yml`: 秘書担当のタスクカード自動起票・LINEストック確認・承認待ちリスト更新
 - `02_departments/hq_secretary/_templates/task-card-template.md`: タスクカードの共通フォーマット
+- `03_assets/creative-templates/`: サムネ・フィード(テンプレA/B/C)の固定HTML/CSSテンプレート
+- `tools/creative/render.js`: Playwrightによる画像レンダラー(ローカルで実データ動作確認済み)
+- `.github/workflows/creative-pipeline.yml`: creative部署の日次自動生成(06:05 JST)
 
 これでPhase1(HQ運用ループ)は「統括→秘書→各部署→校正→承認」のうち、
-Omniroute接続以外はワークフロー化が完了しています。
+Omniroute接続以外はワークフロー化が完了し、Phase2(クリエイティブ制作)も
+画像生成(サムネ・フィード)まで実装が完了しています(動画は未着手、素材待ち)。
 
 ### まだ手つかず(次フェーズ)
-- analytics・improvement・creative・hp の自動化ワークフロー
+- analytics・improvement・hp の自動化ワークフロー
+- creativeの動画生成(ストック動画素材が届いてから着手)
 - クリエイティブ制作の実技術パイプライン(Playwrightレンダリング環境)
 - TikTok/YouTube Shortsへの横展開(現状は「Instagram/TikTok」department.mdに統合されているが、
   実際のTikTok/YouTube個別アップロードの自動化・API連携は未着手)
@@ -112,9 +117,10 @@ Omniroute接続以外はワークフロー化が完了しています。
 
 ### 日次ワークフローの実行順序(JST)
 1. 06:00 各部署の下書き生成(instagram-tiktok / x-threads / ※月木のみline / ※月のみnote-ameba)
-2. 06:10 校正担当チェック(`proofreading-daily-check.yml`)
-3. 06:20 秘書担当タスクカード起票・承認待ちリスト更新(`hq-secretary-daily-tasks.yml`)
-4. 06:30 統括担当の日次集計・ダッシュボード更新(`hq-director-daily-report.yml`)
+2. 06:05 クリエイティブ制作(`creative-pipeline.yml`、サムネ・フィード画像を自動生成)
+3. 06:10 校正担当チェック(`proofreading-daily-check.yml`、生成画像の文字化けも目視対象)
+4. 06:20 秘書担当タスクカード起票・承認待ちリスト更新(`hq-secretary-daily-tasks.yml`)
+5. 06:30 統括担当の日次集計・ダッシュボード更新(`hq-director-daily-report.yml`)
 
 益田さんは06:30以降に `01_HQ/tasks/approval-pending.md` とダッシュボードを確認し、
 承認待ちの下書きを確認・編集・承認(published/フォルダへ移動)すればよい状態になっています。
@@ -125,16 +131,33 @@ Omniroute接続以外はワークフロー化が完了しています。
 ### Phase 2: クリエイティブ制作パイプライン
 目的: Instagram/TikTokのサムネイル画像・リール動画を、文字化けせず自動生成する。
 
-- [ ] Playwright実行環境をGitHub Actions上に用意(`actions/setup-node` + `npx playwright install --with-deps chromium`)
-- [ ] テンプレA/B/C(フィード用)・リールサムネ・リール本編の固定HTML/CSSテンプレートを、
-      益田さんと1回だけ人間確認しながら作成(Noto Sans JP埋め込み必須)
-- [ ] 「テキスト内容+科目別配色パラメータ」だけを差し込んでスクリーンショット→PNG化するスクリプトを作成
-- [ ] 動画側は、テキストを透過PNGで書き出し、ffmpegでoverlay合成する手順を確立
-- [ ] 文字数ルール(縦4行まで/横17文字まで)の自動検証を組み込む
-- [ ] creative部署のGitHub Actionsワークフローを新規作成し、
-      Instagram/TikTok担当が生成した台本を受け取って画像・動画を自動生成 → reviewへ
+- [x] Playwright実行環境をGitHub Actions上に用意(`actions/setup-node` + `npx playwright install --with-deps chromium`)
+- [x] テンプレA/B/C(フィード用)・リールサムネの固定HTML/CSSテンプレートを作成
+      (`03_assets/creative-templates/`、Noto Sans JP埋め込み+CI側にfonts-noto-cjkも
+      インストールして二重に文字化け対策)。**益田さんによる目視確認がまだ残っています**
+      (テンプレートのデザイン自体をこの目で見て問題なければ「確認済み」として以後固定にしてください)
+- [x] 「テキスト内容+科目別配色パラメータ」だけを差し込んでスクリーンショット→PNG化するスクリプトを作成
+      (`tools/creative/render.js`。ローカルで実データを使って動作確認済み)
+- [x] 文字数ルール(縦4行まで/横17文字まで=サムネの煽り文句・見出し)の自動検証を組み込み、
+      フィード本文は自然に折り返す長文のため詰め込み過ぎのみを緩くチェック
+- [x] creative部署のGitHub Actionsワークフロー(`creative-pipeline.yml`、06:05 JST)を新規作成し、
+      Instagram/TikTok担当の台本 → spec.json変換(Claude) → 画像生成(Playwright、決定的処理)
+      → コミットまで自動化
+- [ ] 動画側(リール本編)は未着手。テキストを透過PNGで書き出しffmpegでoverlay合成する
+      手順は、**背景となる著作権フリーのストック動画素材(勉強机/コーヒー/キャンドル等)を
+      益田さんに用意してもらってから**着手する(`03_assets/videos/`に配置)
+- [ ] 背景写真素材(`03_assets/images/backgrounds/`)の投入待ち。投入されるまでは
+      サムネイルはグラデーションのプレースホルダー背景で生成される
 
-**依存**: Instagram/TikTok部署のdrafts生成が安定稼働していること(Phase 1完了後)
+**依存**: Instagram/TikTok部署のdrafts生成が安定稼働していること(Phase 1完了、達成済み)
+
+**次のアクション(益田さん対応)**:
+1. `creative-pipeline.yml` を`workflow_dispatch`で一度手動実行し、生成された
+   `02_departments/creative/drafts/generated/<task_id>/*.png` を確認する
+2. 問題なければテンプレートを「確認済み」として、以後デザイン変更は都度指示制にする
+3. 著作権フリーの背景写真(縦長9:16、暗めのトーン)を `03_assets/images/backgrounds/` に追加
+4. 余裕があれば、リール本編動画用のストック動画素材を `03_assets/videos/` に追加
+   (動画合成パイプラインはこれの後で着手)
 
 ### Phase 3: 横展開の拡大(TikTok単独投稿・YouTube Shorts)
 目的: Instagramリールで作った動画をTikTok・YouTube Shortsにも展開する。

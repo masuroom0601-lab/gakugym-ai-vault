@@ -1,0 +1,60 @@
+<!doctype html>
+<!--
+  学ジム フィード テンプレートC(紺色×白アイコン)固定テンプレート
+  権威感のある「やるべきことリスト」向け。CSSは以後書き換えない。
+  ?d=<base64(UTF-8 JSON)>  JSON: { role, title, catch, body, checklist }
+  role: "cover" | "content" | "closing"
+-->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{width:1080px;height:1350px;overflow:hidden;
+    font-family:"Noto Sans JP","Noto Sans CJK JP",sans-serif;
+    background:#0F2A4A;color:#fff;}
+  #wrap{position:absolute;inset:0;padding:100px 90px;display:flex;flex-direction:column;justify-content:center;}
+  #icon{font-size:52px;margin-bottom:20px;}
+  #title{font-size:60px;font-weight:900;line-height:1.4;white-space:pre-wrap;margin-bottom:28px;}
+  #title.role-content{font-size:46px;}
+  #catch{font-size:36px;font-weight:400;color:#9fc4e8;white-space:pre-wrap;}
+  #body{font-size:38px;font-weight:400;line-height:1.65;white-space:pre-wrap;color:#dfeaf5;}
+  #mark{position:absolute;bottom:60px;right:80px;font-size:28px;color:#5a83ab;font-weight:700;}
+</style>
+</head>
+<body>
+  <div id="wrap">
+    <div id="icon"></div>
+    <div id="title"></div>
+    <div id="body"></div>
+    <div id="catch"></div>
+  </div>
+  <div id="mark">学ジム</div>
+<script>
+  function b64ToUtf8(b64){
+    const binary = atob(b64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
+    return new TextDecoder("utf-8").decode(bytes);
+  }
+  async function init(){
+    const qp = new URLSearchParams(location.search);
+    const raw = qp.get("d");
+    const data = raw ? JSON.parse(b64ToUtf8(decodeURIComponent(raw))) : {};
+    const role = data.role || "content";
+    const titleEl = document.getElementById("title");
+    titleEl.textContent = data.title || "";
+    titleEl.classList.add("role-" + role);
+    document.getElementById("body").textContent = role === "cover" ? "" : (data.body || "");
+    document.getElementById("catch").textContent = role === "cover" ? (data.catch || "") : "";
+    document.getElementById("icon").textContent = data.checklist ? "□" : (role === "closing" ? "📌" : "");
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    document.body.setAttribute("data-ready", "true");
+  }
+  init();
+</script>
+</body>
+</html>

@@ -1,0 +1,102 @@
+<!doctype html>
+<!--
+  学ジム リールサムネイル 固定テンプレート(人間確認済み・以後CSSは書き換えない)
+  パラメータは ?d=<base64(UTF-8 JSON)> で受け取る。
+  JSON: { subject, hype, headline, number, swipe, bg }
+  - subject: 科目カテゴリ名(例: "総合型選抜対策")。含まれる単語で配色を自動判定する
+  - hype: 煽り文句(白)
+  - headline: インパクト大文字の見出し(白)
+  - number: 本編の箇条書き数と一致させる数字(白)
+  - swipe: 省略時は "SWIPE >>>"
+  - bg: 背景写真のURL/パス(省略時はグラデーションのプレースホルダー)
+-->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{width:1080px;height:1920px;overflow:hidden;
+    font-family:"Noto Sans JP","Noto Sans CJK JP",sans-serif;}
+  #bg{position:absolute;inset:0;background-size:cover;background-position:center;background-color:#1a1a1a;}
+  #bg.placeholder{background:linear-gradient(160deg,#2b2f3a,#111318);}
+  #overlay{position:absolute;inset:0;
+    background:linear-gradient(to top, rgba(0,0,0,.82) 0%, rgba(0,0,0,.55) 40%, rgba(0,0,0,.15) 70%, rgba(0,0,0,.35) 100%);}
+  #tag{position:absolute;top:80px;left:64px;font-size:44px;font-weight:900;
+    text-shadow:0 4px 10px rgba(0,0,0,.6);}
+  #content{position:absolute;left:64px;right:120px;bottom:150px;color:#fff;}
+  #hype{font-size:52px;font-weight:700;margin-bottom:24px;
+    text-shadow:0 4px 10px rgba(0,0,0,.6);line-height:1.3;white-space:pre-wrap;}
+  #headline{font-size:88px;font-weight:900;line-height:1.25;
+    text-shadow:0 6px 14px rgba(0,0,0,.7);white-space:pre-wrap;}
+  #headline .number{font-size:140px;margin-left:16px;}
+  #swipe{position:absolute;right:64px;bottom:64px;font-size:40px;font-weight:900;
+    letter-spacing:.05em;text-shadow:0 4px 10px rgba(0,0,0,.6);}
+</style>
+</head>
+<body>
+  <div id="bg"></div>
+  <div id="overlay"></div>
+  <div id="tag"></div>
+  <div id="content">
+    <div id="hype"></div>
+    <div id="headline"></div>
+  </div>
+  <div id="swipe"></div>
+<script>
+  // 科目別配色(instagram_tiktok/department.md 準拠。この対応表がAI側の唯一の判断ロジック)
+  const SUBJECT_COLORS = [
+    ["英語", "#FFD84D"],
+    ["古典", "#FF5FA8"],
+    ["漢文", "#FF5FA8"],
+    ["日本史", "#2E9E63"],
+    ["総合型", "#4EA1FF"],
+  ];
+  function colorFor(label){
+    if (!label) return "#FF8A3D"; // その他=オレンジ
+    for (const [key, color] of SUBJECT_COLORS) if (label.includes(key)) return color;
+    return "#FF8A3D";
+  }
+  function b64ToUtf8(b64){
+    const binary = atob(b64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
+    return new TextDecoder("utf-8").decode(bytes);
+  }
+  async function init(){
+    const qp = new URLSearchParams(location.search);
+    const raw = qp.get("d");
+    const data = raw ? JSON.parse(b64ToUtf8(decodeURIComponent(raw))) : {};
+    const color = colorFor(data.subject);
+
+    const bgEl = document.getElementById("bg");
+    if (data.bg) bgEl.style.backgroundImage = `url(${data.bg})`;
+    else bgEl.classList.add("placeholder");
+
+    const tag = document.getElementById("tag");
+    tag.textContent = data.subject || "";
+    tag.style.color = color;
+
+    document.getElementById("hype").textContent = data.hype || "";
+
+    const headlineEl = document.getElementById("headline");
+    headlineEl.textContent = "";
+    headlineEl.appendChild(document.createTextNode(data.headline || ""));
+    if (data.number){
+      const num = document.createElement("span");
+      num.className = "number";
+      num.textContent = data.number;
+      headlineEl.appendChild(num);
+    }
+
+    document.getElementById("swipe").textContent = data.swipe || "SWIPE >>>";
+
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    document.body.setAttribute("data-ready", "true");
+  }
+  init();
+</script>
+</body>
+</html>

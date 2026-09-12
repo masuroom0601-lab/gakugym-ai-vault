@@ -27,3 +27,16 @@ Instagram/TikTok部署の台本・構成案を受け取り、文字化け・ト�
 
 ## 承認フロー
 Instagram/TikTok部署のreviewフォルダと連動
+
+## 自動化メモ
+- `.github/workflows/creative-pipeline.yml` が毎日06:05 JSTに実行(下書き生成の後、校正の前)
+- 固定テンプレート: `03_assets/creative-templates/`(reel-thumbnail.html, feed-template-a/b/c.html)
+  ─ これらのHTML/CSSはAIが書き換えない(人間確認済みの固定資産)
+- レンダラー本体: `tools/creative/render.js`(Playwright、テキスト差し込みのみ)。
+  spec.jsonのスキーマは `tools/creative/README.md` を参照
+- AI(Claude)の役割は「台本 → spec.json への変換」のみ。ピクセル単位のレンダリングは
+  常に同じテンプレートで決定的に行われるため、投稿ごとの見た目のブレが起きない
+- 背景写真素材は `03_assets/images/backgrounds/` に追加され次第使用される
+  (未追加の間はグラデーションのプレースホルダーで代替、パイプラインは止まらない)
+- 生成結果は `02_departments/creative/drafts/generated/<task_id>/` に保存され、
+  同フォルダの `<task_id>-render-report.json` で成功/失敗(文字数超過等)を確認できる

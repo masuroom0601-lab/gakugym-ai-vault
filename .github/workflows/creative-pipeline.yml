@@ -1,0 +1,92 @@
+name: creative-pipeline
+
+on:
+  schedule:
+    - cron: '5 21 * * *'   # 毎日 06:05 JST(Instagram/TikTok下書き生成の後、校正担当の前)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract creative spec from today's Instagram/TikTok draft
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          show_full_output: true
+          claude_args: |
+            --allowedTools "Read,Write"
+          prompt: |
+            あなたは「学ジム」のクリエイティブ制作担当AIです。
+            02_departments/creative/department.md の「技術方式(最重要ルール)」に
+            厳密に従ってください。**あなたはHTML/CSSテンプレートを一切書き換えません**。
+            あなたの仕事は、Instagram/TikTok担当が作った台本から
+            tools/creative/README.md に記載されたJSONスキーマに変換することだけです。
+
+            1. 本日の日付(YYYY-MM-DD)に対応する
+               02_departments/instagram_tiktok/drafts/task-<今日の日付>-ig-*.md
+               を探す。存在しない場合は何もせず終了する。
+            2. 既に同名の 02_departments/creative/drafts/<task_id>.spec.json が
+               存在する場合はスキップする(重複生成防止)。
+            3. 見つかった場合、tools/creative/README.md の「spec.json のスキーマ」
+               セクションに厳密に従い、以下を抽出してJSONを作成する:
+               - task_id: ファイル名から日付+連番を取り出す(例: 2026-09-11-ig-001)
+               - subject: frontmatterの subject
+               - thumbnail: 「## サムネ案」セクションの 煽り文句/インパクト大文字/
+                 数字/SWIPE文言 を抽出する(bgは常にnullでよい。背景素材選定は
+                 別タスクとして扱う)
+               - feed: 「## フィード下書き(カルーセル)」セクションから
+                 使用テンプレート(A/B/C、「テンプレA」等の記載から判定)と、
+                 表紙(role: cover, title, catch)/中面各枚(role: content, title,
+                 body, checklist: チェックリスト型ならtrue)/締め(role: closing,
+                 title, body)のslides配列を作成する
+            4. 作成したJSONを
+               02_departments/creative/drafts/<task_id>.spec.json
+               として保存する。
+            5. 台本の情報が不十分でJSON化できない項目があれば、
+               JSON内に `"_notes": "..."` フィールドを追加し、
+               何が不足しているかを日本語で明記する。
+            6. git操作は行わない(後続のステップでまとめてコミットする)。
+
+      - name: Install Japanese fonts (avoid garbled text if web fonts are unavailable)
+        run: sudo apt-get update -y && sudo apt-get install -y fonts-noto-cjk
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install renderer dependencies
+        working-directory: tools/creative
+        run: |
+          npm install
+          npx playwright install --with-deps chromium
+
+      - name: Render thumbnails and feed slides
+        working-directory: tools/creative
+        run: |
+          shopt -s nullglob
+          for spec in ../../02_departments/creative/drafts/*.spec.json; do
+            task_id=$(basename "$spec" .spec.json)
+            outdir="../../02_departments/creative/drafts/generated/${task_id}"
+            echo "Rendering ${task_id}..."
+            node render.js "$spec" "$outdir"
+          done
+
+      - name: Commit and push generated assets
+        run: |
+          git config user.name "gakugym-ai-bot"
+          git config user.email "bot@example.com"
+          git add 02_departments/creative/drafts/
+          if ! git diff --cached --quiet; then
+            git commit -m "creative pipeline render $(date +%F)"
+            git push
+          else
+            echo "No changes to commit."
+          fi
