@@ -1,15 +1,12 @@
 name: creative-pipeline
 
-# 2026-09-12: リールのサムネ・本編はCanva(claude.aiのRoutine)に切り替えたが、
-# フィード(カルーセル)投稿は益田さんの過去投稿デザインを詳しく調べた結果、
-# 全ページ「編集不可のべた画像」だと判明しCanva経由での複製編集ができないため、
-# こちらのPlaywright方式(完全自動・無料)に統一することにした。
-# 過去投稿(和紙×手書き/カラーグラデーション/紺×白アイコン)の実物に合わせて
-# 03_assets/creative-templates/feed-template-{a,b,c}.html を作り直し済み。
-# 詳細: 01_HQ/roadmap.md Phase2、02_departments/creative/department.md
+# 2026-09-12: このPlaywright方式は廃止。フィードもリールと同様に
+# claude.aiのRoutine経由でCanvaデザインを複製・編集する方式に統一した
+# (通常版: DAHU-f_gDOU、図解で覚えるシリーズ: DAHCqMT3jhw)。
+# 日次cronは無効化済み。ファイルは参考記録として残す。
+# 詳細: 02_departments/creative/department.md の「廃止した方式」節
 on:
-  schedule:
-    - cron: '5 21 * * *'   # 毎日 06:05 JST(Instagram/TikTok下書き生成の後、校正担当の前)
+  # schedule: 無効化済み(旧: '5 21 * * *' = 毎日06:05 JST)
   workflow_dispatch: {}
 
 permissions:
