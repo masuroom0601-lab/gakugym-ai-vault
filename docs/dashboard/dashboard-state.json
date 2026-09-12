@@ -1,0 +1,17 @@
+{
+  "updated_at": null,
+  "departments": {
+    "hq_director": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
+    "hq_secretary": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
+    "instagram_tiktok": {"todo": 0, "review": 0, "published_today": 1, "mood": "sleepy"},
+    "x_threads": {"todo": 1, "review": 0, "published_today": 0, "mood": "sleepy"},
+    "note_ameba": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
+    "line": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
+    "hp": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
+    "creative": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
+    "analytics": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
+    "planning": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
+    "proofreading": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
+    "improvement": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"}
+  }
+}

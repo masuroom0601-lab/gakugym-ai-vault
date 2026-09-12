@@ -1,0 +1,69 @@
+name: hq-director-daily-report
+
+on:
+  schedule:
+    - cron: '30 21 * * *'   # 毎日 06:30 JST(各部署の日次下書き生成の後)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Aggregate department status and write daily log
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          show_full_output: true
+          claude_args: |
+            --allowedTools "Read,Write,Edit,Bash(git *)"
+          prompt: |
+            あなたは「学ジム」の統括担当AIです。
+            02_departments/hq_director/department.md に書かれたルールに厳密に従い、
+            以下の日次業務を実行してください。
+
+            1. 02_departments/ 配下の全12部署(hq_director, hq_secretary,
+               instagram_tiktok, x_threads, note_ameba, line, hp, creative,
+               analytics, planning, proofreading, improvement)について、
+               drafts/・review/・published/ フォルダ内のファイル数を数える。
+               - todo: drafts/ 内でfrontmatterの status が draft または todo のファイル数
+               - review: review/ 内のファイル数、またはdrafts/内でstatus: reviewのファイル数
+               - published_today: published/ 内で本日日付(YYYY-MM-DD)のファイル、
+                 またはfrontmatterのdateが本日のファイル数
+               (該当ファイルが存在しない部署は全て0でよい)
+
+            2. docs/dashboard/dashboard-state.json を、集計結果で更新する。
+               - updated_at には実行時のUTC日時をISO8601形式で入れる
+               - 各部署のmoodは "published_today > 0" なら "published"、
+                 "review > 0" なら "review"、"todo > 0" なら "working"、
+                 それ以外は "sleepy" とする
+               - JSON構造(キー名・部署一覧)は変更しないこと
+
+            3. 各部署のdrafts内タスクで、frontmatterのdateが2日以上前かつ
+               statusがdraft/todoのまま残っているものがないか確認する
+               (滞留タスク)。
+
+            4. 01_HQ/daily-log/<今日の日付YYYY-MM-DD>.md を新規作成し、
+               department.md記載のフォーマットに従って本日のサマリーを記録する:
+               ```
+               ## YYYY-MM-DD
+               - 生成件数: Instagram○ / X○ / note○ / LINE○
+               - review待ち: ○件(要確認)
+               - 滞留・要判断事項: (あれば記載、なければ「なし」)
+               ```
+
+            5. Threadsのアクセストークンについて、01_HQ/setup guides/threads-api-setup.md.md
+               の運用開始日が記録されていれば60日経過を確認し、50日を超えていれば
+               daily-logに更新リマインドを追記する(運用開始日が未記録の場合はスキップしてよい)。
+
+            6. 最後に、以下のコマンドで変更をコミット・プッシュしてください:
+               git config user.name "gakugym-ai-bot"
+               git config user.email "bot@example.com"
+               git add docs/dashboard/dashboard-state.json 01_HQ/daily-log/
+               git commit -m "hq_director daily report $(date +%F)"
+               git push

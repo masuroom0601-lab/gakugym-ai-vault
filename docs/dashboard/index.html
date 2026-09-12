@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>学ジムAI事業部 - オフィスダッシュボード</title>
+<style>
+  :root{
+    --bg:#eef2f7;
+    --floor-a:#e3e9f2;
+    --floor-b:#d9e1ee;
+    --card-bg:#ffffff;
+    --card-border:#c9d4e3;
+    --text:#20293a;
+    --muted:#6b7688;
+    --accent:#4f6df5;
+    --ok:#2fb673;
+    --warn:#e0a72e;
+    --bad:#e0596b;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#12151c;
+      --floor-a:#171b24;
+      --floor-b:#1c212c;
+      --card-bg:#1b2029;
+      --card-border:#2c3444;
+      --text:#e7ecf5;
+      --muted:#8b95a8;
+    }
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:
+      repeating-linear-gradient(90deg, var(--floor-a) 0 40px, var(--floor-b) 40px 80px);
+    background-color:var(--bg);
+    color:var(--text);
+    font-family:"Hiragino Sans","Noto Sans JP",system-ui,sans-serif;
+    padding:20px 16px 48px;
+  }
+  header{
+    max-width:1100px;
+    margin:0 auto 20px;
+    text-align:center;
+  }
+  h1{
+    font-size:1.4rem;
+    margin:0 0 6px;
+    letter-spacing:.02em;
+  }
+  #updated{
+    color:var(--muted);
+    font-size:.8rem;
+  }
+  #status-line{
+    max-width:1100px;
+    margin:0 auto 18px;
+    text-align:center;
+    font-size:.8rem;
+    color:var(--muted);
+  }
+  .office{
+    max-width:1100px;
+    margin:0 auto;
+    display:grid;
+    grid-template-columns:repeat(auto-fill,minmax(180px,1fr));
+    gap:14px;
+  }
+  .desk{
+    background:var(--card-bg);
+    border:2px solid var(--card-border);
+    border-radius:10px;
+    padding:12px 10px 10px;
+    text-align:center;
+    position:relative;
+    image-rendering:pixelated;
+  }
+  .sprite-wrap{
+    position:relative;
+    width:96px;
+    height:96px;
+    margin:0 auto 6px;
+  }
+  .sprite-wrap.working svg{ animation:bob 0.6s steps(2) infinite; }
+  .sprite-wrap.review svg{ animation:bob 0.9s steps(2) infinite; }
+  .sprite-wrap.published svg{ animation:cheer 0.5s steps(2) infinite; }
+  @keyframes bob{ 0%{transform:translateY(0);} 50%{transform:translateY(-3px);} 100%{transform:translateY(0);} }
+  @keyframes cheer{ 0%{transform:translateY(0) rotate(0deg);} 50%{transform:translateY(-5px) rotate(-4deg);} 100%{transform:translateY(0) rotate(0deg);} }
+  .badge{
+    position:absolute;
+    top:-6px;
+    right:6px;
+    font-size:20px;
+  }
+  .dept-name{
+    font-weight:700;
+    font-size:.85rem;
+    margin:2px 0 6px;
+  }
+  .counts{
+    display:flex;
+    justify-content:center;
+    gap:8px;
+    font-size:.72rem;
+    color:var(--muted);
+  }
+  .counts span b{
+    color:var(--text);
+    font-size:.85rem;
+    display:block;
+  }
+  .legend{
+    max-width:1100px;
+    margin:24px auto 0;
+    font-size:.75rem;
+    color:var(--muted);
+    text-align:center;
+  }
+</style>
+</head>
+<body>
+<header>
+  <h1>🏋️ 学ジムAI事業部 オフィスダッシュボード</h1>
+  <div id="updated">読み込み中...</div>
+</header>
+<div id="status-line"></div>
+<main class="office" id="office"></main>
+<p class="legend">💤 待機中 / ⚡ 作業中(todoあり) / 👀 レビュー待ち / 🎉 本日公開あり &nbsp;|&nbsp; データ元: dashboard-state.json（統括担当AIが日次更新）</p>
+
+<script>
+const DEPT_META = {
+  hq_director:    { label: "統括担当",           color: "#4f6df5" },
+  hq_secretary:   { label: "秘書担当",           color: "#7a5cf0" },
+  instagram_tiktok:{ label: "Instagram/TikTok", color: "#e0596b" },
+  x_threads:      { label: "X/Threads",          color: "#222b38" },
+  note_ameba:     { label: "note/Ameba",         color: "#2fb673" },
+  line:           { label: "LINE公式",           color: "#3ad06c" },
+  hp:             { label: "HP制作・管理",       color: "#2196d8" },
+  creative:       { label: "クリエイティブ",     color: "#e0a72e" },
+  analytics:      { label: "分析",               color: "#5a6b8c" },
+  planning:       { label: "企画",               color: "#c9639a" },
+  proofreading:   { label: "校正",               color: "#4bb1b1" },
+  improvement:    { label: "投稿改善提案",       color: "#d98a3d" }
+};
+
+// 12x12 pixel-art robot mascot bitmap (B=body, P=panel/face, E=eye, M=mouth, L=antenna light)
+const SPRITE = [
+  "....LL......",
+  "....AA......",
+  "..BBBBBBBB..",
+  ".BBBBBBBBBB.",
+  ".BPPPPPPPPB.",
+  ".BPEEPPEEPB.",
+  ".BPPPMMPPPB.",
+  ".BPPPPPPPPB.",
+  "BBBBBBBBBBBB",
+  "BBBB.PPP.BBB",
+  "BBBBBBBBBBBB",
+  ".BB......BB."
+];
+
+function moodOf(d){
+  if (d.published_today > 0) return "published";
+  if (d.review > 0) return "review";
+  if (d.todo > 0) return "working";
+  return "sleepy";
+}
+const MOOD_BADGE = { sleepy:"💤", working:"⚡", review:"👀", published:"🎉" };
+
+function buildSprite(bodyColor, mood){
+  const cell = 8;
+  const rows = SPRITE.length, cols = SPRITE[0].length;
+  let rects = "";
+  for (let r=0; r<rows; r++){
+    for (let c=0; c<cols; c++){
+      let ch = SPRITE[r][c];
+      if (ch === ".") continue;
+      let fill = "#222";
+      if (ch === "B") fill = bodyColor;
+      else if (ch === "P") fill = "#eef2f7";
+      else if (ch === "E") fill = (mood === "sleepy") ? "#eef2f7" : "#20293a";
+      else if (ch === "M") fill = "#20293a";
+      else if (ch === "L") fill = (mood === "working" || mood === "published") ? "#ff5252" : "#c9d4e3";
+      rects += `<rect x="${c*cell}" y="${r*cell}" width="${cell}" height="${cell}" fill="${fill}"/>`;
+    }
+  }
+  const size = cols*cell;
+  return `<svg viewBox="0 0 ${size} ${size}" width="96" height="96" shape-rendering="crispEdges">${rects}</svg>`;
+}
+
+async function render(){
+  let data;
+  try{
+    const res = await fetch("dashboard-state.json", { cache: "no-store" });
+    data = await res.json();
+  }catch(e){
+    document.getElementById("updated").textContent = "データを読み込めませんでした";
+    return;
+  }
+  document.getElementById("updated").textContent = data.updated_at
+    ? `最終更新: ${data.updated_at}（統括担当AIの日次レポートより）`
+    : "まだ統括担当AIによる集計が実行されていません（初回実行待ち）";
+
+  const office = document.getElementById("office");
+  office.innerHTML = "";
+  const order = Object.keys(DEPT_META);
+  let totalTodo=0, totalReview=0, totalPublished=0;
+  order.forEach(key=>{
+    const meta = DEPT_META[key];
+    const d = (data.departments && data.departments[key]) || {todo:0, review:0, published_today:0, mood:"sleepy"};
+    totalTodo += d.todo||0; totalReview += d.review||0; totalPublished += d.published_today||0;
+    const mood = moodOf(d);
+    const desk = document.createElement("div");
+    desk.className = "desk";
+    desk.innerHTML = `
+      <div class="sprite-wrap ${mood}">
+        <span class="badge">${MOOD_BADGE[mood]}</span>
+        ${buildSprite(meta.color, mood)}
+      </div>
+      <div class="dept-name">${meta.label}</div>
+      <div class="counts">
+        <span>todo<b>${d.todo||0}</b></span>
+        <span>review<b>${d.review||0}</b></span>
+        <span>公開<b>${d.published_today||0}</b></span>
+      </div>
+    `;
+    office.appendChild(desk);
+  });
+  document.getElementById("status-line").textContent =
+    `本日: todo合計 ${totalTodo}件 / review待ち ${totalReview}件 / 公開 ${totalPublished}件`;
+}
+render();
+</script>
+</body>
+</html>
