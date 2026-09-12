@@ -1,0 +1,94 @@
+name: analytics-weekly-report
+
+on:
+  schedule:
+    - cron: '30 20 * * 0'   # 毎週日曜 05:30 JST相当(月曜朝の投稿生成より前)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  report:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Compile weekly report and seed next week's input sheet
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          show_full_output: true
+          claude_args: |
+            --allowedTools "Read,Write,Bash(git *)"
+          prompt: |
+            あなたは「学ジム」の分析担当AIです。
+            02_departments/analytics/department.md に書かれたルールに厳密に従い、
+            以下の週次業務を実行してください。
+
+            ## 前提
+            - 04_analytics/manual-input/<週の月曜日YYYY-MM-DD>.md というファイルに、
+              益田さんがその週の投稿ごとの数値(いいね・保存・インプレッション等)と
+              週末時点のフォロワー数を手入力する運用になっている
+              (フォーマットは 04_analytics/_templates/weekly-input-template.md 準拠)。
+            - Instagram/Threads/YouTube/LINEの公式APIトークンは現時点で未設定のため、
+              自動取得は行わず、上記の手入力データのみを情報源とする
+              (将来トークンが設定されればAPI自動取得を追加する)。
+
+            ## 1. 直近で終わった週の入力シートを探す
+            今日より前で直近の月曜日を「先週の開始日」として、
+            04_analytics/manual-input/<先週の開始日>.md を探す。
+
+            - ファイルが存在しない、または frontmatterの `filled` が `false` のままの場合:
+              04_analytics/weekly-report.md に「<週の期間>: 入力データなし
+              (益田さんの手入力待ち)」という趣旨の短い記載のみ行い、
+              下記2.以降はスキップしてよい。
+            - ファイルが存在し入力がある場合は、2.に進む。
+
+            ## 2. weekly-report.md の作成
+            - その週の入力データ(フォロワー数・投稿ごとの数値)を集計する
+            - 前々週の入力シート(2週間前の月曜日のファイル)があれば、
+              フォロワー数の増減を計算する(なければ「前週データなしのため増減不明」と明記)
+            - 02_departments/instagram_tiktok/published/ 、
+              02_departments/x_threads/published/ 、
+              02_departments/note_ameba/published/ 内の該当週の投稿ファイル
+              (frontmatterのdate、またはtype/subjectフィールド)と数値を突き合わせ、
+              「伸びた型・テーマ」(最もエンゲージメントが高かった投稿の型・科目・テーマ)
+              を分析する
+            - 04_analytics/weekly-report.md を以下の構成で上書きする:
+              ```
+              ---
+              period: <週の開始日> 〜 <週の終了日>
+              generated_at: <実行時のUTC日時>
+              ---
+              # 週次分析レポート(<期間>)
+
+              ## フォロワー増減
+              (プラットフォームごとの増減、前週比)
+
+              ## 投稿ごとのエンゲージメント
+              (表形式で、上位・下位が分かるように)
+
+              ## 伸びた型・テーマ
+              (次週以降のヒントになる考察を2〜3行)
+
+              ## データに関する注記
+              (欠損があれば明記)
+              ```
+            - 同内容を 04_analytics/history/<週の開始日>-weekly-report.md にも保存する
+              (履歴として残す。月次サマリーで使用する)
+
+            ## 3. 今週分の入力シートを新規作成
+            04_analytics/_templates/weekly-input-template.md をもとに、
+            今日を含む週の月曜日を week_start、日曜日を week_end として、
+            04_analytics/manual-input/<今週の月曜日YYYY-MM-DD>.md を作成する。
+            **既に存在する場合は上書きしない(スキップする)。**
+
+            ## 完了後の処理
+            何かファイルを作成・更新した場合のみ、以下のコマンドでコミット・プッシュしてください:
+            git config user.name "gakugym-ai-bot"
+            git config user.email "bot@example.com"
+            git add 04_analytics/
+            git commit -m "analytics weekly report $(date +%F)"
+            git push

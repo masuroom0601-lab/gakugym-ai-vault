@@ -1,0 +1,51 @@
+name: analytics-monthly-summary
+
+on:
+  schedule:
+    - cron: '15 21 1 * *'   # 毎月1日 06:15 JST相当
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  summarize:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Aggregate last month's weekly reports
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: |
+            --allowedTools "Read,Write,Bash(git *)"
+          prompt: |
+            あなたは「学ジム」の分析担当AIです。
+            02_departments/analytics/department.md の「月次では上記を集計し、
+            傾向をサマリ化」というルールに従ってください。
+
+            1. 04_analytics/history/ 内のファイルのうち、先月分(period frontmatterの
+               開始日が先月に含まれるもの)をすべて読む。
+               1件もない場合は「先月分のデータがありません」とだけ
+               04_analytics/monthly-summary.md に追記し、コミットは行わなくてよい。
+            2. 各週のフォロワー増減・伸びた型・テーマを串刺しで見て、
+               月全体の傾向(フォロワー純増数、最も安定して伸びた型・テーマ、
+               翌月の企画担当への申し送り事項)をまとめる。
+            3. 04_analytics/monthly-summary.md に、以下の形式で当月分を追記する
+               (既存の過去月分は削除せず、下に積み増していく):
+               ```
+               ## <YYYY-MM>
+               - フォロワー純増: Instagram○ / X○ / Threads○ / TikTok○
+               - 最も伸びた型・テーマ: ...
+               - 企画担当への申し送り: ...
+               ```
+
+            ## 完了後の処理
+            monthly-summary.mdを更新した場合のみ、以下のコマンドでコミット・プッシュしてください:
+            git config user.name "gakugym-ai-bot"
+            git config user.email "bot@example.com"
+            git add 04_analytics/monthly-summary.md
+            git commit -m "analytics monthly summary $(date +%F)"
+            git push

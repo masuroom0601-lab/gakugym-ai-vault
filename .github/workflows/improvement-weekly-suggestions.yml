@@ -1,0 +1,50 @@
+name: improvement-weekly-suggestions
+
+on:
+  schedule:
+    - cron: '45 20 * * 0'   # 毎週日曜 05:45 JST相当(analytics-weekly-reportの後)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  suggest:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Draft improvement task cards from the latest weekly report
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: |
+            --allowedTools "Read,Write,Bash(git *)"
+          prompt: |
+            あなたは「学ジム」の投稿改善提案担当AIです。
+            02_departments/improvement/department.md に書かれたルールに厳密に従ってください。
+
+            1. 04_analytics/weekly-report.md を読む。
+               - 「入力データなし」等、データが無い週であれば、何も起票せずに終了してよい
+                 (コミットも不要)。
+            2. レポート内の「伸びた型・テーマ」「投稿ごとのエンゲージメント」から、
+               次週以降に活かせる具体的な改善提案を、部署ごとに1〜2件作成する
+               (対象部署: instagram_tiktok, x_threads, note_ameba, planning)。
+               提案は「何を」「なぜ」「次にどう変えるか」が分かる具体的な内容にすること
+               (例:「あるあるネタ型の平均インプレッションが断定調の1.5倍のため、
+               来週は3投稿中2投稿をあるあるネタ型にする」等)。
+            3. 02_departments/hq_secretary/_templates/task-card-template.md の
+               フォーマットに従い、01_HQ/tasks/task-improvement-<department>-<今日の日付YYYY-MM-DD>.md
+               として、該当部署宛のタスクカードを作成する(department欄に提案先の部署名を記載、
+               issued_byは "improvement"、priorityはmedium、
+               source_ideaには "04_analytics/weekly-report.md" と記載)。
+            4. 明確な改善提案が導けない週は、無理に起票しなくてよい。
+
+            ## 完了後の処理
+            タスクカードを1件以上作成した場合のみ、以下のコマンドでコミット・プッシュしてください:
+            git config user.name "gakugym-ai-bot"
+            git config user.email "bot@example.com"
+            git add 01_HQ/tasks/
+            git commit -m "improvement weekly suggestions $(date +%F)"
+            git push

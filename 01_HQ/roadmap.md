@@ -40,14 +40,21 @@ Claude Codeセッションを跨いでも迷わないよう、常にこのファ
 - `03_assets/creative-templates/`: サムネ・フィード(テンプレA/B/C)の固定HTML/CSSテンプレート
 - `tools/creative/render.js`: Playwrightによる画像レンダラー(ローカルで実データ動作確認済み)
 - `.github/workflows/creative-pipeline.yml`: creative部署の日次自動生成(06:05 JST)
+- `04_analytics/_templates/weekly-input-template.md` / `manual-input/2026-09-07.md`: 週次手入力シート
+- `.github/workflows/analytics-weekly-report.yml`: 週次レポート生成+翌週分シート作成
+- `.github/workflows/improvement-weekly-suggestions.yml`: 週次改善提案タスクの自動起票
+- `.github/workflows/analytics-monthly-summary.yml`: 月次サマリー集計
 
-これでPhase1(HQ運用ループ)は「統括→秘書→各部署→校正→承認」のうち、
-Omniroute接続以外はワークフロー化が完了し、Phase2(クリエイティブ制作)も
-画像生成(サムネ・フィード)まで実装が完了しています(動画は未着手、素材待ち)。
+これでPhase1(HQ運用ループ)・Phase2(クリエイティブ制作の画像生成)・
+Phase5(分析・改善ループ)まで実装が完了しています。
+残りはPhase3(TikTok/YouTube横展開)・Phase4(自社HP)・Phase6(LINE実配信)・
+Phase7(電子書籍)と、Omniroute接続、creativeの動画生成です。
 
 ### まだ手つかず(次フェーズ)
-- analytics・improvement・hp の自動化ワークフロー
+- hp の自動化ワークフロー(Phase4)
 - creativeの動画生成(ストック動画素材が届いてから着手)
+- TikTok/YouTube個別投稿(Phase3、API審査待ち)
+- LINE実配信のMessaging API連携(Phase6)
 - クリエイティブ制作の実技術パイプライン(Playwrightレンダリング環境)
 - TikTok/YouTube Shortsへの横展開(現状は「Instagram/TikTok」department.mdに統合されているが、
   実際のTikTok/YouTube個別アップロードの自動化・API連携は未着手)
@@ -188,15 +195,34 @@ Omniroute接続以外はワークフロー化が完了し、Phase2(クリエイ�
       (note_ameba/published → hp/drafts への変換タスク)
 - [ ] 振込口座情報など機微情報は、公開後に益田さんが直接ソースへ手入力(Vaultには含めない)
 
-### Phase 5: 分析・改善ループの自動化
+### Phase 5: 分析・改善ループの自動化(実装済み、要・毎週の数値入力)
 目的: 「投稿→分析→改善提案→次の投稿に反映」のループを回す。
 
-- [ ] Instagram/Threads/YouTube/LINEの公式Insight/Analytics APIから自動取得するワークフロー
-- [ ] X/note/Amebaは公式APIがないため、益田さんが手動入力するための簡易フォーム
-      (Obsidianのテンプレート or 04_analytics/input.mdのような固定フォーマット)を用意
-- [ ] analytics部署の週次レポート生成ワークフロー
-- [ ] improvement部署の週次改善提案タスク起票ワークフロー(レポート更新後にトリガー)
+- [x] 手入力フォーム(`04_analytics/_templates/weekly-input-template.md`)を用意。
+      Instagram/Threads/YouTube/LINEの公式APIトークンが未設定のため、
+      **当面はInstagram/TikTok/X/Threads/note/Ameba/LINEすべて手入力が情報源**
+      (トークン設定後、対象プラットフォームから自動取得に置き換え予定)
+- [x] `analytics-weekly-report.yml`(毎週日曜05:30 JST相当): 前週の手入力シートを集計し
+      weekly-report.mdを更新、履歴を04_analytics/history/に保存、翌週分の
+      入力シートを新規作成
+- [x] `improvement-weekly-suggestions.yml`(毎週日曜05:45 JST相当): weekly-report.mdから
+      部署別の改善提案タスクカードを01_HQ/tasks/に起票
+- [x] `analytics-monthly-summary.yml`(毎月1日): 履歴を月次集計し04_analytics/monthly-summary.mdに追記
+- [x] 今週分(2026-09-07週)の入力シートを先行作成済み(`04_analytics/manual-input/2026-09-07.md`)
 - [ ] 企画担当が改善提案を翌月カレンダーに反映するロジックをplanning-monthly-calendar.ymlに追記
+      (現状は04_analytics/weekly-report.mdを「参考にする」という記載のみで、
+      具体的な反映ロジックは未実装)
+- [ ] Instagram/Threads/YouTube/LINEの公式トークン設定後、該当プラットフォームの
+      Insight/Analytics APIから自動取得するロジックをanalytics-weekly-report.ymlに追加
+      (Instagram/Threadsは投稿を手動で行っている限りmedia idが記録されないため、
+      当面はアカウントレベルの指標(フォロワー数等)のみ自動取得可能になる見込み)
+
+**次のアクション(益田さん対応)**:
+1. `04_analytics/manual-input/2026-09-07.md` に今週の投稿数値を記入する
+   (投稿するたびに1行ずつでOK、frontmatterの `filled: true` を忘れずに)
+2. 以後は月曜朝に自動生成される最新の入力シートに、その週の数値を記入し続ける
+3. 慣れてきたら`analytics-weekly-report.yml`を`workflow_dispatch`で一度手動実行し、
+   weekly-report.mdが期待通りに生成されるか確認する
 
 ### Phase 6: LINE公式配信の完全自動化
 目的: 現状「published/フォルダに置くだけ」のLINE配信を、Messaging APIで実配信まで自動化する。
@@ -220,21 +246,27 @@ LINE特典・Amazon自費出版用に制作する。
 
 ## 3. 運用サイクル(完成形の1日〜1ヶ月の流れ)
 
-### 日次(GitHub Actions cronで自動実行、JST 06:00前後)
-1. 統括担当: 前日の滞留チェック・当日必要なネタの洗い出し
-2. 秘書担当: タスクカード起票(Phase1で実装予定)
-3. Instagram/TikTok担当・X/Threads担当: 下書き生成
-4. (3日に1回)LINE担当: X/Threads publishedから選定
-5. 校正担当: drafts内容をチェックしreviewへ(Phase1で実装予定)
-6. 統括担当: dashboard-state.json更新、daily-log記録
-7. **益田さん**: dashboard(docs/dashboard)とdaily-logを確認し、reviewフォルダの内容を承認 or 修正指示
+### 日次(GitHub Actions cronで自動実行、詳細は「1. Phase 1」の実行順序表を参照)
+1. Instagram/TikTok担当・X/Threads担当: 下書き生成(06:00 JST)
+2. クリエイティブ担当: サムネ・フィード画像生成(06:05 JST)
+3. 校正担当: drafts内容をチェックしreviewへ(06:10 JST)
+4. 秘書担当: タスクカード起票・承認待ちリスト更新(06:20 JST)
+5. 統括担当: dashboard-state.json更新、daily-log記録(06:30 JST)
+6. (3日に1回・月木)LINE担当: X/Threads publishedから選定
+7. **益田さん**: dashboard(docs/dashboard)とapproval-pending.mdを確認し、
+   reviewフォルダの内容を承認 or 修正指示。投稿した内容の数値を
+   `04_analytics/manual-input/<今週の月曜日>.md` に随時記入
 
 ### 週次
+- 日曜05:30 JST相当: 分析担当が前週の手入力データからweekly-report.mdを更新し、
+  今週分の入力シートを新規作成(`analytics-weekly-report.yml`)
+- 日曜05:45 JST相当: 投稿改善提案担当がweekly-report.mdから改善タスクを起票
+  (`improvement-weekly-suggestions.yml`)
 - 月曜: note/Ameba担当が長文記事を1本生成
-- 分析担当が週次レポートを更新(Phase5)
-- 投稿改善提案担当が改善タスクを起票(Phase5)
 
 ### 月次
+- 1日: 分析担当が前月のweekly-report履歴を集計しmonthly-summary.mdを更新
+  (`analytics-monthly-summary.yml`)
 - 25日: 企画担当が翌月のテーマカレンダー叩き台を自動作成 → 益田さんが確認・確定
 - 月初: 確定したカレンダーを各部署に反映
 
@@ -257,6 +289,8 @@ LINE特典・Amazon自費出版用に制作する。
 | Amazon KDPアカウント開設 | Phase7 | |
 | 各drafts/reviewの最終承認・編集 | 日次運用 | brand-guide.md「6. AI生成コンテンツの扱い」に基づく必須ステップ |
 | 景品表示法等、法令に抵触しうる表現の最終判断 | 日次運用 | AIはNGルールでガードするが最終責任は本人 |
+| 週次アナリティクス入力シートへの数値記入 | Phase5 | `04_analytics/manual-input/<週の月曜日>.md`。公式APIトークン未設定のため唯一の情報源 |
+| 著作権フリーの背景写真の追加 | Phase2 | `03_assets/images/backgrounds/`。未追加の間はプレースホルダー背景 |
 
 ---
 
