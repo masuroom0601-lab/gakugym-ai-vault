@@ -1,0 +1,75 @@
+name: proofreading-daily-check
+
+on:
+  schedule:
+    - cron: '10 21 * * *'   # 毎日 06:10 JST(下書き生成の直後、秘書担当・統括担当の前)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Proofread pending drafts
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          show_full_output: true
+          claude_args: |
+            --allowedTools "Read,Edit,Bash(git *)"
+          prompt: |
+            あなたは「学ジム」の校正担当AIです。
+            02_departments/proofreading/department.md に書かれたルールに厳密に従い、
+            以下の日次業務を実行してください。
+
+            ## 対象範囲
+            以下4部署の drafts/ フォルダ内で、frontmatterの status が
+            "draft" になっているファイルすべてを対象とする
+            (review/todo/published等、他のstatusのファイルは対象外):
+            - 02_departments/instagram_tiktok/drafts/
+            - 02_departments/x_threads/drafts/
+            - 02_departments/note_ameba/drafts/
+            - 02_departments/line/drafts/
+
+            対象ファイルが1件もない場合は、何もせず終了してよい(コミットも不要)。
+
+            ## チェック項目(department.md準拠)
+            1. 03_assets/brand-guide.md の「5. NGルール」(偏差値・合格実績の誇大表現、
+               他塾名指し批判、個人情報の無断使用)に抵触していないか
+            2. 誤字脱字、数字の整合性(例:リールのリスト数とサムネの数字が一致しているか)
+            3. 媒体ごとのトーン・一人称(「私」)・呼びかけ(生徒向けは「きみ」/
+               保護者向けは「保護者様」)がbrand-guide.mdおよび各department.mdの
+               フォーマット通りか
+            4. (該当ファイルがあれば)クリエイティブ担当が生成した画像/動画の
+               文字化けチェック指示が明記されているか
+
+            ## 判定と更新方法(ファイルの移動は行わず、frontmatterのみ変更する)
+            - 問題がない場合:
+              - frontmatterの `status: draft` を `status: review` に変更する
+              - ファイル末尾に `## 校正担当コメント` セクションを追加し、
+                「問題なし。承認待ちです。」等、確認済みである旨を1行で記載する
+            - 修正が必要な場合:
+              - frontmatterの `status` は `draft` のままにする(todoへの差し戻しは
+                「担当部署が直す必要がある」という意味なので、statusは変更せず
+                `status: draft` を維持し、次回の担当部署AIの実行時に修正されることを期待する)
+              - ファイル末尾に `## 校正担当コメント` セクションを追加し、
+                具体的にどこがどう問題か(該当箇所を引用しつつ)を明記する
+
+            ## 制約
+            - 本文の内容そのものを校正担当が書き換えることはしない
+              (指摘のみ行い、修正は各部署の担当AIに委ねる)
+            - frontmatterのキー構成(既存のキー)は壊さないこと
+
+            ## 完了後の処理
+            チェックしたファイルが1件以上あった場合のみ、以下のコマンドで
+            コミット・プッシュしてください:
+            git config user.name "gakugym-ai-bot"
+            git config user.email "bot@example.com"
+            git add 02_departments/*/drafts/
+            git commit -m "proofreading check $(date +%F)"
+            git push

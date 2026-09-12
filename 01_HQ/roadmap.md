@@ -34,9 +34,15 @@ Claude Codeセッションを跨いでも迷わないよう、常にこのファ
 - `docs/dashboard/`: ドット絵ゲーム風オフィスダッシュボード(静的HTML、GitHub Pagesで無料公開可能)
 - `01_HQ/setup guides/omniroute-setup.md.md`: Omniroute接続によるトークン最適化の手順書(要・本人のアカウント情報)
 - このロードマップ
+- `proofreading-daily-check.yml`: 校正担当の自動チェック(status: draft → review、または差し戻し)
+- `hq-secretary-daily-tasks.yml`: 秘書担当のタスクカード自動起票・LINEストック確認・承認待ちリスト更新
+- `02_departments/hq_secretary/_templates/task-card-template.md`: タスクカードの共通フォーマット
+
+これでPhase1(HQ運用ループ)は「統括→秘書→各部署→校正→承認」のうち、
+Omniroute接続以外はワークフロー化が完了しています。
 
 ### まだ手つかず(次フェーズ)
-- hq_secretary・analytics・proofreading・improvement・creative・hp の自動化ワークフロー
+- analytics・improvement・creative・hp の自動化ワークフロー
 - クリエイティブ制作の実技術パイプライン(Playwrightレンダリング環境)
 - TikTok/YouTube Shortsへの横展開(現状は「Instagram/TikTok」department.mdに統合されているが、
   実際のTikTok/YouTube個別アップロードの自動化・API連携は未着手)
@@ -97,11 +103,21 @@ Claude Codeセッションを跨いでも迷わないよう、常にこのファ
 
 - [x] 統括担当の日次集計ワークフロー(`hq-director-daily-report.yml`)を追加
 - [x] 企画担当の月間カレンダーを初期投入、翌月自動生成ワークフローを追加
-- [ ] 秘書担当のタスクカード自動生成ワークフロー(`01_HQ/tasks/`に日次でカード起票)
-      → hq_director実行後に連動させる(`workflow_run`トリガーで直列化するか検討)
-- [ ] 校正担当の自動チェックワークフロー(drafts内ファイルをbrand-guide.mdと突合し、
-      問題なければstatus: reviewに変更、問題あればコメント付きでtodoに差し戻す)
+- [x] 校正担当の自動チェックワークフロー(`proofreading-daily-check.yml`、06:10 JST)
+      drafts内ファイルをbrand-guide.mdと突合し、問題なければstatus: reviewに変更、
+      問題あればコメント付きでdraftのまま差し戻す
+- [x] 秘書担当のタスクカード自動生成ワークフロー(`hq-secretary-daily-tasks.yml`、06:20 JST)
+      当日/翌日分のタスクカード起票、LINEストック確認、承認待ちリスト(approval-pending.md)更新
 - [ ] Omnirouteの実接続(`01_HQ/setup guides/omniroute-setup.md.md`のアカウント情報待ち部分を埋める)
+
+### 日次ワークフローの実行順序(JST)
+1. 06:00 各部署の下書き生成(instagram-tiktok / x-threads / ※月木のみline / ※月のみnote-ameba)
+2. 06:10 校正担当チェック(`proofreading-daily-check.yml`)
+3. 06:20 秘書担当タスクカード起票・承認待ちリスト更新(`hq-secretary-daily-tasks.yml`)
+4. 06:30 統括担当の日次集計・ダッシュボード更新(`hq-director-daily-report.yml`)
+
+益田さんは06:30以降に `01_HQ/tasks/approval-pending.md` とダッシュボードを確認し、
+承認待ちの下書きを確認・編集・承認(published/フォルダへ移動)すればよい状態になっています。
 
 **このPhaseが終わると**: 益田さんは毎朝daily-logとdashboardを見るだけで、
 「何が承認待ちか」「何が滞留しているか」が一目でわかる状態になる。

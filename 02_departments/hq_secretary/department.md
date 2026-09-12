@@ -17,3 +17,9 @@ reports_to: 統括担当
 - 1タスク=1投稿単位
 - 優先度は締切(due)が近いものを優先
 - 部署をまたぐ依頼がある場合は、依頼先の部署フォルダにもタスクカードを複製
+
+## 自動化メモ
+- `.github/workflows/hq-secretary-daily-tasks.yml` が毎日06:20 JSTに実行
+- タスクカードのテンプレートは `_templates/task-card-template.md`
+- 「status: review」は校正担当のチェックを通過し、あなたの最終承認待ちであることを意味する
+  (このワークフローが01_HQ/tasks/approval-pending.mdに承認待ち一覧を毎日更新する)

@@ -17,3 +17,9 @@ reports_to: 統括担当
 - drafts内のファイルをチェックし、frontmatterまたは「校正担当コメント」欄に指摘を追記
 - 問題なければ status を review に変更
 - 修正が必要な場合は todo に差し戻し、コメントで理由を明記
+
+## 自動化メモ
+- `.github/workflows/proofreading-daily-check.yml` が毎日06:10 JSTに実行
+- 対象は instagram_tiktok / x_threads / note_ameba / line の drafts/ で status: draft のもの
+- ファイルの物理的な移動は行わず、frontmatterの status のみを変更する
+  (status: review = 校正担当のチェック済み・あなたの最終承認待ち)
