@@ -13,7 +13,7 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "02_departments/instagram_tiktok/drafts/task-2026-09-11-ig-001.md",
+                "file": "02_departments/instagram_tiktok/published/task-2026-09-11-ig-001.md",
                 "mode": "source",
                 "source": false
               },
@@ -188,10 +188,10 @@
       "bases:新規ベースを作成": false
     }
   },
-  "active": "200ac095fe3848f5",
+  "active": "48ee94c3c2812642",
   "lastOpenFiles": [
     "02_departments/instagram_tiktok/department.md",
-    "02_departments/instagram_tiktok/drafts/task-2026-09-11-ig-001.md",
+    "02_departments/instagram_tiktok/published/task-2026-09-11-ig-001.md",
     "02_departments/x_threads/department.md"
   ]
 }
