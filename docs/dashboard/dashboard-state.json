@@ -5,7 +5,7 @@
     "hq_secretary": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
     "instagram_tiktok": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
     "x_threads": {"todo": 1, "review": 0, "published_today": 0, "mood": "working"},
-    "note_ameba": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
+    "note_ameba": {"todo": 1, "review": 0, "published_today": 0, "mood": "working"},
     "line": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
     "hp": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
     "creative": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
