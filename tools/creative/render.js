@@ -94,7 +94,8 @@ async function main() {
           }
           const outPath = path.join(outDir, `${spec.task_id}-feed-${String(i + 1).padStart(2, "0")}.png`);
           try {
-            await shoot(page, templateFile, slide, outPath, { width: 1080, height: 1350 });
+            const payload = { ...slide, page_number: i + 1, total_pages: spec.feed.slides.length };
+            await shoot(page, templateFile, payload, outPath, { width: 1080, height: 1350 });
             report.generated.push(outPath);
           } catch (e) {
             report.errors.push({ asset: label, errors: [String(e)] });

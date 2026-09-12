@@ -1,13 +1,15 @@
 name: creative-pipeline
 
-# 2026-09-12: 益田さんの希望でcreative生成をCanvaベース(claude.aiのRoutineから
-# 実際のCanvaデザインを複製・編集)に切り替えたため、日次cronは無効化。
-# このPlaywrightパイプラインはフォールバック用にworkflow_dispatchで手動実行可能な
-# 状態のまま残してある。再度自動化したくなったら、下記のcronを戻せばよい。
-# 詳細: 01_HQ/setup guides/canva-routine-setup.md.md / 01_HQ/roadmap.md Phase2
+# 2026-09-12: リールのサムネ・本編はCanva(claude.aiのRoutine)に切り替えたが、
+# フィード(カルーセル)投稿は益田さんの過去投稿デザインを詳しく調べた結果、
+# 全ページ「編集不可のべた画像」だと判明しCanva経由での複製編集ができないため、
+# こちらのPlaywright方式(完全自動・無料)に統一することにした。
+# 過去投稿(和紙×手書き/カラーグラデーション/紺×白アイコン)の実物に合わせて
+# 03_assets/creative-templates/feed-template-{a,b,c}.html を作り直し済み。
+# 詳細: 01_HQ/roadmap.md Phase2、02_departments/creative/department.md
 on:
-  # schedule:
-  #   - cron: '5 21 * * *'   # 毎日 06:05 JST(Instagram/TikTok下書き生成の後、校正担当の前)
+  schedule:
+    - cron: '5 21 * * *'   # 毎日 06:05 JST(Instagram/TikTok下書き生成の後、校正担当の前)
   workflow_dispatch: {}
 
 permissions:
@@ -20,7 +22,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Extract creative spec from today's Instagram/TikTok draft
+      - name: Extract feed spec from today's Instagram/TikTok draft
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
@@ -31,8 +33,10 @@ jobs:
             あなたは「学ジム」のクリエイティブ制作担当AIです。
             02_departments/creative/department.md の「技術方式(最重要ルール)」に
             厳密に従ってください。**あなたはHTML/CSSテンプレートを一切書き換えません**。
-            あなたの仕事は、Instagram/TikTok担当が作った台本から
-            tools/creative/README.md に記載されたJSONスキーマに変換することだけです。
+            あなたの仕事は、Instagram/TikTok担当が作った台本のうち**フィード
+            (カルーセル)部分だけ**を、tools/creative/README.md に記載された
+            JSONスキーマに変換することです(リールのサムネ・本編はCanva経由の
+            別の仕組みで生成されるため、ここでは扱いません)。
 
             1. 本日の日付(YYYY-MM-DD)に対応する
                02_departments/instagram_tiktok/drafts/task-<今日の日付>-ig-*.md
@@ -40,20 +44,20 @@ jobs:
             2. 既に同名の 02_departments/creative/drafts/<task_id>.spec.json が
                存在する場合はスキップする(重複生成防止)。
             3. 見つかった場合、tools/creative/README.md の「spec.json のスキーマ」
-               セクションに厳密に従い、以下を抽出してJSONを作成する:
+               セクション(特に「テンプレート固有のフィールド」)に厳密に従い、
+               「## フィード下書き(カルーセル)」セクションから以下を抽出してJSONを作成する:
                - task_id: ファイル名から日付+連番を取り出す(例: 2026-09-11-ig-001)
-               - subject: frontmatterの subject
-               - thumbnail: 「## サムネ案」セクションの 煽り文句/インパクト大文字/
-                 数字/SWIPE文言 を抽出する(bgは常にnullでよい。背景素材選定は
-                 別タスクとして扱う)
-               - feed: 「## フィード下書き(カルーセル)」セクションから
-                 使用テンプレート(A/B/C、「テンプレA」等の記載から判定)と、
-                 表紙(role: cover, title, catch)/中面各枚(role: content, title,
-                 body, checklist: チェックリスト型ならtrue)/締め(role: closing,
-                 title, body)のslides配列を作成する
+               - feed.template: 使用テンプレート(A=和紙×手書き/B=グラデーション/
+                 C=紺×白アイコン。「テンプレA」等の記載から判定)
+               - feed.slides: 表紙(role: cover)/中面各枚(role: content)/
+                 締め(role: closing)の配列。台本の内容に応じて、
+                 テンプレートB(cover用のnumber/category)、
+                 テンプレートC(cover用のgrid配列)、
+                 テンプレートA(bodyの中で強調したいフレーズをhighlightsに)
+                 も適切に埋めること(該当しない場合は省略してよい)
             4. 作成したJSONを
                02_departments/creative/drafts/<task_id>.spec.json
-               として保存する。
+               として保存する(thumbnailフィールドは含めない)。
             5. 台本の情報が不十分でJSON化できない項目があれば、
                JSON内に `"_notes": "..."` フィールドを追加し、
                何が不足しているかを日本語で明記する。

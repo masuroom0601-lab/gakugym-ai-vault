@@ -49,9 +49,14 @@ Claude Codeセッションを跨いでも迷わないよう、常にこのファ
 - `tools/line/broadcast.js`: LINE配信の決定的スクリプト(Claudeを経由しない。テスト済み)
 - `.github/workflows/line-broadcast-publish.yml`: 承認即配信+日次フォールバック
 - `04_analytics/line-message-usage.json`: LINE月間メッセージ上限の追跡ファイル
-- `docs/index.html` 他4ページ: 学ジム公式サイト本体(静的HTML/CSS、レスポンシブ対応)
+- `docs/index.html` 他4ページ: 学ジム公式サイト本体(静的HTML/CSS、レスポンシブ対応、Phase4は一旦保留)
 - `01_HQ/setup guides/custom-domain-setup.md.md` / `contact-form-setup.md.md`:
   独自ドメイン接続・お問い合わせフォーム連携の手順書
+- リールのサムネ・本編生成をCanva方式に移行(`01_HQ/setup guides/canva-routine-setup.md.md`)。
+  益田さんがclaude.ai Routinesで実際にRoutineを作成し、稼働開始済み
+- フィードは過去投稿が編集不可のべた画像と判明したため、実物に合わせて
+  `03_assets/creative-templates/feed-template-{a,b,c}.html` を全面的に作り直し、
+  `creative-pipeline.yml` の日次cronを再有効化(対象をフィードのみに変更)
 
 これでPhase1(HQ運用ループ)・Phase2(クリエイティブ制作の画像生成)・
 Phase5(分析・改善ループ)まで実装が完了しています。
@@ -146,14 +151,17 @@ department.mdのアウトプット定義、トークン管理エスカレーシ�
 **このPhaseが終わると**: 益田さんは毎朝daily-logとdashboardを見るだけで、
 「何が承認待ちか」「何が滞留しているか」が一目でわかる状態になる。
 
-### Phase 2: クリエイティブ制作パイプライン(2026-09-12: Canvaベースに方針転換)
-目的: Instagram/TikTokのサムネイル画像・リール動画を、文字化けせず自動生成する。
+### Phase 2: クリエイティブ制作パイプライン(2026-09-12: リール=Canva、フィード=Playwrightに確定)
+目的: Instagram/TikTokのサムネイル画像・リール動画・フィード画像を、文字化けせず自動生成する。
 
-**方針転換の経緯**: 当初PlaywrightでHTML/CSSテンプレートを自前レンダリングする
-方式を実装したが、益田さんの希望で「実際にご自身が使っているCanvaデザインを
-複製・編集する」方式に切り替えた。Instagram/TikTokの自動投稿(API経由)も
-「不要かもしれない」との判断で見送り、投稿自体は引き続き手動。
+**経緯**: 当初PlaywrightでHTML/CSSテンプレートを自前レンダリングする方式で
+リール・フィードとも実装したが、益田さんの希望でリールを「実際にご自身が使っている
+Canvaデザインを複製・編集する」方式に切り替えた。続けてフィードもCanva化しようとしたが、
+過去のフィード投稿8件を確認したところ**全ページ編集不可のべた画像**と判明し、
+ゼロから作った新規Canvaテンプレートも実物と乖離した仕上がりで不採用となったため、
+**フィードは実物に寄せて作り直したPlaywright方式に確定**した。
 
+#### リール(サムネ・本編動画): Canva方式
 - [x] 益田さんの過去のCanvaデザイン(サムネ5ページセット+本編5種)を実際に確認し、
       構造を把握(本編は静止画ではなく**動画背景**であることが判明。エクスポートすれば
       そのままリール動画になる)
@@ -165,17 +173,9 @@ department.mdのアウトプット定義、トークン管理エスカレーシ�
       形に直し、文字数に依存しない安定した構造にした
 - [x] `01_HQ/setup guides/canva-routine-setup.md.md`: claude.ai Routinesでの
       設定手順+貼り付け用プロンプトを作成
-- [x] 旧Playwrightパイプライン(`creative-pipeline.yml`)の日次cronは無効化
-      (workflow_dispatchでの手動実行はフォールバックとして残す)
-- [ ] **益田さん対応**: claude.aiのRoutines画面で、Canvaコネクタをアタッチした
-      Routineを実際に作成する(このリポジトリのGitHub ActionsからはCanva連携を
-      スケジュール実行に持たせられないという組織設定の制約があったため、
-      claude.ai側で設定する必要がある)
-- [ ] Routineの初回実行結果を確認し、`02_departments/creative/drafts/`に
-      期待通りのファイルが生成されるか検証する
-- [ ] フィード(カルーセル)側もCanvaベースに合わせて同様の複製元デザインを用意する
-      (今回確認したのはリールのサムネ・本編のみ。フィード用の参考デザインは
-      益田さんから別途共有してもらう)
+- [x] **益田さんがclaude.ai Routinesで実際にRoutineを作成・稼働開始済み**
+- [ ] 初回実行結果を確認し、`02_departments/creative/drafts/`に
+      期待通りのファイルが生成されるか検証する(継続してウォッチ)
 
 **技術的な制約メモ(重要)**: Claude Code(GitHub Actions経由)からはCanvaの
 公式開発者API(Autofill等)を使った完全無人の自動化は、調査の結果
@@ -183,13 +183,26 @@ department.mdのアウトプット定義、トークン管理エスカレーシ�
 見送った。今回のRoutine方式は、益田さんのClaude.aiアカウントに紐づくCanva連携を
 「毎日決まった時刻に呼び出す」形なので、追加コストはかからない。
 
-**次のアクション(益田さん対応)**:
-1. `creative-pipeline.yml` を`workflow_dispatch`で一度手動実行し、生成された
-   `02_departments/creative/drafts/generated/<task_id>/*.png` を確認する
-2. 問題なければテンプレートを「確認済み」として、以後デザイン変更は都度指示制にする
-3. 著作権フリーの背景写真(縦長9:16、暗めのトーン)を `03_assets/images/backgrounds/` に追加
-4. 余裕があれば、リール本編動画用のストック動画素材を `03_assets/videos/` に追加
-   (動画合成パイプラインはこれの後で着手)
+#### フィード(カルーセル): Playwright方式(実物に合わせて作り直し済み)
+- [x] 過去のフィード投稿8件(和紙×手書き/カラーグラデーション/紺×白アイコン、
+      各3〜9ページ)を実際に確認 → **全ページ編集不可のべた画像**と判明し、
+      Canvaでの複製編集は不可能と結論
+- [x] ゼロから新規Canvaテンプレートを自動生成する案も試作したが、
+      実物と乖離した仕上がりで益田さんの確認の結果不採用
+- [x] `03_assets/creative-templates/feed-template-{a,b,c}.html` を実物の見た目に
+      合わせて全面的に作り直し(水彩の滲み背景+マーカーハイライト+角の手書きアイコン/
+      斜めグラデーション+数字バッジ/紺背景+3x3アイコングリッド表紙)。
+      Playwrightで実際にレンダリングして確認済み
+- [x] `tools/creative/render.js` / `README.md` のspec.jsonスキーマを
+      テンプレート固有フィールド(highlights/number・category/grid・eyebrow・accent)に対応
+- [x] ページ番号(`n/総数`)をrender.js側で自動算出するように変更
+- [x] `.github/workflows/creative-pipeline.yml` の日次cron(06:05 JST)を再度有効化。
+      抽出対象をフィードのみに変更(リールはCanva側で別途生成されるため)
+- [ ] 1件見つけた注意点: 過去投稿の中に他アカウント(`@subarashiisaito`)の
+      透かし入りデザインが1件混ざっていた(`DAHCqMT3jhw`)。益田さん本人の投稿では
+      ない可能性が高いため、テンプレートの参考にはしていない
+- [ ] 著作権フリーの背景写真(縦長9:16、暗めのトーン)を `03_assets/images/backgrounds/` に
+      追加(未追加でもグラデーション代替で動作するが、より実物に近づけたい場合)
 
 ### Phase 3: 横展開の拡大(TikTok単独投稿・YouTube Shorts)
 目的: Instagramリールで作った動画をTikTok・YouTube Shortsにも展開する。

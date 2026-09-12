@@ -2,8 +2,12 @@
 <!--
   学ジム フィード テンプレートA(和紙×手書き風)固定テンプレート
   体験談・ノウハウ系のテーマに使用。CSSは以後書き換えない。
-  ?d=<base64(UTF-8 JSON)>  JSON: { role, title, catch, body, checklist }
+  ?d=<base64(UTF-8 JSON)>  JSON:
+  { role, title, catch, body, checklist, highlights: [{text, color}],
+    page_number, total_pages }
   role: "cover" | "content" | "closing"
+  highlights: bodyの中でマーカー風にハイライトしたいフレーズの配列
+              (colorは red|yellow|green|purple。省略時は順番に自動で割り当て)
 -->
 <html lang="ja">
 <head>
@@ -15,42 +19,109 @@
   *{margin:0;padding:0;box-sizing:border-box;}
   html,body{width:1080px;height:1350px;overflow:hidden;
     font-family:"Klee One","Noto Sans JP","Noto Sans CJK JP",sans-serif;
-    background:repeating-linear-gradient(135deg,#f6efe0 0px,#f6efe0 2px,#f1e8d5 2px,#f1e8d5 4px);
     color:#4a3826;}
-  #frame{position:absolute;inset:36px;border:3px solid #c9a973;}
-  #wrap{position:absolute;inset:0;padding:110px 100px;display:flex;flex-direction:column;justify-content:center;}
-  #icon{font-size:48px;margin-bottom:24px;color:#a8763f;}
-  #title{font-size:60px;font-weight:600;line-height:1.5;white-space:pre-wrap;margin-bottom:30px;}
-  #catch{font-size:34px;font-weight:400;color:#8a6a3e;white-space:pre-wrap;font-family:"Noto Sans JP",sans-serif;}
-  #body{font-size:36px;font-weight:400;line-height:1.75;white-space:pre-wrap;
-    color:#5a4230;font-family:"Noto Sans JP",sans-serif;}
-  #mark{position:absolute;bottom:64px;right:96px;font-size:26px;color:#a8763f;font-weight:700;}
+  #bg{position:absolute;inset:0;background:#f6efe0;overflow:hidden;}
+  #bg::before{content:"";position:absolute;inset:0;
+    background:
+      radial-gradient(ellipse 420px 320px at 12% 8%, rgba(201,169,115,.28), transparent 60%),
+      radial-gradient(ellipse 380px 300px at 92% 14%, rgba(214,150,120,.22), transparent 60%),
+      radial-gradient(ellipse 460px 360px at 8% 96%, rgba(180,150,90,.24), transparent 60%),
+      radial-gradient(ellipse 400px 320px at 96% 90%, rgba(201,169,115,.22), transparent 60%);
+  }
+  #frame{position:absolute;inset:34px;border:3px solid #c9a973;border-radius:6px;}
+
+  #wrap{position:absolute;inset:0;padding:110px 96px;display:flex;flex-direction:column;justify-content:center;}
+  #doodles span{position:absolute;font-size:44px;opacity:.55;}
+  #d1{top:56px;left:56px;transform:rotate(-18deg);}
+  #d2{top:56px;right:56px;transform:rotate(18deg) scaleX(-1);}
+  #d3{bottom:56px;left:56px;transform:rotate(160deg) scaleX(-1);}
+  #d4{bottom:56px;right:56px;transform:rotate(-160deg);}
+  .role-content #doodles,.role-closing #doodles{display:none;}
+
+  #icon{font-size:44px;margin-bottom:16px;color:#a8763f;}
+  #title-frame{border:3px solid #c9a973;border-radius:999px;padding:22px 44px;
+    display:inline-block;margin:0 auto 30px;text-align:center;}
+  #title{font-size:60px;font-weight:600;line-height:1.5;white-space:pre-wrap;text-align:center;}
+  .role-content #title,.role-closing #title{font-size:50px;text-align:left;margin-bottom:0;}
+  .role-content #title-frame,.role-closing #title-frame{
+    border:none;padding:0;margin:0 0 26px;display:block;text-align:left;}
+  .role-cover #title{margin:0;}
+
+  #catch{font-size:34px;font-weight:400;color:#8a6a3e;white-space:pre-wrap;
+    text-align:center;margin-top:24px;}
+  .role-content #catch,.role-closing #catch{display:none;}
+
+  #body{font-size:36px;font-weight:400;line-height:1.85;white-space:pre-wrap;color:#5a4230;}
+  #body mark{background:none;color:inherit;padding:2px 8px;border-radius:8px;font-weight:700;}
+  #body mark.hl-red{background:#f6c9c3;}
+  #body mark.hl-yellow{background:#f5e3a0;}
+  #body mark.hl-green{background:#c9e3c2;}
+  #body mark.hl-purple{background:#ddc9ec;}
+
+  #mark-logo{position:absolute;bottom:60px;right:92px;font-size:26px;color:#a8763f;font-weight:700;}
+  #pagenum{position:absolute;bottom:56px;left:92px;width:64px;height:64px;border:2px solid #c9a973;
+    border-radius:50%;display:flex;align-items:center;justify-content:center;
+    font-size:26px;font-weight:700;color:#8a6a3e;}
+  [hidden]{display:none !important;}
 </style>
 </head>
 <body>
+  <div id="bg"></div>
   <div id="frame"></div>
+  <div id="doodles">
+    <span id="d1">✏️</span><span id="d2">🌿</span><span id="d3">✨</span><span id="d4">🍂</span>
+  </div>
   <div id="wrap">
     <div id="icon"></div>
-    <div id="title"></div>
+    <div id="title-frame"><div id="title"></div></div>
+    <div id="title-standalone" hidden></div>
     <div id="body"></div>
     <div id="catch"></div>
   </div>
-  <div id="mark">学ジム</div>
+  <div id="mark-logo">学ジム</div>
+  <div id="pagenum"></div>
 <script>
+  const HL_COLORS = ["hl-red", "hl-yellow", "hl-green", "hl-purple"];
   function b64ToUtf8(b64){
     const binary = atob(b64);
     const bytes = new Uint8Array(binary.length);
     for (let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
     return new TextDecoder("utf-8").decode(bytes);
   }
+  function escapeHtml(s){
+    return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;");
+  }
+  function renderBody(el, text, highlights){
+    if (!Array.isArray(highlights) || !highlights.length) {
+      el.textContent = text || "";
+      return;
+    }
+    let html = escapeHtml(text || "");
+    highlights.forEach((h, i) => {
+      const phrase = typeof h === "string" ? h : h.text;
+      const colorClass = (typeof h === "object" && h.color) ? "hl-" + h.color : HL_COLORS[i % HL_COLORS.length];
+      if (!phrase) return;
+      const escaped = escapeHtml(phrase);
+      html = html.split(escaped).join(`<mark class="${colorClass}">${escaped}</mark>`);
+    });
+    el.innerHTML = html;
+  }
   async function init(){
     const qp = new URLSearchParams(location.search);
     const raw = qp.get("d");
     const data = raw ? JSON.parse(b64ToUtf8(decodeURIComponent(raw))) : {};
+    const role = data.role || "content";
+    document.body.classList.add("role-" + role);
+
+    document.getElementById("icon").textContent = data.icon || (data.checklist ? "✏️" : "");
     document.getElementById("title").textContent = data.title || "";
-    document.getElementById("body").textContent = data.role === "cover" ? "" : (data.body || "");
-    document.getElementById("catch").textContent = data.role === "cover" ? (data.catch || "") : "";
-    document.getElementById("icon").textContent = data.checklist ? "□" : "";
+    renderBody(document.getElementById("body"), role === "cover" ? "" : (data.body || ""), data.highlights);
+    document.getElementById("catch").textContent = role === "cover" ? (data.catch || "") : "";
+
+    if (data.page_number && data.total_pages) {
+      document.getElementById("pagenum").textContent = `${data.page_number}/${data.total_pages}`;
+    }
+
     if (document.fonts && document.fonts.ready) await document.fonts.ready;
     document.body.setAttribute("data-ready", "true");
   }

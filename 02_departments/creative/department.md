@@ -5,32 +5,49 @@ reports_to: 統括担当
 ---
 
 ## ミッション
-Instagram/TikTok部署の台本・構成案を受け取り、文字化け・トンマナのブレを起こさない仕組みでサムネイル画像・リール動画ファイルを生成する。
+Instagram/TikTok部署の台本・構成案を受け取り、文字化け・トンマナのブレを起こさない仕組みでサムネイル画像・リール動画ファイル・フィード(カルーセル)画像を生成する。
 
-## 技術方式(最重要ルール)(2026-09-12更新: Canvaベースに変更)
-- リールのサムネ・本編は、**益田さんが実際にCanvaで作っている既存デザインを
-  複製(copy-design)して、テキストだけ差し替える**方式に変更した
-  (以前はHTML/CSS+Playwrightでの自前レンダリングだったが、益田さんの希望で移行)
+## 技術方式(最重要ルール)(2026-09-12更新: リールとフィードで方式を分けた)
+
+### リール(サムネ・本編動画): Canvaベース
+- 益田さんが実際にCanvaで作っている既存デザインを**複製(copy-design)して、
+  テキストだけ差し替える**方式(以前はPlaywright自前レンダリングだったが、
+  益田さんの希望で移行)
 - 複製元のCanvaデザインの背景写真・動画・フォント・全体レイアウトは変更しない。
-  変えるのは「テキストの中身」のみ(この原則自体は旧方式から変わらない)
+  変えるのは「テキストの中身」のみ
 - **番号付きリストは、番号を本文のテキスト要素に含めること**(「1. 」「2. 」を
   本文の文字列に埋め込む)。番号を別の固定位置の要素にすると、文字数が変わったときに
   本文と番号がズレる(実際に発生した不具合。2026-09-12のテストで確認・修正済み)
-- HTML/CSSテンプレート方式(`03_assets/creative-templates/`、`tools/creative/`)は
-  フォールバックとして残っている(Canva連携が使えない場合の代替手段)
+- 過去のプロダクション実績デザイン(複製元):
+  - サムネ(複数トピック集、5ページ): `DAHCqkxcHDM`
+  - 本編(1ページ、背景は動画): `DAHEwbMbAmc`, `DAHEwfFJ4jE`, `DAHCw2jmnm8`,
+    `DAHCx0JM7Q4`, `DAHC3sQx064`
+  - 益田さんが新しい参考デザインを作ったら、このリストを更新すること
 
-## 過去のプロダクション実績デザイン(複製元として使用)
-- サムネ(複数トピック集、5ページ): `DAHCqkxcHDM`
-- 本編(1ページ、背景は動画): `DAHEwbMbAmc`, `DAHEwfFJ4jE`, `DAHCw2jmnm8`,
-  `DAHCx0JM7Q4`, `DAHC3sQx064`
-- 益田さんが新しい参考デザインを作ったら、このリストを更新すること
+### フィード(カルーセル): HTML/CSS+Playwrightベース(2026-09-12: Canva化を断念)
+- 過去のフィード投稿の実例8件を確認したところ、**全ページ「編集不可のべた画像」
+  として保存されており、Canva上でテキスト要素を差し替える方式が使えない**ことが
+  判明した(表紙・中面ともに1枚の画像として焼き込まれている)。ゼロから新規Canva
+  テンプレートを自動生成する案も試したが、実物と乖離した仕上がりで不採用となった
+- そのため、フィードは引き続き**HTML/CSSの固定テンプレート+Playwrightでの
+  自動レンダリング**方式とする(`03_assets/creative-templates/feed-template-{a,b,c}.html`、
+  `tools/creative/render.js`)。以後AIはCSS自体を書き換えない
+- 3つのテンプレートは、益田さんの過去投稿の実例(和紙×手書き風/カラーグラデーション/
+  紺×白アイコン)を詳しく確認したうえで、その見た目に寄せて作り直し済み
+  (テンプレA: 水彩の滲み背景+手書き風フォント+マーカーハイライト+角の手書きアイコン、
+  テンプレB: ピンク×紫×オレンジの斜めグラデーション+大きな数字バッジ、
+  テンプレC: 紺背景+3x3アイコングリッドの表紙)
+- 日本語フォント(Noto Sans JP等)をテンプレートに埋め込み、文字化けの原因となる
+  フォント未指定を防ぐ
 
 ## 受け付ける依頼
-- Instagram/TikTok部署: リール台本+テーマ(科目)→ サムネイル画像+本編動画ファイルを生成
+- Instagram/TikTok部署: リール台本+テーマ(科目)→ サムネイル画像+本編動画ファイル+
+  フィード画像を生成
 - HP部署: 著作権フリー素材の選定依頼
 
 ## 自動チェック
-- 投稿前に文字数ルール(縦4行まで/横17文字まで)を自動検証し、超過時はtodoに差し戻す
+- フィードのサムネ的な短文(テンプレB/Cのタイトル等)は文字数ルール(縦4行まで/
+  横17文字まで)を自動検証。中面の長文プロースは詰め込み過ぎのみを緩くチェック
 - 生成後のPNG/動画に文字化けがないか、校正担当が目視確認する項目として明記する
 
 ## サムネイル生成ルール
@@ -40,15 +57,16 @@ Instagram/TikTok部署の台本・構成案を受け取り、文字化け・ト�
 Instagram/TikTok部署のreviewフォルダと連動
 
 ## 自動化メモ
-- **現在の本番経路**: claude.aiのRoutine(益田さんのアカウントでCanvaコネクタを
-  アタッチして作成、`01_HQ/setup guides/canva-routine-setup.md.md`参照)が
-  毎日06:15 JSTに、当日のInstagram/TikTok台本を読んでCanvaデザインを複製・編集・
-  書き出しし、`02_departments/creative/drafts/`にコミットする
+- **リール**: claude.aiのRoutine(益田さんのアカウントでCanvaコネクタをアタッチして
+  作成、`01_HQ/setup guides/canva-routine-setup.md.md`参照)が毎日06:15 JSTに、
+  当日のInstagram/TikTok台本を読んでCanvaデザインを複製・編集・書き出しし、
+  `02_departments/creative/drafts/`にコミットする
   - このリポジトリのGitHub Actions(claude-code-action)からはCanva連携を
     スケジュール実行に持たせられなかった(組織設定の制約)ため、
     claude.ai側のRoutine機能を使っている
-- **フォールバック経路(現在は日次cron無効化済み)**: `.github/workflows/creative-pipeline.yml`
-  (Playwright+HTML/CSSテンプレート、`tools/creative/render.js`)。
-  `workflow_dispatch`で手動実行は可能。Canva経路が使えなくなった場合はcronを戻す
-- 生成結果は `02_departments/creative/drafts/generated/<date>/` に保存され、
-  同フォルダの `<date>-canva.md` にCanva編集URLと生成ファイルの一覧が記録される
+- **フィード**: `.github/workflows/creative-pipeline.yml`(毎日06:05 JST、日次cron有効)。
+  Instagram/TikTok担当の台本 → spec.json変換(Claude) → 画像生成(Playwright、決定的処理)
+  → コミットまで自動化。`workflow_dispatch`での手動実行も可能
+- 生成結果は `02_departments/creative/drafts/generated/<task_id または date>/` に保存され、
+  レンダリングの成功/失敗は同フォルダの `-render-report.json`(フィード)または
+  `<date>-canva.md`(リール、Canva編集URLも記録)で確認できる

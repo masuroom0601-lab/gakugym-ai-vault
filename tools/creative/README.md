@@ -30,7 +30,7 @@ creative担当(Claude)がこの形式のJSONに変換して
     "bg": null                            // 03_assets/images/backgrounds/ 内の相対パス。無ければグラデーション代替
   },
   "feed": {
-    "template": "C",                      // "A" | "B" | "C"
+    "template": "C",                      // "A"(和紙×手書き) | "B"(グラデーション) | "C"(紺×白アイコン)
     "slides": [
       { "role": "cover", "title": "総合型選抜\n面接直前にやるべきこと", "catch": "付け焼き刃の対策で、後悔しないために。" },
       { "role": "content", "title": "志望理由を「一言」で言えるか確認する", "body": "きみの言葉で30秒にまとめられないなら、\nまだ理解が浅いサイン。", "checklist": true },
@@ -39,6 +39,19 @@ creative担当(Claude)がこの形式のJSONに変換して
   }
 }
 ```
+
+すべてのテンプレート共通で `page_number`/`total_pages` はrender.js側が
+slides配列の位置から自動で埋め込む(spec.json側で指定する必要はない)。
+
+### テンプレート固有のフィールド(2026-09-12: 過去の実投稿デザインに寄せて拡張)
+- **A(和紙×手書き)**: `highlights`(bodyの中でマーカー風にハイライトしたいフレーズの配列。
+  文字列の配列、または`{text, color}`。colorは red/yellow/green/purple)、`icon`(絵文字)
+- **B(グラデーション)**: cover用の `number`(大きく出す数字、例:"5")、
+  `category`(数字の右のピル文言、例:"教科別")。`catch`があれば下部に白いカードで表示、
+  無ければ通常のicon+body表示になる
+- **C(紺×白アイコン)**: cover用の `grid`(`{icon, label}`の配列、3〜9個。
+  指定すると3x3のアイコンカードグリッドになる)、`eyebrow`(タイトル上の小さい前置き文言)、
+  `accent`(titleの中で1色だけ変えたい部分文字列、例:"70")
 
 ## 出力
 `<出力先>/<task_id>-thumbnail.png`、`<出力先>/<task_id>-feed-01.png` ...、

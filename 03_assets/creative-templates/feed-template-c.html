@@ -2,8 +2,12 @@
 <!--
   学ジム フィード テンプレートC(紺色×白アイコン)固定テンプレート
   権威感のある「やるべきことリスト」向け。CSSは以後書き換えない。
-  ?d=<base64(UTF-8 JSON)>  JSON: { role, title, catch, body, checklist }
+  ?d=<base64(UTF-8 JSON)>  JSON:
+  { role, title, eyebrow, accent, body, checklist, icon,
+    grid: [{icon,label}, ...] (coverのみ、3〜9個),
+    page_number, total_pages }
   role: "cover" | "content" | "closing"
+  accent: titleの中で色を変えたい部分の文字列(例: "70")。指定が無ければ全体そのまま
 -->
 <html lang="ja">
 <head>
@@ -16,23 +20,40 @@
   html,body{width:1080px;height:1350px;overflow:hidden;
     font-family:"Noto Sans JP","Noto Sans CJK JP",sans-serif;
     background:#0F2A4A;color:#fff;}
-  #wrap{position:absolute;inset:0;padding:100px 90px;display:flex;flex-direction:column;justify-content:center;}
-  #icon{font-size:52px;margin-bottom:20px;}
-  #title{font-size:60px;font-weight:900;line-height:1.4;white-space:pre-wrap;margin-bottom:28px;}
-  #title.role-content{font-size:46px;}
-  #catch{font-size:36px;font-weight:400;color:#9fc4e8;white-space:pre-wrap;}
-  #body{font-size:38px;font-weight:400;line-height:1.65;white-space:pre-wrap;color:#dfeaf5;}
-  #mark{position:absolute;bottom:60px;right:80px;font-size:28px;color:#5a83ab;font-weight:700;}
+  #wrap{position:absolute;inset:0;padding:80px 76px;display:flex;flex-direction:column;}
+
+  #eyebrow{font-size:32px;font-weight:700;color:#9fc4e8;margin-bottom:14px;}
+  #title{font-size:64px;font-weight:900;line-height:1.35;white-space:pre-wrap;margin-bottom:36px;}
+  #title .accent{color:#4EA1FF;}
+  .role-content #title{font-size:50px;margin-bottom:24px;}
+  .role-closing #title{font-size:56px;}
+
+  /* cover: 3x3 (最大9マス)のアイコングリッド */
+  #grid{flex:1;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;align-content:center;}
+  .cell{background:#f3ecd9;border-radius:20px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;text-align:center;padding:18px 10px;gap:10px;}
+  .cell .cell-icon{font-size:52px;}
+  .cell .cell-label{font-size:26px;font-weight:700;color:#1c2e44;line-height:1.3;white-space:pre-wrap;}
+
+  /* content/closing: アイコン+本文 */
+  #icon{font-size:56px;margin-bottom:16px;}
+  #body{font-size:40px;font-weight:400;line-height:1.65;white-space:pre-wrap;color:#dfeaf5;}
+
+  #mark{position:absolute;bottom:56px;right:76px;font-size:28px;color:#5a83ab;font-weight:700;}
+  #pagenum{position:absolute;bottom:52px;left:76px;font-size:30px;font-weight:700;color:#9fc4e8;}
+  [hidden]{display:none !important;}
 </style>
 </head>
 <body>
   <div id="wrap">
-    <div id="icon"></div>
+    <div id="eyebrow"></div>
     <div id="title"></div>
+    <div id="icon"></div>
+    <div id="grid" hidden></div>
     <div id="body"></div>
-    <div id="catch"></div>
   </div>
   <div id="mark">学ジム</div>
+  <div id="pagenum"></div>
 <script>
   function b64ToUtf8(b64){
     const binary = atob(b64);
@@ -40,17 +61,53 @@
     for (let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
     return new TextDecoder("utf-8").decode(bytes);
   }
+  function renderTitle(el, text, accent){
+    el.textContent = "";
+    if (!accent || !text.includes(accent)) { el.textContent = text; return; }
+    const idx = text.indexOf(accent);
+    el.appendChild(document.createTextNode(text.slice(0, idx)));
+    const span = document.createElement("span");
+    span.className = "accent";
+    span.textContent = accent;
+    el.appendChild(span);
+    el.appendChild(document.createTextNode(text.slice(idx + accent.length)));
+  }
   async function init(){
     const qp = new URLSearchParams(location.search);
     const raw = qp.get("d");
     const data = raw ? JSON.parse(b64ToUtf8(decodeURIComponent(raw))) : {};
     const role = data.role || "content";
-    const titleEl = document.getElementById("title");
-    titleEl.textContent = data.title || "";
-    titleEl.classList.add("role-" + role);
-    document.getElementById("body").textContent = role === "cover" ? "" : (data.body || "");
-    document.getElementById("catch").textContent = role === "cover" ? (data.catch || "") : "";
-    document.getElementById("icon").textContent = data.checklist ? "□" : (role === "closing" ? "📌" : "");
+    document.body.classList.add("role-" + role);
+
+    document.getElementById("eyebrow").textContent = data.eyebrow || "";
+    renderTitle(document.getElementById("title"), data.title || "", data.accent);
+
+    if (role === "cover" && Array.isArray(data.grid) && data.grid.length) {
+      const gridEl = document.getElementById("grid");
+      gridEl.hidden = false;
+      data.grid.slice(0, 9).forEach((item) => {
+        const cell = document.createElement("div");
+        cell.className = "cell";
+        const icon = document.createElement("div");
+        icon.className = "cell-icon";
+        icon.textContent = item.icon || "📌";
+        const label = document.createElement("div");
+        label.className = "cell-label";
+        label.textContent = item.label || "";
+        cell.appendChild(icon);
+        cell.appendChild(label);
+        gridEl.appendChild(cell);
+      });
+    } else {
+      document.getElementById("icon").textContent =
+        data.icon || (data.checklist ? "□" : (role === "closing" ? "📌" : ""));
+      document.getElementById("body").textContent = data.body || "";
+    }
+
+    if (data.page_number && data.total_pages) {
+      document.getElementById("pagenum").textContent = `${data.page_number}/${data.total_pages}`;
+    }
+
     if (document.fonts && document.fonts.ready) await document.fonts.ready;
     document.body.setAttribute("data-ready", "true");
   }
