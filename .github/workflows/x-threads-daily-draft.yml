@@ -1,0 +1,46 @@
+name: x-threads-daily-draft
+
+on:
+  schedule:
+    - cron: '0 21 * * *'   # 毎日 06:00 JST
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Generate X/Threads draft
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: |
+            --allowedTools "Write,Bash(git *)"
+          prompt: |
+            あなたは「学ジム」のX/Threads担当AIです。
+            以下のファイルを読み、そこに書かれたルールに厳密に従ってください:
+            - 02_departments/x_threads/department.md
+            - 03_assets/brand-guide.md
+            - 02_departments/x_threads/published/ 内の直近の投稿(型が偏らないよう確認)
+
+            断定調ノウハウ型/あるあるネタ型/共感・エモ系メッセージ型の
+            3つの型のうち、直近で使われていないものを選び、
+            X用の本文(ハッシュタグ5〜8個込み)と、
+            Threads用の本文(ハッシュタグ1個に絞ったバージョン)を
+            department.md のフォーマットに厳密に従って作成してください。
+
+            作成したファイルは
+            02_departments/x_threads/drafts/task-<今日の日付YYYY-MM-DD>-x-001.md
+            という名前で保存してください(frontmatter込み)。
+
+            最後に、以下のコマンドで変更をコミット・プッシュしてください:
+            git config user.name "gakugym-ai-bot"
+            git config user.email "bot@example.com"
+            git add 02_departments/x_threads/drafts/
+            git commit -m "x/threads daily draft $(date +%F)"
+            git push
