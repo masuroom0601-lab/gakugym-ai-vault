@@ -49,6 +49,9 @@ Claude Codeセッションを跨いでも迷わないよう、常にこのファ
 - `tools/line/broadcast.js`: LINE配信の決定的スクリプト(Claudeを経由しない。テスト済み)
 - `.github/workflows/line-broadcast-publish.yml`: 承認即配信+日次フォールバック
 - `04_analytics/line-message-usage.json`: LINE月間メッセージ上限の追跡ファイル
+- `docs/index.html` 他4ページ: 学ジム公式サイト本体(静的HTML/CSS、レスポンシブ対応)
+- `01_HQ/setup guides/custom-domain-setup.md.md` / `contact-form-setup.md.md`:
+  独自ドメイン接続・お問い合わせフォーム連携の手順書
 
 これでPhase1(HQ運用ループ)・Phase2(クリエイティブ制作の画像生成)・
 Phase5(分析・改善ループ)まで実装が完了しています。
@@ -207,18 +210,34 @@ department.mdのアウトプット定義、トークン管理エスカレーシ�
 - どちらも、creative-pipelineが将来生成する動画ファイルのパスをGitHub Actions内で
   参照できるようにする必要がある(現状のcreative-pipelineは画像のみ生成)
 
-### Phase 4: 自社ドメインHP構築
+### Phase 4: 自社ドメインHP構築(サイト本体は実装済み、要・ドメイン取得等)
 目的: readdy版サイトを踏襲しつつ、自社ドメイン+無料ホスティングで再構築する。
 
-- [ ] ドメイン取得(実費、年額) → お名前.com等で取得
-- [ ] GitHub PagesまたはCloudflare Pagesでのホスティング設定(無料枠)
-- [ ] hp/department.mdのサイト構成(トップ/料金/講師経歴/コラム/お問い合わせ)を
-      静的HTML/CSSで実装(readdyのプレビューを参考にしつつ著作権フリー素材へ差し替え)
-- [ ] お問い合わせフォーム: 無料の外部フォームサービス(例: Googleフォーム埋め込み、
-      または画像認証付きの無料フォームサービス)を選定・連携
+**重要な制約**: readdy.ccのプレビューURLは、このClaude Codeセッションのネットワーク
+ポリシーで直接アクセスできなかった(egress proxyでpolicy denial)。そのため、
+hp/department.mdに書かれていたサイト構成の「仕様」を元に構築しており、
+readdyの実際の配色・写真・細かいレイアウトとは異なる可能性がある。
+公開後にreaddy版と見比べて、必要な部分を調整すること。
+
+- [x] hp/department.mdのサイト構成(トップ/料金/講師経歴/コラム/お問い合わせ)を
+      静的HTML/CSSで実装(`docs/index.html` 他4ページ、レスポンシブ対応・
+      Playwrightで実際にスクリーンショットして見た目を確認済み)
+- [x] `01_HQ/setup guides/custom-domain-setup.md.md`: 独自ドメイン接続手順
+      (GitHub PagesのCNAME設定・DNS設定。ホスティングは無料、ドメイン代のみ実費)
+- [x] `01_HQ/setup guides/contact-form-setup.md.md`: Formspree(無料枠)+
+      reCAPTCHA(画像認証)の連携手順
+- [x] 振込口座情報など機微情報はVaultに含めず、事業者情報欄は「要記入」の
+      プレースホルダーのみにしてある(profile.html)
+- [x] お客様の声は実在しない推薦文を作らず、空のプレースホルダーのままにしてある
+- [ ] ドメイン取得(実費、年額。益田さん対応)
+- [ ] GitHub Pagesの有効化・カスタムドメイン接続(益田さん対応、上記guide参照)
+- [ ] お問い合わせフォームの送信先・画像認証の実設定(益田さん対応、上記guide参照)
+- [ ] 講師経歴ページの「✏️ 要記入」箇所(資格・ストーリー・事業者情報等)の記入(益田さん対応)
+- [ ] 料金ページのキャンセル規定・解約規定の正式文言の確定(益田さん対応)
 - [ ] note/Amebaのコラム記事をHPのコラムページに転載する自動化ワークフローを追加
-      (note_ameba/published → hp/drafts への変換タスク)
-- [ ] 振込口座情報など機微情報は、公開後に益田さんが直接ソースへ手入力(Vaultには含めない)
+      (note_ameba/published → docs/column/ への変換タスク。現状コラムページは
+      「準備中」表示のまま。note/Amebaの実運用が安定してから着手する)
+- [ ] 著作権フリーの人物写真の調達・profile.htmlの写真枠への設置(益田さん対応)
 
 ### Phase 5: 分析・改善ループの自動化(実装済み、要・毎週の数値入力)
 目的: 「投稿→分析→改善提案→次の投稿に反映」のループを回す。
@@ -327,6 +346,10 @@ LINE特典・Amazon自費出版用に制作する。
 | 著作権フリーのストック動画素材の用意 | Phase2/3 | `03_assets/videos/`。Phase3の横展開はこの動画が前提 |
 | LINE公式アカウントのMessaging APIチャネル作成・長期トークン発行 | Phase6 | `line-messaging-api-setup.md.md`。発行後は自動配信が有効になる |
 | LINE配信の月間メッセージ上限確認・プラン判断 | Phase6 | 無料枠超過時、待つか有料プランにするかは本人判断(追加予算の方針に関わる) |
+| 独自ドメイン取得・DNS設定・GitHub Pages連携 | Phase4 | `custom-domain-setup.md.md`。ドメイン代のみ実費 |
+| お問い合わせフォーム(Formspree)・reCAPTCHA設定 | Phase4 | `contact-form-setup.md.md` |
+| profile.html/pricing.htmlの「✏️ 要記入」箇所への実データ入力 | Phase4 | 資格・ストーリー・事業者情報・規定文言など、本人にしか書けない内容 |
+| 著作権フリーの人物写真・トップページ用画像の調達 | Phase4 | プレースホルダーのままでは公開に適さない |
 | ドメイン取得・DNS設定 | Phase4 | 実費(年額) |
 | お問い合わせフォームサービスの選定・契約(無料枠) | Phase4 | |
 | LINE公式アカウント(Messaging API)チャネル開設 | Phase6 | |

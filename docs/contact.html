@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>お問い合わせ | 学ジム</title>
+<meta name="description" content="学ジムへのお問い合わせはこちらのフォームから。体験レッスンのお申し込みもこちらから承っております。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container">
+    <a class="logo" href="index.html">学<span>ジム</span></a>
+    <button class="nav-toggle" aria-label="メニューを開く">☰</button>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="index.html">トップ</a></li>
+        <li><a href="pricing.html">料金&システム</a></li>
+        <li><a href="profile.html">講師経歴</a></li>
+        <li><a href="column.html">コラム</a></li>
+        <li><a href="contact.html" aria-current="page">お問い合わせ</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<section class="tagline">
+  <div class="container">
+    <h1>お問い合わせ</h1>
+    <p>体験レッスンのお申し込み・ご質問はこちらから。</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="form-note" style="margin-bottom: 32px;">
+      ⚠️ このフォームはまだ送信先が未設定です。公開前に
+      <code>01_HQ/setup guides/contact-form-setup.md.md</code> の手順に沿って
+      無料のフォーム送信サービス(例: Formspree)と画像認証(reCAPTCHA)を設定し、
+      下記フォームの <code>action</code> 属性とreCAPTCHAのサイトキーを差し替えてください。
+    </div>
+
+    <!--
+      TODO(公開前に設定): action="https://formspree.io/f/【あなたのフォームID】" に差し替える
+      Formspreeの無料プランは月50件まで無料。詳細は setup guide 参照。
+    -->
+    <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <div class="form-field">
+        <label for="name">お名前<span class="required">必須</span></label>
+        <input type="text" id="name" name="name" required>
+      </div>
+      <div class="form-field">
+        <label for="kana">ふりがな<span class="required">必須</span></label>
+        <input type="text" id="kana" name="kana" required>
+      </div>
+      <div class="form-field">
+        <label for="email">メールアドレス<span class="required">必須</span></label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-field">
+        <label for="company">御社名(法人のお客様のみ)</label>
+        <input type="text" id="company" name="company">
+      </div>
+      <div class="form-field">
+        <label for="tel">電話番号</label>
+        <input type="tel" id="tel" name="tel">
+      </div>
+      <div class="form-field">
+        <label for="message">お問い合わせ内容<span class="required">必須</span></label>
+        <textarea id="message" name="message" required></textarea>
+      </div>
+
+      <!--
+        TODO(公開前に設定): 画像認証(reCAPTCHA)。
+        Googleで取得したサイトキーに差し替えたうえで、下記コメントアウトを解除してください。
+        <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
+        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+      -->
+
+      <button type="submit" class="btn btn-primary">送信する</button>
+    </form>
+  </div>
+</section>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>学ジム</h4>
+        <p>勉強を、筋トレのように"続けられる仕組み"に変える、中高生向けオンライン個別指導。</p>
+        <div class="social-icons">
+          <a href="https://www.instagram.com/massu_gakugym?stkn=b24yNjhtNHBzcnVv&utm_source=qr" target="_blank" rel="noopener">IG</a>
+          <a href="https://www.tiktok.com/@user520632711?_r=1&_t=ZS-99dDyzWtMAe" target="_blank" rel="noopener">TT</a>
+          <a href="https://www.youtube.com/@まっすー受験英語で人生" target="_blank" rel="noopener">YT</a>
+          <a href="https://lin.ee/XrRBnJc" target="_blank" rel="noopener">LN</a>
+          <a href="https://x.com/Massuenglish5" target="_blank" rel="noopener">X</a>
+          <a href="https://www.threads.com/@massu_gakugym?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener">Th</a>
+          <a href="https://note.com/mild_squid5106" target="_blank" rel="noopener">nt</a>
+          <a href="https://profile.ameba.jp/me" target="_blank" rel="noopener">Am</a>
+        </div>
+      </div>
+      <div>
+        <h4>サイトマップ</h4>
+        <ul>
+          <li><a href="index.html">トップ</a></li>
+          <li><a href="pricing.html">料金&システム</a></li>
+          <li><a href="profile.html">講師経歴</a></li>
+          <li><a href="column.html">コラム</a></li>
+          <li><a href="contact.html">お問い合わせ</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>お問い合わせ</h4>
+        <ul>
+          <li><a href="contact.html">お問い合わせフォーム</a></li>
+          <li><a href="https://lin.ee/XrRBnJc" target="_blank" rel="noopener">公式LINE</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">&copy; 2026 学ジム. All rights reserved.</div>
+  </div>
+</footer>
+
+<script src="assets/script.js"></script>
+</body>
+</html>

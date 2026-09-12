@@ -34,3 +34,19 @@ readdy版サイトの構成・文言を踏襲し、独自ドメイン上に無�
 ## 制約
 - 追加ツール費用はかけない(ホスティング・フォームは無料枠を使う)
 - ドメイン代のみ実費(年額)
+
+## 自動化メモ(実装状況)
+- サイト本体: `docs/index.html` / `pricing.html` / `profile.html` / `column.html` / `contact.html`
+  (静的HTML/CSS。共通スタイルは `docs/assets/style.css`、共通スクリプトは `docs/assets/script.js`)
+- readdy版サイトを直接参照できなかったため(ネットワーク制限)、
+  このdepartment.mdのサイト構成の記述を仕様として構築した。
+  実際のreaddyデザインとの見た目の差分は、公開後に見比べて調整すること
+- 講師経歴・料金の細目・事業者情報など、本人にしか分からない情報は
+  ページ内に「✏️ 要記入」の黄色いボックスで明示している。公開前に必ず埋めること
+- 「お客様の声」は実際の声が集まるまで空のプレースホルダーのままにしてある
+  (架空の声を作成していない。brand-guide.md「6. AI生成コンテンツの扱い」に照らし、
+  実在しない推薦の声を掲載することは避けるべきと判断したため)
+- お問い合わせフォームの送信先・画像認証は `01_HQ/setup guides/contact-form-setup.md.md` 参照
+- 独自ドメイン接続は `01_HQ/setup guides/custom-domain-setup.md.md` 参照
+- コラムページはnote/Ameba記事の自動転載機能がまだ無いため「準備中」表示。
+  note_ameba/published → docs/column/ への変換ワークフローは今後の課題(roadmap.md参照)
