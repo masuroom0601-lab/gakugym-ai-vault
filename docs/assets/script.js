@@ -1,4 +1,4 @@
-// 学ジム 公式サイト 共通スクリプト(ナビ開閉+ヒーロースライドショー)
+// 学ジム 公式サイト 共通スクリプト(ナビ開閉+お問い合わせ文字数カウント)
 document.addEventListener("DOMContentLoaded", () => {
   const toggle = document.querySelector(".nav-toggle");
   const nav = document.querySelector(".main-nav");
@@ -6,16 +6,15 @@ document.addEventListener("DOMContentLoaded", () => {
     toggle.addEventListener("click", () => nav.classList.toggle("open"));
   }
 
-  const slides = document.querySelectorAll(".hero-slide");
-  const dots = document.querySelectorAll(".hero-dots button");
-  if (slides.length > 1) {
-    let current = 0;
-    const show = (i) => {
-      slides.forEach((s, idx) => s.classList.toggle("active", idx === i));
-      dots.forEach((d, idx) => d.classList.toggle("active", idx === i));
-      current = i;
+  const message = document.getElementById("message");
+  const charCount = document.getElementById("char-count");
+  if (message && charCount) {
+    const max = 500;
+    const update = () => {
+      const remaining = Math.max(0, max - message.value.length);
+      charCount.textContent = `残り${remaining}文字`;
     };
-    dots.forEach((d, idx) => d.addEventListener("click", () => show(idx)));
-    setInterval(() => show((current + 1) % slides.length), 5000);
+    message.addEventListener("input", update);
+    update();
   }
 });

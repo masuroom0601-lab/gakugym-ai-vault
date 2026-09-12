@@ -4,124 +4,154 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>お問い合わせ | 学ジム</title>
-<meta name="description" content="学ジムへのお問い合わせはこちらのフォームから。体験レッスンのお申し込みもこちらから承っております。">
+<meta name="description" content="学ジムへの無料学習相談・各種お問い合わせはこちらから。お気軽にご連絡ください。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Cormorant+Garamond:ital,wght@0,600;1,600&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/style.css">
 </head>
 <body>
 
 <header class="site-header">
   <div class="container">
-    <a class="logo" href="index.html">学<span>ジム</span></a>
-    <button class="nav-toggle" aria-label="メニューを開く">☰</button>
+    <a href="index.html" class="logo"><span class="word">Gaku</span><span class="kana">学ジム</span><span class="dot">.</span></a>
     <nav class="main-nav">
       <ul>
         <li><a href="index.html">トップ</a></li>
-        <li><a href="pricing.html">料金&システム</a></li>
-        <li><a href="profile.html">講師経歴</a></li>
+        <li><a href="pricing.html">料金・システム</a></li>
+        <li><a href="profile.html">講師紹介</a></li>
         <li><a href="column.html">コラム</a></li>
         <li><a href="contact.html" aria-current="page">お問い合わせ</a></li>
       </ul>
     </nav>
+    <div class="header-right">
+      <a href="https://www.instagram.com/" class="icon-link" aria-label="Instagram" target="_blank" rel="noopener">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+      </a>
+      <a href="contact.html" class="btn btn-forest">無料学習相談 ↗</a>
+      <button class="nav-toggle" aria-label="メニュー">☰</button>
+    </div>
   </div>
 </header>
 
-<section class="tagline">
+<section class="hero-photo img-desk">
   <div class="container">
+    <p class="eyebrow on-dark" style="justify-content:center;">CONTACT</p>
     <h1>お問い合わせ</h1>
-    <p>体験レッスンのお申し込み・ご質問はこちらから。</p>
+    <p class="lead">無料顔合わせ・各種ご相談はこちらから。お気軽にお問い合わせください。</p>
+    <p class="sub">お客様相談・ご依頼のための窓口です。</p>
   </div>
 </section>
 
 <section>
   <div class="container">
-    <div class="form-note" style="margin-bottom: 32px;">
-      ⚠️ このフォームはまだ送信先が未設定です。公開前に
-      <code>01_HQ/setup guides/contact-form-setup.md.md</code> の手順に沿って
-      無料のフォーム送信サービス(例: Formspree)と画像認証(reCAPTCHA)を設定し、
-      下記フォームの <code>action</code> 属性とreCAPTCHAのサイトキーを差し替えてください。
+    <div class="contact-layout">
+      <div class="contact-aside">
+        <p class="eyebrow">GET IN TOUCH</p>
+        <h2 style="font-size:1.7rem;color:var(--forest);margin-bottom:16px;">まずは、<br>お気軽にご連絡を。</h2>
+        <p>無料学習相談のご予約、レッスンに関するご質問、その他ご不明な点がございましたら、こちらのフォームよりお気軽にお問い合わせください。</p>
+
+        <div class="note-box">
+          <span class="icon">🛡️</span>
+          <div>
+            <strong>個人情報の取り扱いについて</strong>
+            <p>お問い合わせいただきました内容は、お客様の同意なく第三者に開示・提供することはございません。用途外によるご連絡はご遠慮ください。</p>
+          </div>
+        </div>
+
+        <ul class="contact-list">
+          <li><span class="icon-badge rose">📷</span> Instagram DMからもご相談いただけます</li>
+          <li><span class="icon-badge mint">💬</span> 公式LINEからもご相談可能です</li>
+          <li><span class="icon-badge sand">🕐</span> 営業時間 9:00〜21:00(返信は通常2営業日以内)</li>
+        </ul>
+      </div>
+
+      <div class="contact-form-card">
+        <form class="contact-form" action="#" method="post">
+          <div class="form-row">
+            <div class="form-field">
+              <label for="name">お名前<span class="required">*</span></label>
+              <input id="name" name="name" type="text" placeholder="例:山田 太郎" required>
+            </div>
+            <div class="form-field">
+              <label for="kana">ふりがな<span class="required">*</span></label>
+              <input id="kana" name="kana" type="text" placeholder="例:やまだ たろう" required>
+            </div>
+          </div>
+          <div class="form-field">
+            <label for="email">メールアドレス<span class="required">*</span></label>
+            <input id="email" name="email" type="email" placeholder="例:example@mail.com" required>
+          </div>
+          <div class="form-field">
+            <label for="school">学校名</label>
+            <input id="school" name="school" type="text" placeholder="◯◯高校/中学校/小学校">
+          </div>
+          <div class="form-field">
+            <label for="tel">電話番号<span class="required">*</span></label>
+            <input id="tel" name="tel" type="tel" placeholder="例:090-1234-5678" required>
+          </div>
+          <div class="form-field">
+            <label for="message">お問い合わせ内容<span class="required">*</span></label>
+            <textarea id="message" name="message" maxlength="500" placeholder="お問い合わせ内容を具体的にご記入ください(500文字以内)" required></textarea>
+            <div class="char-count" id="char-count">残り500文字</div>
+          </div>
+          <label class="consent">
+            <input type="checkbox" required>
+            確認画面は表示されません。上記内容にて送信しますがよろしいですか?<span class="required">*</span>
+          </label>
+          <button type="submit" class="btn btn-forest">送信する ✈</button>
+        </form>
+        <p class="fill-in" style="margin-top:20px;">送信先・画像認証の設定は <code>01_HQ/setup guides/contact-form-setup.md.md</code> を参照して公開前に接続してください(現時点ではダミーのフォームです)。</p>
+      </div>
     </div>
-
-    <!--
-      TODO(公開前に設定): action="https://formspree.io/f/【あなたのフォームID】" に差し替える
-      Formspreeの無料プランは月50件まで無料。詳細は setup guide 参照。
-    -->
-    <form class="contact-form" action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
-      <div class="form-field">
-        <label for="name">お名前<span class="required">必須</span></label>
-        <input type="text" id="name" name="name" required>
-      </div>
-      <div class="form-field">
-        <label for="kana">ふりがな<span class="required">必須</span></label>
-        <input type="text" id="kana" name="kana" required>
-      </div>
-      <div class="form-field">
-        <label for="email">メールアドレス<span class="required">必須</span></label>
-        <input type="email" id="email" name="email" required>
-      </div>
-      <div class="form-field">
-        <label for="company">御社名(法人のお客様のみ)</label>
-        <input type="text" id="company" name="company">
-      </div>
-      <div class="form-field">
-        <label for="tel">電話番号</label>
-        <input type="tel" id="tel" name="tel">
-      </div>
-      <div class="form-field">
-        <label for="message">お問い合わせ内容<span class="required">必須</span></label>
-        <textarea id="message" name="message" required></textarea>
-      </div>
-
-      <!--
-        TODO(公開前に設定): 画像認証(reCAPTCHA)。
-        Googleで取得したサイトキーに差し替えたうえで、下記コメントアウトを解除してください。
-        <div class="g-recaptcha" data-sitekey="YOUR_RECAPTCHA_SITE_KEY"></div>
-        <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-      -->
-
-      <button type="submit" class="btn btn-primary">送信する</button>
-    </form>
   </div>
 </section>
 
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
-      <div>
-        <h4>学ジム</h4>
-        <p>勉強を、筋トレのように"続けられる仕組み"に変える、中高生向けオンライン個別指導。</p>
+      <div class="footer-brand">
+        <a href="index.html" class="logo"><span class="word">Gaku</span><span class="kana">学ジム</span><span class="dot">.</span></a>
+        <h3>毎日ふらっと通える、<br>あなただけの学習ジム。</h3>
+        <p>好きなタイミングで来て、モチベーションと科目知識を鍛えて、自分の机へ帰ってもらう。オンライン個別指導塾 学ジムは、そんな学びの場所です。</p>
+        <ul>
+          <li>📍 オンライン全国対応</li>
+          <li>🕐 営業時間 9:00〜21:00</li>
+          <li>👤 代表 益田大輝</li>
+        </ul>
         <div class="social-icons">
-          <a href="https://www.instagram.com/massu_gakugym?stkn=b24yNjhtNHBzcnVv&utm_source=qr" target="_blank" rel="noopener">IG</a>
-          <a href="https://www.tiktok.com/@user520632711?_r=1&_t=ZS-99dDyzWtMAe" target="_blank" rel="noopener">TT</a>
-          <a href="https://www.youtube.com/@まっすー受験英語で人生" target="_blank" rel="noopener">YT</a>
-          <a href="https://lin.ee/XrRBnJc" target="_blank" rel="noopener">LN</a>
-          <a href="https://x.com/Massuenglish5" target="_blank" rel="noopener">X</a>
-          <a href="https://www.threads.com/@massu_gakugym?igshid=NTc4MTIwNjQ2YQ==" target="_blank" rel="noopener">Th</a>
-          <a href="https://note.com/mild_squid5106" target="_blank" rel="noopener">nt</a>
-          <a href="https://profile.ameba.jp/me" target="_blank" rel="noopener">Am</a>
+          <a href="https://www.instagram.com/" aria-label="Instagram" target="_blank" rel="noopener">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.2" cy="6.8" r="1"/></svg>
+          </a>
+          <a href="https://www.tiktok.com/" aria-label="TikTok" target="_blank" rel="noopener">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M16.5 2c.4 2.4 1.9 4 4.5 4.2v3.1c-1.6.1-3-.4-4.5-1.3v6.6c0 3.6-2.9 6.4-6.4 6.4S3.7 18.2 3.7 14.6c0-3.5 2.7-6.3 6.1-6.4v3.2c-1.6.1-2.9 1.4-2.9 3.1 0 1.7 1.4 3.1 3.1 3.1s3.1-1.4 3.1-3.1V2h3.4z"/></svg>
+          </a>
         </div>
       </div>
       <div>
-        <h4>サイトマップ</h4>
+        <h4>サイトメニュー</h4>
         <ul>
           <li><a href="index.html">トップ</a></li>
-          <li><a href="pricing.html">料金&システム</a></li>
-          <li><a href="profile.html">講師経歴</a></li>
+          <li><a href="pricing.html">料金・システム</a></li>
+          <li><a href="profile.html">講師紹介・経歴</a></li>
           <li><a href="column.html">コラム</a></li>
           <li><a href="contact.html">お問い合わせ</a></li>
         </ul>
       </div>
       <div>
-        <h4>お問い合わせ</h4>
+        <h4>サービス</h4>
         <ul>
-          <li><a href="contact.html">お問い合わせフォーム</a></li>
-          <li><a href="https://lin.ee/XrRBnJc" target="_blank" rel="noopener">公式LINE</a></li>
+          <li><a href="pricing.html">レッスン内容</a></li>
+          <li><a href="pricing.html">料金</a></li>
+          <li><a href="pricing.html">受講の流れ</a></li>
+          <li><a href="pricing.html">よくある質問</a></li>
         </ul>
       </div>
     </div>
-    <div class="footer-bottom">&copy; 2026 学ジム. All rights reserved.</div>
+    <div class="footer-bottom">
+      <span>© 2025 オンライン個別指導塾 学ジム. All rights reserved.</span>
+      <span>Get to where you want to be.</span>
+    </div>
   </div>
 </footer>
 

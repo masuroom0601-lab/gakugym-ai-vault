@@ -92,8 +92,9 @@ Instagram/TikTok部署のreviewフォルダと連動
   - **フィード**: 同様の仕組みで、当日の台本の性質(体験談/暗記リスト)に応じて
     【通常版】(`DAHU-f_gDOU`)または【図解で覚えるシリーズ】(`DAHCqMT3jhw`)の
     マスターデザインを複製・編集し、`02_departments/creative/drafts/`にコミットする。
-    Routineプロンプトのセットアップ手順は別途
-    `01_HQ/setup guides/canva-routine-setup.md.md`にフィード用の節を追記して整備する
+    毎日06:20 JST。セットアップ手順・Routineプロンプトは
+    `01_HQ/setup guides/canva-feed-routine-setup.md.md`参照(2026-09-13作成、
+    益田さんがclaude.ai Routines画面から作成する必要あり。リール用Routineとは別)
 - 生成結果は `02_departments/creative/drafts/generated/<task_id または date>/` に保存され、
   Canva編集URLは同フォルダの `<date>-canva.md` に記録する運用とする
 - (旧)Playwright方式を使っていた頃の `-render-report.json` ベースの記録方式は

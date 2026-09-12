@@ -207,12 +207,12 @@ Canvaデザインを複製・編集する」方式に切り替えた。続けて
       そのまま使えることを確認。テスト複製(数学 公式10選: `DAHU-yV9l9Y`)で
       動作検証済み。中面(2ページ目以降)はシリーズ内で統一しなくてよい方針
       (益田さん指示)
-- [ ] 上記2テンプレを使ったclaude.ai Routineのセットアップ手順を
-      `01_HQ/setup guides/canva-routine-setup.md.md`に追記し、益田さんに
-      Routine作成を依頼する(リールのRoutineと同様の手順)
-- [ ] 過去参考にした`DAHCqMT3jhw`の右上に小さいロゴバッジ(「受験革命」の文字入り)
-      が入っていた。益田さん本人・学ジムのブランドと異なる可能性があるため、
-      マスターテンプレート側で学ジムのロゴに差し替えるか益田さんに確認が必要
+- [x] 上記2テンプレを使ったclaude.ai Routineのセットアップ手順を
+      `01_HQ/setup guides/canva-feed-routine-setup.md.md`として作成(2026-09-13)。
+      毎日06:20 JST(リールの06:15の直後)。**益田さんがclaude.ai Routines画面から
+      「Canva日次フィード生成」という名前で作成する必要あり**(手順書参照)
+- [x] `DAHCqMT3jhw`右上のロゴバッジ(「受験革命」)については、益田さんに確認済み。
+      そのまま使用してよいとの回答
 
 ### Phase 3: 横展開の拡大(TikTok単独投稿・YouTube Shorts)
 目的: Instagramリールで作った動画をTikTok・YouTube Shortsにも展開する。
@@ -249,18 +249,31 @@ Canvaデザインを複製・編集する」方式に切り替えた。続けて
 - どちらも、creative-pipelineが将来生成する動画ファイルのパスをGitHub Actions内で
   参照できるようにする必要がある(現状のcreative-pipelineは画像のみ生成)
 
-### Phase 4: 自社ドメインHP構築(一旦保留 — サイト本体は実装済み、再開時は益田さん対応から)
-目的: readdy版サイトを踏襲しつつ、自社ドメイン+無料ホスティングで再構築する。
+### Phase 4: 自社ドメインHP構築(2026-09-13再開 — readdy版のデザインに合わせて全面刷新)
+目的: readdy版サイトのデザインをほぼそのまま踏襲し、自社ドメイン+無料ホスティングで再構築する。
 
-**重要な制約**: readdy.ccのプレビューURLは、このClaude Codeセッションのネットワーク
-ポリシーで直接アクセスできなかった(egress proxyでpolicy denial)。そのため、
-hp/department.mdに書かれていたサイト構成の「仕様」を元に構築しており、
-readdyの実際の配色・写真・細かいレイアウトとは異なる可能性がある。
-公開後にreaddy版と見比べて、必要な部分を調整すること。
+**経緯**: readdy.ccのプレビューURLはこのセッションのネットワークポリシーで直接
+アクセスできない(egress proxyでpolicy denial)ため、当初はhp/department.mdの文言
+仕様のみで構築し、配色は無関係な紺×オレンジになっていた。2026-09-13、益田さんから
+readdy版サイトの実際のスクリーンショット(トップ/料金・システム/講師紹介/コラム/
+お問い合わせの5ページ)を共有してもらい、それを見て配色・タイポグラフィ・
+レイアウトを全面的に作り直した。
 
+- [x] デザインをクリーム×深緑×テラコッタの上品なトーンに全面刷新
+      (`docs/assets/style.css`。フォントはShippori Mincho(見出し)+
+      Cormorant Garamond(ロゴ)+Noto Sans JP(本文))
+- [x] 5ページ(`docs/index.html`/`pricing.html`/`profile.html`/`column.html`/
+      `contact.html`)をスクリーンショットのセクション構成に合わせて再構築
+      (ヒーロー写真+eyebrowラベル、料金3カード、アコーディオン式レッスン一覧、
+      お客様の声、講師のストーリー年表、事業者情報、お問い合わせフォーム等)
+- [ ] 写真素材は未着手(現在はグラデーションのプレースホルダー)。
+      著作権フリーの類似写真(warm tone・デスク/勉強机の雰囲気)を選定して差し替える
+- [ ] お客様の声は実在の声が集まるまで `fill-in` プレースホルダーのまま
+      (brand-guide.md「AI生成コンテンツの扱い」に基づき、架空の声は作成していない)
+- [ ] 講師プロフィールの出身校・保有資格・事業者情報(所在地・連絡先)は
+      `✏️要記入`のまま。公開前に益田さん本人が入力すること
 - [x] hp/department.mdのサイト構成(トップ/料金/講師経歴/コラム/お問い合わせ)を
-      静的HTML/CSSで実装(`docs/index.html` 他4ページ、レスポンシブ対応・
-      Playwrightで実際にスクリーンショットして見た目を確認済み)
+      静的HTML/CSSで実装(`docs/index.html` 他4ページ、レスポンシブ対応)
 - [x] `01_HQ/setup guides/custom-domain-setup.md.md`: 独自ドメイン接続手順
       (GitHub PagesのCNAME設定・DNS設定。ホスティングは無料、ドメイン代のみ実費)
 - [x] `01_HQ/setup guides/contact-form-setup.md.md`: Formspree(無料枠)+
