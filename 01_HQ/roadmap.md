@@ -415,10 +415,24 @@ LINE特典・Amazon自費出版用に制作する。
 
 ## 6. 次にやること(直近アクション)
 
-1. `docs/dashboard/`をGitHub Pagesで公開する(リポジトリのSettings → Pages →
-   Branch: main, Folder: /docs を選択。無料・追加コストなし)
-2. `hq-director-daily-report.yml`と`planning-monthly-calendar.yml`を一度
-   `workflow_dispatch`で手動実行し、正しく動作するか確認する
-3. Omnirouteのアカウント情報を用意し、`01_HQ/setup guides/omniroute-setup.md.md`の
+### 重要な運用上の教訓(2026-09-12): ブランチの取り扱い
+GitHub Actionsの`schedule`は**デフォルトブランチ(main)にあるワークフローファイルしか
+自動実行しない**。このセッションはずっと`claude/brave-ride-yq7uep`という開発ブランチで
+作業していたため、Phase2以降に作った自動化(HQ本部の日次集計・ドット絵ダッシュボード・
+creative部署のCanva化・LINE配信・分析部署など)が**2026-09-12まで一度も本番実行
+されていなかった**(実行されていたのは元々mainにあったInstagram/TikTok・X/Threads・
+note/Ameba・LINE下書きの4本のみ)。益田さんの承認を得て、この日に開発ブランチを
+mainへfast-forward統合し、全14ワークフローがGitHub Actions上で有効化されたことを確認済み。
+**以後、両ブランチはコミットのたびにfast-forwardで同期させること**(mainが常に
+本番の実体であるため、mainに反映されていない変更は「存在しないもの」として扱われる)。
+
+1. [x] `hq-director-daily-report.yml`と`hq-secretary-daily-tasks.yml`を
+   `workflow_dispatch`で手動実行し、正常動作を確認済み(2026-09-12)。
+   `dashboard-state.json`に初めて実データが反映された
+2. [ ] `docs/dashboard/`が実際にGitHub Pagesで公開されているか確認する
+   (このセッションのネットワーク制限で直接確認できなかった。未公開の場合は
+   リポジトリのSettings → Pages → Branch: main, Folder: /docs を選択。無料・追加コストなし)
+3. [ ] `planning-monthly-calendar.yml`も一度`workflow_dispatch`で手動実行し、
+   正しく動作するか確認する
+4. Omnirouteのアカウント情報を用意し、`01_HQ/setup guides/omniroute-setup.md.md`の
    未確定事項を埋めて実接続する
-4. Phase1残タスク(秘書担当・校正担当の自動化ワークフロー)の実装を次のセッションで進める
