@@ -428,6 +428,29 @@ LINE特典・Amazon自費出版用に制作する。
 
 ## 6. 次にやること(直近アクション)
 
+### 重要な運用上の教訓(2026-09-13): cronの日付が1日ずれるバグ
+GitHub Actionsのcronは**UTC基準**で動く。`- cron: '0 21 * * *'`(毎日06:00 JSTの
+つもり)は実際には「UTC 21:00」に発火するが、これはJSTでは**翌日の06:00**にあたる。
+一方、各ワークフローが`git commit -m "... $(date +%F)"`のように`date +%F`で
+「今日の日付」を求める処理は、ランナーのタイムゾーン(UTC)でその日の日付を返すため、
+**JST視点での「今日」より必ず1日古い日付になる**。
+
+実際に2026-09-12〜13、instagram-tiktok-daily-draftの生成物が
+`instagram/tiktok daily draft 2026-09-11`(本当は9/12分)、
+`instagram/tiktok daily draft 2026-09-12`(本当は9/13分)のように
+1日ズレたコミット名で保存され続けていたことが判明。これが原因で、
+Canva日次クリエイティブ生成Routine(claude.ai側、正しくJSTの「今日」を
+認識する)が`task-<今日の日付>-ig-*.md`を探しても見つからず、
+毎回スキップされていた。
+
+**対応**: `.github/workflows/`配下の日付を扱う全ワークフロー(instagram-tiktok/
+x-threads/note-ameba/line-select/line-broadcast/hq-secretary/hq-director/
+proofreading/planning/analytics×2/improvement/creative-pipeline、計13本)に
+`env: { TZ: Asia/Tokyo }`をワークフロー直下に追加(2026-09-13)。これにより
+ワークフロー内の`date`コマンド(Claude自身がBashツールで実行するものも含む)が
+すべてJSTを返すようになり、日付のズレが解消される見込み。
+**次回の各Routine/cron実行時に、生成ファイルの日付が正しくなっているか要確認**。
+
 ### 重要な運用上の教訓(2026-09-12): ブランチの取り扱い
 GitHub Actionsの`schedule`は**デフォルトブランチ(main)にあるワークフローファイルしか
 自動実行しない**。このセッションはずっと`claude/brave-ride-yq7uep`という開発ブランチで

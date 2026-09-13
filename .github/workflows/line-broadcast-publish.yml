@@ -9,6 +9,9 @@ on:
     - cron: '15 21 * * *'   # 毎日06:15 JST相当のフォールバック(pushトリガーの取りこぼし対策)
   workflow_dispatch: {}
 
+env:
+  TZ: Asia/Tokyo   # 日本時間で日付を扱うため(UTCのままだとJST朝のcronで日付が1日ずれる不具合があった)
+
 permissions:
   contents: write
 

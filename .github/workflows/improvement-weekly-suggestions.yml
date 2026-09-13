@@ -5,6 +5,9 @@ on:
     - cron: '45 20 * * 0'   # 毎週日曜 05:45 JST相当(analytics-weekly-reportの後)
   workflow_dispatch: {}
 
+env:
+  TZ: Asia/Tokyo   # 日本時間で日付を扱うため(UTCのままだとJST朝のcronで日付が1日ずれる不具合があった)
+
 permissions:
   contents: write
   id-token: write

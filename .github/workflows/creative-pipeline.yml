@@ -9,6 +9,9 @@ on:
   # schedule: 無効化済み(旧: '5 21 * * *' = 毎日06:05 JST)
   workflow_dispatch: {}
 
+env:
+  TZ: Asia/Tokyo   # 日本時間で日付を扱うため(UTCのままだとJST朝のcronで日付が1日ずれる不具合があった)
+
 permissions:
   contents: write
   id-token: write

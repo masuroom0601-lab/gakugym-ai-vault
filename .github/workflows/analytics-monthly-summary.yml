@@ -5,6 +5,9 @@ on:
     - cron: '15 21 1 * *'   # 毎月1日 06:15 JST相当
   workflow_dispatch: {}
 
+env:
+  TZ: Asia/Tokyo   # 日本時間で日付を扱うため(UTCのままだとJST朝のcronで日付が1日ずれる不具合があった)
+
 permissions:
   contents: write
   id-token: write
