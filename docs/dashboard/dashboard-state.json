@@ -1,10 +1,10 @@
 {
-  "updated_at": "2026-09-14T23:58:50Z",
+  "updated_at": "2026-09-15T23:38:10Z",
   "departments": {
     "hq_director": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
     "hq_secretary": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
-    "instagram_tiktok": {"todo": 1, "review": 2, "published_today": 0, "mood": "review"},
-    "x_threads": {"todo": 0, "review": 4, "published_today": 0, "mood": "review"},
+    "instagram_tiktok": {"todo": 1, "review": 3, "published_today": 0, "mood": "review"},
+    "x_threads": {"todo": 0, "review": 5, "published_today": 0, "mood": "review"},
     "note_ameba": {"todo": 0, "review": 2, "published_today": 0, "mood": "review"},
     "line": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
     "hp": {"todo": 0, "review": 0, "published_today": 0, "mood": "sleepy"},
