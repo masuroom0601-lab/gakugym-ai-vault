@@ -105,7 +105,10 @@ Instagram/TikTok部署のreviewフォルダと連動
     毎日06:20 JST。セットアップ手順・Routineプロンプトは
     `01_HQ/setup guides/canva-feed-routine-setup.md.md`参照(2026-09-13作成、
     益田さんがclaude.ai Routines画面から作成する必要あり。リール用Routineとは別)
-- 生成結果は `02_departments/creative/drafts/generated/<task_id または date>/` に保存され、
-  Canva編集URLは同フォルダの `<date>-canva.md` に記録する運用とする
+- **2026-09-16変更**: 生成したPNG/MP4ファイルをリポジトリにダウンロード・保存する
+  運用は廃止した(実行環境の送信(egress)ポリシー上、Canvaのエクスポート用
+  ダウンロードURLにアクセスできないことが判明したため)。ファイルはダウンロード
+  せず、Canva編集URLを `02_departments/creative/drafts/<date>-canva.md`
+  (または `<date>-feed-canva.md`)に記録し、そのURLから直接確認・投稿する運用とする
 - (旧)Playwright方式を使っていた頃の `-render-report.json` ベースの記録方式は
   廃止(上記「廃止した方式」参照)

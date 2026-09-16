@@ -87,14 +87,13 @@ Instagram/TikTok担当AIが台本(下書き)を自動生成しています。あ
    複製してベースにする。無ければ最初のページ構成を流用し、テキストを差し替える。
    タイトル・煽り文句・数字を今日の内容に更新する。同様に finalize: "commit" で確定する。
 
-5. 本編を export-design でMP4(format: {"type": "mp4", "quality": "horizontal_1080p"}。
-   先に get-export-formats でmp4対応を確認すること)、サムネイルをPNGでエクスポートする。
+5. **(2026-09-16変更: エクスポート・ダウンロードの手順は廃止)** 以前はここで
+   export-design → curlでダウンロード → リポジトリに保存、という手順だったが、
+   実行環境の送信(egress)ポリシー上、Canvaのエクスポート用ダウンロードURLに
+   アクセスできないことが判明した(`connect_rejected`)。ファイルのダウンロードは
+   行わず、次のステップでCanvaの編集URLのみを記録すること。
 
-6. エクスポートされたダウンロードURLから、Bashのcurlでファイルを取得し、
-   `02_departments/creative/drafts/generated/<today>/` に保存する
-   (例: <today>-thumbnail.png, <today>-body.mp4)。
-
-7. `02_departments/creative/drafts/<today>-canva.md` というファイルを作成し、
+6. `02_departments/creative/drafts/<today>-canva.md` というファイルを作成し、
    以下を記録する:
    ---
    date: <today>
@@ -105,11 +104,9 @@ Instagram/TikTok担当AIが台本(下書き)を自動生成しています。あ
    - サムネイル: <copy-designで作った新デザインのedit_url>
    - 本編: <copy-designで作った新デザインのedit_url>
 
-   ## 生成ファイル
-   - 02_departments/creative/drafts/generated/<today>/<today>-thumbnail.png
-   - 02_departments/creative/drafts/generated/<today>/<today>-body.mp4
+   (ファイルはダウンロードせず、上記のCanva編集URLから直接確認・投稿する運用とする)
 
-8. 最後に以下でコミット・プッシュする:
+7. 最後に以下でコミット・プッシュする:
    git config user.name "gakugym-ai-bot"
    git config user.email "bot@example.com"
    git add 02_departments/creative/drafts/

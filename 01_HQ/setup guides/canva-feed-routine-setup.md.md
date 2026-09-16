@@ -135,12 +135,18 @@ Canva関連のツール(read-design, copy-design, edit-design, export-design等)
    `finalize: "commit"` で確定する。
 
 ## 共通の後処理
-7. 完成した各デザインを `export-design` でPNG書き出しする(先に`get-export-formats`で
-   対応形式を確認)。全ページまとめて `as_single_image: false` で個別PNGとして書き出す。
 
-8. エクスポートされたダウンロードURLから、Bashのcurlでファイルを取得し、
-   `02_departments/creative/drafts/generated/<today>/` に保存する
-   (例: `<today>-feed-01.png`, `<today>-feed-02.png` ...)。
+7. **(2026-09-16変更: エクスポート・ダウンロードの手順は廃止)** 以前はここで
+   export-design → curlでダウンロード → リポジトリに保存、という手順だったが、
+   実行環境の送信(egress)ポリシー上、Canvaのエクスポート用ダウンロードURLに
+   アクセスできないことが判明した(`connect_rejected`)。ファイルのダウンロードは
+   行わず、次のステップでCanvaの編集URLのみを記録すること。
+
+8. コミット前に、必ず全ページの見た目を`read-design`のサムネイルで確認すること。
+   **特に表紙(1ページ目)は、テキストがデータ上正しく入っていても実際には
+   空白で表示される不具合が2026-09-16に実際に発生した**(原因不明。該当の
+   テキスト要素を`delete_element`で一度削除し、`add_text`で作り直したら
+   解決した)。表紙が空白に見える場合は、この手順で作り直すこと。
 
 9. `02_departments/creative/drafts/<today>-feed-canva.md` というファイルを作成し、
    以下を記録する:
@@ -153,8 +159,7 @@ Canva関連のツール(read-design, copy-design, edit-design, export-design等)
    ## Canvaデザイン
    - <copy-designで作った新デザインのedit_url>
 
-   ## 生成ファイル
-   - 02_departments/creative/drafts/generated/<today>/<today>-feed-01.png ...
+   (ファイルはダウンロードせず、上記のCanva編集URLから直接確認・投稿する運用とする)
 
 10. 最後に以下でコミット・プッシュする:
     git config user.name "gakugym-ai-bot"
