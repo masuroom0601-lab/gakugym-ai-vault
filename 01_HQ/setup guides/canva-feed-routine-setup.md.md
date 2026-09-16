@@ -73,14 +73,24 @@ Canva関連のツール(read-design, copy-design, edit-design, export-design等)
    台本のスライド数に合わせて過不足なく作ること。
 
 5. 複製したデザインを `read-design(open_transaction: true)` で開き、以下のレイアウト
-   ルールを**必ず守って**テキストを差し替える(2026-09-12にDAHU-f_gDOU本体で検証済みの値):
-   - 背景画像: 全ページ共通で mediaId `MAHU-TNADlQ`(既に表紙に入っている。中面を
-     追加する場合は `insert_shape`ではなく`insert_fill`でこのmediaIdを
-     `top:0, left:0, width:1080, height:1350` で挿入する)
-   - 角の装飾(小さいsparkle/leaf画像、任意2点): `MAHU-Z_WPzY`, `MAHU-Z0BijE`,
-     `MAHU-a5mEfQ`, `MAHU-ZYSzWY`, `MAHU-Qi_RSs`, `MAHU-RXm5Ag`, `MAHU-V0Ctzc`,
-     `MAHU-cLg2E8`, `MAHU-WCCcPM` からページごとに2つ選び、top-right(top:40,left:880,
-     width:63,height:69)とbottom-left(top:1190,left:50,width:42,height:69)に配置
+   ルールを**必ず守って**テキストを差し替える(2026-09-12にDAHU-f_gDOU本体で検証済みの値。
+   **2026-09-15更新**: マスターテンプレート自体からAI生成の背景・ドードル画像を削除し、
+   手描きベクター図形に置き換えたため、以下も合わせて更新した。台本のページ数が6枚と
+   一致していれば、複製した6ページはそのまま手描きベクター版になっているのでこの節の
+   背景・角装飾の指定は無視してよい。台本のページ数が6枚と異なり`add_page`で
+   ページを追加する場合のみ、以下の指定に従うこと):
+   - 背景色: 全ページ共通でページ自体の背景色を`#f3e7ce`にする(`add_page`の
+     `background_color`パラメータで指定。**AI生成画像は一切使わないこと**。
+     `insert_fill`でmediaIdを挿入する旧方式は廃止)
+   - 角の装飾: `insert_shape`で以下の2種類の図形を手描きする(色は共通で`#a8763f`、
+     塗りつぶし・線ともにこの色)
+     - 輪っか(ストロークのみ、塗りなし): `path: "M0 55 A55 55 0 0 1 110 55 A55 55 0 0 1 0 55 Z"`,
+       `view_box_width/height: 110`, `stroke_color: "#a8763f"`, `stroke_weight: 6`
+     - キラキラ(塗りつぶし): `path: "M22.5 0 L28 17 L45 22.5 L28 28 L22.5 45 L17 28 L0 22.5 L17 17 Z"`,
+       `view_box_width/height: 45`, `color: "#a8763f"`
+     配置は top-right に輪っか(top:50, left:860, width/height:110)+キラキラ(top:25,
+     left:955, width/height:45)、bottom-left に輪っか(top:1155, left:45,
+     width/height:110)+キラキラ(top:1245, left:140, width/height:45)
    - **表紙**: 見出し上の小さいアイキャッチ文(top:515, width:880, left:100,
      font_size:34, color:#7d390c, text_align:center) → その下にタイトル
      (top:650, width:880, left:100, font_size:78, bold, color:#4a2c12,
