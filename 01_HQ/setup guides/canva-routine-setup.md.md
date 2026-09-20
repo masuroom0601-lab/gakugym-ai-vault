@@ -153,12 +153,30 @@ Instagram/TikTok担当AIが台本(下書き)を自動生成しています。あ
 
    (ファイルはダウンロードせず、上記のCanva編集URLから直接確認・投稿する運用とする)
 
-7. 最後に以下でコミット・プッシュする:
+7. 以下でコミット・プッシュする:
    git config user.name "gakugym-ai-bot"
    git config user.email "bot@example.com"
    git add 02_departments/creative/drafts/
    git commit -m "canva creative generation <today>"
    git push
+
+## 作業完了後: mainへの反映(2026-09-20追加、重要)
+セッション開始時のブランチがmainではなく、Routine実行環境が自動生成した
+一時的な作業ブランチになっていることがある(2026-09-18・19のフィード生成分が
+実際にmainへ届かず、`claude/quirky-mendel-*`のような一時ブランチにしか
+存在していなかった不具合が発生した)。上記の手順7でコミット・プッシュが
+終わったら、続けて以下の手順でmainブランチへの反映まで必ず行うこと。
+
+1. 現在の作業ブランチ名を控える: `CURRENT_BRANCH=$(git branch --show-current)`
+2. `git fetch origin main`
+3. `git checkout -B main origin/main`
+4. `git merge --no-ff "$CURRENT_BRANCH" -m "Merge $CURRENT_BRANCH into main (canva creative generation <today>)"`
+5. コンフリクトが発生しなければ `git push origin main` でmainにプッシュする。
+6. コンフリクトが発生した場合は、無理に解決せず `git merge --abort` で中断し、
+   mainへのマージは行わない。その旨と原因を
+   `02_departments/creative/drafts/<today>-canva.md` に追記し、作業ブランチへの
+   プッシュ済みの状態のまま終了する(mainへの反映は後日人間が対応する)。
+7. mainへのforce push、historyの書き換え、他ブランチの内容の削除は絶対に行わないこと。
 
 ## 制約
 - Canvaデザインの背景写真・動画・フォント・全体レイアウトは変更しないこと
