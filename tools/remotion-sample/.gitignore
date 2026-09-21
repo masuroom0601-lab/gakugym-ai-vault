@@ -6,3 +6,8 @@ build
 
 # Ignore the output video from Git but not videos you import into src/.
 out
+
+# Raw source footage and its processed intermediates, dropped in for
+# one-off edits — not project source.
+public/source-clips
+public/processed-clips

@@ -10,3 +10,11 @@ Config.setRspack(true);
 Config.setVideoImageFormat("jpeg");
 Config.setOverwriteOutput(true);
 Config.overrideBundlerConfig(enableTailwind);
+
+// Reuse the Chromium already installed for Playwright in this environment
+// instead of letting Remotion try to download its own headless shell.
+if (process.env.PLAYWRIGHT_BROWSERS_PATH) {
+  Config.setBrowserExecutable(
+    `${process.env.PLAYWRIGHT_BROWSERS_PATH}/chromium_headless_shell-1194/chrome-linux/headless_shell`,
+  );
+}
