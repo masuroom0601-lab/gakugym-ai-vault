@@ -127,6 +127,12 @@ Instagram/TikTok部署のreviewフォルダと連動
   (または `<date>-feed-canva.md`)に記録し、そのURLから直接確認・投稿する運用とする
 - (旧)Playwright方式を使っていた頃の `-render-report.json` ベースの記録方式は
   廃止(上記「廃止した方式」参照)
+- **2026-09-22追加: X/Threads「今日の1問」(英検クイズ画像)**。X/Threadsの投稿方針を
+  テキスト型3種から画像クイズ形式へ全面切り替えたことに伴い、マスターテンプレート
+  `DAHV4YSYYb8`(1080×1080、白背景+青バッジ「英検」+赤字レベル表示+黒太字の
+  問題文・選択肢)を新規作成した。生成はリール・フィードと同様、専用のCanva
+  Routine(`01_HQ/setup guides/canva-eiken-quiz-routine-setup.md.md`、毎日06:25 JST)
+  で行う。詳細は`02_departments/x_threads/department.md`参照
 - **2026-09-21追加: 作業役+チェック役の2エージェント構成**。各Routineは、
   作業役エージェント(デザイン編集)がコミット前に、Agentツールで独立した
   チェック役エージェントに内容を検証させる(項目数の不一致・表紙空白バグ・

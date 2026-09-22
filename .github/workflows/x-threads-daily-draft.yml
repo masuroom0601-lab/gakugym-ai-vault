@@ -18,32 +18,73 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Generate X/Threads draft
+      - name: Generate X/Threads quiz draft
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           claude_args: |
-            --allowedTools "Write,Bash(git *)"
+            --allowedTools "Read,Write,Bash(git *)"
           prompt: |
             あなたは「学ジム」のX/Threads担当AIです。
             以下のファイルを読み、そこに書かれたルールに厳密に従ってください:
             - 02_departments/x_threads/department.md
             - 03_assets/brand-guide.md
-            - 02_departments/x_threads/published/ 内の直近の投稿(型が偏らないよう確認)
+            - 02_departments/x_threads/drafts/ 内の直近のdraft(級が偏らないよう確認)
 
-            断定調ノウハウ型/あるあるネタ型/共感・エモ系メッセージ型の
-            3つの型のうち、直近で使われていないものを選び、
-            X用の本文(ハッシュタグ5〜8個込み)と、
-            Threads用の本文(ハッシュタグ1個に絞ったバージョン)を
-            department.md のフォーマットに厳密に従って作成してください。
+            department.mdの「今日の1問」節に従い、英検クイズ問題を1問作成してください。
+            特に以下を必ず守ること:
+            1. 対象級は「準2級・準2級プラス・2級・準1級」の4段階のみ。それ以外の級は
+               扱わない。直近のdraftを確認し、同じ級が連続しないようにランダムに選ぶこと。
+            2. 文法・語彙いずれかで、選んだ級相当の英文問題(空欄補充形式を推奨)を作成し、
+               4択の選択肢(正解1つ+紛らわしい誤答3つ)を用意すること。
+            3. **正解が誰が見ても一意に定まる、事実として正しい問題にすること**。
+               選択肢・正解を決めた後、必ず自分で検算し、誤りがないか確認してから
+               確定すること(英語として誤った知識を発信しないため、最重要事項)。
+            4. コメント欄に投稿する解答文(正解の告知+簡単な解説+次回への軽い誘導)も
+               あわせて作成すること。
 
             作成したファイルは
-            02_departments/x_threads/drafts/task-<今日の日付YYYY-MM-DD>-x-001.md
-            という名前で保存してください(frontmatter込み)。
+            02_departments/x_threads/drafts/task-<今日の日付YYYY-MM-DD>-quiz-001.md
+            という名前で、以下のフォーマットで保存してください:
+
+            ---
+            department: x_threads
+            role: X/Threads担当
+            date: <今日の日付>
+            status: review
+            type: 今日の1問(英検)
+            level: <準2級|準2級プラス|2級|準1級>
+            approved_by:
+            ---
+
+            ## 問題
+            (英文。空欄は ______ で示す)
+
+            ## 選択肢
+            ① 〜
+            ② 〜
+            ③ 〜
+            ④ 〜
+
+            ## 正解
+            (①〜④のどれか)(単語・意味)
+
+            ## 検算メモ
+            (なぜこれが正解で、他の3つが誤りなのかを簡潔に説明。この問題の妥当性を
+            自分で確認した根拠を書くこと)
+
+            ## コメント欄に投稿する解答文
+            ```
+            (X/Threads共通で使う、正解発表+簡単な解説+次回への軽い誘導の文章)
+            ```
+
+            ## Canvaデザイン
+            (Canva Routineが画像化した後、ここに編集URLを記録する。このワークフロー
+            では空欄のままでよい)
 
             最後に、以下のコマンドで変更をコミット・プッシュしてください:
             git config user.name "gakugym-ai-bot"
             git config user.email "bot@example.com"
             git add 02_departments/x_threads/drafts/
-            git commit -m "x/threads daily draft $(date +%F)"
+            git commit -m "x/threads daily quiz draft $(date +%F)"
             git push
