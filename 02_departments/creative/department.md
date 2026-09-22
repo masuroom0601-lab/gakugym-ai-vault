@@ -131,7 +131,7 @@ Instagram/TikTok部署のreviewフォルダと連動
   テキスト型3種から画像クイズ形式へ全面切り替えたことに伴い、マスターテンプレート
   `DAHV4YSYYb8`(1080×1080、白背景+青バッジ「英検」+赤字レベル表示+黒太字の
   問題文・選択肢)を新規作成した。生成はリール・フィードと同様、専用のCanva
-  Routine(`01_HQ/setup guides/canva-eiken-quiz-routine-setup.md.md`、毎日06:25 JST)
+  Routine(`01_HQ/setup guides/canva-eiken-quiz-routine-setup.md.md`、毎日06:45 JST)
   で行う。詳細は`02_departments/x_threads/department.md`参照
 - **2026-09-21追加: 作業役+チェック役の2エージェント構成**。各Routineは、
   作業役エージェント(デザイン編集)がコミット前に、Agentツールで独立した
