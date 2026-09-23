@@ -3,6 +3,13 @@ import { Composition } from "remotion";
 import { HelloWorld } from "./HelloWorld";
 import { Logo } from "./HelloWorld/Logo";
 import { CapsHighlight, capsHighlightDurationInFrames } from "./CapsHighlight";
+import { Captions } from "./Captions";
+import { fromWhisperSegments } from "./Captions/fromWhisperSegments";
+
+const demoCaptions = fromWhisperSegments([
+  { text: "早慶MARCH合同の学生団体、CAPS。", start: 0, end: 2.5 },
+  { text: "InstagramやTikTokでの学生向け情報発信を中心に活動しています。", start: 2.5, end: 6 },
+]);
 
 // Each <Composition> is an entry in the sidebar!
 
@@ -32,6 +39,20 @@ export const RemotionRoot: React.FC = () => {
         id="CapsHighlight"
         component={CapsHighlight}
         durationInFrames={capsHighlightDurationInFrames}
+        fps={30}
+        width={1080}
+        height={1920}
+      />
+
+      <Composition
+        id="CaptionsDemo"
+        component={() => (
+          <>
+            <div style={{ width: "100%", height: "100%", backgroundColor: "#222" }} />
+            <Captions captions={demoCaptions} />
+          </>
+        )}
+        durationInFrames={180}
         fps={30}
         width={1080}
         height={1920}

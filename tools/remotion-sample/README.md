@@ -37,6 +37,29 @@ npx remotion render
 npx remotion upgrade
 ```
 
+## Compositions
+
+- `HelloWorld` / `OnlyLogo` — Remotion's default starter compositions.
+- `CapsHighlight` — 20s vertical highlight reel stitched from clips in
+  `public/processed-clips/` (gitignored; drop your own clips there). Accepts
+  an optional `captions` prop (see below).
+- `CaptionsDemo` — standalone preview of the caption overlay.
+
+## Captions
+
+`src/Captions/` burns in Japanese subtitles from a Whisper-style transcript,
+wrapping lines at natural phrase boundaries via
+[BudouX](https://github.com/google/budoux) instead of a mid-word break.
+
+```ts
+import { fromWhisperSegments } from "./src/Captions/fromWhisperSegments";
+const captions = fromWhisperSegments(whisperResult.segments);
+// pass as <CapsHighlight captions={captions} />
+```
+
+See `tools/video-edit/README.md` for how to get a transcript (OpenAI Whisper
+API via an MCP server) in the first place.
+
 ## Docs
 
 Get started with Remotion by reading the [fundamentals page](https://www.remotion.dev/docs/the-fundamentals).

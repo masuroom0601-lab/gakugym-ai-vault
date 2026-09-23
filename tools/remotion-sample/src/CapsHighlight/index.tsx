@@ -2,8 +2,10 @@ import React from "react";
 import { AbsoluteFill, Sequence } from "remotion";
 import { TransitionSeries, linearTiming } from "@remotion/transitions";
 import { fade } from "@remotion/transitions/fade";
+import type { Caption } from "@remotion/captions";
 import { Clip } from "./Clip";
 import { TitleCard } from "./TitleCard";
+import { Captions } from "../Captions";
 
 const SEGMENT_DURATION = 132;
 const TRANSITION_DURATION = 15;
@@ -17,7 +19,9 @@ const CLIPS = [
   "processed-clips/clip-5.mp4",
 ];
 
-export const CapsHighlight: React.FC = () => {
+// `captions` is optional: pass Caption[] (e.g. via fromWhisperSegments) to
+// burn in synced subtitles, or leave empty for the plain highlight reel.
+export const CapsHighlight: React.FC<{ captions?: Caption[] }> = ({ captions = [] }) => {
   return (
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
       <TransitionSeries>
@@ -39,6 +43,8 @@ export const CapsHighlight: React.FC = () => {
       <Sequence from={0} durationInFrames={TITLE_DURATION}>
         <TitleCard heading="CAPS" subheading="活動風景" durationInFrames={TITLE_DURATION} />
       </Sequence>
+
+      {captions.length > 0 && <Captions captions={captions} />}
     </AbsoluteFill>
   );
 };
