@@ -6,6 +6,7 @@ import { CapsHighlight, capsHighlightDurationInFrames } from "./CapsHighlight";
 import { Captions } from "./Captions";
 import { fromWhisperSegments } from "./Captions/fromWhisperSegments";
 import { ReelTemplate, reelTemplateDurationInFrames } from "./ReelTemplate";
+import { reelTemplateSchema } from "./ReelTemplate/schema";
 import { hoseiTourBeats } from "./ReelTemplate/hoseiTourExample";
 
 const demoCaptions = fromWhisperSegments([
@@ -63,6 +64,16 @@ export const RemotionRoot: React.FC = () => {
       <Composition
         id="ReelTemplateExample-HoseiTour"
         component={ReelTemplate}
+        schema={reelTemplateSchema}
+        // Recomputes the video's total length whenever beats/captions are
+        // edited in the Studio's props panel, so duration never gets out of
+        // sync with hand-edited timings.
+        calculateMetadata={async ({ props }) => ({
+          durationInFrames: reelTemplateDurationInFrames(
+            props.beats,
+            props.transitionDurationInFrames,
+          ),
+        })}
         durationInFrames={reelTemplateDurationInFrames(hoseiTourBeats)}
         fps={30}
         width={1080}

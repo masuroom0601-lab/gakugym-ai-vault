@@ -66,6 +66,17 @@ a new reel:
 University campus footage, with placeholder/example copy — swap in the real
 script before publishing.
 
+### Editing without touching code
+
+The composition has a Zod `schema` (`src/ReelTemplate/schema.ts`) and a
+`calculateMetadata` that recomputes the total duration from the beats. That
+means `npm run dev` opens a props panel in the Studio's right sidebar with an
+editable field for every label, caption line, duration, and accent color —
+edit there, watch the preview update live, and the video length adjusts
+itself. No JSON/code editing required for a final content pass; use
+`hoseiTourExample.ts` only when you want to change the underlying footage or
+add/remove beats.
+
 ## Captions
 
 `src/Captions/` burns in Japanese subtitles from a Whisper-style transcript,
