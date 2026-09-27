@@ -4,7 +4,13 @@ import type { Beat } from "./types";
 // the Hosei campus footage in public/reels/hosei-tour/processed/. Swap in
 // the real script before publishing. ~45s total, ending on the branded
 // CAPS CTA card (clip-cta.mp4).
-export const hoseiTourBeats: Beat[] = [
+//
+// SHOW_TEXT toggles the label/caption overlays off without deleting the
+// copy below, so the footage-only cut and the captioned cut both come from
+// the same source.
+const SHOW_TEXT = false;
+
+const rawBeats: Beat[] = [
   {
     clipSrc: "reels/hosei-tour/processed/clip-1.mp4",
     durationInFrames: 165,
@@ -63,3 +69,7 @@ export const hoseiTourBeats: Beat[] = [
     captions: [],
   },
 ];
+
+export const hoseiTourBeats: Beat[] = SHOW_TEXT
+  ? rawBeats
+  : rawBeats.map(({ label, labelAccent, ...beat }) => ({ ...beat, captions: [] }));
