@@ -45,6 +45,27 @@ npx remotion upgrade
   an optional `captions` prop (see below).
 - `CaptionsDemo` — standalone preview of the caption overlay.
 
+## Reel template (CAPS tips-style reels)
+
+`src/ReelTemplate/` is a reusable template for the "numbered tips over B-roll"
+reel format (topic label pinned on screen + big bold captions that cycle,
+crossfaded between clips) modeled after a competitor account's reel. To make
+a new reel:
+
+1. Drop trimmed, portrait (1080x1920) clips into `public/reels/<reel-id>/processed/`
+   (see `public/reels/hosei-tour/` for the ffmpeg command used to crop/rotate
+   raw phone footage into that format).
+2. Write a `Beat[]` array (see `src/ReelTemplate/hoseiTourExample.ts` for the
+   shape: clip source, optional pinned `label`, and a list of caption
+   fragments with their durations).
+3. Register a `<Composition>` in `Root.tsx` with `component={ReelTemplate}`,
+   `defaultProps={{ beats }}`, and
+   `durationInFrames={reelTemplateDurationInFrames(beats)}`.
+
+`ReelTemplateExample-HoseiTour` is a working example built from real Hosei
+University campus footage, with placeholder/example copy — swap in the real
+script before publishing.
+
 ## Captions
 
 `src/Captions/` burns in Japanese subtitles from a Whisper-style transcript,

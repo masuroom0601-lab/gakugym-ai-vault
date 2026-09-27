@@ -11,3 +11,7 @@ out
 # one-off edits — not project source.
 public/source-clips
 public/processed-clips
+
+# Raw phone footage for reels/ — only the processed, cropped mp4s are
+# committed (see each reel's processed/ folder).
+public/reels/*/source

@@ -5,6 +5,8 @@ import { Logo } from "./HelloWorld/Logo";
 import { CapsHighlight, capsHighlightDurationInFrames } from "./CapsHighlight";
 import { Captions } from "./Captions";
 import { fromWhisperSegments } from "./Captions/fromWhisperSegments";
+import { ReelTemplate, reelTemplateDurationInFrames } from "./ReelTemplate";
+import { hoseiTourBeats } from "./ReelTemplate/hoseiTourExample";
 
 const demoCaptions = fromWhisperSegments([
   { text: "早慶MARCH合同の学生団体、CAPS。", start: 0, end: 2.5 },
@@ -56,6 +58,16 @@ export const RemotionRoot: React.FC = () => {
         fps={30}
         width={1080}
         height={1920}
+      />
+
+      <Composition
+        id="ReelTemplateExample-HoseiTour"
+        component={ReelTemplate}
+        durationInFrames={reelTemplateDurationInFrames(hoseiTourBeats)}
+        fps={30}
+        width={1080}
+        height={1920}
+        defaultProps={{ beats: hoseiTourBeats }}
       />
 
       {/* Mount any React component to make it show up in the sidebar and work on it individually! */}
