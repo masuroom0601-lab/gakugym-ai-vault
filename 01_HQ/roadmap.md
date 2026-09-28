@@ -575,3 +575,28 @@ mainへfast-forward統合し、全14ワークフローがGitHub Actions上で有
    正しく動作するか確認する
 4. Omnirouteのアカウント情報を用意し、`01_HQ/setup guides/omniroute-setup.md.md`の
    未確定事項を埋めて実接続する
+
+### 重要な運用上の教訓(2026-09-28): フィード通常版マスターテンプレートの消失と再構築
+益田さんから「フィードのテンプレートがCanva上で見当たらない」との報告を受け調査したところ、
+通常版フィードのマスターテンプレート`DAHU-f_gDOU`が`read-design`で`design_not_found`
+エラーを返す状態になっていることを確認した(2026-09-17に別の本編動画マスターで発生した
+ものと同種の、原因不明のままCanva側でデザインが消失する現象)。search-designsでも
+該当デザインは見つからず、復旧不可と判断。
+
+益田さんの承認を得て、同一レイアウト仕様(ベージュ背景`#f3e7ce`、四隅の手描きベクター
+装飾、6ページ構成: 表紙/中面4枚/締め)で新マスターテンプレート`DAHWhf0nHMY`をゼロから
+再構築した。手順: 既存デザインを`copy-design`で複製→`resize-design`で1080×1350に
+リサイズ→旧要素を全削除→`insert_shape`/`add_text`/`format_text`でレイアウトを再現
+(古文単語をテスト内容として使用)→全ページ完成後に`update_title`でデザイン名を
+「【通常版】フィードマスター(全6ページ)」に変更→コミット。
+
+作業中、Canva MCP連携が複数回切断・再接続を繰り返し、未コミットのトランザクションが
+その都度失われる不具合が再発した(2026-09-15の教訓と同じ現象)。そのため、今回は
+**ページ単位で編集→即座にcommitする**運用に切り替えて対応し、最終的に6ページ全ての
+再構築に成功した。
+
+`01_HQ/setup guides/canva-feed-routine-setup.md.md`、`02_departments/creative/department.md`、
+`02_departments/instagram_tiktok/department.md`内の`DAHU-f_gDOU`参照は全て新ID
+`DAHWhf0nHMY`に置き換え済み。過去の日付入り記録ファイル(`02_departments/creative/drafts/
+*-feed-canva.md`)や本セクションより前の教訓記録内の`DAHU-f_gDOU`表記は、当時の実績を
+示す historical な記録のためそのまま残してある。

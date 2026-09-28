@@ -54,7 +54,7 @@ Instagram/TikTok部署の台本・構成案を受け取り、文字化け・ト�
   太字丸ゴシックのタイトル。見た目の参考: `DAHEu1KxPDA`, `DAHEuvO7PHY`, `DAHEqyPHJoU`
   (これらはGenspark制の画像でCanva上は複製編集できないため、参考画像として見た目だけ
   踏襲し、Canva上で1から構築し直したものが実際のマスターテンプレート)
-  - マスターテンプレート(全6ページ、実データ入り): `DAHU-f_gDOU`
+  - マスターテンプレート(全6ページ、実データ入り): `DAHWhf0nHMY`
     (1:表紙、2〜5:チェックリスト型中面、6:まとめ締め)
   - **2026-09-15更新**: 元々背景・角ドードルがCanvaのAI生成機能(`generate-design`)由来の
     画像アセットだったため、実際にInstagramへ投稿した際「AI生成メディアを含む」という
@@ -108,7 +108,7 @@ Instagram/TikTok部署のreviewフォルダと連動
     `02_departments/creative/drafts/`にコミットする
     (`01_HQ/setup guides/canva-routine-setup.md.md`参照)
   - **フィード**: 同様の仕組みで、当日の台本の性質(体験談/暗記リスト)に応じて
-    【通常版】(`DAHU-f_gDOU`)または【図解で覚えるシリーズ】(`DAHCqMT3jhw`)の
+    【通常版】(`DAHWhf0nHMY`)または【図解で覚えるシリーズ】(`DAHCqMT3jhw`)の
     マスターデザインを複製・編集し、`02_departments/creative/drafts/`にコミットする。
     毎日06:20 JST。セットアップ手順・Routineプロンプトは
     `01_HQ/setup guides/canva-feed-routine-setup.md.md`参照(2026-09-13作成、
