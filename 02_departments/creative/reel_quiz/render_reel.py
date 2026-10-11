@@ -1,7 +1,7 @@
-import sys, subprocess
+import os, sys, subprocess
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 W,H,FPS=1080,1920,30
-FONT="/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf"
+FONT=os.environ["REEL_FONT"]; FFMPEG=os.environ.get("REEL_FFMPEG","ffmpeg")
 level, q, opts, out = sys.argv[1], sys.argv[2], sys.argv[3].split("|"), sys.argv[4]
 COUNT=10; END=2.5
 def f(sz): return ImageFont.truetype(FONT, sz)
@@ -55,7 +55,7 @@ def endcard():
     bold(d,(540,970),"概要欄へ!",f(120),"white","mm",3)
     bold(d,(540,1180),"▼ ▼ ▼",f(100),"#ffd400","mm",2)
     return im
-p=subprocess.Popen(["ffmpeg","-y","-v","error","-f","rawvideo","-pix_fmt","rgb24","-s",f"{W}x{H}","-r",str(FPS),"-i","-","-an","-c:v","libx264","-pix_fmt","yuv420p","-crf","18",out],stdin=subprocess.PIPE)
+p=subprocess.Popen([FFMPEG,"-y","-v","error","-f","rawvideo","-pix_fmt","rgb24","-s",f"{W}x{H}","-r",str(FPS),"-i","-","-an","-c:v","libx264","-pix_fmt","yuv420p","-crf","18",out],stdin=subprocess.PIPE)
 fr=0
 for n in range(COUNT,0,-1):
     for _ in range(FPS):
