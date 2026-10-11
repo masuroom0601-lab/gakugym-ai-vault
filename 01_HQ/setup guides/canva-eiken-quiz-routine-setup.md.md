@@ -1,6 +1,6 @@
 ---
 title: 英検「今日の1問」画像生成 Routine 設定手順書(claude.ai Routines)
-status: 未着手(益田さんがclaude.ai Routines画面から設定)
+status: 旧方式(2026-10-11にリール動画方式へ変更。新手順は eiken-quiz-reel-routine-setup.md)
 ---
 
 ## 背景
