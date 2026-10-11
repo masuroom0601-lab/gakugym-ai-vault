@@ -15,6 +15,8 @@ supersedes: canva-eiken-quiz-routine-setup.md.md(Canva画像方式)
   右下に10→0のカウントダウン、下部に「答えをコメント欄へ!」
 - エンド画面2.5秒: 写真(`end_bg_1.jpg`)を暗く重ね、「答え&解説は概要欄へ!」
 - 音声なし(BGMは投稿時にアプリ側で付ける)
+- 書体はIPAゴシック優先。無ければNoto/Takao/WenQuanYi等の日本語書体で代用(2026-10-11、益田さん了承)。
+  ffmpegが無ければ `pip install imageio-ffmpeg` の同梱版を使う
 
 ## 設定手順
 1. claude.ai の **Routines** で、既存の `Canva日次英検クイズ生成` を開く
@@ -41,10 +43,11 @@ supersedes: canva-eiken-quiz-routine-setup.md.md(Canva画像方式)
    python3 02_departments/creative/reel_quiz/make_reel_from_draft.py \
      02_departments/x_threads/drafts/task-<today>-quiz-001.md
    → `02_departments/creative/reel_quiz/daily/reel-<today>.mp4` ができる。
-   失敗した場合(ffmpegやフォントが無い、台本の形式が違う等)は無理に続けず、
+   失敗した場合(台本の形式が違う等)は無理に続けず、
    `02_departments/x_threads/drafts/quiz-reel-failure-<today>.md` に
    エラー内容を記録してコミット・プッシュして終了する。
-   (Pillowが無い場合はスクリプトが自動で pip install する。それでも
+   (Pillow・ffmpegが無い場合はスクリプトが自動で導入し、IPAゴシックが無ければ
+   他の日本語書体で代用する。それでも
    動かなければ python3 ではなく /usr/bin/python3 で実行してみる)
 
 3. 作業内容をチェック役エージェントに確認させる
