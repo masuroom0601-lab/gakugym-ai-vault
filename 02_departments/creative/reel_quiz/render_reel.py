@@ -1,5 +1,5 @@
 import sys, subprocess
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
 W,H,FPS=1080,1920,30
 FONT="/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf"
 level, q, opts, out = sys.argv[1], sys.argv[2], sys.argv[3].split("|"), sys.argv[4]
@@ -48,7 +48,7 @@ def endcard():
     im=Image.new("RGB",(W,H),"#4472c4")
     if len(sys.argv)>5:
         ph=Image.open(sys.argv[5]).convert("RGB"); r=max(W/ph.width,H/ph.height)
-        ph=ph.resize((int(ph.width*r),int(ph.height*r))); l=(ph.width-W)//2; tp=(ph.height-H)//2
+        ph=ph.resize((int(ph.width*r),int(ph.height*r)),Image.LANCZOS).filter(ImageFilter.GaussianBlur(4)); l=(ph.width-W)//2; tp=(ph.height-H)//2
         im=Image.blend(ph.crop((l,tp,l+W,tp+H)),Image.new("RGB",(W,H),"black"),0.55)
     d=ImageDraw.Draw(im)
     bold(d,(540,820),"答え&解説は",f(100),"white","mm",3)
