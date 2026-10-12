@@ -34,13 +34,14 @@ def base(n,t=0.0):
     y=720
     for l in wrap(d,q,f(58),920):
         bold(d,(80,y),l,f(58),"#111111","la",2); y+=84
-    y=max(y+50,1000)
+    y=max(y+50,1000); oy=y
     for o in opts:
         bold(d,(110,y),o,f(54),"#111111","la",2); y+=100
     # countdown badge
-    d.rounded_rectangle((720,1000,1000,1300),24,fill="#e8eefc",outline="#4472c4",width=6)
-    d.ellipse((770,1050,950,1230),outline="#4472c4",width=6)
-    bold(d,(860,1140),str(n),f(120),"#111111","mm",3)
+    by=oy  # カウントダウン枠は選択肢と同じ高さ(問題文が長くても重ならない)
+    d.rounded_rectangle((720,by,1000,by+300),24,fill="#e8eefc",outline="#4472c4",width=6)
+    d.ellipse((770,by+50,950,by+230),outline="#4472c4",width=6)
+    bold(d,(860,by+140),str(n),f(120),"#111111","mm",3)
     d.rounded_rectangle((80,1620,780,1740),40,fill="#4472c4")
     bold(d,(430,1680),"答えをコメント欄へ!",f(54),"white","mm",1)
     return im
