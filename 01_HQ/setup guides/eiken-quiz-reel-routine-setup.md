@@ -18,6 +18,15 @@ supersedes: canva-eiken-quiz-routine-setup.md.md(Canva画像方式)
 - 書体はIPAゴシック優先。無ければNoto/Takao/WenQuanYi等の日本語書体で代用(2026-10-11、益田さん了承)。
   ffmpegが無ければ `pip install imageio-ffmpeg` の同梱版を使う
 
+## 【2026-10-12更新】GitHub Actionsで自動化(こちらが正式版)
+動画生成は決まった処理だけなので、claude.aiのRoutineではなく
+`.github/workflows/eiken-quiz-reel.yml`(毎日06:45 JST)で自動実行する。
+台本(06:00 JSTに生成)から動画を作り、`daily/reel-<日付>.mp4`をmainにコミットし、
+台本の「## Canvaデザイン」節に動画パスを追記する。台本が無い日・生成済みの日はスキップ。
+手動実行はGitHubの Actions → eiken-quiz-reel → Run workflow(日付指定も可)。
+**益田さんの作業: claude.aiの旧Routine「Canva日次英検クイズ生成」を停止(または削除)する。**
+以下のRoutineプロンプトは、Actionsを使わずRoutineで動かしたい場合の代替手順として残す。
+
 ## 設定手順
 1. claude.ai の **Routines** で、既存の `Canva日次英検クイズ生成` を開く
 2. **プロンプトを下記に全文差し替える**(名前を `英検クイズリール動画生成` に変えてもよい)
