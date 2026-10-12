@@ -4,7 +4,7 @@ description: 秘書担当AIが日次で更新する承認待ちリスト(手編�
 
 # 承認待ちリスト
 
-## 2026-09-20時点の承認待ち
+## 2026-10-11時点の承認待ち
 
 - 02_departments/instagram_tiktok/drafts/task-2026-09-14-ig-001.md
 - 02_departments/instagram_tiktok/drafts/task-2026-09-15-ig-001.md
@@ -13,6 +13,26 @@ description: 秘書担当AIが日次で更新する承認待ちリスト(手編�
 - 02_departments/instagram_tiktok/drafts/task-2026-09-18-ig-001.md
 - 02_departments/instagram_tiktok/drafts/task-2026-09-19-ig-001.md
 - 02_departments/instagram_tiktok/drafts/task-2026-09-20-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-09-21-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-09-22-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-09-23-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-09-24-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-09-25-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-09-26-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-09-27-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-09-29-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-09-30-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-10-01-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-10-02-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-10-03-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-10-04-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-10-05-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-10-06-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-10-07-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-10-08-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-10-09-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-10-10-ig-001.md
+- 02_departments/instagram_tiktok/drafts/task-2026-10-11-ig-001.md
 - 02_departments/x_threads/drafts/task-2026-09-12-x-001.md
 - 02_departments/x_threads/drafts/task-2026-09-12-x-002.md
 - 02_departments/x_threads/drafts/task-2026-09-14-x-001.md
@@ -22,5 +42,28 @@ description: 秘書担当AIが日次で更新する承認待ちリスト(手編�
 - 02_departments/x_threads/drafts/task-2026-09-18-x-001.md
 - 02_departments/x_threads/drafts/task-2026-09-19-x-001.md
 - 02_departments/x_threads/drafts/task-2026-09-20-x-001.md
+- 02_departments/x_threads/drafts/task-2026-09-21-x-001.md
+- 02_departments/x_threads/drafts/task-2026-09-22-x-001.md
+- 02_departments/x_threads/drafts/task-2026-09-23-quiz-001.md
+- 02_departments/x_threads/drafts/task-2026-09-24-quiz-001.md
+- 02_departments/x_threads/drafts/task-2026-09-25-quiz-001.md
+- 02_departments/x_threads/drafts/task-2026-09-26-quiz-001.md
+- 02_departments/x_threads/drafts/task-2026-09-27-quiz-001.md
+- 02_departments/x_threads/drafts/task-2026-09-28-quiz-001.md
+- 02_departments/x_threads/drafts/task-2026-09-29-quiz-001.md
+- 02_departments/x_threads/drafts/task-2026-09-30-quiz-001.md
+- 02_departments/x_threads/drafts/task-2026-10-01-quiz-001.md
+- 02_departments/x_threads/drafts/task-2026-10-02-quiz-001.md
+- 02_departments/x_threads/drafts/task-2026-10-03-quiz-001.md
+- 02_departments/x_threads/drafts/task-2026-10-04-quiz-001.md
+- 02_departments/x_threads/drafts/task-2026-10-05-quiz-001.md
+- 02_departments/x_threads/drafts/task-2026-10-06-quiz-001.md
+- 02_departments/x_threads/drafts/task-2026-10-07-quiz-001.md
+- 02_departments/x_threads/drafts/task-2026-10-08-quiz-001.md
+- 02_departments/x_threads/drafts/task-2026-10-09-quiz-001.md
+- 02_departments/x_threads/drafts/task-2026-10-11-quiz-001.md
 - 02_departments/note_ameba/drafts/task-2026-09-12-note-001.md
 - 02_departments/note_ameba/drafts/task-2026-09-14-note-001.md
+- 02_departments/note_ameba/drafts/task-2026-09-21-note-001.md
+- 02_departments/note_ameba/drafts/task-2026-09-28-note-001.md
+- 02_departments/note_ameba/drafts/task-2026-10-05-note-001.md

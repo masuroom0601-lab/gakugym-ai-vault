@@ -1,0 +1,61 @@
+name: fish-audio-narration
+
+# 手動実行のみ。Fish Audio (https://fish.audio) のTTS APIでナレーション音声を
+# 生成し、tools/remotion-sample/public/narration/ にコミットする。
+# APIキーは secrets.FISH_AUDIO_API_KEY から渡す(リポジトリには一切書かない)。
+on:
+  workflow_dispatch:
+    inputs:
+      text:
+        description: 'ナレーション原稿(読み上げるテキスト)'
+        required: true
+      output_name:
+        description: '出力ファイル名(拡張子なし)'
+        required: false
+        default: 'narration'
+      reference_id:
+        description: 'Fish Audio上のボイスID(reference_id)。空ならデフォルトボイス'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Generate narration audio via Fish Audio TTS
+        working-directory: tools/fish-audio
+        env:
+          FISH_AUDIO_API_KEY: ${{ secrets.FISH_AUDIO_API_KEY }}
+          NARRATION_TEXT: ${{ inputs.text }}
+          NARRATION_OUTPUT_NAME: ${{ inputs.output_name }}
+          NARRATION_REFERENCE_ID: ${{ inputs.reference_id }}
+        run: |
+          mkdir -p ../remotion-sample/public/narration
+          node tts.js \
+            "$NARRATION_TEXT" \
+            "../remotion-sample/public/narration/${NARRATION_OUTPUT_NAME}.mp3" \
+            "$NARRATION_REFERENCE_ID"
+
+      - name: Commit and push generated audio
+        env:
+          NARRATION_OUTPUT_NAME: ${{ inputs.output_name }}
+        run: |
+          git config user.name "gakugym-ai-bot"
+          git config user.email "bot@example.com"
+          git add tools/remotion-sample/public/narration/
+          if ! git diff --cached --quiet; then
+            git commit -m "fish-audio narration: ${NARRATION_OUTPUT_NAME}"
+            git push
+          else
+            echo "No changes to commit."
+          fi
