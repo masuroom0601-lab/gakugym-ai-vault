@@ -1,0 +1,98 @@
+name: eiken-quiz-reel
+
+# 台本(x-threads-daily-draftが06:00 JSTに作る task-<日付>-quiz-001.md)から
+# 「今日の1問」リール動画(1080x1920・13秒)を自動生成してmainにコミットする。
+# 旧Canva画像Routineの代替(2026-10-12)。claude.aiのRoutine側のCanva版は停止すること。
+
+on:
+  schedule:
+    - cron: '45 21 * * *'   # 毎日 06:45 JST(台本生成の45分後)
+  workflow_dispatch:
+    inputs:
+      date:
+        description: '対象日(YYYY-MM-DD)。空なら今日(JST)'
+        required: false
+
+env:
+  TZ: Asia/Tokyo
+
+permissions:
+  contents: write
+
+concurrency:
+  group: eiken-quiz-reel
+  cancel-in-progress: false
+
+jobs:
+  reel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Decide target draft
+        id: target
+        run: |
+          D="${{ github.event.inputs.date }}"
+          [ -z "$D" ] && D=$(date +%F)
+          DRAFT="02_departments/x_threads/drafts/task-${D}-quiz-001.md"
+          OUT="02_departments/creative/reel_quiz/daily/reel-${D}.mp4"
+          echo "date=$D" >> "$GITHUB_OUTPUT"
+          echo "draft=$DRAFT" >> "$GITHUB_OUTPUT"
+          echo "out=$OUT" >> "$GITHUB_OUTPUT"
+          if [ ! -f "$DRAFT" ]; then
+            echo "台本が無いためスキップ: $DRAFT"; echo "skip=true" >> "$GITHUB_OUTPUT"
+          elif grep -q "reel-${D}.mp4" "$DRAFT" && [ -f "$OUT" ]; then
+            echo "生成済みのためスキップ"; echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install dependencies
+        if: steps.target.outputs.skip != 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-ipafont-gothic
+          python3 -m pip install -q pillow
+
+      - name: Generate reel
+        if: steps.target.outputs.skip != 'true'
+        run: |
+          python3 02_departments/creative/reel_quiz/make_reel_from_draft.py \
+            "${{ steps.target.outputs.draft }}" "${{ steps.target.outputs.out }}"
+
+      - name: Sanity check video
+        if: steps.target.outputs.skip != 'true'
+        run: |
+          OUT="${{ steps.target.outputs.out }}"
+          DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$OUT")
+          SIZE=$(stat -c %s "$OUT")
+          echo "duration=$DUR size=$SIZE"
+          python3 -c "import sys; d=float('$DUR'); s=int('$SIZE'); sys.exit(0 if 12.5<=d<=13.5 and s>100000 else 1)"
+
+      - name: Record path in draft
+        if: steps.target.outputs.skip != 'true'
+        run: |
+          python3 - <<'PY'
+          import re
+          p = "${{ steps.target.outputs.draft }}"
+          line = "- リール動画: ${{ steps.target.outputs.out }}"
+          t = open(p, encoding="utf-8").read()
+          if line not in t:
+              if "## Canvaデザイン" in t:
+                  t = t.rstrip("\n") + "\n" + line + "\n"
+              else:
+                  t = t.rstrip("\n") + "\n\n## Canvaデザイン\n" + line + "\n"
+              open(p, "w", encoding="utf-8").write(t)
+          PY
+
+      - name: Commit and push
+        if: steps.target.outputs.skip != 'true'
+        run: |
+          git config user.name "gakugym-ai-bot"
+          git config user.email "bot@example.com"
+          git add 02_departments/x_threads/drafts/ 02_departments/creative/reel_quiz/daily/
+          git commit -m "eiken quiz reel generation ${{ steps.target.outputs.date }}"
+          git pull --rebase origin main
+          git push origin main
