@@ -712,3 +712,35 @@ check』のような文言を使わない」という2026-09-27制定のルー�
 `02_departments/creative/department.md`(リール節)、
 `02_departments/instagram_tiktok/department.md`(リール節・キャプション節)、
 `.github/workflows/instagram-tiktok-daily-draft.yml`(ルール3)。
+
+### 重要な運用上の教訓(2026-10-12): 英検クイズ リール動画の投稿用キャプション整備・日次レビューRoutine新設
+別セッションで、X/Threads「今日の1問」(英検クイズ)がCanva画像からリール動画
+(スクリプト製、`02_departments/creative/reel_quiz/`+GitHub Actions
+`eiken-quiz-reel.yml`、毎日06:45 JST)に切り替わり、旧claude.ai Routine
+「Canva日次英検クイズ生成」は益田さんの指示で無効化された(本セッションで
+`list_triggers`により`enabled: false`であることを確認済み)。
+
+このセッションで判明した整合性の問題: 新しい動画のエンド画面は「答え&解説は
+概要欄へ!」と案内する仕様になっていたが、台本生成(`x-threads-daily-draft.yml`)は
+旧仕様のまま「正解はコメント欄に後で別途投稿する」解答文しか作っておらず、
+投稿時のキャプション(概要欄)に正解を書く仕組みが存在しなかった。この矛盾を解消する
+ため、`x-threads-daily-draft.yml`を更新し、投稿用キャプション(フック文→正解・解説→
+次回誘導/保存訴求→ハッシュタグ最大5個)を生成する工程を追加し、旧「コメント欄に
+投稿する解答文」節は廃止した。ハッシュタグ上限は`instagram_tiktok`部署の
+「最大5個」ルールに統一した。
+
+また、下書きのfrontmatterが`status: review`で生成されていたため、校正担当の日次
+チェック(`proofreading-daily-check.yml`、対象は`status: draft`のみ)がこのファイルを
+一度もチェックしていなかった不具合も発見し、`status: draft`で生成するよう修正した
+(校正担当が実際にチェックし`review`へ進める運用に戻した)。
+
+益田さんから、毎朝「リール動画ファイル・投稿用キャプション(ハッシュタグ込み)・
+校正担当の報告」をまとめてClaudeチャットに表示してほしいという依頼があったため、
+claude.aiのRoutine「英検クイズ日次レビュー」(毎日07:05 JST、このセッションの
+会話に直接メッセージを送る形)を新設した。台本生成(06:00)→校正(06:10)→動画生成
+(06:45)がすべて終わった後の時刻を狙って設定した。
+
+更新したファイル: `.github/workflows/x-threads-daily-draft.yml`(キャプション生成・
+status修正)、`02_departments/x_threads/department.md`(今日の1問節・投稿用
+キャプション節・承認フロー)、`02_departments/creative/department.md`(該当箇所に
+追記)。新設: claude.ai Routine「英検クイズ日次レビュー」。
