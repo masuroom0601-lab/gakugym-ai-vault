@@ -161,4 +161,11 @@ Instagram/TikTok部署のreviewフォルダと連動
 - **2026-10-11追加: X/Threads「今日の1問」をリール動画化**。Canva画像(`DAHV4YSYYb8`)から、
   台本をスクリプトで動画化する方式に変更した(1080×1920・13秒、10秒カウントダウン)。
   スクリプト・背景写真は`02_departments/creative/reel_quiz/`、Routine手順は
-  `01_HQ/setup guides/eiken-quiz-reel-routine-setup.md`参照。Canva画像方式は旧方式として残す
+  `01_HQ/setup guides/eiken-quiz-reel-routine-setup.md`参照。Canva画像方式は旧方式として残す。
+  **2026-10-12、旧claude.ai Routine「Canva日次英検クイズ生成」は無効化済み。GitHub Actions
+  (`eiken-quiz-reel.yml`)が完全に代替している**
+- **2026-10-12追加: 投稿用キャプションを下書き生成に追加・日次レビューRoutine新設**。
+  動画のエンド画面が「答え&解説は概要欄へ!」と案内する仕様のため、正解・解説を
+  投稿キャプションに直接書く形に変更(詳細: `02_departments/x_threads/department.md`)。
+  また、動画・キャプション・校正コメントを毎朝まとめてClaudeチャットに送る
+  claude.ai Routine「英検クイズ日次レビュー」(07:05 JST)を新設した
