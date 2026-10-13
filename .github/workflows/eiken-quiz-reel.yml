@@ -1,12 +1,23 @@
 name: eiken-quiz-reel
 
-# 台本(x-threads-daily-draftが06:00 JSTに作る task-<日付>-quiz-001.md)から
+# 台本(x-threads-daily-draftが作る task-<日付>-quiz-001.md)から
 # 「今日の1問」リール動画(1080x1920・13秒)を自動生成してmainにコミットする。
 # 旧Canva画像Routineの代替(2026-10-12)。claude.aiのRoutine側のCanva版は停止すること。
+#
+# 【2026-10-13更新、重要】x-threads-daily-draft(本来06:00 JST)はGitHub Actions側の
+# 混雑により実際には09:00〜11:30 JST頃まで毎日ずれ込むことが2026-10-7〜13の
+# 1週間の実行ログで判明した。固定時刻(06:45 JST)のスケジュールだけでは台本の
+# 完成前に実行されて毎回スキップしてしまうため、x-threads-daily-draftの完了を
+# 直接トリガーにする workflow_run を追加した。これにより台本生成が何時にずれても、
+# その直後に確実に追従する。固定スケジュールは「台本生成が早く終わった日」向けの
+# フォールバックとして残す(どちらが先に走っても、既に生成済みなら後続はスキップする)。
 
 on:
   schedule:
-    - cron: '45 21 * * *'   # 毎日 06:45 JST(台本生成の45分後)
+    - cron: '45 21 * * *'   # 毎日 06:45 JST(フォールバック。台本生成が早く終わった日用)
+  workflow_run:
+    workflows: ["x-threads-daily-draft"]
+    types: [completed]
   workflow_dispatch:
     inputs:
       date:
@@ -25,6 +36,10 @@ concurrency:
 
 jobs:
   reel:
+    # workflow_run経由の場合、台本生成そのものが失敗した回では動かさない
+    # (失敗していなければ台本ファイルが存在するはずで、後続のDecide target draft
+    # ステップが実際の有無を再確認する)
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
