@@ -2,7 +2,7 @@
 /*
  * 学ジム note/Ameba担当: 見出し画像(1280x670 PNG)を固定テンプレートから生成する(2026-10-17新設)。
  * テンプレート: 03_assets/creative-templates/note-header.html(CSSはAIが書き換えない)
- * 背景写真は select.js が選んだもの(無ければ紺のグラデーション背景)。
+ * 背景写真は select.js が選んだもの(写真があれば写真のみ・文字なし。無ければ明るいベージュ地+タイトル文字)。
  *
  * 単体での確認: node header-image.js <draft.md> <出力PNGパス>
  */
