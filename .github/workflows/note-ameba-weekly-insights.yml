@@ -141,7 +141,7 @@ jobs:
         run: |
           git config user.name "gakugym-ai-bot"
           git config user.email "bot@example.com"
-          git add 04_analytics/note_ameba/ 02_departments/note_ameba/insights.md 02_departments/note_ameba/hashtag-pool.yml
+          git add 04_analytics/note_ameba/ 02_departments/note_ameba/insights.md 02_departments/note_ameba/hashtag-pool.yml 03_assets/images/note_ameba/reference/
           if ! git diff --cached --quiet; then
             git commit -m "note/ameba weekly insights $(date +%F)"
             git pull --rebase origin main

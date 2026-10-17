@@ -58,6 +58,7 @@ const DRY_RUN = process.env.PUBLISH_DRY_RUN === "1";
 // 簡易的に取り除いたプレーンテキストとして段落ごとに貼り付ける(装飾は失われる前提)。
 function toPlainParagraphs(md) {
   return md
+    .replace(/<!--[\s\S]*?-->/g, "") // 内部メモ用のHTMLコメントは投稿しない
     .split(/\n\s*\n/)
     .map((p) => p.replace(/^#{1,6}\s*/gm, "").replace(/\*\*(.+?)\*\*/g, "$1").trim())
     .filter(Boolean);

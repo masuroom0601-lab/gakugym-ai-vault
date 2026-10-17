@@ -40,8 +40,10 @@ async function pageText(page) {
 async function collectNote(page) {
   const out = { ok: false, source: null, articles: [], error: null, raw_text: null };
   if (!hasNoteCreds()) { out.error = "NOTE_EMAIL/NOTE_PASSWORDが未設定のためスキップ"; return out; }
+  let loggedIn = false;
   try {
     await loginNote(page);
+    loggedIn = true;
     for (let p = 1; p <= 20; p++) {
       const res = await page.request.get(`https://note.com/api/v1/stats/pv?filter=all&page=${p}&sort=pv`);
       if (!res.ok()) throw new Error(`stats API HTTP ${res.status()}`);
@@ -61,6 +63,7 @@ async function collectNote(page) {
     }
     out.ok = true; out.source = "note stats api";
   } catch (e) {
+    out.stats_error = e.message;
     out.error = `stats API読み取り失敗: ${e.message}`;
     // フォールバック: ダッシュボード画面の文字をそのまま保存(Claudeが読み取る)
     try {
@@ -70,6 +73,71 @@ async function collectNote(page) {
       out.source = "note stats page (raw_text)";
     } catch (e2) { out.error += ` / 画面取得も失敗: ${e2.message}`; }
   }
+  if (loggedIn) {
+    out.references = await collectNoteReferences(page, out.articles);
+    console.log(`note参考画像: ${out.references.saved.length}件保存${out.references.error ? " / " + out.references.error : ""}`);
+  }
+  return out;
+}
+
+// 2026-10-17追加: 益田さんが既に投稿しているnote記事の見出し画像を「参考画像」として保存する。
+// 見出し画像テンプレート(note-header.html)のデザインを既存記事に寄せるため、および
+// 背景写真カタログ(catalog.yml)の候補にするために使う。既に保存済みの画像は再取得しない。
+const REF_DIR = path.join(ROOT, "03_assets", "images", "note_ameba", "reference");
+const REF_LIMIT = 12;
+
+async function collectNoteReferences(page, stats) {
+  const out = { ok: false, urlname: null, saved: [], error: null };
+  try {
+    let urlname = null;
+    const me = await page.request.get("https://note.com/api/v2/current_user").catch(() => null);
+    if (me && me.ok()) {
+      const j = await me.json().catch(() => ({}));
+      urlname = (j.data && (j.data.urlname || (j.data.user && j.data.user.urlname))) || null;
+    }
+    out.urlname = urlname;
+    // 記事一覧(新しい順)。取れなければ stats API の記事キーから個別に取りに行く
+    let notes = [];
+    if (urlname) {
+      const res = await page.request.get(`https://note.com/api/v2/creators/${urlname}/contents?kind=note&page=1`).catch(() => null);
+      if (res && res.ok()) {
+        const j = await res.json().catch(() => ({}));
+        notes = ((j.data && j.data.contents) || []).map((c) => ({
+          key: c.key, title: c.name, eyecatch: c.eyecatch, likes: c.likeCount ?? null, published_at: c.publishAt || null,
+        }));
+      }
+    }
+    if (!notes.length) {
+      for (const s of (stats || []).slice(0, REF_LIMIT)) {
+        if (!s.key) continue;
+        const res = await page.request.get(`https://note.com/api/v3/notes/${s.key}`).catch(() => null);
+        if (!res || !res.ok()) continue;
+        const d = ((await res.json().catch(() => ({}))).data) || {};
+        notes.push({ key: s.key, title: d.name || s.title, eyecatch: d.eyecatch, likes: d.like_count ?? s.likes, published_at: d.publish_at || null });
+      }
+    }
+    fs.mkdirSync(REF_DIR, { recursive: true });
+    const indexPath = path.join(REF_DIR, "index.json");
+    const index = fs.existsSync(indexPath) ? JSON.parse(fs.readFileSync(indexPath, "utf8")) : [];
+    for (const n of notes.filter((n) => n.eyecatch).slice(0, REF_LIMIT)) {
+      const ext = ((n.eyecatch.split("?")[0].match(/\.(png|jpe?g|webp|gif)$/i) || [])[1] || "png").toLowerCase();
+      const file = `${n.key}.${ext}`;
+      const dest = path.join(REF_DIR, file);
+      if (!fs.existsSync(dest)) {
+        const img = await page.request.get(n.eyecatch).catch(() => null);
+        if (!img || !img.ok()) continue;
+        fs.writeFileSync(dest, await img.body());
+      }
+      const entry = { file: path.relative(ROOT, dest), key: n.key, title: n.title, likes: n.likes, published_at: n.published_at,
+        url: urlname ? `https://note.com/${urlname}/n/${n.key}` : null, eyecatch_url: n.eyecatch };
+      const i = index.findIndex((e) => e.key === n.key);
+      if (i >= 0) index[i] = entry; else index.push(entry);
+      out.saved.push(entry.file);
+    }
+    fs.writeFileSync(indexPath, JSON.stringify(index, null, 2) + "\n", "utf8");
+    out.ok = true;
+    if (!notes.length) out.error = "記事一覧を取得できませんでした";
+  } catch (e) { out.error = e.message; }
   return out;
 }
 
