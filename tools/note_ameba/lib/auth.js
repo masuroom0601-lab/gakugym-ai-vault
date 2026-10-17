@@ -22,18 +22,23 @@ async function findVisible(page, selectors, timeout = 15000) {
   return null;
 }
 
+// 送信ボタンを押す。名前は完全一致で探す
+// (部分一致だと「Googleでログイン」等のSNSログインボタンを誤って押してしまう。2026-10-17に実際に発生)
 async function clickSubmit(page, names) {
+  const submit = page.locator('button[type="submit"], input[type="submit"]');
   for (const name of names) {
-    const btn = page.getByRole("button", { name, exact: false }).first();
+    const btn = submit.filter({ hasText: new RegExp(`^\\s*${name}\\s*$`) }).first();
     if (await btn.isVisible().catch(() => false)) { await btn.click(); return true; }
+    const byRole = page.getByRole("button", { name, exact: true }).first();
+    if (await byRole.isVisible().catch(() => false)) { await byRole.click(); return true; }
   }
-  const fallback = page.locator('button[type="submit"], input[type="submit"]').first();
+  const fallback = submit.first();
   if (await fallback.isVisible().catch(() => false)) { await fallback.click(); return true; }
   await page.keyboard.press("Enter");
   return false;
 }
 
-const NOTE_ID_FIELDS = ['#email', 'input[name="login_email"]', 'input[type="email"]', 'input[autocomplete="username"]',
+const NOTE_ID_FIELDS = ['input[name="login"]', '#email', 'input[name="login_email"]', 'input[type="email"]', 'input[autocomplete="username"]',
   'input[placeholder*="mail"]', 'input[placeholder*="メール"]', 'input[placeholder*="note ID"]'];
 const PASSWORD_FIELDS = ['#password', 'input[name="password"]', 'input[type="password"]'];
 
@@ -60,17 +65,26 @@ async function loginNote(page) {
     await saveFailureScreenshot(page, "note-login-captcha");
     throw new Error("note.comログイン時にCAPTCHA/認証画面が検出されました。自動処理を中断します(手動対応にフォールバックしてください)。");
   }
-  if (page.url().includes("/login")) {
+  // note.com以外(Google等のSNSログイン画面)に飛んだ場合もログイン失敗とみなす
+  if (page.url().includes("/login") || !/^https:\/\/([a-z]+\.)?note\.com\//.test(page.url())) {
     await saveFailureScreenshot(page, "note-login-failed");
     throw new Error("note.comへのログインに失敗しました(URL確認: " + page.url() + ")。パスワード・メールアドレスを確認してください。");
   }
 }
 
-const AMEBA_ID_FIELDS = ['input[name="accountId"]', 'input[name="amebaId"]', 'input[autocomplete="username"]',
-  'input[type="email"]', 'input[type="text"]'];
+// 検索欄(name=q 等)を誤ってID欄と見なさないよう、汎用の input[type=text] は使わない
+const AMEBA_ID_FIELDS = ['input[name="accountId"]', 'input[name="amebaId"]', 'input[name="login_id"]', 'input[name="loginId"]',
+  'input[autocomplete="username"]', 'input[type="email"]', 'input[placeholder*="ID"]', 'input[placeholder*="メール"]'];
 
 async function loginAmeba(page) {
-  await page.goto("https://www.ameba.jp/login.html", { waitUntil: "domcontentloaded" });
+  // www.ameba.jp/login.html は現在トップページになっていてログインフォームが無い(2026-10-17確認)。
+  // ヘッダーの「ログイン」リンクからAmebaIDのログイン画面へ進む
+  await page.goto("https://www.ameba.jp/", { waitUntil: "domcontentloaded" });
+  const loginLink = page.locator("a").filter({ hasText: /^\s*ログイン\s*$/ }).first();
+  if (await loginLink.isVisible({ timeout: 10000 }).catch(() => false)) {
+    await Promise.all([page.waitForLoadState("domcontentloaded").catch(() => {}), loginLink.click()]);
+    await page.waitForTimeout(3000);
+  }
   const idBox = await findVisible(page, AMEBA_ID_FIELDS);
   if (!idBox) {
     await saveFailureScreenshot(page, "ameba-login-no-id-field");
@@ -102,4 +116,4 @@ async function loginAmeba(page) {
   }
 }
 
-module.exports = { hasNoteCreds, hasAmebaCreds, loginNote, loginAmeba };
+module.exports = { hasNoteCreds, hasAmebaCreds, loginNote, loginAmeba, findVisible, clickSubmit, NOTE_ID_FIELDS, AMEBA_ID_FIELDS };
