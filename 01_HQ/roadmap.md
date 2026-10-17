@@ -770,3 +770,38 @@ status修正)、`02_departments/x_threads/department.md`(今日の1問節・投�
 スケジュール遅延)は、`instagram-tiktok-daily-draft.yml`→`proofreading-daily-check.yml`→
 各Canvaリール/フィードRoutineの依存関係にも共通して存在する可能性が高い。
 益田さんから要望があれば、同様に`workflow_run`チェーン化を検討すること。
+
+### 重要な運用上の教訓(2026-10-17): 自社エンゲージメント分析→学習→投稿改善パイプラインの新設(フェーズ2)
+益田さんから「競合Instagramアカウントの自動分析」の依頼があったが、検討の結果、
+(a) InstagramのAPIは自分が管理するアカウントのデータしか取得できず競合アカウントの
+自動分析は公式手段が無い、(b) スクレイピングは規約違反かつGitHub Actions上での
+継続実行は現実的でない、ことを説明した。益田さんと相談し、方針を
+「自社アカウントの実エンゲージメントデータを分析して学習し、投稿作成に反映する」
+(フェーズ2)を優先し、競合トレンドはWeb検索ベースの簡易調査(フェーズ3、未着手)に
+留めることで合意した。
+
+着手前に重大な事実が判明した: **`04_analytics/manual-input/`の週次手入力シートが
+2026-09以降一度も入力されておらず(全て`filled: false`・空欄)、分析の元になる
+実エンゲージメントデータが現状ゼロ**。`04_analytics/weekly-report.md`もこれまで
+毎週「入力データなし」としか出力されていなかった。
+
+この状態を踏まえ、「データが貯まり次第、自動的に学習が始まる」設計にして
+フェーズ2を実装した:
+- `02_departments/analytics/learned-patterns.md`(新設): 各部署の台本生成が参照する
+  「学習済みパターン集」。エンゲージメントデータに基づく知見の節は現時点では空だが、
+  これまでの益田さんの直接フィードバック・過去の不具合から確定している知見
+  (フィード文字サイズ・項目数一致ルール等、既にdepartment.mdに反映済みのもの)を
+  先に転記し、空のファイルにしないようにした
+- `.github/workflows/analytics-pattern-learning.yml`(新設): `analytics-weekly-report`
+  完了を`workflow_run`で検知して自動実行し、週次レポート・履歴から傾向を分析して
+  `learned-patterns.md`に追記する。**実データの投稿件数が10件未満ならは分析自体を
+  スキップする**設計にして、少数データからの誤った断定を防いでいる
+- `instagram-tiktok-daily-draft.yml`・`x-threads-daily-draft.yml`の台本生成プロンプトに、
+  `learned-patterns.md`を事前に読むよう指示を追加した
+
+**残課題**: このパイプラインは「データが来れば動く」状態で止まっている。
+`04_analytics/manual-input/`への入力が再開されない限り、エンゲージメントベースの
+学習は実質的に進まない。フェーズ1(Instagram Insightsの自動取得によるAPI化)は
+未着手のまま(`01_HQ/setup guides/instagram-graph-api-setup.md.md`は投稿用の
+手順のみで、インサイト取得にはFacebookページ連携の旧ルートが別途必要)。
+フェーズ3(競合トレンドのWeb検索調査)も未着手。

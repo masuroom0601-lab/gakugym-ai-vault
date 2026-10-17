@@ -30,6 +30,9 @@ jobs:
             - 02_departments/x_threads/department.md
             - 03_assets/brand-guide.md
             - 02_departments/x_threads/drafts/ 内の直近のdraft(級が偏らないよう確認)
+            - 02_departments/analytics/learned-patterns.md(2026-10-17追加。過去の
+              エンゲージメントデータに基づく知見があれば、級やテーマ(文法/語彙)の
+              選び方の参考にする。クイズの出題形式自体はdepartment.md固定のため変えない)
 
             department.mdの「今日の1問」節に従い、英検クイズ問題を1問作成してください。
             特に以下を必ず守ること:

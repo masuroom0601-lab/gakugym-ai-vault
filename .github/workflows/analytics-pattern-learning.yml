@@ -1,0 +1,99 @@
+name: analytics-pattern-learning
+
+# analytics-weekly-report完了後に動き、04_analytics/weekly-report.md と
+# 04_analytics/history/ のエンゲージメントデータを分析して、
+# 02_departments/analytics/learned-patterns.md に「伸びる型・テーマ」の知見を
+# 蓄積する(2026-10-17新設)。各部署の台本生成ワークフローはこのファイルを参照する。
+#
+# 実データが溜まっていない間(2026-10-17時点、週次手入力が継続未入力)は
+# 分析をスキップし、ファイルを荒らさない。
+
+on:
+  workflow_run:
+    workflows: ["analytics-weekly-report"]
+    types: [completed]
+  workflow_dispatch: {}
+
+env:
+  TZ: Asia/Tokyo
+
+permissions:
+  contents: write
+
+concurrency:
+  group: analytics-pattern-learning
+  cancel-in-progress: false
+
+jobs:
+  learn:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Analyze engagement history and update learned patterns
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          show_full_output: true
+          claude_args: |
+            --allowedTools "Read,Edit,Write,Bash(git *)"
+          prompt: |
+            あなたは「学ジム」の分析担当AI(パターン学習担当)です。
+            gakugym-ai-vaultリポジトリのmainブランチで作業してください。
+
+            ## 目的
+            `04_analytics/weekly-report.md`(直近週)と`04_analytics/history/`
+            (過去の週次レポート全履歴)を分析し、「どんな科目・切り口・型の投稿が
+            伸びた(保存/リーチ/いいねが高かった)か」の知見を
+            `02_departments/analytics/learned-patterns.md`の
+            「## エンゲージメントデータに基づく知見」節に追記してください。
+
+            ## 手順
+
+            1. `04_analytics/weekly-report.md`と`04_analytics/history/*.md`を
+               すべて読む。
+
+            2. **実データがあるかを確認する(最重要)**。「入力データなし」
+               「データ未入力」としか書かれていない週しか無い場合、
+               または実際の数値(いいね・保存・リーチ等)が記載された投稿の
+               合計件数が5件未満の場合は、**分析・追記を一切行わず、
+               何もせず終了してください**(ファイル変更・コミット不要)。
+               中途半端な件数で「〇〇が伸びる傾向」と断定すると、誤った学習を
+               積み重ねてしまうため、必ずこの基準を守ること。
+
+            3. 実データが合計10件以上の投稿分ある場合のみ、以下を分析する:
+               - 科目(現代文/古文/英語/日本史/総合型選抜/科目非依存)ごとの
+                 平均エンゲージメント(保存率・リーチ等、取得できる指標で)
+               - 投稿の型(リスト型/体験談型/クイズ型等、わかる範囲で)ごとの傾向
+               - 明らかな外れ値(突出して伸びた投稿・伸びなかった投稿)があれば、
+                 その投稿の特徴(タイトルの付け方、表紙の文言、箇条書きの数等)を
+                 `02_departments/*/drafts/`または`published/`から参照して特定する
+
+            4. 分析結果を`02_departments/analytics/learned-patterns.md`の
+               「## エンゲージメントデータに基づく知見」節に追記する(既存の記述は
+               消さず、日付付きの新しい段落として追加していく。蓄積が目的なので
+               上書きしないこと)。書き方のルール:
+               - **サンプル数を必ず明記する**(例:「直近3週間・投稿18件のデータでは」)
+               - **断定しない**。「〜の傾向が見られる」「〜の可能性がある」といった
+                 慎重な書き方にする(統計的に十分な件数とは言えないため)
+               - 矛盾する結果が出た場合(先週の知見と逆の傾向が今週出た等)は、
+                 古い記述を消さずに「(2026-XX-XX時点のデータでは逆の傾向も
+                 見られた。要継続観察)」と追記して両論併記する
+               - frontmatterの `last_data_based_update` を実行日の日付に更新する
+
+            5. 何か追記した場合のみ、以下でコミット・プッシュする:
+               git config user.name "gakugym-ai-bot"
+               git config user.email "bot@example.com"
+               git add 02_departments/analytics/learned-patterns.md
+               git commit -m "analytics pattern learning $(date +%F)"
+               git pull --rebase origin main
+               git push origin main
+
+            ## 制約
+            - データ不足時に無理に結論を書かないこと(上記2.の基準を厳守)
+            - 他のファイル(department.md等)は変更しないこと
+              (知見の反映は各部署側のプロンプトが`learned-patterns.md`を
+              参照する形で行う。このワークフローはlearned-patterns.mdの更新のみ)
