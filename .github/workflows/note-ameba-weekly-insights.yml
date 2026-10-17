@@ -149,3 +149,12 @@ jobs:
           else
             echo "No changes to commit."
           fi
+
+      - name: Upload failure screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: note-ameba-insights-screenshots
+          path: tools/note_ameba/failure-screenshots/
+          if-no-files-found: ignore
+          retention-days: 14

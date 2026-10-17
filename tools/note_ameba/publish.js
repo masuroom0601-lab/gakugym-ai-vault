@@ -45,6 +45,7 @@ const path = require("path");
 const { chromium } = require("playwright");
 const { parseFile, writeFile } = require("./lib/frontmatter");
 const { hasNoteCreds, hasAmebaCreds, loginNote, loginAmeba } = require("./lib/auth");
+const { saveFailureScreenshot } = require("./lib/screenshot");
 const { selectAll, loadContext, ROOT } = require("./select");
 const { renderHeader, launchOptions } = require("./header-image");
 
@@ -137,6 +138,10 @@ async function publishToNote(page, { title, body, headerPath, hashtags }) {
   }
 
   const titleBox = page.locator('textarea[placeholder*="タイトル"], [contenteditable][aria-label*="タイトル"]').first();
+  if (!(await titleBox.count())) {
+    await saveFailureScreenshot(page, "note-editor-no-title-field");
+    throw new Error("note.comの新規投稿画面でタイトル欄が見つかりませんでした(UI変更の可能性)。");
+  }
   await titleBox.click({ timeout: 10000 });
   await titleBox.fill(title).catch(async () => { await page.keyboard.type(title); });
 
@@ -150,7 +155,7 @@ async function publishToNote(page, { title, body, headerPath, hashtags }) {
   }
 
   // 「公開に進む」→(公開設定画面でハッシュタグ入力)→「投稿する」の2段階
-  await clickIfPresent(page, ["公開に進む"], 2500);
+  const proceeded = await clickIfPresent(page, ["公開に進む"], 2500);
   let tagsOk = false;
   if (hashtags.length) {
     tagsOk = await typeHashtags(page, [
@@ -158,9 +163,22 @@ async function publishToNote(page, { title, body, headerPath, hashtags }) {
     ], hashtags).catch((e) => { warnings.push(`note: ハッシュタグ入力でエラー(${e.message})`); return false; });
     if (!tagsOk && !warnings.some((w) => w.includes("ハッシュタグ"))) warnings.push("note: ハッシュタグ入力欄が見つかりませんでした");
   }
-  await clickIfPresent(page, ["投稿する", "公開する"], 3000);
+  const clickedFinal = await clickIfPresent(page, ["投稿する", "公開する"], 3000);
+  if (!proceeded && !clickedFinal) {
+    await saveFailureScreenshot(page, "note-no-publish-button");
+    throw new Error("note.comで「公開する」系のボタンが見つからず、クリックできませんでした(UI変更の可能性。本文は入力済みの可能性があるため要確認)。");
+  }
 
-  return { skipped: false, url: page.url(), imageOk, tagsOk, warnings };
+  await page.waitForTimeout(2000);
+  const url = page.url();
+  // 公開後のnote.com記事URLは note.com/<ユーザー名>/n/<記事ID> の形になる。
+  // それ以外(エディタ画面のままなど)は「クリックはしたが実際には公開されていない」可能性が高いため失敗扱いにする。
+  if (!/note\.com\/[^/]+\/n\/[a-z0-9]+/i.test(url)) {
+    await saveFailureScreenshot(page, "note-publish-not-confirmed");
+    throw new Error(`note.comで公開ボタンはクリックしましたが、公開後の記事URLに遷移しませんでした(現在のURL: ${url})。実際に公開されたか手動で確認してください。`);
+  }
+  if (warnings.length) await saveFailureScreenshot(page, "note-media-warning");
+  return { skipped: false, url, imageOk, tagsOk, warnings };
 }
 
 async function publishToAmeba(page, { title, body, headerPath, hashtags }) {
@@ -172,11 +190,19 @@ async function publishToAmeba(page, { title, body, headerPath, hashtags }) {
   await page.waitForTimeout(2000);
 
   const titleBox = page.locator('input[placeholder*="タイトル"], input[name*="title"]').first();
-  await titleBox.click({ timeout: 10000 }).catch(() => {});
+  if (!(await titleBox.count())) {
+    await saveFailureScreenshot(page, "ameba-editor-no-title-field");
+    throw new Error("Amebaの新規投稿画面でタイトル欄が見つかりませんでした(UI変更の可能性)。");
+  }
+  await titleBox.click({ timeout: 10000 });
   await titleBox.fill(title).catch(async () => { await page.keyboard.type(title); });
 
   const bodyBox = page.locator('[contenteditable="true"], textarea[name*="body"]').first();
-  await bodyBox.click({ timeout: 10000 }).catch(() => {});
+  if (!(await bodyBox.count())) {
+    await saveFailureScreenshot(page, "ameba-editor-no-body-field");
+    throw new Error("Amebaの新規投稿画面で本文欄が見つかりませんでした(UI変更の可能性)。");
+  }
+  await bodyBox.click({ timeout: 10000 });
 
   // Amebaは本文の先頭画像が記事のサムネイルになるため、本文より先に見出し画像を挿入する
   let imageOk = false;
@@ -209,13 +235,23 @@ async function publishToAmeba(page, { title, body, headerPath, hashtags }) {
     if (!tagsOk && !warnings.some((w) => w.includes("ハッシュタグ"))) warnings.push("Ameba: ハッシュタグ入力欄が見つかりませんでした");
   }
 
-  const publishBtn = page.getByRole("button", { name: /公開する|投稿する/ }).last();
-  if (await publishBtn.count()) {
-    await publishBtn.click({ timeout: 10000 }).catch(() => {});
-    await page.waitForTimeout(2000);
+  const publishBtn = page.getByRole("button", { name: /公開する|投稿する/ }).first();
+  if (!(await publishBtn.count())) {
+    await saveFailureScreenshot(page, "ameba-no-publish-button");
+    throw new Error("Amebaで「公開する」系のボタンが見つからず、クリックできませんでした(UI変更の可能性。本文は入力済みの可能性があるため要確認)。");
   }
+  await publishBtn.click({ timeout: 10000 });
+  await page.waitForTimeout(3000);
 
-  return { skipped: false, url: page.url(), imageOk, tagsOk, warnings };
+  const url = page.url();
+  // 公開後のAmeba記事URLは ameblo.jp/<ブログID>/entry-<ID>.html の形になる。
+  // entry-edit.htmlのままの場合は「クリックはしたが実際には公開されていない」可能性が高いため失敗扱いにする。
+  if (!/ameblo\.jp\/[^/]+\/entry-\d+/i.test(url)) {
+    await saveFailureScreenshot(page, "ameba-publish-not-confirmed");
+    throw new Error(`Amebaで公開ボタンはクリックしましたが、公開後の記事URLに遷移しませんでした(現在のURL: ${url})。実際に公開されたか手動で確認してください。`);
+  }
+  if (warnings.length) await saveFailureScreenshot(page, "ameba-media-warning");
+  return { skipped: false, url, imageOk, tagsOk, warnings };
 }
 
 // 記事ごとに画像・ハッシュタグを選び、見出し画像を生成する

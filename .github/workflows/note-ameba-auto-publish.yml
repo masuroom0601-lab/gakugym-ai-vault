@@ -73,7 +73,17 @@ jobs:
           git add 02_departments/note_ameba/
           if ! git diff --cached --quiet; then
             git commit -m "note/ameba auto publish run $(date +%F)"
+            git pull --rebase origin main
             git push
           else
             echo "No changes to commit."
           fi
+
+      - name: Upload failure screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: note-ameba-failure-screenshots
+          path: tools/note_ameba/failure-screenshots/
+          if-no-files-found: ignore
+          retention-days: 14
