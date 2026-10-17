@@ -1,6 +1,6 @@
 ---
 title: 週次競合分析 Routine 設定手順書(claude.ai Routines)
-status: 未着手(益田さんがclaude.ai Routines画面から作成する必要あり)
+status: Routine作成済み(trig_01PJVApweAegJwXFDN6uX9j9、2026-10-17)。益田さんがvidIQコネクタをONにする作業のみ残っている
 ---
 
 ## 背景
@@ -14,30 +14,26 @@ status: 未着手(益田さんがclaude.ai Routines画面から作成する必�
 **重要な制約**: vidIQはエルグラムと同様、このチャットセッション専用のMCPコネクタであり、
 GitHub Actionsからは直接呼び出せない。また、claude.aiのRoutineをAPI経由で新規作成する際、
 このセッションが持つコネクタの権限を自動的に引き継ぐことができない(エルグラム導入時に
-判明した既知の制約)。そのため、エルグラムの時と同様、**益田さんご自身がclaude.ai画面上で
-Routineを作成し、画面上でvidIQコネクタを手動でオンにする**方式にする。
+判明した既知の制約)。
+
+**2026-10-17更新**: 益田さんの指示により、Routine本体(名前・スケジュール・プロンプト)は
+このセッションが`create_trigger`で作成済み(`週次競合分析`、trigger_id:
+`trig_01PJVApweAegJwXFDN6uX9j9`)。**残っているのは、claude.ai画面上でvidIQコネクタを
+手動でONにする作業だけ**(上記の制約により、これだけはAPI経由ではできない)。
 
 ## 前提
 - claude.aiで「vidIQ」が連携済みであること
-- このGitHubリポジトリ(`masuroom0601-lab/gakugym-ai-vault`、mainブランチ)に
-  Routine実行環境がアクセスできること
 - vidIQの利用クレジット残高に余裕があること(1回の実行で40〜50クレジット程度消費する設計)
 
-## 手順
+## 手順(残っている作業)
 
 1. claude.ai の **Routines** の設定画面を開く
-
-2. 「新規Routine作成」を選び、以下を設定する:
-   - **名前**: `週次競合分析`
-   - **スケジュール**: 毎週日曜 03:00(日本時間)
-     (`analytics-weekly-report.yml`の05:30、エルグラムRoutineの04:50より前に
-     完了させ、同じ週のlearned-patterns.md更新をまとめて月曜朝の台本生成に
-     間に合わせるため)
-   - **リポジトリ**: `masuroom0601-lab/gakugym-ai-vault`を選択
-   - **コネクタ**: **vidIQを必ずオンにする**(これが今回一番重要な設定です)
-   - **プロンプト**: 下記「Routineに貼り付けるプロンプト」をそのまま貼り付ける
-
-3. 保存後、可能であれば「今すぐ実行」で1回動かし、vidIQツールが使え、
+2. 「週次競合分析」(毎週日曜 02:53 JST実行)を選ぶ
+   (03:00ちょうどだと他の処理と重なりやすいため、あえて7分早めてある。
+   `analytics-weekly-report.yml`の05:30、エルグラムRoutineの04:50より前に完了する)
+3. **コネクタ一覧からvidIQをONにする**(これだけでよい。名前・スケジュール・
+   プロンプトは設定済みなので変更不要)
+4. 保存後、可能であれば「今すぐ実行」で1回動かし、vidIQツールが使え、
    `learned-patterns.md`に新しい日付の段落が追記されるか確認する
 
 ## Routineに貼り付けるプロンプト
