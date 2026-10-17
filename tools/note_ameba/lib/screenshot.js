@@ -27,7 +27,9 @@ async function dumpPageStructure(page, label) {
       // 画面に表示されている文字の冒頭(入力欄が見つからない時に、何の画面なのかを判断するため)
       const text = (document.body ? document.body.innerText : "").replace(/\s+/g, " ").trim().slice(0, 300);
       const htmlLength = document.documentElement.outerHTML.length;
-      return { url: location.href, title: document.title, text, htmlLength, fields, buttons, iframes };
+      const dialogs = [...document.querySelectorAll('[role="dialog"], [aria-modal="true"]')].filter(vis)
+        .map((d) => (d.innerText || "").replace(/\s+/g, " ").trim().slice(0, 200));
+      return { url: location.href, title: document.title, text, htmlLength, dialogs, fields, buttons, iframes };
     });
     console.log(`[画面構成:${label}] ` + JSON.stringify(info));
   } catch (e) {
