@@ -152,3 +152,13 @@ test("note公開APIの項目名の揺れ(camelCase/snake_case)を吸収する", 
   assert.equal(a.likes, 3);
   assert.equal(normalizeNote({ key: "n2", like_count: 5 }, "u").likes, 5);
 });
+
+test("Markdownを貼り付け用HTMLに変換する(見出し・太字・箇条書き・表・内部メモ除去)", () => {
+  const { markdownToHtml, expectedLength } = require("../publish");
+  const html = markdownToHtml("<!-- memo -->\n## 見出し\n\n**大事**な<話>\n続き\n\n- a\n- b\n\n| NG | OK |\n|---|---|\n| 早く | 一緒に |\n\n### 小見出し");
+  assert.equal(html, [
+    "<h2>見出し</h2>", "<p><strong>大事</strong>な&lt;話&gt;<br>続き</p>", "<ul><li>a</li><li>b</li></ul>",
+    "<p>NG → OK</p>", "<p>早く → 一緒に</p>", "<h3>小見出し</h3>",
+  ].join("\n"));
+  assert.equal(expectedLength("## 見出し\n\n**本文** です"), "見出し本文です".length);
+});

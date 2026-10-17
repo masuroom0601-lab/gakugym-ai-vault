@@ -43,11 +43,8 @@ async function probeNote(browser) {
     const links = await page.evaluate(() => [...document.querySelectorAll("a[href]")].map((a) => a.getAttribute("href"))
       .filter((h) => /^\/[A-Za-z0-9_]+\/?$/.test(h || "")).slice(0, 20));
     console.log("note: トップページの /<名前> 形式リンク: " + JSON.stringify(links));
-    await page.goto("https://note.com/notes/new", { waitUntil: "domcontentloaded" });
-    await page.waitForTimeout(6000);
-    await dumpPageStructure(page, "note-editor-6s");
-    await page.waitForTimeout(6000);
-    await dumpPageStructure(page, "note-editor-12s");
+    // 投稿画面は開かない(noteは開くだけで空の下書きが作られるため)。
+    // 投稿画面の確認は publish.js のリハーサル(PUBLISH_REHEARSAL)で行う
   } catch (e) {
     console.log("note: " + e.message);
   }

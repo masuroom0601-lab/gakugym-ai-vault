@@ -46,7 +46,7 @@ const { chromium } = require("playwright");
 const { parseFile, writeFile } = require("./lib/frontmatter");
 const { hasNoteCreds, hasAmebaCreds, loginNote, loginAmeba } = require("./lib/auth");
 const { newSessionContext } = require("./lib/session");
-const { saveFailureScreenshot } = require("./lib/screenshot");
+const { saveFailureScreenshot, dumpPageStructure } = require("./lib/screenshot");
 const { selectAll, loadContext, ROOT } = require("./select");
 const { renderHeader, launchOptions } = require("./header-image");
 
@@ -54,9 +54,14 @@ const DRAFTS_DIR = path.join(ROOT, "02_departments", "note_ameba", "drafts");
 const PUBLISHED_DIR = path.join(ROOT, "02_departments", "note_ameba", "published");
 const IMAGES_DIR = path.join(ROOT, "02_departments", "note_ameba", "images");
 const DRY_RUN = process.env.PUBLISH_DRY_RUN === "1";
+// リハーサル: 指定した下書き1本について、ログイン→入力→公開設定画面まで進め、
+// 最後の「投稿する」だけ押さずに止める(画面構成をログに出す)。ファイルの書き換えもしない。
+// 例: PUBLISH_REHEARSAL=task-2026-10-05-note-001.md node publish.js
+// ※ noteは入力内容が自動で下書き保存されるため、リハーサル後にnote側の下書きを削除すること
+const REHEARSAL = process.env.PUBLISH_REHEARSAL || "";
 
 // note.comのエディタはリッチテキストなので、Markdownの見出し記号(##)・強調(**)を
-// 簡易的に取り除いたプレーンテキストとして段落ごとに貼り付ける(装飾は失われる前提)。
+// 簡易的に取り除いたプレーンテキストとして段落ごとに扱う(文字数チェック・貼り付け失敗時の手入力用)。
 function toPlainParagraphs(md) {
   return md
     .replace(/<!--[\s\S]*?-->/g, "") // 内部メモ用のHTMLコメントは投稿しない
@@ -65,12 +70,54 @@ function toPlainParagraphs(md) {
     .filter(Boolean);
 }
 
+const esc = (t) => String(t).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const inline = (t) => esc(t).replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+
+// 下書きのMarkdownを、エディタに貼り付けるための簡易HTMLに変換する(2026-10-17)。
+// 見出し(##/###)・太字・箇条書き・引用・表(1行ずつの段落に変換)に対応。
+// note/Amebaのエディタとも、貼り付けたHTMLの見出し・太字をそのまま書式として扱える。
+function markdownToHtml(md) {
+  const lines = md.replace(/<!--[\s\S]*?-->/g, "").split("\n");
+  const out = [];
+  let list = null, para = [];
+  const flushPara = () => { if (para.length) { out.push(`<p>${para.map(inline).join("<br>")}</p>`); para = []; } };
+  const flushList = () => { if (list) { out.push(`<ul>${list.map((i) => `<li>${inline(i)}</li>`).join("")}</ul>`); list = null; } };
+  for (const raw of lines) {
+    const line = raw.trimEnd();
+    let m;
+    if (!line.trim()) { flushPara(); flushList(); continue; }
+    if ((m = line.match(/^(#{1,6})\s+(.*)$/))) {
+      flushPara(); flushList();
+      const level = m[1].length <= 2 ? 2 : 3; // noteは大見出し(h2)・小見出し(h3)の2段階
+      out.push(`<h${level}>${inline(m[2])}</h${level}>`);
+    } else if ((m = line.match(/^\s*[-*・]\s+(.*)$/)) || (m = line.match(/^\s*\d+[.)]\s+(.*)$/))) {
+      flushPara(); (list = list || []).push(m[1]);
+    } else if ((m = line.match(/^>\s?(.*)$/))) {
+      flushPara(); flushList(); out.push(`<blockquote><p>${inline(m[1])}</p></blockquote>`);
+    } else if (/^\s*\|/.test(line)) {
+      flushPara(); flushList();
+      if (/^\s*\|?\s*:?-{2,}/.test(line)) continue; // 表の区切り行
+      const cells = line.split("|").map((c) => c.trim()).filter(Boolean);
+      out.push(`<p>${cells.map(inline).join(" → ")}</p>`);
+    } else {
+      flushList(); para.push(line.trim());
+    }
+  }
+  flushPara(); flushList();
+  return out.join("\n");
+}
+
+// 投稿前チェック用: 本文の文字数(空白・記号の差は許容するため、比較は6割以上あればOKとする)
+function expectedLength(md) {
+  return toPlainParagraphs(md).join("").replace(/\s/g, "").length;
+}
+
 // ボタン等をクリックしてファイル選択ダイアログを開き、画像を渡す。
 // ダイアログが出ない場合は、ページ内の input[type=file] に直接渡す。
-async function uploadViaChooser(page, triggers, filePath) {
+async function uploadViaChooser(page, triggers, filePath, fileInputSelector = 'input[type="file"]') {
   for (const sel of triggers) {
     const el = page.locator(sel).first();
-    if (!(await el.count().catch(() => 0))) continue;
+    if (!(await el.isVisible().catch(() => false))) continue;
     try {
       const [chooser] = await Promise.all([
         page.waitForEvent("filechooser", { timeout: 5000 }),
@@ -80,7 +127,7 @@ async function uploadViaChooser(page, triggers, filePath) {
       return true;
     } catch { /* 次の候補へ */ }
   }
-  const input = page.locator('input[type="file"]').first();
+  const input = page.locator(fileInputSelector).first();
   if (await input.count().catch(() => 0)) {
     await input.setInputFiles(filePath);
     return true;
@@ -90,8 +137,8 @@ async function uploadViaChooser(page, triggers, filePath) {
 
 async function clickIfPresent(page, names, wait = 1500) {
   for (const name of names) {
-    const btn = page.getByRole("button", { name }).first();
-    if (await btn.count().catch(() => 0)) {
+    const btn = page.getByRole("button", { name, exact: true }).first();
+    if (await btn.isVisible().catch(() => false)) {
       await btn.click({ timeout: 5000 }).catch(() => {});
       await page.waitForTimeout(wait);
       return true;
@@ -104,7 +151,7 @@ async function clickIfPresent(page, names, wait = 1500) {
 async function typeHashtags(page, selectors, tags) {
   for (const sel of selectors) {
     const box = page.locator(sel).first();
-    if (!(await box.count().catch(() => 0))) continue;
+    if (!(await box.isVisible().catch(() => false))) continue;
     for (const tag of tags) {
       await box.click({ timeout: 5000 });
       await box.fill(tag).catch(async () => { await page.keyboard.type(tag); });
@@ -116,48 +163,81 @@ async function typeHashtags(page, selectors, tags) {
   return false;
 }
 
-async function publishToNote(page, { title, body, headerPath, hashtags }) {
-  if (!hasNoteCreds()) return { skipped: true, reason: "NOTE_EMAIL/NOTE_PASSWORDが未設定" };
+// 画面の「N 文字」「文字数: N」表示を読む(読めなければnull)
+async function readCharCount(page, re) {
+  const text = await page.evaluate(() => document.body.innerText).catch(() => "");
+  const m = text.match(re);
+  return m ? parseInt(m[1].replace(/,/g, ""), 10) : null;
+}
+
+function checkLength(platform, actual, expected, warnings) {
+  if (actual === null) { warnings.push(`${platform}: 本文の文字数表示を読めませんでした(本文が入ったかは目視で確認してください)`); return; }
+  if (actual < expected * 0.6) {
+    throw new Error(`${platform}: 本文が正しく入力されていません(入力 ${actual}文字 / 想定 約${expected}文字)。投稿を中止しました(下書きとして残っている場合は削除してください)。`);
+  }
+}
+
+async function publishToNote(page, { title, body, headerPath, hashtags, rehearsal }) {
+  if (!hasNoteCreds()) return { skipped: true, reason: "NOTEのログイン情報(NOTE_SESSION)が未設定" };
   const warnings = [];
   await loginNote(page);
 
+  // notes/new は editor.note.com/notes/<記事キー>/edit/ に転送される(2026-10-17確認)
   await page.goto("https://note.com/notes/new", { waitUntil: "domcontentloaded" });
-  await page.waitForTimeout(2000);
+  const titleBox = page.locator('textarea[placeholder*="タイトル"]').first();
+  await titleBox.waitFor({ state: "visible", timeout: 30000 }).catch(() => {});
+  if (!(await titleBox.isVisible().catch(() => false))) {
+    await saveFailureScreenshot(page, "note-editor-no-title-field");
+    throw new Error("note.comの新規投稿画面でタイトル欄が見つかりませんでした(UI変更の可能性)。");
+  }
+  const noteKey = (page.url().match(/notes\/(n[a-z0-9]+)/i) || [])[1] || null;
 
-  // 見出し画像(タイトル上の「画像を追加」)。失敗しても本文の投稿は続ける
+  // 見出し画像(タイトル上の画像追加ボタン)。失敗しても本文の投稿は続ける
   let imageOk = false;
   if (headerPath) {
     try {
       imageOk = await uploadViaChooser(page, [
-        'button[aria-label*="見出し画像"]', 'button[aria-label*="画像を追加"]',
-        'button:has-text("見出し画像")', '[class*="eyecatch"] button', '[class*="Eyecatch"] button',
+        'button[aria-label*="見出し画像"]', 'button[aria-label*="画像を追加"]', 'button:has-text("画像を追加")',
+        '[class*="eyecatch"] button', '[class*="Eyecatch"] button',
       ], headerPath);
       if (imageOk) {
-        await page.waitForTimeout(2500);
-        await clickIfPresent(page, ["保存", "適用", "完了"]); // トリミング確認ダイアログ
+        await page.waitForTimeout(3000);
+        await clickIfPresent(page, ["保存", "適用", "完了", "この画像を使う"]); // トリミング確認ダイアログ
       } else warnings.push("note: 見出し画像のアップロード欄が見つかりませんでした");
     } catch (e) { imageOk = false; warnings.push(`note: 見出し画像の設定に失敗(${e.message})`); }
   }
 
-  const titleBox = page.locator('textarea[placeholder*="タイトル"], [contenteditable][aria-label*="タイトル"]').first();
-  if (!(await titleBox.count())) {
-    await saveFailureScreenshot(page, "note-editor-no-title-field");
-    throw new Error("note.comの新規投稿画面でタイトル欄が見つかりませんでした(UI変更の可能性)。");
-  }
   await titleBox.click({ timeout: 10000 });
-  await titleBox.fill(title).catch(async () => { await page.keyboard.type(title); });
+  await titleBox.fill(title);
 
-  await page.keyboard.press("Tab");
-  const bodyBox = page.locator('[contenteditable="true"]').last();
+  // 本文: HTMLとして貼り付ける(見出し・太字を保つ)。貼り付けが効かなければ1段落ずつ手入力する
+  const bodyBox = page.locator(".ProseMirror[contenteditable='true'], [role='textbox'][contenteditable='true']").first();
   await bodyBox.click({ timeout: 10000 });
-  for (const para of toPlainParagraphs(body)) {
-    await page.keyboard.type(para);
-    await page.keyboard.press("Enter");
-    await page.keyboard.press("Enter");
+  const html = markdownToHtml(body);
+  await page.evaluate(({ html, text }) => {
+    const el = document.querySelector(".ProseMirror[contenteditable='true']") || document.activeElement;
+    el.focus();
+    const dt = new DataTransfer();
+    dt.setData("text/html", html);
+    dt.setData("text/plain", text);
+    el.dispatchEvent(new ClipboardEvent("paste", { clipboardData: dt, bubbles: true, cancelable: true }));
+  }, { html, text: toPlainParagraphs(body).join("\n\n") });
+  await page.waitForTimeout(2000);
+  const expected = expectedLength(body);
+  let count = await readCharCount(page, /([\d,]+)\s*文字/);
+  if (count !== null && count < expected * 0.6) {
+    warnings.push("note: 本文の貼り付けが効かなかったため、書式なしで手入力しました");
+    await bodyBox.click();
+    for (const para of toPlainParagraphs(body)) { await page.keyboard.type(para); await page.keyboard.press("Enter"); }
+    count = await readCharCount(page, /([\d,]+)\s*文字/);
   }
+  checkLength("note", count, expected, warnings);
 
-  // 「公開に進む」→(公開設定画面でハッシュタグ入力)→「投稿する」の2段階
-  const proceeded = await clickIfPresent(page, ["公開に進む"], 2500);
+  // 「公開に進む」→ 公開設定画面(ハッシュタグ入力)→「投稿する」
+  if (!(await clickIfPresent(page, ["公開に進む"], 4000))) {
+    await saveFailureScreenshot(page, "note-no-proceed-button");
+    throw new Error("note.comで「公開に進む」ボタンが見つかりませんでした(UI変更の可能性。下書きとして残っている場合は削除してください)。");
+  }
   let tagsOk = false;
   if (hashtags.length) {
     tagsOk = await typeHashtags(page, [
@@ -165,93 +245,128 @@ async function publishToNote(page, { title, body, headerPath, hashtags }) {
     ], hashtags).catch((e) => { warnings.push(`note: ハッシュタグ入力でエラー(${e.message})`); return false; });
     if (!tagsOk && !warnings.some((w) => w.includes("ハッシュタグ"))) warnings.push("note: ハッシュタグ入力欄が見つかりませんでした");
   }
-  const clickedFinal = await clickIfPresent(page, ["投稿する", "公開する"], 3000);
-  if (!proceeded && !clickedFinal) {
-    await saveFailureScreenshot(page, "note-no-publish-button");
-    throw new Error("note.comで「公開する」系のボタンが見つからず、クリックできませんでした(UI変更の可能性。本文は入力済みの可能性があるため要確認)。");
+
+  if (rehearsal) {
+    await dumpPageStructure(page, "note-publish-settings(rehearsal)");
+    return { skipped: false, rehearsal: true, url: page.url(), noteKey, imageOk, tagsOk, warnings, charCount: count, expected };
   }
 
-  await page.waitForTimeout(2000);
-  const url = page.url();
-  // 公開後のnote.com記事URLは note.com/<ユーザー名>/n/<記事ID> の形になる。
-  // それ以外(エディタ画面のままなど)は「クリックはしたが実際には公開されていない」可能性が高いため失敗扱いにする。
-  if (!/note\.com\/[^/]+\/n\/[a-z0-9]+/i.test(url)) {
+  if (!(await clickIfPresent(page, ["投稿する", "公開する"], 4000))) {
+    await saveFailureScreenshot(page, "note-no-publish-button");
+    throw new Error("note.comの公開設定画面で「投稿する」ボタンが見つかりませんでした(UI変更の可能性。下書きとして残っている場合は確認してください)。");
+  }
+
+  // 公開できたかは、画面遷移ではなく記事情報(API)の status で確認する
+  let url = null;
+  for (let i = 0; i < 10 && noteKey; i++) {
+    const res = await page.request.get(`https://note.com/api/v3/notes/${noteKey}`).catch(() => null);
+    const d = res && res.ok() ? ((await res.json().catch(() => ({}))).data || {}) : {};
+    if (d.status === "published") { url = d.note_url || d.noteUrl || page.url(); break; }
+    await page.waitForTimeout(2000);
+  }
+  if (!url && /note\.com\/[^/]+\/n\/[a-z0-9]+/i.test(page.url())) url = page.url();
+  if (!url) {
     await saveFailureScreenshot(page, "note-publish-not-confirmed");
-    throw new Error(`note.comで公開ボタンはクリックしましたが、公開後の記事URLに遷移しませんでした(現在のURL: ${url})。実際に公開されたか手動で確認してください。`);
+    throw new Error(`note.comで「投稿する」を押しましたが、公開済みになったことを確認できませんでした(記事キー: ${noteKey}, URL: ${page.url()})。実際に公開されたか手動で確認してください。`);
   }
   if (warnings.length) await saveFailureScreenshot(page, "note-media-warning");
   return { skipped: false, url, imageOk, tagsOk, warnings };
 }
 
-async function publishToAmeba(page, { title, body, headerPath, hashtags }) {
-  if (!hasAmebaCreds()) return { skipped: true, reason: "AMEBA_ID/AMEBA_PASSWORD/AMEBA_BLOG_IDが未設定" };
+async function publishToAmeba(page, { title, body, headerPath, hashtags, rehearsal }) {
+  if (!hasAmebaCreds()) return { skipped: true, reason: "Amebaのログイン情報(AMEBA_SESSION)またはAMEBA_BLOG_IDが未設定" };
   const warnings = [];
   await loginAmeba(page);
 
   // 新規投稿画面(ameblo.jp/<ID>/entry-edit.html は404になる。2026-10-17確認)
   await page.goto("https://blog.ameba.jp/ucs/entry/srventryinsertinput.do", { waitUntil: "domcontentloaded" });
-  await page.waitForTimeout(2000);
-
-  const titleBox = page.locator('input[placeholder*="タイトル"], input[name*="title"]').first();
-  if (!(await titleBox.count())) {
+  const titleBox = page.locator('input[name="entry_title"], input[placeholder*="タイトル"]').first();
+  await titleBox.waitFor({ state: "visible", timeout: 30000 }).catch(() => {});
+  if (!(await titleBox.isVisible().catch(() => false))) {
     await saveFailureScreenshot(page, "ameba-editor-no-title-field");
     throw new Error("Amebaの新規投稿画面でタイトル欄が見つかりませんでした(UI変更の可能性)。");
   }
-  await titleBox.click({ timeout: 10000 });
-  await titleBox.fill(title).catch(async () => { await page.keyboard.type(title); });
+  await titleBox.fill(title);
 
-  const bodyBox = page.locator('[contenteditable="true"], textarea[name*="body"]').first();
-  if (!(await bodyBox.count())) {
+  // 本文: エディタ(CKEditor)の機能でHTMLを流し込む(見出し・太字を保つ)
+  await page.waitForFunction(() => window.CKEDITOR && Object.keys(window.CKEDITOR.instances).length > 0, null, { timeout: 30000 }).catch(() => {});
+  const html = markdownToHtml(body);
+  const setOk = await page.evaluate((h) => {
+    const ed = window.CKEDITOR && Object.values(window.CKEDITOR.instances)[0];
+    if (!ed) return false;
+    ed.setData(h);
+    return true;
+  }, html).catch(() => false);
+  if (!setOk) {
     await saveFailureScreenshot(page, "ameba-editor-no-body-field");
-    throw new Error("Amebaの新規投稿画面で本文欄が見つかりませんでした(UI変更の可能性)。");
+    throw new Error("Amebaの本文エディタを操作できませんでした(UI変更の可能性)。");
   }
-  await bodyBox.click({ timeout: 10000 });
+  await page.waitForTimeout(2000);
+  const expected = expectedLength(body);
+  checkLength("Ameba", await readCharCount(page, /文字数[:：]\s*([\d,]+)/), expected, warnings);
 
-  // Amebaは本文の先頭画像が記事のサムネイルになるため、本文より先に見出し画像を挿入する
+  // 見出し画像: 画像をアップロードし、本文の先頭に挿入する(Amebaは本文の先頭画像が記事のサムネイルになる)
   let imageOk = false;
   if (headerPath) {
     try {
-      imageOk = await uploadViaChooser(page, [
-        'button[aria-label*="画像"]', 'button:has-text("画像")', '[title*="画像"]',
-      ], headerPath);
-      if (imageOk) {
-        await page.waitForTimeout(3000);
-        await clickIfPresent(page, ["挿入", "貼り付け", "決定"]); // 画像挿入モーダル
-        await bodyBox.click({ timeout: 5000 }).catch(() => {});
-        await page.keyboard.press("Control+End").catch(() => {});
-        await page.keyboard.press("Enter");
+      await page.locator("#sidepanel-accessoryTab-photos").click({ timeout: 5000 }).catch(() => {});
+      const before = await page.locator('img[src*="stat.ameba.jp"], img[src*="user_images"]').count().catch(() => 0);
+      const uploaded = await uploadViaChooser(page, ['button:has-text("画像をアップロード")', 'label:has-text("画像をアップロード")'], headerPath, "#js-input-files");
+      if (uploaded) {
+        // アップロードされた画像の一覧が増えるまで待ち、増えた最初の画像のURLを本文の先頭に入れる
+        let src = null;
+        for (let i = 0; i < 15 && !src; i++) {
+          await page.waitForTimeout(2000);
+          src = await page.evaluate((n) => {
+            const imgs = [...document.querySelectorAll('img[src*="stat.ameba.jp"], img[src*="user_images"]')];
+            return imgs.length > n ? imgs[0].src.replace(/\?.*$/, "") : null;
+          }, before).catch(() => null);
+        }
+        if (src) {
+          imageOk = await page.evaluate((u) => {
+            const ed = Object.values(window.CKEDITOR.instances)[0];
+            ed.setData(`<p><img src="${u}" alt=""></p>` + ed.getData());
+            return true;
+          }, src).catch(() => false);
+        }
+        if (!imageOk) warnings.push("Ameba: 画像はアップロードしましたが、本文への挿入を確認できませんでした");
       } else warnings.push("Ameba: 画像のアップロード欄が見つかりませんでした");
     } catch (e) { imageOk = false; warnings.push(`Ameba: 画像の挿入に失敗(${e.message})`); }
-  }
-
-  for (const para of toPlainParagraphs(body)) {
-    await page.keyboard.type(para);
-    await page.keyboard.press("Enter");
-    await page.keyboard.press("Enter");
   }
 
   let tagsOk = false;
   if (hashtags.length) {
     tagsOk = await typeHashtags(page, [
-      'input[placeholder*="ハッシュタグ"]', 'input[aria-label*="ハッシュタグ"]', 'input[name*="hashtag"]',
+      'input[placeholder*="ハッシュタグ"]', 'input[aria-label*="ハッシュタグ"]', 'input[placeholder*="タグ"]',
     ], hashtags).catch((e) => { warnings.push(`Ameba: ハッシュタグ入力でエラー(${e.message})`); return false; });
     if (!tagsOk && !warnings.some((w) => w.includes("ハッシュタグ"))) warnings.push("Ameba: ハッシュタグ入力欄が見つかりませんでした");
   }
 
-  const publishBtn = page.getByRole("button", { name: /公開する|投稿する/ }).first();
-  if (!(await publishBtn.count())) {
+  if (rehearsal) {
+    await dumpPageStructure(page, "ameba-editor-filled(rehearsal)");
+    return { skipped: false, rehearsal: true, url: page.url(), imageOk, tagsOk, warnings };
+  }
+
+  const publishBtn = page.locator('button, input[type="submit"], a[role="button"]').filter({ hasText: /^\s*(投稿する|公開する)\s*$/ }).first();
+  if (!(await publishBtn.isVisible().catch(() => false))) {
     await saveFailureScreenshot(page, "ameba-no-publish-button");
-    throw new Error("Amebaで「公開する」系のボタンが見つからず、クリックできませんでした(UI変更の可能性。本文は入力済みの可能性があるため要確認)。");
+    throw new Error("Amebaで「投稿する」ボタンが見つかりませんでした(UI変更の可能性)。");
   }
   await publishBtn.click({ timeout: 10000 });
-  await page.waitForTimeout(3000);
+  await page.waitForLoadState("domcontentloaded").catch(() => {});
+  await page.waitForTimeout(4000);
 
-  const url = page.url();
-  // 公開後のAmeba記事URLは ameblo.jp/<ブログID>/entry-<ID>.html の形になる。
-  // entry-edit.htmlのままの場合は「クリックはしたが実際には公開されていない」可能性が高いため失敗扱いにする。
-  if (!/ameblo\.jp\/[^/]+\/entry-\d+/i.test(url)) {
+  // 公開後は記事ページ(ameblo.jp/<ID>/entry-<数字>.html)か、投稿完了画面(記事へのリンクあり)になる
+  let url = /ameblo\.jp\/[^/]+\/entry-\d+/i.test(page.url()) ? page.url() : null;
+  if (!url) {
+    url = await page.evaluate(() => {
+      const a = [...document.querySelectorAll('a[href*="ameblo.jp/"]')].find((x) => /\/entry-\d+\.html/.test(x.href));
+      return a ? a.href : null;
+    }).catch(() => null);
+  }
+  if (!url) {
     await saveFailureScreenshot(page, "ameba-publish-not-confirmed");
-    throw new Error(`Amebaで公開ボタンはクリックしましたが、公開後の記事URLに遷移しませんでした(現在のURL: ${url})。実際に公開されたか手動で確認してください。`);
+    throw new Error(`Amebaで「投稿する」を押しましたが、公開された記事のURLを確認できませんでした(現在のURL: ${page.url()})。実際に公開されたか手動で確認してください。`);
   }
   if (warnings.length) await saveFailureScreenshot(page, "ameba-media-warning");
   return { skipped: false, url, imageOk, tagsOk, warnings };
@@ -286,8 +401,9 @@ async function main() {
   fs.mkdirSync(PUBLISHED_DIR, { recursive: true });
 
   const files = fs.readdirSync(DRAFTS_DIR).filter((f) => f.endsWith(".md")).sort();
+  if (REHEARSAL && !files.includes(path.basename(REHEARSAL))) { console.log(`リハーサル対象 ${REHEARSAL} が drafts/ にありません`); return; }
   const targets = files.map((f) => ({ file: f, parsed: parseFile(path.join(DRAFTS_DIR, f)) }))
-    .filter((t) => t.parsed && (DRY_RUN || t.parsed.front.status === "approved"));
+    .filter((t) => t.parsed && (REHEARSAL ? t.file === path.basename(REHEARSAL) : (DRY_RUN || t.parsed.front.status === "approved")));
   if (!targets.length) { console.log("投稿対象(status: approved)の下書きはありません"); return; }
 
   const ctx = loadContext();
@@ -299,6 +415,19 @@ async function main() {
     console.log(`--- ${file} (status: ${front.status}) を処理します ---`);
     const media = await prepareMedia(file, parsed, ctx, browser);
     if (DRY_RUN) continue;
+
+    if (REHEARSAL) {
+      const context = await newSessionContext(browser);
+      const page = await context.newPage();
+      for (const [name, fn, tags] of [["note", publishToNote, media.sel.hashtags.note.tags], ["Ameba", publishToAmeba, media.sel.hashtags.ameba.tags]]) {
+        try {
+          const r = await fn(page, { title, body, headerPath: media.headerPath, hashtags: tags, rehearsal: true });
+          console.log(`[リハーサル] ${name}: ` + JSON.stringify(r));
+        } catch (e) { console.error(`[リハーサル] ${name}: 失敗 - ${e.message}`); }
+      }
+      await context.close();
+      continue;
+    }
 
     const context = await newSessionContext(browser);
     const page = await context.newPage();
@@ -363,7 +492,7 @@ async function main() {
   await browser.close();
 }
 
-module.exports = { toPlainParagraphs };
+module.exports = { toPlainParagraphs, markdownToHtml, expectedLength };
 
 if (require.main === module) {
   main().catch((e) => { console.error(e); process.exit(1); });
