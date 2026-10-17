@@ -188,7 +188,8 @@ async function publishToAmeba(page, { title, body, headerPath, hashtags }) {
   const warnings = [];
   await loginAmeba(page);
 
-  await page.goto(`https://ameblo.jp/${process.env.AMEBA_BLOG_ID}/entry-edit.html`, { waitUntil: "domcontentloaded" });
+  // 新規投稿画面(ameblo.jp/<ID>/entry-edit.html は404になる。2026-10-17確認)
+  await page.goto("https://blog.ameba.jp/ucs/entry/srventryinsertinput.do", { waitUntil: "domcontentloaded" });
   await page.waitForTimeout(2000);
 
   const titleBox = page.locator('input[placeholder*="タイトル"], input[name*="title"]').first();
