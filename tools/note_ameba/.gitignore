@@ -1,2 +1,3 @@
 node_modules/
 failure-screenshots/
+*-session.txt

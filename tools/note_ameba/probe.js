@@ -7,6 +7,7 @@
  */
 const { chromium } = require("playwright");
 const { hasNoteCreds, hasAmebaCreds, loginNote, loginAmeba } = require("./lib/auth");
+const { newSessionContext } = require("./lib/session");
 const { dumpPageStructure } = require("./lib/screenshot");
 const { launchOptions } = require("./header-image");
 
@@ -31,7 +32,7 @@ async function probeApi(page, url) {
 
 async function probeNote(browser) {
   if (!hasNoteCreds()) return console.log("note: secrets未設定");
-  const page = await (await browser.newContext()).newPage();
+  const page = await (await newSessionContext(browser)).newPage();
   try {
     await loginNote(page);
     console.log("note: ログイン成功 URL=" + page.url());
@@ -54,7 +55,7 @@ async function probeNote(browser) {
 
 async function probeAmeba(browser) {
   if (!hasAmebaCreds()) return console.log("Ameba: secrets未設定");
-  const page = await (await browser.newContext()).newPage();
+  const page = await (await newSessionContext(browser)).newPage();
   try {
     await page.goto("https://www.ameba.jp/login.html", { waitUntil: "domcontentloaded" });
     await page.waitForTimeout(4000);

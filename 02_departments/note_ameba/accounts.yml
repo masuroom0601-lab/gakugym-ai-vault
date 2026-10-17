@@ -1,0 +1,3 @@
+# note/Ameba の公開アカウント情報(パスワード等の秘密情報はここに書かない。secretsに保存する)
+# 公開API(ログイン不要)で記事一覧・見出し画像・スキ数を取るために使う。
+note_urlname: deft_agapan6959   # https://note.com/deft_agapan6959
