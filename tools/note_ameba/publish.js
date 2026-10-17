@@ -35,6 +35,18 @@ const { chromium } = require("playwright");
 const HERE = __dirname;
 const DRAFTS_DIR = path.join(HERE, "..", "..", "02_departments", "note_ameba", "drafts");
 const PUBLISHED_DIR = path.join(HERE, "..", "..", "02_departments", "note_ameba", "published");
+const SCREENSHOT_DIR = path.join(HERE, "failure-screenshots");
+
+async function saveFailureScreenshot(page, label) {
+  try {
+    fs.mkdirSync(SCREENSHOT_DIR, { recursive: true });
+    const p = path.join(SCREENSHOT_DIR, `${label}-${Date.now()}.png`);
+    await page.screenshot({ path: p, fullPage: true });
+    console.log(`失敗時のスクリーンショットを保存しました: ${p}(ワークフローのartifactとして確認可能)`);
+  } catch (e) {
+    console.log("スクリーンショット保存にも失敗:", e.message);
+  }
+}
 
 function parseFile(filePath) {
   const raw = fs.readFileSync(filePath, "utf8");
@@ -67,16 +79,24 @@ async function publishToNote(page, title, bodyMd) {
   if (!email || !password) return { skipped: true, reason: "NOTE_EMAIL/NOTE_PASSWORDが未設定" };
 
   await page.goto("https://note.com/login", { waitUntil: "domcontentloaded" });
-  await page.fill('input[name="login_email"], input[type="email"]', email).catch(() => {});
-  await page.fill('input[name="password"], input[type="password"]', password).catch(() => {});
-  await page.click('button[type="submit"]').catch(() => {});
+  const emailBox = page.locator('input[name="login_email"], input[type="email"]').first();
+  if (!(await emailBox.count())) {
+    await saveFailureScreenshot(page, "note-login-no-email-field");
+    throw new Error("note.comログイン画面でメールアドレス入力欄が見つかりませんでした(UI変更の可能性)。");
+  }
+  await emailBox.fill(email);
+  const passBox = page.locator('input[name="password"], input[type="password"]').first();
+  await passBox.fill(password);
+  await page.click('button[type="submit"]');
   await page.waitForTimeout(3000);
 
   const captcha = await page.locator('iframe[src*="recaptcha"], text=認証').count().catch(() => 0);
   if (captcha > 0) {
+    await saveFailureScreenshot(page, "note-login-captcha");
     throw new Error("note.comログイン時にCAPTCHA/認証画面が検出されました。自動投稿を中断します(手動投稿にフォールバックしてください)。");
   }
   if (page.url().includes("/login")) {
+    await saveFailureScreenshot(page, "note-login-failed");
     throw new Error("note.comへのログインに失敗しました(URL確認: " + page.url() + ")。パスワード・メールアドレスを確認してください。");
   }
 
@@ -84,6 +104,10 @@ async function publishToNote(page, title, bodyMd) {
   await page.waitForTimeout(2000);
 
   const titleBox = page.locator('textarea[placeholder*="タイトル"], [contenteditable][aria-label*="タイトル"]').first();
+  if (!(await titleBox.count())) {
+    await saveFailureScreenshot(page, "note-editor-no-title-field");
+    throw new Error("note.comの新規投稿画面でタイトル欄が見つかりませんでした(UI変更の可能性)。");
+  }
   await titleBox.click({ timeout: 10000 });
   await titleBox.fill(title).catch(async () => { await page.keyboard.type(title); });
 
@@ -98,15 +122,29 @@ async function publishToNote(page, title, bodyMd) {
 
   // 「公開に進む」→「投稿する」のような2段階公開フローが一般的なため、それらしいボタンを順に試す
   const publishButtons = ["公開に進む", "投稿する", "公開する"];
+  let clickedAny = false;
   for (const label of publishButtons) {
     const btn = page.getByRole("button", { name: label }).first();
     if (await btn.count()) {
-      await btn.click({ timeout: 10000 }).catch(() => {});
+      await btn.click({ timeout: 10000 });
+      clickedAny = true;
       await page.waitForTimeout(2000);
     }
   }
+  if (!clickedAny) {
+    await saveFailureScreenshot(page, "note-no-publish-button");
+    throw new Error("note.comで「公開する」系のボタンが見つからず、クリックできませんでした(UI変更の可能性。本文は入力済みの可能性があるため要確認)。");
+  }
 
+  await page.waitForTimeout(2000);
   const url = page.url();
+  // 公開後のnote.com記事URLは note.com/<ユーザー名>/n/<記事ID> の形になる。
+  // それ以外(エディタ画面のままなど)は「クリックはしたが実際には公開されていない」可能性が高いため失敗扱いにする。
+  if (!/note\.com\/[^/]+\/n\/[a-z0-9]+/i.test(url)) {
+    await saveFailureScreenshot(page, "note-publish-not-confirmed");
+    throw new Error(`note.comで公開ボタンはクリックしましたが、公開後の記事URLに遷移しませんでした(現在のURL: ${url})。実際に公開されたか手動で確認してください。`);
+  }
+
   return { skipped: false, url };
 }
 
@@ -115,25 +153,44 @@ async function publishToAmeba(page, title, bodyMd) {
   if (!id || !password || !blogId) return { skipped: true, reason: "AMEBA_ID/AMEBA_PASSWORD/AMEBA_BLOG_IDが未設定" };
 
   await page.goto("https://www.ameba.jp/login.html", { waitUntil: "domcontentloaded" });
-  await page.fill('input[name="accountId"], input[type="text"]', id).catch(() => {});
-  await page.fill('input[name="password"], input[type="password"]', password).catch(() => {});
-  await page.click('button[type="submit"], input[type="submit"]').catch(() => {});
+  const idBox = page.locator('input[name="accountId"], input[type="text"]').first();
+  if (!(await idBox.count())) {
+    await saveFailureScreenshot(page, "ameba-login-no-id-field");
+    throw new Error("AmebaIDログイン画面でID入力欄が見つかりませんでした(UI変更の可能性)。");
+  }
+  await idBox.fill(id);
+  const passBox = page.locator('input[name="password"], input[type="password"]').first();
+  await passBox.fill(password);
+  await page.click('button[type="submit"], input[type="submit"]');
   await page.waitForTimeout(3000);
 
   const captcha = await page.locator('iframe[src*="recaptcha"], text=認証').count().catch(() => 0);
   if (captcha > 0) {
+    await saveFailureScreenshot(page, "ameba-login-captcha");
     throw new Error("AmebaIDログイン時にCAPTCHA/認証画面が検出されました。自動投稿を中断します(手動投稿にフォールバックしてください)。");
+  }
+  if (page.url().includes("login")) {
+    await saveFailureScreenshot(page, "ameba-login-failed");
+    throw new Error("AmebaIDへのログインに失敗しました(URL確認: " + page.url() + ")。ID・パスワードを確認してください。");
   }
 
   await page.goto(`https://ameblo.jp/${blogId}/entry-edit.html`, { waitUntil: "domcontentloaded" });
   await page.waitForTimeout(2000);
 
   const titleBox = page.locator('input[placeholder*="タイトル"], input[name*="title"]').first();
-  await titleBox.click({ timeout: 10000 }).catch(() => {});
+  if (!(await titleBox.count())) {
+    await saveFailureScreenshot(page, "ameba-editor-no-title-field");
+    throw new Error("Amebaの新規投稿画面でタイトル欄が見つかりませんでした(UI変更の可能性)。");
+  }
+  await titleBox.click({ timeout: 10000 });
   await titleBox.fill(title).catch(async () => { await page.keyboard.type(title); });
 
   const bodyBox = page.locator('[contenteditable="true"], textarea[name*="body"]').first();
-  await bodyBox.click({ timeout: 10000 }).catch(() => {});
+  if (!(await bodyBox.count())) {
+    await saveFailureScreenshot(page, "ameba-editor-no-body-field");
+    throw new Error("Amebaの新規投稿画面で本文欄が見つかりませんでした(UI変更の可能性)。");
+  }
+  await bodyBox.click({ timeout: 10000 });
   for (const para of toPlainParagraphs(bodyMd)) {
     await page.keyboard.type(para);
     await page.keyboard.press("Enter");
@@ -141,12 +198,21 @@ async function publishToAmeba(page, title, bodyMd) {
   }
 
   const publishBtn = page.getByRole("button", { name: /公開する|投稿する/ }).first();
-  if (await publishBtn.count()) {
-    await publishBtn.click({ timeout: 10000 }).catch(() => {});
-    await page.waitForTimeout(2000);
+  if (!(await publishBtn.count())) {
+    await saveFailureScreenshot(page, "ameba-no-publish-button");
+    throw new Error("Amebaで「公開する」系のボタンが見つからず、クリックできませんでした(UI変更の可能性。本文は入力済みの可能性があるため要確認)。");
   }
+  await publishBtn.click({ timeout: 10000 });
+  await page.waitForTimeout(3000);
 
   const url = page.url();
+  // 公開後のAmeba記事URLは ameblo.jp/<ブログID>/entry-<ID>.html の形になる。
+  // entry-edit.htmlのままの場合は「クリックはしたが実際には公開されていない」可能性が高いため失敗扱いにする。
+  if (!/ameblo\.jp\/[^/]+\/entry-\d+/i.test(url)) {
+    await saveFailureScreenshot(page, "ameba-publish-not-confirmed");
+    throw new Error(`Amebaで公開ボタンはクリックしましたが、公開後の記事URLに遷移しませんでした(現在のURL: ${url})。実際に公開されたか手動で確認してください。`);
+  }
+
   return { skipped: false, url };
 }
 
