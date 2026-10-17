@@ -90,15 +90,20 @@ jobs:
         if: steps.target.outputs.skip != 'true'
         run: |
           python3 - <<'PY'
+          # 2026-10-17更新: 台本側の見出しが「## Canvaデザイン」(実態と不一致、
+          # Canvaは2026-10-12以降不使用)から「## リール動画」に変わったため、
+          # 新旧両方の見出しを探す(旧見出しの台本が残っていても動くように)。
           import re
           p = "${{ steps.target.outputs.draft }}"
           line = "- リール動画: ${{ steps.target.outputs.out }}"
           t = open(p, encoding="utf-8").read()
           if line not in t:
-              if "## Canvaデザイン" in t:
+              if "## リール動画" in t:
+                  t = t.rstrip("\n") + "\n" + line + "\n"
+              elif "## Canvaデザイン" in t:
                   t = t.rstrip("\n") + "\n" + line + "\n"
               else:
-                  t = t.rstrip("\n") + "\n\n## Canvaデザイン\n" + line + "\n"
+                  t = t.rstrip("\n") + "\n\n## リール動画\n" + line + "\n"
               open(p, "w", encoding="utf-8").write(t)
           PY
 
