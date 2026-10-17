@@ -34,6 +34,31 @@ reports_to: 統括担当
   失敗時は下書きファイルが消えず status: approved のままdrafts/に残るため、
   いつでも手動投稿(コピペ)にフォールバックできる
 
+## 見出し画像・ハッシュタグ(2026-10-17新設、投稿時に自動選定)
+- 投稿のたびに `tools/note_ameba/select.js` が、記事内容・下書き時のAI提案・過去実績から
+  ハッシュタグ(note/Ameba各最大5個、毎回「学ジム」を含む)と見出し画像の背景写真を選び、
+  `header-image.js` が固定テンプレート(`03_assets/creative-templates/note-header.html`)で
+  1280x670の見出し画像を生成して設定する(Amebaは本文先頭に挿入=記事サムネイルになる)
+- ハッシュタグ候補: `02_departments/note_ameba/hashtag-pool.yml`(自由に編集可)
+- 背景写真: `03_assets/images/note_ameba/catalog.yml` に登録した写真から選ぶ。
+  未登録・合う写真が無い場合は紺背景+タイトル文字の見出し画像になる
+- 下書き作成時(AI)は frontmatter に `hashtag_candidates`(3〜5個)と
+  `image_keywords`(2〜4個)を入れる。選定の材料になる
+- 人が固定したい場合は frontmatter に `hashtags: [...]` / `header_image: <パス>` を書けば
+  その通りに投稿される(自動選定より優先)
+- 投稿前に選定結果だけ確認したい場合: `cd tools/note_ameba && node select.js <下書きのパス>`
+- 画像・タグの設定に失敗しても記事の投稿は続行し、frontmatterの `publish_warnings` に残す
+
+## 週次インサイト分析と改善(2026-10-17新設)
+- 毎週日曜05:00 JST、`note-ameba-weekly-insights.yml` がnote/Amebaの記事ごとの
+  ビュー・スキ/いいね・コメントを収集し、使ったハッシュタグ・見出し画像ごとの成績を集計する
+  (`04_analytics/note_ameba/`)
+- 分析結果から **次回記事への改善指示** を `02_departments/note_ameba/insights.md` に書く。
+  **月曜の記事生成では、記事を書く前に必ずこのファイルを読んで反映すること**
+  (このdepartment.mdやbrand-guide.mdと矛盾する場合はこちらのルールを優先)
+- 実績の良いタグ・画像は、次回以降の投稿時の自動選定で優先される
+- 公開記事が3本未満のうちはデータ不足として、傾向を断定しない
+
 ## 承認フロー(2026-10-17更新)
 drafts(status: review)→ 校正担当がコメント → **あなたが内容を最終確認・編集し、
 frontmatterの status を `approved` に変更してコミット/push**すると、
@@ -56,5 +81,9 @@ drafts/の内容を手動でコピペ投稿してよい(承認ステータスの
 - note.comのエディタはリッチテキストのため、Markdownの見出し(##)・強調(**)の
   装飾は自動投稿では再現されない(プレーンテキストの段落として貼り付けるのみ)。
   体裁の最終確認は益田さんにお願いしたい
+- `.github/workflows/note-ameba-weekly-insights.yml`: 毎週日曜05:00 JSTにインサイト収集・分析
+- `tools/note_ameba/select.js` / `header-image.js` / `insights.js` / `analyze.js`:
+  画像・ハッシュタグ選定、見出し画像生成、数値収集、集計(いずれもLLMを経由しない決定的処理。
+  ロジックのテストは `npm test`)
 - 初回は必ず `workflow_dispatch` で手動実行し、実際に正しく投稿されるかを
   人の目で確認してから、通常運用(push/cronでの無人実行)に任せること

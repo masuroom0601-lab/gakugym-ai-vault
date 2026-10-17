@@ -2,10 +2,14 @@
   "name": "gakugym-note-ameba-publish",
   "private": true,
   "version": "1.0.0",
-  "description": "学ジム note/Ameba担当: 承認済みドラフトをnote.com/Amebaブログへブラウザ自動操作で投稿する(公式APIが無いためPlaywrightでログイン・投稿を代行する)",
+  "description": "学ジム note/Ameba担当: 承認済みドラフトをnote.com/Amebaブログへブラウザ自動操作で投稿する(公式APIが無いためPlaywrightでログイン・投稿を代行する)。投稿時の画像・ハッシュタグ選定と、週次インサイト収集・集計も行う",
   "main": "publish.js",
   "scripts": {
-    "publish": "node publish.js"
+    "publish": "node publish.js",
+    "select": "node select.js",
+    "insights": "node insights.js",
+    "analyze": "node analyze.js",
+    "test": "node --test test/*.test.js"
   },
   "dependencies": {
     "js-yaml": "^4.1.0",

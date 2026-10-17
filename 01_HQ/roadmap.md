@@ -24,6 +24,7 @@ Claude Codeセッションを跨いでも迷わないよう、常にこのファ
   - `x-threads-daily-draft.yml`(毎日06:00 JST)
   - `line-select-draft.yml`(毎週月・木、X/Threads publishedから選定)
   - `note-ameba-weekly-draft.yml`(毎週月曜)
+  - `note-ameba-weekly-insights.yml`(毎週日曜、2026-10-17追加: note/Amebaのインサイト収集・分析→改善指示)
 - Instagram/TikTok初回投稿1本が承認・published済み(実績あり)
 - Instagram Graph API / Threads API のセットアップ手順書(自分用メモとして完成)
 
@@ -867,3 +868,29 @@ Zapierでの連携アプリ検索でも該当なしだった。残る手段は�
 貼り付けるのみ)。secretsは益田さんがGitHub側で設定する必要があり、未設定の間は
 これまで通り手動投稿で運用できる。実際にログイン・投稿が成功するかは、
 益田さんによる初回の手動実行(workflow_dispatch)での確認待ち。
+
+### 2026-10-17続報(2): note/Amebaの週次インサイト分析と、投稿時の画像・ハッシュタグ自動選定
+益田さんから「毎週note/Amebaのインサイト分析を行って改善を加える」「投稿時に最適な画像と
+ハッシュタグを選ぶ」の2点の追加依頼があり、自動投稿の仕組みに以下を追加した:
+
+- **週次インサイト分析**(`.github/workflows/note-ameba-weekly-insights.yml`、毎週日曜05:00 JST):
+  `tools/note_ameba/insights.js`がnote/Amebaにログインして記事ごとのビュー・スキ/いいね・
+  コメントを収集(`04_analytics/note_ameba/raw/`)→ `analyze.js`がハッシュタグ・見出し画像ごとの
+  成績を集計(`performance.json`)→ Claudeが考察して週次レポート
+  (`04_analytics/note_ameba/weekly-report.md`)と**次回記事への改善指示**
+  (`02_departments/note_ameba/insights.md`)を更新。月曜の記事生成はこの改善指示を必ず読む
+- **投稿時の画像・ハッシュタグ選定**(`tools/note_ameba/select.js`・`header-image.js`):
+  記事内容・下書き時のAI提案(`hashtag_candidates`/`image_keywords`)・過去実績から
+  ハッシュタグ(note/Ameba各最大5個、候補は`02_departments/note_ameba/hashtag-pool.yml`)と
+  見出し画像の背景写真(`03_assets/images/note_ameba/catalog.yml`)を選び、
+  固定テンプレート(`03_assets/creative-templates/note-header.html`)で
+  1280x670の見出し画像を生成して投稿時に設定する。LLMを使わない決定的ロジック
+- 実際に設定できたタグ・画像は公開記事のfrontmatter(`note_hashtags`/`ameba_hashtags`/
+  `image_source`)に記録され、翌週以降の分析で効果が測られる(選定→投稿→計測→選定の循環)
+
+**残課題・制約**: インサイト収集も非公式のブラウザ操作で、note/Amebaの管理画面の仕様変更で
+数値が取れなくなる可能性がある(取れない場合は画面の文字を保存し、Claudeが読み取る)。
+見出し画像のアップロード・ハッシュタグ入力欄の位置も実画面での確認が必要で、失敗しても
+記事の投稿自体は続行し、frontmatterの`publish_warnings`に記録する。写真素材
+(`03_assets/images/note_ameba/`)は未登録のため、当面は写真なしの紺背景+タイトル文字の
+見出し画像になる。

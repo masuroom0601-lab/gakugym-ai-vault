@@ -24,17 +24,29 @@ jobs:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           show_full_output: true
           claude_args: |
-            --allowedTools "Write,Bash(git *)"
+            --allowedTools "Read,Write,Bash(git *)"
           prompt: |
             あなたは「学ジム」のnote/Amebaブログ担当AIです。
             以下のファイルを読み、そこに書かれたルールに厳密に従ってください:
             - 02_departments/note_ameba/department.md
             - 03_assets/brand-guide.md
+            - 02_departments/note_ameba/insights.md
+              (週次インサイト分析から得た改善指示。「次回記事への改善指示(最新)」を
+              必ず反映すること。department.md/brand-guide.mdと矛盾する場合はそちらを優先)
 
             保護者向けの学習・子育ての悩みに寄り添う長文記事を、
             department.md の構成(導入→理論的背景→実践ステップ→
             フレーズ変換集→まとめ)に厳密に従って1本作成してください。
             noteとAmebaで同一原稿として使えるものにしてください。
+
+            frontmatterには既存の項目(department, role, date, status: review, platform,
+            subject, theme_source, approved_by)に加えて、以下を必ず入れてください
+            (投稿時に tools/note_ameba/select.js が最終的なハッシュタグ・見出し画像を選ぶ材料になります):
+            - hashtag_candidates: この記事に合うハッシュタグ候補を3〜5個(#は付けない。
+              02_departments/note_ameba/hashtag-pool.yml にある言葉を優先し、無ければ新しく提案してよい)
+            - image_keywords: 見出し画像の背景写真を選ぶためのキーワードを2〜4個
+              (例: [声かけ, 親子, 宿題])
+            ※ hashtags: / header_image: は人が固定したい時に使う項目なので、あなたは書かないこと
 
             作成したファイルは
             02_departments/note_ameba/drafts/task-<今日の日付YYYY-MM-DD>-note-001.md

@@ -50,12 +50,33 @@ note/Amebaとも投稿用の公式APIが存在しないため、Playwrightでブ
    - `02_departments/note_ameba/drafts/` への変更がmainにpushされた時
    - 毎日06:20 JST相当のフォールバック
 
+5. (2026-10-17追加)週次インサイト分析も初回は手動実行で確認する:
+   - Actions タブ → **note-ameba-weekly-insights** → 「Run workflow」
+   - `04_analytics/note_ameba/raw/<日付>.json` に記事ごとの数値が入っているか確認する
+     (`articles` が空で `raw_text` だけの場合は、管理画面の構成が想定と違うということ。
+     ログを貼ってこのセッションに相談してください)
+   - 以後は毎週日曜05:00 JSTに自動実行され、月曜の記事生成に改善指示が反映される
+
+6. (任意)見出し画像用の写真を登録する:
+   `03_assets/images/note_ameba/` に写真を置き、同フォルダの `catalog.yml` に
+   キーワード付きで登録すると、記事内容に合う写真が背景に使われる
+   (未登録でも、紺背景+タイトル文字の見出し画像が自動生成されるので投稿は止まらない)
+
 ## 承認の仕方(運用開始後)
 下書きファイル(`02_departments/note_ameba/drafts/task-<date>-note-001.md`)の
 frontmatterにある `status:` を `approved` に変更してコミット・pushするだけで、
 次回のワークフロー実行時に自動投稿される。status を変更しなければ従来通り
 自動投稿されないので、「この回は手動で投稿したい」場合はstatusを
 `approved`にしなければよい。
+
+## 画像・ハッシュタグの確認・変更(2026-10-17追加)
+- 投稿時に自動で選ばれる。承認前に結果を見たい場合は、ローカルで
+  `cd tools/note_ameba && npm ci && node select.js ../../02_departments/note_ameba/drafts/<ファイル名>`
+- 特定の記事でタグ・画像を固定したい場合は、承認時にfrontmatterへ
+  `hashtags: [子育て, 声かけ]` / `header_image: 03_assets/images/note_ameba/xxx.png` を追記する
+- 投稿後、frontmatterの `publish_warnings` に「見出し画像のアップロード欄が見つかりません」
+  「ハッシュタグ入力欄が見つかりません」等が残っていたら、記事自体は投稿済みなので
+  画像・タグだけ手動で設定し、このセッションに相談してください(画面の変更に追従します)
 
 ## うまくいかない場合
 - ログが「CAPTCHA/認証画面が検出されました」となる場合: 自動化では突破できない。
