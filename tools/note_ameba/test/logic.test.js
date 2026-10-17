@@ -116,3 +116,18 @@ test("ユーティリティ", () => {
   assert.equal(p.title, "タイトル");
   assert.equal(p.body, "本文");
 });
+
+test("frontmatterの日付は文字列のまま書き戻す(2026-10-05T00:00:00.000Zに化けない)", () => {
+  const os = require("os"), fs = require("fs"), path = require("path");
+  const { writeFile, parseFile } = require("../lib/frontmatter");
+  const p = parseText("---\ndate: 2026-10-05\napproved_by:\n---\n\n# T\n\nB");
+  assert.equal(p.front.date, "2026-10-05");
+  const tmp = path.join(fs.mkdtempSync(path.join(os.tmpdir(), "fm-")), "x.md");
+  writeFile(tmp, p.front, p.title, p.body);
+  assert.match(fs.readFileSync(tmp, "utf8"), /^date: '?2026-10-05'?$/m);
+  assert.equal(parseFile(tmp).front.date, "2026-10-05");
+});
+
+test("HTMLコメント(内部メモ)は投稿本文に含めない", () => {
+  assert.deepEqual(toPlainParagraphs("<!-- 内部メモ\n複数行 -->\n\n本文"), ["本文"]);
+});
