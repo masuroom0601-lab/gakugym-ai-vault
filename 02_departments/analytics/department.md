@@ -39,6 +39,19 @@ reports_to: 統括担当
 - Instagram/TikTok部署・X/Threads部署(learned-patterns.md経由で、台本生成時に
   自動で参照される)
 
+## 競合分析(フェーズ3、2026-10-17稼働開始)
+- `02_departments/analytics/competitor-accounts.yml`: 競合Instagramアカウント一覧
+  (益田さん共有の競合分析スプレッドシートから転記。新しい競合が見つかったら追記する)
+- claude.aiのRoutine「週次競合分析」(毎週日曜03:00 JST、vidIQコネクタ使用)が
+  上記リストから毎週最大8アカウントをローテーションでチェックし、伸びている投稿の型を
+  `learned-patterns.md`の「競合アカウント分析に基づく知見」節に追記する
+  (`01_HQ/setup guides/competitor-analysis-weekly-routine-setup.md`、
+  未設定時は益田さんの作業が必要)
+- **department.md(このファイル)・brand-guide.md等の確定ルールは、競合分析の結果で
+  自動的には書き換わらない**。複数週にわたって同じ傾向が繰り返し観察された場合のみ
+  `01_HQ/tasks/approval-pending.md`に改善提案として記録され、益田さんの判断を経て
+  ルール化される設計(誤検知・サンプル不足での早まったルール変更を防ぐため)
+
 ## 自動化メモ
 - `.github/workflows/analytics-weekly-report.yml`(毎週日曜05:30 JST相当)が
   `04_analytics/manual-input/<週の月曜日>.md` を読んでweekly-report.mdを更新し、

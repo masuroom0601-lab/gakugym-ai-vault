@@ -1,0 +1,163 @@
+# 学ジム 競合Instagramアカウント一覧(2026-10-17作成)
+#
+# 益田さん共有の競合分析スプレッドシート(学ジムSNS運用 競合分析シート)から転記。
+# 週次競合分析Routine(competitor-analysis-weekly-routine-setup.md参照)がこのファイルを
+# 読み、tier: high のアカウントを優先的にチェックする(vidIQのクレジット消費を抑えるため、
+# 毎週全件は見ない。ローテーションの詳細はRoutineのプロンプト側で管理)。
+#
+# 新しい競合アカウントが見つかった場合、益田さんまたはこのセッションがここに追記する
+# (元のGoogleスプレッドシートへの自動同期は行わない。コネクタ依存を増やさないため)。
+#
+# efficiency = フォロワー数 ÷ 投稿数(スプレッドシート記載の「フォロワー獲得効率」)。
+# 数値が高いほど少ない投稿数で多くのフォロワーを獲得できている=伸びている可能性が高い。
+
+last_updated: 2026-10-17
+source: 益田さん共有スプレッドシート(学ジムSNS運用 競合分析シート、シート1)
+
+accounts:
+  # --- 英語(大学受験・英検) ---
+  - handle: jukenmaster.eigo
+    name: テラ@大学受験英語勉強法
+    category: english
+    target: 大学受験生(英語)
+    efficiency: 5.12
+    tier: normal
+  - handle: juken.english.sora
+    name: MARCH受験英語のプロ@そら
+    category: english
+    target: 大学受験生(MARCH志望)
+    efficiency: 17.13
+    tier: normal
+  - handle: taka_wasedazyukeneigoadviser
+    name: 現役早稲田生が教える受験英語@たか
+    category: english
+    target: 大学受験生
+    efficiency: 7.53
+    tier: normal
+  - handle: jukeneigo_tamano
+    name: 大学受験英語@たまの先生
+    category: english
+    efficiency: 12.23
+    tier: normal
+  - handle: yutaro_juken_english
+    name: 受験英語サポーター@ゆうたろう
+    category: english
+    target: 大学受験生(MARCH・英語)
+    efficiency: 6.02
+    tier: normal
+  - handle: juken.english_kei
+    name: けーすけ@受験英語の偏差値上げるプロ
+    category: english
+    target: 大学受験生(MARCH・英語)
+    efficiency: 3.74
+    tier: normal
+  - handle: english_improvement_for_u
+    name: きんちゃん@やる気0から受験英語8割へ
+    category: english
+    target: 大学受験生(やる気低い)
+    efficiency: 5.01
+    tier: normal
+  - handle: ruu_jukeneigo
+    name: 元進学校の底辺｜受験英語長文るぅコーチ
+    category: english
+    target: 進学校の底辺生
+    efficiency: 2.43
+    tier: normal
+  - handle: do_english_plan
+    name: 受験英語のプロ Do
+    category: english
+    efficiency: 3.46
+    tier: normal
+  - handle: jukenenglishhhhh
+    name: ミスター受験英語@ユタカ
+    category: english
+    efficiency: 6.36
+    tier: normal
+  - handle: jukeneigo_tamano_12
+    name: 大学受験英語@たまの先生【高1/高2】
+    category: english
+    target: 低学年用
+    efficiency: 3.19
+    tier: normal
+  - handle: shingeki_shoji
+    name: 進撃の大学受験@英語のしょうじ
+    category: english
+    target: 長文
+    efficiency: 5.79
+    tier: normal
+  - handle: jun_englishmaster
+    name: 受験英語のプロ【国公立専門】@じゅんき
+    category: english
+    target: 大受生(英語・国公立)
+    efficiency: 11.02
+    tier: normal
+  - handle: sakurashinmachi_english_school
+    name: 高校大学受験｜英検｜英語専門【桜新町英語塾】さと先生
+    category: english
+    target: 塾運営者
+    efficiency: 7.74
+    tier: normal
+  - handle: kota_eigo
+    name: KOTA | 元アメリカ社畜
+    category: english
+    efficiency: 163.99
+    tier: high
+    note: 街頭インタビュー・寸劇形式が突出。出演者が必要で学ジムの自動パイプラインとは相性が悪い可能性(2026-10-17調査で確認済み)
+
+  # --- 英語(国公立大受験) ---
+  - handle: juken.kokuritsu.reo
+    name: れお＠塾なし独学で国立合格
+    category: english
+    target: 大受生(部活生・独学・国公立)
+    efficiency: 16.52
+    tier: high
+  - handle: kenta_juken_mental
+    name: (メンタル系)
+    category: english
+    target: 大受生(メンタルに自身がない国公立志望生)
+    tier: normal
+  - handle: gradetwo_benkyohou
+    name: たけ先生 国公立合格のための逆算計画
+    category: english
+    efficiency: 15.55
+    tier: high
+  - handle: jyuken.eigo.kazu
+    name: (国公立英語)
+    category: english
+    target: 大受生(受験学年・英語・国公立)
+    efficiency: 3.13
+    tier: normal
+  - handle: sana__study_
+    name: さな┊︎国公立合格目指す人へ
+    category: english
+    target: 大受生(国公立志望)
+    efficiency: 654.24
+    tier: high
+    note: 投稿42件の新興アカウント。手元撮影+テキストオーバーレイ型で250万再生超(2026-10-17調査で確認済み)
+
+  # --- 数学 ---
+  - handle: hensachiup_math
+    name: 受験数学革命家@てる
+    category: math
+    target: 大受生(数学・国立・低偏差値)
+    efficiency: 4.62
+    tier: normal
+  - handle: tomo_teacher_juken
+    name: とも先生｜親子で学べる勉強法
+    category: math
+    target: 親子 国立教育大卒
+    efficiency: 70.62
+    tier: high
+    note: 同一キャプション使い回しでも再生数が安定(2026-10-17調査で確認済み)
+  - handle: maru_juku.math
+    name: (マル塾講師)
+    category: math
+    target: 大受生(数学)
+    tier: normal
+  - handle: math.hide
+    name: MARCH数学攻略のプロ | ひで
+    category: math
+    target: MARCH受験生
+    efficiency: 27.35
+    tier: high
+    note: 固定テンプレート+黒板的な数式見せ+同一キャプション使い回し(2026-10-17調査で確認済み)
