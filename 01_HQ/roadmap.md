@@ -835,3 +835,35 @@ Instagram欄を自動で埋め、`filled: true`に変更する設計。TikTok/X/
 引き続き手動入力が必要。益田さんがRoutineを作成し、エルグラム側にデータが
 同期され次第、2026-10-17に構築したフェーズ2(`analytics-pattern-learning.yml`)が
 実際に動き出す見込み。
+
+### 重要な運用上の教訓(2026-10-17続報): note/Amebaブログの自動投稿化(ブラウザ操作代行)
+益田さんから「note/Amebaにも自動で投稿できないか」との依頼があった。確認したところ、
+note.com・Amebaとも投稿用の公式APIが存在せず(Instagram/TikTok/LINEと異なる点)、
+Zapierでの連携アプリ検索でも該当なしだった。残る手段はブラウザ自動操作による代行のみで、
+その場合のトレードオフ(半自動=都度呼び出しが必要だが認証情報を新たに預けずに済む/
+完全自動=無人実行できるがログイン情報をGitHub Actions secretsに保存する必要があり
+規約リスク・認証情報漏洩リスクが生じる)を説明した上で、益田さんの判断で
+「完全自動(無人スケジュール投稿)」を選択した。
+
+既存の`line-broadcast-publish.yml`(LINE公式Messaging API配信)と同じ設計方針
+(承認ゲート+LLMを経由しない決定的スクリプト)を踏襲し、以下を新設した:
+- `tools/note_ameba/publish.js`(新設): Playwrightでnote.com/Amebaにログインし、
+  承認済み下書きのタイトル・本文を貼り付けて投稿するNode.jsスクリプト
+- `.github/workflows/note-ameba-auto-publish.yml`(新設): drafts/へのpush時に実行
+  (毎日06:20 JST相当のフォールバックあり)
+- `02_departments/note_ameba/department.md`の承認フローを更新:
+  益田さんがfrontmatterの`status`を`approved`に変更してpushすると自動投稿される
+  (LINEと同じ承認モデル)。note・Ameba両方成功して初めてpublished/へ移動し、
+  片方のみ成功時は次回実行時に残りを再試行する設計
+- `01_HQ/setup guides/note-ameba-auto-publish-setup.md`(新設): GitHub Actions secrets
+  (`NOTE_EMAIL`/`NOTE_PASSWORD`/`AMEBA_ID`/`AMEBA_PASSWORD`/`AMEBA_BLOG_ID`)の
+  設定手順と、初回は必ず`workflow_dispatch`で手動実行して人の目で確認することを明記
+
+**重要な制約・残課題**: note.com/Amebaとも非公式のブラウザ操作であり、CAPTCHA・
+2段階認証が表示されると自動突破できず失敗する設計になっている(その場合は
+下書きがstatus: approvedのままdrafts/に残り、手動投稿にフォールバック可能。
+データは失われない)。また、note.comのエディタはリッチテキストのため、Markdownの
+見出し・太字の装飾は現状のスクリプトでは再現されない(プレーンテキスト段落として
+貼り付けるのみ)。secretsは益田さんがGitHub側で設定する必要があり、未設定の間は
+これまで通り手動投稿で運用できる。実際にログイン・投稿が成功するかは、
+益田さんによる初回の手動実行(workflow_dispatch)での確認待ち。
