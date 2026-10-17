@@ -45,6 +45,7 @@ const path = require("path");
 const { chromium } = require("playwright");
 const { parseFile, writeFile } = require("./lib/frontmatter");
 const { hasNoteCreds, hasAmebaCreds, loginNote, loginAmeba } = require("./lib/auth");
+const { newSessionContext } = require("./lib/session");
 const { saveFailureScreenshot } = require("./lib/screenshot");
 const { selectAll, loadContext, ROOT } = require("./select");
 const { renderHeader, launchOptions } = require("./header-image");
@@ -298,7 +299,7 @@ async function main() {
     const media = await prepareMedia(file, parsed, ctx, browser);
     if (DRY_RUN) continue;
 
-    const context = await browser.newContext();
+    const context = await newSessionContext(browser);
     const page = await context.newPage();
     const errors = [], warnings = [];
     const record = (platform, r, tags) => {

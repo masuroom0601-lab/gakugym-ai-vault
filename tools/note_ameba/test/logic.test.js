@@ -131,3 +131,24 @@ test("frontmatterの日付は文字列のまま書き戻す(2026-10-05T00:00:00.
 test("HTMLコメント(内部メモ)は投稿本文に含めない", () => {
   assert.deepEqual(toPlainParagraphs("<!-- 内部メモ\n複数行 -->\n\n本文"), ["本文"]);
 });
+
+test("ログイン状態: 対象サイトのCookieだけを残し、gzip+base64で往復できる", () => {
+  const { filterState, encodeState, decodeState } = require("../lib/session");
+  const state = { cookies: [
+    { name: "a", domain: ".note.com" }, { name: "b", domain: "google.com" },
+    { name: "c", domain: ".ameba.jp" }, { name: "d", domain: "ameblo.jp" },
+  ], origins: [{ origin: "https://note.com", localStorage: [] }, { origin: "https://evil-note.com", localStorage: [] }] };
+  const note = filterState(state, "note");
+  assert.deepEqual(note.cookies.map((c) => c.name), ["a"]);
+  assert.deepEqual(note.origins.map((o) => o.origin), ["https://note.com"]);
+  assert.deepEqual(filterState(state, "ameba").cookies.map((c) => c.name), ["c", "d"]);
+  assert.deepEqual(decodeState(encodeState(note)), note);
+});
+
+test("note公開APIの項目名の揺れ(camelCase/snake_case)を吸収する", () => {
+  const { normalizeNote } = require("../lib/note-public");
+  const a = normalizeNote({ key: "n1", name: "T", eyecatch: "https://x/y.png", likeCount: 3 }, "u");
+  assert.equal(a.url, "https://note.com/u/n/n1");
+  assert.equal(a.likes, 3);
+  assert.equal(normalizeNote({ key: "n2", like_count: 5 }, "u").likes, 5);
+});

@@ -62,6 +62,46 @@ note/Amebaとも投稿用の公式APIが存在しないため、Playwrightでブ
    キーワード付きで登録すると、記事内容に合う写真が背景に使われる
    (未登録でも、紺背景+タイトル文字の見出し画像が自動生成されるので投稿は止まらない)
 
+## 【2026-10-17追加・必須】ログイン状態の保存(方式A)
+GitHub Actionsからのログインは、noteはロボット判定(reCAPTCHA)、Amebaはログインサーバーの
+アクセス拒否で通りませんでした。そこで、**益田さんのPCで一度だけ手でログインし、その
+ログイン状態をsecretsに保存**します。自動処理はログイン画面を通らずにこの状態を使います。
+(ログイン状態は数週間〜数か月で切れます。切れると自動投稿が「ログイン状態が切れている可能性」
+というエラーで止まるので、その時はこの手順をもう一度行ってください)
+
+### 準備(初回のみ、15分ほど)
+1. Node.js(LTS版)をインストールする: https://nodejs.org/ja → 「LTS」をダウンロードしてインストール
+2. GitHubのこのリポジトリのページで **Code → Download ZIP** を押し、ダウンロードしたZIPを展開する
+3. ターミナルを開く
+   - Mac: 「ターミナル」アプリ / Windows: 「PowerShell」
+4. 展開したフォルダの中の `tools/note_ameba` に移動する
+   (例: `cd ~/Downloads/gakugym-ai-vault-main/tools/note_ameba`)
+5. 以下を順に実行する:
+   ```
+   npm ci
+   npx playwright install chromium
+   ```
+
+### noteのログイン状態を保存
+1. `node save-session.js note` を実行する → ブラウザが開く
+2. 開いたブラウザで、いつも通りメールアドレス・パスワードでnoteにログインする
+3. ログインできたらターミナルに戻って **Enter** を押す
+4. `note-session.txt` というファイルができるので、メモ帳等で開いて中身を**すべて**コピー
+5. GitHubの Settings → Secrets and variables → Actions → **New repository secret**
+   - Name: `NOTE_SESSION` / Secret: コピーした中身 を貼り付けて保存
+6. **`note-session.txt` を削除する**(ログイン済みの状態そのものなので、人に渡さない)
+
+### Amebaのログイン状態を保存
+1. `node save-session.js ameba` を実行 → ブラウザで右上の「ログイン」からAmebaにログイン
+2. ターミナルで Enter → できた `ameba-session.txt` の中身を secrets の **`AMEBA_SESSION`** に保存
+3. **`ameba-session.txt` を削除する**
+
+### 保存後の確認
+Actions タブ → **note-ameba-probe** → Run workflow(投稿はしない確認用)を実行し、
+このセッション(Claude Code)に「保存した」と伝えてください。ログが正常か確認します。
+※ Amebaは、ログイン状態があってもGitHub Actionsからのアクセス自体を拒否する可能性があります。
+その場合は方式B(益田さんのPCで実行)を改めて相談します。
+
 ## 承認の仕方(運用開始後)
 下書きファイル(`02_departments/note_ameba/drafts/task-<date>-note-001.md`)の
 frontmatterにある `status:` を `approved` に変更してコミット・pushするだけで、

@@ -1,9 +1,34 @@
 // note.com / AmebaIDへのログイン処理(publish.js と insights.js で共通利用)。
 // いずれも非公式のブラウザ操作。CAPTCHA・2段階認証が出た場合は自動突破せず中断する。
+// 2026-10-17: secretsにログイン状態(NOTE_SESSION / AMEBA_SESSION、save-session.jsで作成)があれば
+// それを優先し、ログイン画面は通らない(GitHub Actionsからのフォームログインはロボット判定・
+// アクセス拒否で通らなかったため)。無い場合のみ従来のフォームログインを試す。
 const { saveFailureScreenshot } = require("./screenshot");
+const { hasSession } = require("./session");
 
-function hasNoteCreds() { return !!(process.env.NOTE_EMAIL && process.env.NOTE_PASSWORD); }
-function hasAmebaCreds() { return !!(process.env.AMEBA_ID && process.env.AMEBA_PASSWORD && process.env.AMEBA_BLOG_ID); }
+function hasNoteCreds() { return hasSession("note") || !!(process.env.NOTE_EMAIL && process.env.NOTE_PASSWORD); }
+function hasAmebaCreds() { return !!process.env.AMEBA_BLOG_ID && (hasSession("ameba") || !!(process.env.AMEBA_ID && process.env.AMEBA_PASSWORD)); }
+
+const SESSION_EXPIRED_HINT = "保存したログイン状態が切れている可能性があります。益田さんのPCで save-session.js を再実行し、secretsを更新してください(手順: 01_HQ/setup guides/note-ameba-auto-publish-setup.md)。";
+
+async function verifyNoteSession(page) {
+  const res = await page.request.get("https://note.com/api/v2/current_user").catch(() => null);
+  if (res && res.status() === 200) return;
+  await page.goto("https://note.com/", { waitUntil: "domcontentloaded" }).catch(() => {});
+  await saveFailureScreenshot(page, "note-session-invalid");
+  throw new Error(`note.comのログイン状態を確認できませんでした(HTTP ${res ? res.status() : "接続失敗"})。${SESSION_EXPIRED_HINT}`);
+}
+
+async function verifyAmebaSession(page) {
+  const res = await page.goto("https://blog.ameba.jp/ucs/top.do", { waitUntil: "domcontentloaded" }).catch(() => null);
+  await page.waitForTimeout(2000);
+  if (res && res.ok() && /blog\.ameba\.jp\/ucs/.test(page.url())) return;
+  await saveFailureScreenshot(page, "ameba-session-invalid");
+  const blocked = res && res.status() === 403;
+  throw new Error(blocked
+    ? "Amebaのサーバーが GitHub Actions からのアクセスを拒否しました(HTTP 403)。ログイン状態の問題ではないため、方式B(益田さんのPCで実行)の検討が必要です。"
+    : `Amebaのログイン状態を確認できませんでした(URL: ${page.url()})。${SESSION_EXPIRED_HINT}`);
+}
 
 async function detectCaptcha(page) {
   return page.locator('iframe[src*="recaptcha"], text=認証').count().catch(() => 0);
@@ -43,6 +68,7 @@ const NOTE_ID_FIELDS = ['input[name="login"]', '#email', 'input[name="login_emai
 const PASSWORD_FIELDS = ['#password', 'input[name="password"]', 'input[type="password"]'];
 
 async function loginNote(page) {
+  if (hasSession("note")) return verifyNoteSession(page);
   await page.goto("https://note.com/login", { waitUntil: "domcontentloaded" });
   // note.comのログイン画面はJSで描画されるため、入力欄が出るまで待つ
   // (2026-10-17の初回テストでは描画前に探して「入力欄が見つからない」で失敗した)
@@ -77,6 +103,7 @@ const AMEBA_ID_FIELDS = ['input[name="accountId"]', 'input[name="amebaId"]', 'in
   'input[autocomplete="username"]', 'input[type="email"]', 'input[placeholder*="ID"]', 'input[placeholder*="メール"]'];
 
 async function loginAmeba(page) {
+  if (hasSession("ameba")) return verifyAmebaSession(page);
   // www.ameba.jp/login.html は現在トップページになっていてログインフォームが無い(2026-10-17確認)。
   // ヘッダーの「ログイン」リンクからAmebaIDのログイン画面へ進む
   await page.goto("https://www.ameba.jp/", { waitUntil: "domcontentloaded" });

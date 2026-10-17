@@ -41,6 +41,8 @@ jobs:
           AMEBA_ID: ${{ secrets.AMEBA_ID }}
           AMEBA_PASSWORD: ${{ secrets.AMEBA_PASSWORD }}
           AMEBA_BLOG_ID: ${{ secrets.AMEBA_BLOG_ID }}
+          NOTE_SESSION: ${{ secrets.NOTE_SESSION }}
+          AMEBA_SESSION: ${{ secrets.AMEBA_SESSION }}
         run: node probe.js
 
       - name: Upload screenshots

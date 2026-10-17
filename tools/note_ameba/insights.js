@@ -20,7 +20,9 @@ const fs = require("fs");
 const path = require("path");
 const { chromium } = require("playwright");
 const { hasNoteCreds, hasAmebaCreds, loginNote, loginAmeba } = require("./lib/auth");
+const { newSessionContext } = require("./lib/session");
 const { launchOptions } = require("./header-image");
+const { noteUrlname, fetchPublicNotes, saveReferenceImages } = require("./lib/note-public");
 
 const ROOT = path.join(__dirname, "..", "..");
 const OUT_DIR = path.join(ROOT, "04_analytics", "note_ameba", "raw");
@@ -37,107 +39,54 @@ async function pageText(page) {
   return t.replace(/\n{3,}/g, "\n\n").slice(0, RAW_TEXT_LIMIT);
 }
 
+// note: 公開API(ログイン不要)で記事一覧・スキ数・見出し画像を必ず取得し、
+// ログインできた場合のみ、ダッシュボードの統計APIでビュー数を追加する
 async function collectNote(page) {
-  const out = { ok: false, source: null, articles: [], error: null, raw_text: null };
-  if (!hasNoteCreds()) { out.error = "NOTE_EMAIL/NOTE_PASSWORDが未設定のためスキップ"; return out; }
-  let loggedIn = false;
-  try {
-    await loginNote(page);
-    loggedIn = true;
-    for (let p = 1; p <= 20; p++) {
-      const res = await page.request.get(`https://note.com/api/v1/stats/pv?filter=all&page=${p}&sort=pv`);
-      if (!res.ok()) throw new Error(`stats API HTTP ${res.status()}`);
-      const json = await res.json();
-      const data = json.data || {};
-      for (const s of data.note_stats || []) {
-        out.articles.push({
-          title: s.name || null,
-          key: s.key || null,
-          url: s.key && s.user && s.user.urlname ? `https://note.com/${s.user.urlname}/n/${s.key}` : null,
-          views: toInt(s.read_count),
-          likes: toInt(s.like_count),
-          comments: toInt(s.comment_count),
-        });
-      }
-      if (data.last_page !== false || !(data.note_stats || []).length) break;
-    }
-    out.ok = true; out.source = "note stats api";
-  } catch (e) {
-    out.stats_error = e.message;
-    out.error = `stats API読み取り失敗: ${e.message}`;
-    // フォールバック: ダッシュボード画面の文字をそのまま保存(Claudeが読み取る)
+  const out = { ok: false, source: null, articles: [], error: null, raw_text: null, references: [] };
+  const errors = [];
+  const byKey = new Map();
+
+  const urlname = noteUrlname();
+  if (urlname) {
     try {
-      await page.goto("https://note.com/sitesettings/stats", { waitUntil: "domcontentloaded" });
-      await page.waitForTimeout(3000);
-      out.raw_text = await pageText(page);
-      out.source = "note stats page (raw_text)";
-    } catch (e2) { out.error += ` / 画面取得も失敗: ${e2.message}`; }
+      const notes = await fetchPublicNotes(urlname);
+      for (const n of notes) byKey.set(n.key, { title: n.title, key: n.key, url: n.url, views: null, likes: toInt(n.likes), comments: toInt(n.comments) });
+      out.source = "note public api";
+      out.references = await saveReferenceImages(notes);
+      console.log(`note公開API: 記事${notes.length}件 / 参考画像${out.references.length}件`);
+    } catch (e) { errors.push(`公開API読み取り失敗: ${e.message}`); }
+  } else {
+    errors.push("02_departments/note_ameba/accounts.yml の note_urlname が未設定");
   }
-  if (loggedIn) {
-    out.references = await collectNoteReferences(page, out.articles);
-    console.log(`note参考画像: ${out.references.saved.length}件保存${out.references.error ? " / " + out.references.error : ""}`);
+
+  if (hasNoteCreds()) {
+    try {
+      await loginNote(page);
+      for (let p = 1; p <= 20; p++) {
+        const res = await page.request.get(`https://note.com/api/v1/stats/pv?filter=all&page=${p}&sort=pv`);
+        if (!res.ok()) throw new Error(`stats API HTTP ${res.status()}`);
+        const data = (await res.json()).data;
+        if (!data) throw new Error("stats APIの応答にdataがありません(未ログイン扱いの可能性)");
+        for (const s of data.note_stats || []) {
+          const cur = byKey.get(s.key) || { title: s.name || null, key: s.key || null, url: null, views: null, likes: null, comments: null };
+          cur.views = toInt(s.read_count);
+          if (cur.likes === null) cur.likes = toInt(s.like_count);
+          if (cur.comments === null) cur.comments = toInt(s.comment_count);
+          byKey.set(s.key, cur);
+        }
+        if (data.last_page !== false || !(data.note_stats || []).length) break;
+      }
+      out.source = (out.source ? out.source + " + " : "") + "note stats api";
+    } catch (e) {
+      errors.push(`ビュー数(要ログイン)の取得失敗: ${e.message}`);
+    }
+  } else {
+    errors.push("ログイン情報が未設定のためビュー数は取得しない(スキ数のみ)");
   }
-  return out;
-}
 
-// 2026-10-17追加: 益田さんが既に投稿しているnote記事の見出し画像を「参考画像」として保存する。
-// 見出し画像テンプレート(note-header.html)のデザインを既存記事に寄せるため、および
-// 背景写真カタログ(catalog.yml)の候補にするために使う。既に保存済みの画像は再取得しない。
-const REF_DIR = path.join(ROOT, "03_assets", "images", "note_ameba", "reference");
-const REF_LIMIT = 12;
-
-async function collectNoteReferences(page, stats) {
-  const out = { ok: false, urlname: null, saved: [], error: null };
-  try {
-    let urlname = null;
-    const me = await page.request.get("https://note.com/api/v2/current_user").catch(() => null);
-    if (me && me.ok()) {
-      const j = await me.json().catch(() => ({}));
-      urlname = (j.data && (j.data.urlname || (j.data.user && j.data.user.urlname))) || null;
-    }
-    out.urlname = urlname;
-    // 記事一覧(新しい順)。取れなければ stats API の記事キーから個別に取りに行く
-    let notes = [];
-    if (urlname) {
-      const res = await page.request.get(`https://note.com/api/v2/creators/${urlname}/contents?kind=note&page=1`).catch(() => null);
-      if (res && res.ok()) {
-        const j = await res.json().catch(() => ({}));
-        notes = ((j.data && j.data.contents) || []).map((c) => ({
-          key: c.key, title: c.name, eyecatch: c.eyecatch, likes: c.likeCount ?? null, published_at: c.publishAt || null,
-        }));
-      }
-    }
-    if (!notes.length) {
-      for (const s of (stats || []).slice(0, REF_LIMIT)) {
-        if (!s.key) continue;
-        const res = await page.request.get(`https://note.com/api/v3/notes/${s.key}`).catch(() => null);
-        if (!res || !res.ok()) continue;
-        const d = ((await res.json().catch(() => ({}))).data) || {};
-        notes.push({ key: s.key, title: d.name || s.title, eyecatch: d.eyecatch, likes: d.like_count ?? s.likes, published_at: d.publish_at || null });
-      }
-    }
-    fs.mkdirSync(REF_DIR, { recursive: true });
-    const indexPath = path.join(REF_DIR, "index.json");
-    const index = fs.existsSync(indexPath) ? JSON.parse(fs.readFileSync(indexPath, "utf8")) : [];
-    for (const n of notes.filter((n) => n.eyecatch).slice(0, REF_LIMIT)) {
-      const ext = ((n.eyecatch.split("?")[0].match(/\.(png|jpe?g|webp|gif)$/i) || [])[1] || "png").toLowerCase();
-      const file = `${n.key}.${ext}`;
-      const dest = path.join(REF_DIR, file);
-      if (!fs.existsSync(dest)) {
-        const img = await page.request.get(n.eyecatch).catch(() => null);
-        if (!img || !img.ok()) continue;
-        fs.writeFileSync(dest, await img.body());
-      }
-      const entry = { file: path.relative(ROOT, dest), key: n.key, title: n.title, likes: n.likes, published_at: n.published_at,
-        url: urlname ? `https://note.com/${urlname}/n/${n.key}` : null, eyecatch_url: n.eyecatch };
-      const i = index.findIndex((e) => e.key === n.key);
-      if (i >= 0) index[i] = entry; else index.push(entry);
-      out.saved.push(entry.file);
-    }
-    fs.writeFileSync(indexPath, JSON.stringify(index, null, 2) + "\n", "utf8");
-    out.ok = true;
-    if (!notes.length) out.error = "記事一覧を取得できませんでした";
-  } catch (e) { out.error = e.message; }
+  out.articles = [...byKey.values()];
+  out.ok = out.articles.length > 0;
+  out.error = errors.length ? errors.join(" / ") : null;
   return out;
 }
 
@@ -214,7 +163,7 @@ async function collectAmeba(page) {
 }
 
 async function main() {
-  if (!hasNoteCreds() && !hasAmebaCreds()) {
+  if (!hasNoteCreds() && !hasAmebaCreds() && !noteUrlname()) {
     console.log("note/Amebaのログイン情報(secrets)が未設定のため、インサイト収集をスキップします。");
     return;
   }
@@ -225,7 +174,7 @@ async function main() {
   const browser = await chromium.launch(launchOptions());
   try {
     for (const [key, fn] of [["note", collectNote], ["ameba", collectAmeba]]) {
-      const context = await browser.newContext();
+      const context = await newSessionContext(browser);
       const page = await context.newPage();
       result[key] = await fn(page);
       await context.close();
