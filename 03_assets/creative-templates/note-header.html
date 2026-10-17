@@ -1,0 +1,95 @@
+<!doctype html>
+<!--
+  学ジム note/Ameba 見出し画像 固定テンプレート(2026-10-17新設、1280x670)
+  tools/note_ameba/header-image.js がPlaywrightでPNG化する。AIはCSSを書き換えない。
+  パラメータは ?d=<base64(UTF-8 JSON)> で受け取る。
+  JSON: { title, subtitle, subject, bg }
+  - title:    メインの見出し(記事タイトルの「―」より前)
+  - subtitle: 補足(記事タイトルの「―」より後。省略可)
+  - subject:  科目・テーマ。含まれる単語でアクセント色を決める(brand-guide準拠)
+  - bg:       背景写真のパス(省略時は紺のグラデーション背景)
+-->
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@700;900&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html,body{width:1280px;height:670px;overflow:hidden;
+    font-family:"Noto Sans JP","Noto Sans CJK JP","IPAGothic",sans-serif;}
+  #bg{position:absolute;inset:0;background-size:cover;background-position:center;}
+  #bg.placeholder{background:linear-gradient(135deg,#1d2b4f 0%,#13203d 55%,#0c1529 100%);}
+  #overlay{position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,14,30,.88) 0%,rgba(8,14,30,.7) 55%,rgba(8,14,30,.35) 100%);}
+  #bar{position:absolute;left:0;top:0;bottom:0;width:18px;}
+  #content{position:absolute;left:96px;right:96px;top:0;bottom:0;
+    display:flex;flex-direction:column;justify-content:center;color:#fff;}
+  #tag{display:inline-block;align-self:flex-start;font-size:30px;font-weight:900;
+    padding:6px 22px;border-radius:999px;color:#0c1529;margin-bottom:28px;}
+  #title{font-size:72px;font-weight:900;line-height:1.3;letter-spacing:.01em;
+    text-shadow:0 4px 14px rgba(0,0,0,.45);word-break:normal;overflow-wrap:anywhere;}
+  #subtitle{font-size:34px;font-weight:700;line-height:1.5;margin-top:26px;opacity:.92;}
+  #brand{position:absolute;right:56px;bottom:36px;color:#fff;font-size:30px;font-weight:900;
+    letter-spacing:.08em;opacity:.9;}
+</style>
+</head>
+<body>
+  <div id="bg"></div>
+  <div id="overlay"></div>
+  <div id="bar"></div>
+  <div id="content">
+    <div id="tag"></div>
+    <div id="title"></div>
+    <div id="subtitle"></div>
+  </div>
+  <div id="brand">学ジム</div>
+<script>
+  // 科目別配色(brand-guide.md「科目別サムネ配色」と同じ対応表)
+  const SUBJECT_COLORS = [
+    ["英語", "#FFD84D"], ["古典", "#FF5FA8"], ["古文", "#FF5FA8"], ["漢文", "#FF5FA8"],
+    ["日本史", "#2E9E63"], ["総合型", "#4EA1FF"],
+  ];
+  function colorFor(label){
+    if (!label) return "#FF8A3D";
+    for (const [key, color] of SUBJECT_COLORS) if (label.includes(key)) return color;
+    return "#FF8A3D";
+  }
+  function b64ToUtf8(b64){
+    const binary = atob(b64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i=0;i<binary.length;i++) bytes[i]=binary.charCodeAt(i);
+    return new TextDecoder("utf-8").decode(bytes);
+  }
+  async function init(){
+    const raw = new URLSearchParams(location.search).get("d");
+    const data = raw ? JSON.parse(b64ToUtf8(decodeURIComponent(raw))) : {};
+    const color = colorFor(data.subject);
+
+    const bg = document.getElementById("bg");
+    if (data.bg) bg.style.backgroundImage = `url("${data.bg}")`;
+    else bg.classList.add("placeholder");
+    document.getElementById("bar").style.background = color;
+
+    const tag = document.getElementById("tag");
+    if (data.tagLabel) { tag.textContent = data.tagLabel; tag.style.background = color; }
+    else tag.style.display = "none";
+
+    const title = document.getElementById("title");
+    title.textContent = data.title || "";
+    const sub = document.getElementById("subtitle");
+    if (data.subtitle) sub.textContent = data.subtitle; else sub.style.display = "none";
+
+    if (document.fonts && document.fonts.ready) { try { await document.fonts.ready; } catch(e){} }
+    // 長いタイトルは枠に収まるまで文字を小さくする(最小44px)
+    const content = document.getElementById("content");
+    let size = 72;
+    while (content.scrollHeight > 670 - 60 && size > 44) { size -= 4; title.style.fontSize = size + "px"; }
+    let subSize = 34;
+    while (content.scrollHeight > 670 - 60 && subSize > 24) { subSize -= 2; sub.style.fontSize = subSize + "px"; }
+    document.body.dataset.ready = "true";
+  }
+  init();
+</script>
+</body>
+</html>

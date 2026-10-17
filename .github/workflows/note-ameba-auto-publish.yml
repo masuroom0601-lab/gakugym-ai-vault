@@ -12,6 +12,10 @@ name: note-ameba-auto-publish
 # NOTE_EMAIL/NOTE_PASSWORD/AMEBA_ID/AMEBA_PASSWORD/AMEBA_BLOG_IDのいずれかが
 # 未設定の場合、該当プラットフォームへの投稿はスキップされる
 # (`01_HQ/setup guides/note-ameba-auto-publish-setup.md`参照)。
+#
+# 2026-10-17追加: 投稿時に select.js が記事内容・過去実績から最適なハッシュタグと
+# 見出し画像の背景写真を選び、header-image.js が見出し画像(1280x670)を生成して設定する。
+# 生成した見出し画像は 02_departments/note_ameba/images/ に保存・コミットされる。
 
 on:
   push:
@@ -42,7 +46,11 @@ jobs:
 
       - name: Install dependencies
         working-directory: tools/note_ameba
-        run: npm install
+        run: npm ci
+
+      - name: Test selection logic
+        working-directory: tools/note_ameba
+        run: npm test
 
       - name: Install Playwright Chromium
         working-directory: tools/note_ameba
