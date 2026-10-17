@@ -1,4 +1,4 @@
-import os, sys, subprocess
+import os, sys, subprocess, math
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 W,H,FPS=1080,1920,30
 FONT=os.environ["REEL_FONT"]; FFMPEG=os.environ.get("REEL_FFMPEG","ffmpeg")
@@ -45,7 +45,7 @@ def base(n,t=0.0):
     d.rounded_rectangle((80,1620,780,1740),40,fill="#4472c4")
     bold(d,(430,1680),"答えをコメント欄へ!",f(54),"white","mm",1)
     return im
-def endcard():
+def endcard_bg():
     im=Image.new("RGB",(W,H),"#4472c4")
     if len(sys.argv)>5:
         ph=Image.open(sys.argv[5]).convert("RGB"); r=max(W/ph.width,H/ph.height)
@@ -54,7 +54,16 @@ def endcard():
     d=ImageDraw.Draw(im)
     bold(d,(540,820),"答え&解説は",f(100),"white","mm",3)
     bold(d,(540,970),"概要欄へ!",f(120),"white","mm",3)
-    bold(d,(540,1180),"▼ ▼ ▼",f(100),"#ffd400","mm",2)
+    return im
+def endcard_frame(bg,t):
+    # 下矢印3つを、少しずつ位相をずらして上下に弾ませる(視線を下へ誘導するアニメーション)
+    im=bg.copy(); d=ImageDraw.Draw(im)
+    af=f(100); amp=22; freq=1.8
+    for i in range(3):
+        phase=i*0.75
+        dy=amp*max(0.0, math.sin(2*math.pi*freq*t-phase))
+        x=540+(i-1)*95
+        bold(d,(x,1180+dy),"▼",af,"#ffd400","mm",2)
     return im
 p=subprocess.Popen([FFMPEG,"-y","-v","error","-f","rawvideo","-pix_fmt","rgb24","-s",f"{W}x{H}","-r",str(FPS),"-i","-","-an","-c:v","libx264","-pix_fmt","yuv420p","-crf","18",out],stdin=subprocess.PIPE)
 fr=0
@@ -63,6 +72,7 @@ for n in range(COUNT,0,-1):
         p.stdin.write(base(n,fr/FPS).tobytes()); fr+=1
 for _ in range(FPS//2):
     p.stdin.write(base(0,fr/FPS).tobytes()); fr+=1
-e=endcard().tobytes()
-for _ in range(int(END*FPS)): p.stdin.write(e)
+bg=endcard_bg()
+for i in range(int(END*FPS)):
+    p.stdin.write(endcard_frame(bg,i/FPS).tobytes())
 p.stdin.close(); p.wait()
