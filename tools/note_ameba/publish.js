@@ -445,6 +445,9 @@ async function publishToAmeba(page, { title, body, headerPath, hashtags, rehears
     return { skipped: false, rehearsal: true, url: page.url(), imageOk, tagsOk, warnings };
   }
 
+  // 「ブログで紹介したい商品がないか確認してみましょう」等の吹き出しが投稿ボタンを覆わないよう閉じておく
+  const balloons = page.locator('[role="dialog"] button, [class*="balloon"] button').filter({ hasText: /^\s*OK\s*$/ });
+  for (let k = 0; k < (await balloons.count().catch(() => 0)); k++) await balloons.nth(k).click({ timeout: 2000 }).catch(() => {});
   const publishBtn = page.locator('button, input[type="submit"], a[role="button"]').filter({ hasText: /^\s*(投稿する|公開する)\s*$/ }).first();
   if (!(await publishBtn.isVisible().catch(() => false))) {
     await saveFailureScreenshot(page, "ameba-no-publish-button");
