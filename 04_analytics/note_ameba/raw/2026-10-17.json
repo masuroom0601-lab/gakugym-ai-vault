@@ -1,0 +1,65 @@
+{
+  "collected_at": "2026-10-17T08:36:09.546Z",
+  "note": {
+    "ok": true,
+    "source": "note public api",
+    "articles": [
+      {
+        "title": "暗記が苦手な子への声かけ、NG例とOK例 ― 「覚えられない」は才能ではなく「やり方」の問題です",
+        "key": "nd5404d90d5c0",
+        "url": "https://note.com/deft_agapan6959/n/nd5404d90d5c0",
+        "views": null,
+        "likes": 1,
+        "comments": 0
+      },
+      {
+        "title": "模試の結果で一喜一憂しない親のスタンス ― 数字より見てほしいこと",
+        "key": "n800d6beac36d",
+        "url": "https://note.com/deft_agapan6959/n/n800d6beac36d",
+        "views": null,
+        "likes": 2,
+        "comments": 0
+      },
+      {
+        "title": "総合型選抜、親はどこまで手伝っていい? ― 志望理由書と向き合う保護者様へ",
+        "key": "neeab6f912c80",
+        "url": "https://note.com/deft_agapan6959/n/neeab6f912c80",
+        "views": null,
+        "likes": 2,
+        "comments": 0
+      },
+      {
+        "title": "テスト前に「焦り」を見せる子どもに、保護者様ができること",
+        "key": "n14c63b0c1446",
+        "url": "https://note.com/deft_agapan6959/n/n14c63b0c1446",
+        "views": null,
+        "likes": 0,
+        "comments": 0
+      },
+      {
+        "title": "「勉強しなさい」と言わずに子どもが自発的に動き出す！プロコーチが教える親の接し方",
+        "key": "n42126fc62d9d",
+        "url": "https://note.com/deft_agapan6959/n/n42126fc62d9d",
+        "views": null,
+        "likes": 0,
+        "comments": 0
+      }
+    ],
+    "error": "ビュー数(要ログイン)の取得失敗: note.comへのログインに失敗しました(URL確認: https://note.com/login)。パスワード・メールアドレスを確認してください。",
+    "raw_text": null,
+    "references": [
+      "03_assets/images/note_ameba/reference/nd5404d90d5c0.png",
+      "03_assets/images/note_ameba/reference/n800d6beac36d.png",
+      "03_assets/images/note_ameba/reference/neeab6f912c80.png",
+      "03_assets/images/note_ameba/reference/n14c63b0c1446.png",
+      "03_assets/images/note_ameba/reference/n42126fc62d9d.png"
+    ]
+  },
+  "ameba": {
+    "ok": false,
+    "source": null,
+    "articles": [],
+    "error": "AmebaIDログイン画面でID入力欄が見つかりませんでした(UI変更の可能性)。",
+    "raw_text": null
+  }
+}
