@@ -805,3 +805,33 @@ status修正)、`02_departments/x_threads/department.md`(今日の1問節・投�
 未着手のまま(`01_HQ/setup guides/instagram-graph-api-setup.md.md`は投稿用の
 手順のみで、インサイト取得にはFacebookページ連携の旧ルートが別途必要)。
 フェーズ3(競合トレンドのWeb検索調査)も未着手。
+
+### 重要な運用上の教訓(2026-10-17続報): エルグラム連携によるフェーズ1の代替手段
+上記の「フェーズ1未着手」課題に対し、同日中に益田さんが「エルグラム」
+(Instagram分析ツール、投稿ごとのいいね・保存・リーチ等が取得できる)を
+claude.aiに接続した。Meta for Developersでのアプリ作成・Facebookページ連携
+(`instagram-graph-api-setup.md.md`の旧手順)を経由せずに、Instagram Insightsに
+近いデータが取得できる見込みとなった。
+
+実際に`list_bots`・`list_posts`・`get_user_stats`で動作確認したところ、連携自体は
+正常(学ジムのアカウント`massu_gakugym`、フォロワー237人を正しく認識)。ただし
+2026-10-17時点では**エルグラム側に過去の投稿データがまだ同期されておらず
+(`list_posts`が0件)、フォロワー推移の履歴も空**だった。エルグラムは今日以降の
+新しい投稿から記録し始める可能性が高いと判断した。
+
+このセッションで重要な技術的制約が判明した: **エルグラムはこのチャット専用に
+有効化されたMCPコネクタであり、GitHub Actions(`analytics-pattern-learning.yml`等)
+からは直接アクセスできない**。また、claude.aiのRoutineをAPI(`create_trigger`)
+経由で新規作成する際、このセッションが持つコネクタの権限を自動的に引き継ぐ
+ことができなかった(`connectors`パラメータ自体がこの組織では無効)。実際に
+試しに作成したRoutineは「コネクタなし」の状態になってしまったため削除し、
+Canva Routineの時と同様、**益田さんご自身がclaude.ai画面上でRoutineを作成し、
+画面上でエルグラムコネクタを手動でオンにする**方式に切り替えた
+(`01_HQ/setup guides/elgram-weekly-fetch-routine-setup.md`に手順書を作成)。
+
+この「エルグラム週次データ取得」Routine(毎週日曜04:50 JST予定、
+`analytics-weekly-report.yml`の05:30より前)は、`04_analytics/manual-input/`の
+Instagram欄を自動で埋め、`filled: true`に変更する設計。TikTok/X/note/Ameba/LINEは
+引き続き手動入力が必要。益田さんがRoutineを作成し、エルグラム側にデータが
+同期され次第、2026-10-17に構築したフェーズ2(`analytics-pattern-learning.yml`)が
+実際に動き出す見込み。
