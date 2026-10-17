@@ -177,6 +177,60 @@ function checkLength(platform, actual, expected, warnings) {
   }
 }
 
+// noteの見出し画像: タイトル欄より上にある、文字の無いアイコンボタン(画像追加)を押し、
+// 出てきたメニューの「画像をアップロード」からファイルを渡す。トリミング画面が出たら「保存」。
+async function setNoteEyecatch(page, titleBox, headerPath, rehearsal) {
+  const titleTop = (await titleBox.boundingBox().catch(() => null))?.y ?? 400;
+  const candidates = page.locator("button");
+  const n = await candidates.count();
+  for (let i = 0; i < n; i++) {
+    const b = candidates.nth(i);
+    const box = await b.boundingBox().catch(() => null);
+    if (!box || box.y >= titleTop) continue;
+    const text = ((await b.innerText().catch(() => "")) || "").trim();
+    const label = (await b.getAttribute("aria-label").catch(() => "")) || "";
+    if (text || /AI|目次|ヒント|ガイド|その他|閉じる/.test(label)) continue;
+    // ボタンを押すと直接ファイル選択が開く場合と、メニューが出る場合の両方に対応する
+    const chooserP = page.waitForEvent("filechooser", { timeout: 4000 }).catch(() => null);
+    await b.click({ timeout: 3000 }).catch(() => {});
+    let chooser = await chooserP;
+    if (!chooser) {
+      if (rehearsal) await dumpPageStructure(page, "note-eyecatch-menu(rehearsal)");
+      const item = page.getByText(/画像をアップロード|アップロード/).first();
+      if (await item.isVisible().catch(() => false)) {
+        const p2 = page.waitForEvent("filechooser", { timeout: 5000 }).catch(() => null);
+        await item.click().catch(() => {});
+        chooser = await p2;
+      }
+    }
+    if (!chooser) { await page.keyboard.press("Escape").catch(() => {}); continue; }
+    await chooser.setFiles(headerPath);
+    await page.waitForTimeout(4000);
+    if (rehearsal) await dumpPageStructure(page, "note-eyecatch-crop(rehearsal)");
+    await clickIfPresent(page, ["保存", "適用", "完了", "この画像を使う", "決定"], 3000);
+    return true;
+  }
+  return false;
+}
+
+// Amebaのハッシュタグ: 「#」ボタンを押すと入力欄が開くので、1つずつ入力してEnter、最後に決定する
+async function setAmebaHashtags(page, tags, rehearsal) {
+  const opener = page.locator("#js-hashtag-button").first();
+  if (!(await opener.isVisible().catch(() => false))) return false;
+  await opener.click().catch(() => {});
+  await page.waitForTimeout(1500);
+  if (rehearsal) await dumpPageStructure(page, "ameba-hashtag-editor(rehearsal)");
+  const input = page.locator('[class*="hashtagEditor"] input[type="text"], [class*="hashtag"] input[type="text"], input[placeholder*="ハッシュタグ"]').first();
+  if (!(await input.isVisible().catch(() => false))) return false;
+  for (const t of tags) {
+    await input.fill(t);
+    await page.keyboard.press("Enter");
+    await page.waitForTimeout(500);
+  }
+  await clickIfPresent(page, ["OK", "決定", "完了", "設定する", "保存"], 1000);
+  return true;
+}
+
 async function publishToNote(page, { title, body, headerPath, hashtags, rehearsal }) {
   if (!hasNoteCreds()) return { skipped: true, reason: "NOTEのログイン情報(NOTE_SESSION)が未設定" };
   const warnings = [];
@@ -196,14 +250,8 @@ async function publishToNote(page, { title, body, headerPath, hashtags, rehearsa
   let imageOk = false;
   if (headerPath) {
     try {
-      imageOk = await uploadViaChooser(page, [
-        'button[aria-label*="見出し画像"]', 'button[aria-label*="画像を追加"]', 'button:has-text("画像を追加")',
-        '[class*="eyecatch"] button', '[class*="Eyecatch"] button',
-      ], headerPath);
-      if (imageOk) {
-        await page.waitForTimeout(3000);
-        await clickIfPresent(page, ["保存", "適用", "完了", "この画像を使う"]); // トリミング確認ダイアログ
-      } else warnings.push("note: 見出し画像のアップロード欄が見つかりませんでした");
+      imageOk = await setNoteEyecatch(page, titleBox, headerPath, rehearsal);
+      if (!imageOk) warnings.push("note: 見出し画像のアップロード欄が見つかりませんでした");
     } catch (e) { imageOk = false; warnings.push(`note: 見出し画像の設定に失敗(${e.message})`); }
   }
 
@@ -240,9 +288,8 @@ async function publishToNote(page, { title, body, headerPath, hashtags, rehearsa
   }
   let tagsOk = false;
   if (hashtags.length) {
-    tagsOk = await typeHashtags(page, [
-      'input[placeholder*="ハッシュタグ"]', 'input[aria-label*="ハッシュタグ"]', 'input[placeholder*="タグ"]',
-    ], hashtags).catch((e) => { warnings.push(`note: ハッシュタグ入力でエラー(${e.message})`); return false; });
+    tagsOk = await typeHashtags(page, ['input[placeholder*="ハッシュタグ"]'], hashtags)
+      .catch((e) => { warnings.push(`note: ハッシュタグ入力でエラー(${e.message})`); return false; });
     if (!tagsOk && !warnings.some((w) => w.includes("ハッシュタグ"))) warnings.push("note: ハッシュタグ入力欄が見つかりませんでした");
   }
 
@@ -305,29 +352,44 @@ async function publishToAmeba(page, { title, body, headerPath, hashtags, rehears
   const expected = expectedLength(body);
   checkLength("Ameba", await readCharCount(page, /文字数[:：]\s*([\d,]+)/), expected, warnings);
 
-  // 見出し画像: 画像をアップロードし、本文の先頭に挿入する(Amebaは本文の先頭画像が記事のサムネイルになる)
+  // 見出し画像: 画像一覧にアップロードし、一覧に増えた画像をクリックして本文に挿入→本文の先頭へ移動する
+  // (Amebaは本文の先頭画像が記事のサムネイルになる)
   let imageOk = false;
   if (headerPath) {
     try {
       await page.locator("#sidepanel-accessoryTab-photos").click({ timeout: 5000 }).catch(() => {});
-      const before = await page.locator('img[src*="stat.ameba.jp"], img[src*="user_images"]').count().catch(() => 0);
-      const uploaded = await uploadViaChooser(page, ['button:has-text("画像をアップロード")', 'label:has-text("画像をアップロード")'], headerPath, "#js-input-files");
+      const listSel = '[class*="imageList"] li img, [class*="imageList"] img';
+      const before = await page.locator(listSel).count().catch(() => 0);
+      const uploaded = await uploadViaChooser(page, ["#js-file-trigger"], headerPath, "#js-input-files");
       if (uploaded) {
-        // アップロードされた画像の一覧が増えるまで待ち、増えた最初の画像のURLを本文の先頭に入れる
-        let src = null;
-        for (let i = 0; i < 15 && !src; i++) {
-          await page.waitForTimeout(2000);
-          src = await page.evaluate((n) => {
-            const imgs = [...document.querySelectorAll('img[src*="stat.ameba.jp"], img[src*="user_images"]')];
-            return imgs.length > n ? imgs[0].src.replace(/\?.*$/, "") : null;
-          }, before).catch(() => null);
+        let added = false;
+        for (let i = 0; i < 20 && !added; i++) {
+          await page.waitForTimeout(1500);
+          added = (await page.locator(listSel).count().catch(() => 0)) > before;
         }
-        if (src) {
-          imageOk = await page.evaluate((u) => {
+        if (rehearsal) {
+          const imgs = await page.evaluate((sel) => [...document.querySelectorAll(sel)].slice(0, 5).map((im) => ({ src: im.src.slice(0, 120), cls: (im.closest("li") || im).className.slice(0, 80) })), listSel).catch(() => []);
+          console.log(`[画像一覧(rehearsal)] before=${before} added=${added} ${JSON.stringify(imgs)}`);
+        }
+        if (added) {
+          const htmlBefore = await page.evaluate(() => Object.values(window.CKEDITOR.instances)[0].getData()).catch(() => "");
+          await page.evaluate(() => { const ed = Object.values(window.CKEDITOR.instances)[0]; ed.focus(); const r = ed.createRange(); r.moveToElementEditStart(ed.editable()); r.select(); }).catch(() => {});
+          await page.locator(listSel).first().click({ timeout: 5000 }).catch(() => {});
+          await page.waitForTimeout(2500);
+          // 挿入された<img>を本文の先頭に置き直す(カーソル位置に入らなかった場合の保険)
+          imageOk = await page.evaluate((prev) => {
             const ed = Object.values(window.CKEDITOR.instances)[0];
-            ed.setData(`<p><img src="${u}" alt=""></p>` + ed.getData());
+            const now = ed.getData();
+            if (now === prev) return false;
+            const doc = new DOMParser().parseFromString(`<div id="r">${now}</div>`, "text/html");
+            const root = doc.getElementById("r");
+            const img = root.querySelector("img");
+            if (!img) return false;
+            const block = img.closest("p, div:not(#r)") || img;
+            root.insertBefore(block, root.firstChild);
+            ed.setData(root.innerHTML);
             return true;
-          }, src).catch(() => false);
+          }, htmlBefore).catch(() => false);
         }
         if (!imageOk) warnings.push("Ameba: 画像はアップロードしましたが、本文への挿入を確認できませんでした");
       } else warnings.push("Ameba: 画像のアップロード欄が見つかりませんでした");
@@ -336,9 +398,7 @@ async function publishToAmeba(page, { title, body, headerPath, hashtags, rehears
 
   let tagsOk = false;
   if (hashtags.length) {
-    tagsOk = await typeHashtags(page, [
-      'input[placeholder*="ハッシュタグ"]', 'input[aria-label*="ハッシュタグ"]', 'input[placeholder*="タグ"]',
-    ], hashtags).catch((e) => { warnings.push(`Ameba: ハッシュタグ入力でエラー(${e.message})`); return false; });
+    tagsOk = await setAmebaHashtags(page, hashtags, rehearsal).catch((e) => { warnings.push(`Ameba: ハッシュタグ入力でエラー(${e.message})`); return false; });
     if (!tagsOk && !warnings.some((w) => w.includes("ハッシュタグ"))) warnings.push("Ameba: ハッシュタグ入力欄が見つかりませんでした");
   }
 
