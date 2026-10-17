@@ -48,6 +48,27 @@ async function saveFailureScreenshot(page, label) {
   }
 }
 
+// スクリーンショット(バイナリ)はこの実行環境からダウンロードできないことがあるため、
+// CIのテキストログだけでも原因診断できるよう、ページの状態をテキストで出力する。
+async function logPageDiagnostics(page, label) {
+  try {
+    const title = await page.title().catch(() => "(取得失敗)");
+    const url = page.url();
+    const inputCount = await page.locator("input").count().catch(() => -1);
+    const buttonTexts = await page.locator("button").allInnerTexts().catch(() => []);
+    const bodyText = await page.locator("body").innerText().catch(() => "");
+    console.log(`--- 診断情報[${label}] ---`);
+    console.log("URL:", url);
+    console.log("title:", title);
+    console.log("input要素数:", inputCount);
+    console.log("button文言(先頭10件):", JSON.stringify(buttonTexts.slice(0, 10)));
+    console.log("画面テキスト(先頭300文字):", bodyText.slice(0, 300).replace(/\s+/g, " "));
+    console.log(`--- 診断情報ここまで[${label}] ---`);
+  } catch (e) {
+    console.log("診断情報の取得に失敗:", e.message);
+  }
+}
+
 function parseFile(filePath) {
   const raw = fs.readFileSync(filePath, "utf8");
   const m = raw.match(/^---\n([\s\S]*?)\n---\n([\s\S]*)$/);
@@ -82,6 +103,8 @@ async function publishToNote(page, title, bodyMd) {
   const emailBox = page.locator('input[name="login_email"], input[type="email"]').first();
   if (!(await emailBox.count())) {
     await saveFailureScreenshot(page, "note-login-no-email-field");
+
+    await logPageDiagnostics(page, "note-login-no-email-field");
     throw new Error("note.comログイン画面でメールアドレス入力欄が見つかりませんでした(UI変更の可能性)。");
   }
   await emailBox.fill(email);
@@ -93,10 +116,14 @@ async function publishToNote(page, title, bodyMd) {
   const captcha = await page.locator('iframe[src*="recaptcha"], text=認証').count().catch(() => 0);
   if (captcha > 0) {
     await saveFailureScreenshot(page, "note-login-captcha");
+
+    await logPageDiagnostics(page, "note-login-captcha");
     throw new Error("note.comログイン時にCAPTCHA/認証画面が検出されました。自動投稿を中断します(手動投稿にフォールバックしてください)。");
   }
   if (page.url().includes("/login")) {
     await saveFailureScreenshot(page, "note-login-failed");
+
+    await logPageDiagnostics(page, "note-login-failed");
     throw new Error("note.comへのログインに失敗しました(URL確認: " + page.url() + ")。パスワード・メールアドレスを確認してください。");
   }
 
@@ -106,6 +133,8 @@ async function publishToNote(page, title, bodyMd) {
   const titleBox = page.locator('textarea[placeholder*="タイトル"], [contenteditable][aria-label*="タイトル"]').first();
   if (!(await titleBox.count())) {
     await saveFailureScreenshot(page, "note-editor-no-title-field");
+
+    await logPageDiagnostics(page, "note-editor-no-title-field");
     throw new Error("note.comの新規投稿画面でタイトル欄が見つかりませんでした(UI変更の可能性)。");
   }
   await titleBox.click({ timeout: 10000 });
@@ -133,6 +162,8 @@ async function publishToNote(page, title, bodyMd) {
   }
   if (!clickedAny) {
     await saveFailureScreenshot(page, "note-no-publish-button");
+
+    await logPageDiagnostics(page, "note-no-publish-button");
     throw new Error("note.comで「公開する」系のボタンが見つからず、クリックできませんでした(UI変更の可能性。本文は入力済みの可能性があるため要確認)。");
   }
 
@@ -142,6 +173,8 @@ async function publishToNote(page, title, bodyMd) {
   // それ以外(エディタ画面のままなど)は「クリックはしたが実際には公開されていない」可能性が高いため失敗扱いにする。
   if (!/note\.com\/[^/]+\/n\/[a-z0-9]+/i.test(url)) {
     await saveFailureScreenshot(page, "note-publish-not-confirmed");
+
+    await logPageDiagnostics(page, "note-publish-not-confirmed");
     throw new Error(`note.comで公開ボタンはクリックしましたが、公開後の記事URLに遷移しませんでした(現在のURL: ${url})。実際に公開されたか手動で確認してください。`);
   }
 
@@ -156,10 +189,31 @@ async function publishToAmeba(page, title, bodyMd) {
   const idBox = page.locator('input[name="accountId"], input[type="text"]').first();
   if (!(await idBox.count())) {
     await saveFailureScreenshot(page, "ameba-login-no-id-field");
+
+    await logPageDiagnostics(page, "ameba-login-no-id-field");
     throw new Error("AmebaIDログイン画面でID入力欄が見つかりませんでした(UI変更の可能性)。");
   }
   await idBox.fill(id);
-  const passBox = page.locator('input[name="password"], input[type="password"]').first();
+
+  // AmebaIDログインはID入力→次へ→パスワード入力、の2段階フローの可能性があるため、
+  // まずパスワード欄が最初から存在するか確認し、無ければ「次へ」系のボタンを押してから
+  // 改めてパスワード欄を探す。
+  let passBox = page.locator('input[name="password"], input[type="password"]').first();
+  if (!(await passBox.count())) {
+    const nextBtn = page.getByRole("button", { name: /次へ|ログイン|続ける/ }).first();
+    if (await nextBtn.count()) {
+      await nextBtn.click({ timeout: 10000 }).catch(() => {});
+    } else {
+      await page.click('button[type="submit"], input[type="submit"]').catch(() => {});
+    }
+    await page.waitForTimeout(2000);
+    passBox = page.locator('input[name="password"], input[type="password"]').first();
+  }
+  if (!(await passBox.count())) {
+    await saveFailureScreenshot(page, "ameba-login-no-password-field");
+    await logPageDiagnostics(page, "ameba-login-no-password-field");
+    throw new Error("AmebaIDログイン画面でパスワード入力欄が見つかりませんでした(2段階フローの想定が外れた可能性。UI変更の可能性)。");
+  }
   await passBox.fill(password);
   await page.click('button[type="submit"], input[type="submit"]');
   await page.waitForTimeout(3000);
@@ -167,10 +221,14 @@ async function publishToAmeba(page, title, bodyMd) {
   const captcha = await page.locator('iframe[src*="recaptcha"], text=認証').count().catch(() => 0);
   if (captcha > 0) {
     await saveFailureScreenshot(page, "ameba-login-captcha");
+
+    await logPageDiagnostics(page, "ameba-login-captcha");
     throw new Error("AmebaIDログイン時にCAPTCHA/認証画面が検出されました。自動投稿を中断します(手動投稿にフォールバックしてください)。");
   }
   if (page.url().includes("login")) {
     await saveFailureScreenshot(page, "ameba-login-failed");
+
+    await logPageDiagnostics(page, "ameba-login-failed");
     throw new Error("AmebaIDへのログインに失敗しました(URL確認: " + page.url() + ")。ID・パスワードを確認してください。");
   }
 
@@ -180,6 +238,8 @@ async function publishToAmeba(page, title, bodyMd) {
   const titleBox = page.locator('input[placeholder*="タイトル"], input[name*="title"]').first();
   if (!(await titleBox.count())) {
     await saveFailureScreenshot(page, "ameba-editor-no-title-field");
+
+    await logPageDiagnostics(page, "ameba-editor-no-title-field");
     throw new Error("Amebaの新規投稿画面でタイトル欄が見つかりませんでした(UI変更の可能性)。");
   }
   await titleBox.click({ timeout: 10000 });
@@ -188,6 +248,8 @@ async function publishToAmeba(page, title, bodyMd) {
   const bodyBox = page.locator('[contenteditable="true"], textarea[name*="body"]').first();
   if (!(await bodyBox.count())) {
     await saveFailureScreenshot(page, "ameba-editor-no-body-field");
+
+    await logPageDiagnostics(page, "ameba-editor-no-body-field");
     throw new Error("Amebaの新規投稿画面で本文欄が見つかりませんでした(UI変更の可能性)。");
   }
   await bodyBox.click({ timeout: 10000 });
@@ -200,6 +262,8 @@ async function publishToAmeba(page, title, bodyMd) {
   const publishBtn = page.getByRole("button", { name: /公開する|投稿する/ }).first();
   if (!(await publishBtn.count())) {
     await saveFailureScreenshot(page, "ameba-no-publish-button");
+
+    await logPageDiagnostics(page, "ameba-no-publish-button");
     throw new Error("Amebaで「公開する」系のボタンが見つからず、クリックできませんでした(UI変更の可能性。本文は入力済みの可能性があるため要確認)。");
   }
   await publishBtn.click({ timeout: 10000 });
@@ -210,6 +274,8 @@ async function publishToAmeba(page, title, bodyMd) {
   // entry-edit.htmlのままの場合は「クリックはしたが実際には公開されていない」可能性が高いため失敗扱いにする。
   if (!/ameblo\.jp\/[^/]+\/entry-\d+/i.test(url)) {
     await saveFailureScreenshot(page, "ameba-publish-not-confirmed");
+
+    await logPageDiagnostics(page, "ameba-publish-not-confirmed");
     throw new Error(`Amebaで公開ボタンはクリックしましたが、公開後の記事URLに遷移しませんでした(現在のURL: ${url})。実際に公開されたか手動で確認してください。`);
   }
 
