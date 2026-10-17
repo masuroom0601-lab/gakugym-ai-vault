@@ -1,0 +1,67 @@
+name: note-ameba-auto-publish
+
+# note/Amebaには投稿用の公式APIが無いため、Playwrightでブラウザ操作を代行して
+# 投稿する(2026-10-17新設)。line-broadcast-publish.ymlと同じ承認ゲート方式:
+# 益田さんがdraftsのfrontmatterを status: approved に変更してpushすると、
+# このワークフローが自動的に投稿する(LLMを経由しない決定的スクリプト。
+# 取り消せない公開操作のため、LINE配信と同じ方針)。
+#
+# 【重要】note.com/Amebaの非公式ブラウザ操作のため、CAPTCHA・サイト構造の変更で
+# 失敗する可能性が高い。失敗しても下書きファイルは消えず status: approved の
+# ままdrafts/に残るので、手動投稿へのフォールバックは常に可能。
+# NOTE_EMAIL/NOTE_PASSWORD/AMEBA_ID/AMEBA_PASSWORD/AMEBA_BLOG_IDのいずれかが
+# 未設定の場合、該当プラットフォームへの投稿はスキップされる
+# (`01_HQ/setup guides/note-ameba-auto-publish-setup.md`参照)。
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '02_departments/note_ameba/drafts/**'
+  schedule:
+    - cron: '20 21 * * *'   # 毎日06:20 JST相当のフォールバック(pushトリガーの取りこぼし対策)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: tools/note_ameba
+        run: npm install
+
+      - name: Install Playwright Chromium
+        working-directory: tools/note_ameba
+        run: npx playwright install --with-deps chromium
+
+      - name: Publish approved drafts to note/Ameba
+        working-directory: tools/note_ameba
+        env:
+          NOTE_EMAIL: ${{ secrets.NOTE_EMAIL }}
+          NOTE_PASSWORD: ${{ secrets.NOTE_PASSWORD }}
+          AMEBA_ID: ${{ secrets.AMEBA_ID }}
+          AMEBA_PASSWORD: ${{ secrets.AMEBA_PASSWORD }}
+          AMEBA_BLOG_ID: ${{ secrets.AMEBA_BLOG_ID }}
+        run: node publish.js
+
+      - name: Commit and push results
+        run: |
+          git config user.name "gakugym-ai-bot"
+          git config user.email "bot@example.com"
+          git add 02_departments/note_ameba/
+          if ! git diff --cached --quiet; then
+            git commit -m "note/ameba auto publish run $(date +%F)"
+            git push
+          else
+            echo "No changes to commit."
+          fi
