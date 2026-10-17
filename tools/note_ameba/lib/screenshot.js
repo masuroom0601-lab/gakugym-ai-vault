@@ -20,9 +20,9 @@ async function dumpPageStructure(page, label) {
         o.visible = vis(el);
         return o;
       };
-      const fields = [...document.querySelectorAll("input, textarea, [contenteditable], [role=textbox]")].slice(0, 40).map(attrs);
+      const fields = [...document.querySelectorAll("input, textarea, [contenteditable], [role=textbox]")].slice(0, 80).map(attrs);
       const buttons = [...document.querySelectorAll("button, [role=button], input[type=submit], a[href*=login]")]
-        .filter(vis).slice(0, 40).map((b) => ({ ...attrs(b), text: (b.innerText || b.value || "").trim().slice(0, 30) }));
+        .filter(vis).slice(0, 80).map((b) => ({ ...attrs(b), text: (b.innerText || b.value || "").trim().slice(0, 30) }));
       const iframes = [...document.querySelectorAll("iframe")].map((f) => (f.src || "").slice(0, 100));
       // 画面に表示されている文字の冒頭(入力欄が見つからない時に、何の画面なのかを判断するため)
       const text = (document.body ? document.body.innerText : "").replace(/\s+/g, " ").trim().slice(0, 300);

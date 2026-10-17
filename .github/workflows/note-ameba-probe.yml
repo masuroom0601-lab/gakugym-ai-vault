@@ -5,7 +5,13 @@ name: note-ameba-probe
 # 自動投稿・インサイト収集がサイト側のUI変更で失敗したときの調査用。
 
 on:
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      rehearsal_draft:
+        description: '投稿リハーサルする下書きのファイル名(例: task-2026-10-05-note-001.md)。空なら画面構成の確認のみ。最後の「投稿する」は押さない'
+        required: false
+        default: ''
+
 
 permissions:
   contents: read
@@ -44,6 +50,20 @@ jobs:
           NOTE_SESSION: ${{ secrets.NOTE_SESSION }}
           AMEBA_SESSION: ${{ secrets.AMEBA_SESSION }}
         run: node probe.js
+
+      - name: Publish rehearsal (stops before the final publish button)
+        if: inputs.rehearsal_draft != ''
+        working-directory: tools/note_ameba
+        env:
+          REHEARSAL_DRAFT: ${{ inputs.rehearsal_draft }}
+          AMEBA_BLOG_ID: ${{ secrets.AMEBA_BLOG_ID }}
+          NOTE_SESSION: ${{ secrets.NOTE_SESSION }}
+          AMEBA_SESSION: ${{ secrets.AMEBA_SESSION }}
+        run: |
+          if ! [[ "$REHEARSAL_DRAFT" =~ ^task-[0-9]{4}-[0-9]{2}-[0-9]{2}-note-[0-9]{3}\.md$ ]]; then
+            echo "不正なファイル名です: $REHEARSAL_DRAFT"; exit 1
+          fi
+          PUBLISH_REHEARSAL="$REHEARSAL_DRAFT" node publish.js
 
       - name: Upload screenshots
         if: always()
