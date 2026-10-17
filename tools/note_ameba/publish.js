@@ -220,7 +220,7 @@ async function setAmebaHashtags(page, tags, rehearsal) {
   await opener.click().catch(() => {});
   await page.waitForTimeout(1500);
   if (rehearsal) await dumpPageStructure(page, "ameba-hashtag-editor(rehearsal)");
-  const input = page.locator('[class*="hashtagEditor"] input[type="text"], [class*="hashtag"] input[type="text"], input[placeholder*="ハッシュタグ"]').first();
+  const input = page.locator('#js-hashtag-input, [class*="hashtag"] input[type="text"]').first();
   if (!(await input.isVisible().catch(() => false))) return false;
   for (const t of tags) {
     await input.fill(t);
@@ -282,9 +282,17 @@ async function publishToNote(page, { title, body, headerPath, hashtags, rehearsa
   checkLength("note", count, expected, warnings);
 
   // 「公開に進む」→ 公開設定画面(ハッシュタグ入力)→「投稿する」
-  if (!(await clickIfPresent(page, ["公開に進む"], 4000))) {
+  // 見出し画像の保存直後などは押しても進まないことがあるため、公開設定画面(/publish/)に移るまで数回押し直す
+  let proceeded = false;
+  for (let i = 0; i < 6 && !proceeded; i++) {
+    await clickIfPresent(page, ["公開に進む"], 3000);
+    proceeded = /\/publish\/?/.test(page.url()) ||
+      await page.locator('input[placeholder*="ハッシュタグ"]').first().isVisible().catch(() => false);
+    if (!proceeded) await page.waitForTimeout(2000);
+  }
+  if (!proceeded) {
     await saveFailureScreenshot(page, "note-no-proceed-button");
-    throw new Error("note.comで「公開に進む」ボタンが見つかりませんでした(UI変更の可能性。下書きとして残っている場合は削除してください)。");
+    throw new Error("note.comで「公開に進む」を押しても公開設定画面に進めませんでした(UI変更の可能性。下書きとして残っている場合は削除してください)。");
   }
   let tagsOk = false;
   if (hashtags.length) {
@@ -358,23 +366,30 @@ async function publishToAmeba(page, { title, body, headerPath, hashtags, rehears
   if (headerPath) {
     try {
       await page.locator("#sidepanel-accessoryTab-photos").click({ timeout: 5000 }).catch(() => {});
-      const listSel = '[class*="imageList"] li img, [class*="imageList"] img';
-      const before = await page.locator(listSel).count().catch(() => 0);
+      // 画像一覧は「アップロード」ボタン(#js-file-trigger)と同じリストに並ぶ
+      const itemsSel = 'xpath=//*[@id="js-file-trigger"]/ancestor::ul[1]/li[not(.//*[@id="js-file-trigger"])]';
+      const before = await page.locator(itemsSel).count().catch(() => 0);
       const uploaded = await uploadViaChooser(page, ["#js-file-trigger"], headerPath, "#js-input-files");
       if (uploaded) {
         let added = false;
         for (let i = 0; i < 20 && !added; i++) {
           await page.waitForTimeout(1500);
-          added = (await page.locator(listSel).count().catch(() => 0)) > before;
+          added = (await page.locator(itemsSel).count().catch(() => 0)) > before;
         }
         if (rehearsal) {
-          const imgs = await page.evaluate((sel) => [...document.querySelectorAll(sel)].slice(0, 5).map((im) => ({ src: im.src.slice(0, 120), cls: (im.closest("li") || im).className.slice(0, 80) })), listSel).catch(() => []);
-          console.log(`[画像一覧(rehearsal)] before=${before} added=${added} ${JSON.stringify(imgs)}`);
+          const html = await page.evaluate(() => {
+            const ul = document.getElementById("js-file-trigger")?.closest("ul");
+            return ul ? ul.outerHTML.replace(/\s+/g, " ").slice(0, 2500) : "(ulなし)";
+          }).catch(() => "");
+          console.log(`[画像一覧(rehearsal)] before=${before} added=${added} ${html}`);
         }
         if (added) {
           const htmlBefore = await page.evaluate(() => Object.values(window.CKEDITOR.instances)[0].getData()).catch(() => "");
           await page.evaluate(() => { const ed = Object.values(window.CKEDITOR.instances)[0]; ed.focus(); const r = ed.createRange(); r.moveToElementEditStart(ed.editable()); r.select(); }).catch(() => {});
-          await page.locator(listSel).first().click({ timeout: 5000 }).catch(() => {});
+          // 新しい画像は一覧の先頭(アップロードボタンの次)に入る想定。中の画像/ボタンをクリックすると本文に挿入される
+          const item = page.locator(itemsSel).first();
+          const clickable = item.locator("img, button, a").first();
+          await ((await clickable.count()) ? clickable : item).click({ timeout: 5000 }).catch(() => {});
           await page.waitForTimeout(2500);
           // 挿入された<img>を本文の先頭に置き直す(カーソル位置に入らなかった場合の保険)
           imageOk = await page.evaluate((prev) => {
