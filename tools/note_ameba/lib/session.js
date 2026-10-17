@@ -5,6 +5,8 @@
 // 形式: Playwrightの storageState(JSON)を gzip → base64 にした文字列。
 const zlib = require("zlib");
 
+const DESKTOP_UA = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36";
+
 const DOMAINS = {
   note: [/(^|\.)note\.com$/],
   ameba: [/(^|\.)ameba\.jp$/, /(^|\.)ameblo\.jp$/],
@@ -47,7 +49,10 @@ async function newSessionContext(browser) {
       console.warn(`${platform}: 保存されたログイン状態(${platform === "note" ? "NOTE_SESSION" : "AMEBA_SESSION"})を読み込めませんでした: ${e.message}`);
     }
   }
-  return browser.newContext(merged.cookies.length || merged.origins.length ? { storageState: merged } : {});
+  // 自動操作ブラウザ(HeadlessChrome)と判定されると画面が表示されないことがあるため、
+  // 通常のChromeと同じユーザーエージェント・言語・画面サイズにする(2026-10-17、noteエディタが真っ白だった件)
+  const base = { userAgent: DESKTOP_UA, locale: "ja-JP", timezoneId: "Asia/Tokyo", viewport: { width: 1366, height: 900 } };
+  return browser.newContext(merged.cookies.length || merged.origins.length ? { ...base, storageState: merged } : base);
 }
 
 module.exports = { filterState, encodeState, decodeState, hasSession, newSessionContext };

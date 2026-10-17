@@ -62,7 +62,7 @@ async function probeAmeba(browser) {
     await dumpPageStructure(page, "ameba-login-step1");
     await loginAmeba(page);
     console.log("Ameba: ログイン成功 URL=" + page.url());
-    await page.goto(`https://ameblo.jp/${process.env.AMEBA_BLOG_ID}/entry-edit.html`, { waitUntil: "domcontentloaded" });
+    await page.goto("https://blog.ameba.jp/ucs/entry/srventryinsertinput.do", { waitUntil: "domcontentloaded" });
     await page.waitForTimeout(6000);
     await dumpPageStructure(page, "ameba-editor");
   } catch (e) {
