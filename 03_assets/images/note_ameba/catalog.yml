@@ -27,4 +27,24 @@
 #   header_image: 03_assets/images/note_ameba/xxx.png
 # と書けば、その画像がそのまま(加工なしで)使われます。
 
-images: []
+# 2026-10-17: Canvaの画像生成で、既存記事と同じ雰囲気(文字なし・明るい自然光・暖色系)の画像を6枚作成して登録
+# (生成元のCanvaデザイン: 「ブログ見出し画像用の白い台紙」DAHYQKwgV1s。AI生成画像)
+images:
+  - file: 03_assets/images/note_ameba/parent-son-homework.png
+    keywords: [声かけ, 子育て, 親子, 宿題, 保護者, 勉強しなさい, 家庭学習, 机に向かう]
+    note: 夕方の食卓で、母親が宿題をする中学生の息子に寄り添って話しかける(実写風)
+  - file: 03_assets/images/note_ameba/girl-vocab-cards.png
+    keywords: [暗記, 英単語, 英語, 勉強法, 単語帳, 覚え方, 復習, 記憶]
+    note: 窓辺の朝の光の中、単語カードで勉強する女子高生(アニメ調)
+  - file: 03_assets/images/note_ameba/boy-mock-exam.png
+    keywords: [模試, 成績, 結果, テスト, 受験, 偏差値, 一喜一憂, 定期テスト]
+    note: 放課後の教室で、落ち着いて模試の結果用紙を見る男子高校生(実写風)
+  - file: 03_assets/images/note_ameba/teacher-student-consultation.png
+    keywords: [総合型選抜, 志望理由, 面接, 小論文, 進路, 推薦, 学部研究, 面談]
+    note: 明るい面談室で、先生と女子生徒が書類を前に話し合う(アニメ調)
+  - file: 03_assets/images/note_ameba/mother-praises-son.png
+    keywords: [褒める, 自己肯定感, やる気, 承認, 声かけ, 親子, モチベーション, 成長]
+    note: リビングでノートを見せる息子を、母親が笑顔で褒める(アニメ調)
+  - file: 03_assets/images/note_ameba/boy-library-study.png
+    keywords: [勉強習慣, 集中, 自習, 読解, 現代文, 継続, 習慣, 計画]
+    note: 夕方の図書館で、窓際の席で教科書を読む男子高校生(アニメ調)
