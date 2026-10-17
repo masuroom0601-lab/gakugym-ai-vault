@@ -1,0 +1,66 @@
+name: note-ameba-import-images
+
+# Canvaで書き出した見出し画像の背景写真を 03_assets/images/note_ameba/ に取り込む(手動実行のみ、2026-10-17新設)。
+# Claudeのサンドボックスからは Canva の書き出しURLへ直接アクセスできないため、Actions側でダウンロードする。
+# 入力: images = [{"name": "parent-son-homework", "url": "https://export-download.canva.com/..."}] のJSON
+# 安全のため、URLは export-download.canva.com のみ、nameは英小文字・数字・ハイフンのみ受け付ける。
+
+on:
+  workflow_dispatch:
+    inputs:
+      images:
+        description: 'JSON配列 [{"name": "...", "url": "https://export-download.canva.com/..."}]'
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: note-ameba-import-images
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download images
+        env:
+          IMAGES_JSON: ${{ inputs.images }}
+        run: |
+          python3 - <<'EOF'
+          import json, os, re, sys, urllib.request, urllib.parse
+          items = json.loads(os.environ["IMAGES_JSON"])
+          out_dir = "03_assets/images/note_ameba"
+          ok = 0
+          for it in items:
+              name, url = str(it.get("name", "")), str(it.get("url", ""))
+              if not re.fullmatch(r"[a-z0-9-]{3,60}", name):
+                  sys.exit(f"不正なname: {name!r}")
+              u = urllib.parse.urlparse(url)
+              if u.scheme != "https" or u.hostname != "export-download.canva.com":
+                  sys.exit(f"許可されていないURLです(export-download.canva.com のみ): {u.hostname}")
+              data = urllib.request.urlopen(url, timeout=60).read()
+              if not data.startswith(b"\x89PNG"):
+                  sys.exit(f"{name}: PNGではありません")
+              path = os.path.join(out_dir, name + ".png")
+              with open(path, "wb") as f:
+                  f.write(data)
+              print(f"保存: {path} ({len(data)//1024}KB)")
+              ok += 1
+          print(f"{ok}件取り込みました")
+          EOF
+
+      - name: Commit and push
+        run: |
+          git config user.name "gakugym-ai-bot"
+          git config user.email "bot@example.com"
+          git add 03_assets/images/note_ameba/*.png
+          if ! git diff --cached --quiet; then
+            git commit -m "note/ameba: import header background images $(date +%F)"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          else
+            echo "No changes to commit."
+          fi
