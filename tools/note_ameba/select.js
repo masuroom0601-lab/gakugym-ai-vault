@@ -153,7 +153,7 @@ function selectImage(article, { catalog, perf, recent } = {}) {
   const best = scored.find((s) => s.score > 0);
   return best
     ? { fixed: null, photo: best.file, reason: "記事内容・AI提案・過去実績から最も合う写真を選定", scored }
-    : { fixed: null, photo: null, reason: "合う写真が無いため、テンプレートの単色背景+タイトル文字で生成", scored };
+    : { fixed: null, photo: null, reason: "合う写真が無いため、テンプレートのベージュ地+タイトル文字で生成", scored };
 }
 
 function loadContext() {

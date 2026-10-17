@@ -41,7 +41,8 @@ reports_to: 統括担当
   1280x670の見出し画像を生成して設定する(Amebaは本文先頭に挿入=記事サムネイルになる)
 - ハッシュタグ候補: `02_departments/note_ameba/hashtag-pool.yml`(自由に編集可)
 - 背景写真: `03_assets/images/note_ameba/catalog.yml` に登録した写真から選ぶ。
-  未登録・合う写真が無い場合は紺背景+タイトル文字の見出し画像になる
+  写真がある場合は既存記事に合わせて「写真のみ・文字なし」、未登録・合う写真が無い場合は
+  明るいベージュ地+タイトル文字の見出し画像になる(参考: 03_assets/images/note_ameba/reference/)
 - 下書き作成時(AI)は frontmatter に `hashtag_candidates`(3〜5個)と
   `image_keywords`(2〜4個)を入れる。選定の材料になる
 - 人が固定したい場合は frontmatter に `hashtags: [...]` / `header_image: <パス>` を書けば
