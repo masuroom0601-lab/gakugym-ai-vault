@@ -227,8 +227,21 @@ async function setAmebaHashtags(page, tags, rehearsal) {
     await page.keyboard.press("Enter");
     await page.waitForTimeout(500);
   }
-  await clickIfPresent(page, ["OK", "決定", "完了", "設定する", "保存"], 1000);
-  return true;
+  // 入力欄の小窓を確定して閉じる(確定ボタンの文言はサイト側で変わりうるので候補を順に試す)
+  const modal = page.locator('[class*="hashtag__modal"], [class*="hashtagModal"]').first();
+  const modalButtons = await modal.locator("button, a").evaluateAll((els) => els.map((e) => (e.innerText || e.getAttribute("aria-label") || "").trim()).filter(Boolean)).catch(() => []);
+  if (rehearsal) console.log("[Amebaハッシュタグ小窓のボタン(rehearsal)] " + JSON.stringify(modalButtons.slice(0, 30)));
+  const confirm = modal.locator("button, a").filter({ hasText: /^\s*(決定|OK|完了|設定する|保存|追加する)\s*$/ }).first();
+  if (await confirm.isVisible().catch(() => false)) await confirm.click().catch(() => {});
+  await page.waitForTimeout(1000);
+  // 確定できたかは、フォームの隠し項目(hashtag)に値が入ったかで判断する
+  const hidden = await page.locator('input[name="hashtag"]').first().inputValue().catch(() => "");
+  if (rehearsal) console.log("[Amebaハッシュタグ確定値(rehearsal)] " + JSON.stringify(hidden));
+  if (await modal.isVisible().catch(() => false)) {
+    // まだ小窓が開いている場合: 値が確定済みなら閉じるボタンで閉じる(未確定なら取り消しになるため押さない)
+    if (hidden) await page.locator("#js-hashtag-modal-close").click().catch(() => {});
+  }
+  return tags.every((t) => hidden.includes(t));
 }
 
 async function publishToNote(page, { title, body, headerPath, hashtags, rehearsal }) {
@@ -301,6 +314,9 @@ async function publishToNote(page, { title, body, headerPath, hashtags, rehearsa
     await saveFailureScreenshot(page, "note-no-proceed-button");
     throw new Error("note.comで「公開に進む」を押しても公開設定画面に進めませんでした(UI変更の可能性。下書きとして残っている場合は削除してください)。");
   }
+  // 公開設定画面は読み込みに時間がかかるため、ハッシュタグ欄と「投稿する」ボタンが出るまで待つ
+  await page.locator('input[placeholder*="ハッシュタグ"]').first().waitFor({ state: "visible", timeout: 30000 }).catch(() => {});
+  await page.getByRole("button", { name: "投稿する", exact: true }).first().waitFor({ state: "visible", timeout: 15000 }).catch(() => {});
   let tagsOk = false;
   if (hashtags.length) {
     tagsOk = await typeHashtags(page, ['input[placeholder*="ハッシュタグ"]'], hashtags)
