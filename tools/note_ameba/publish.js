@@ -285,7 +285,14 @@ async function publishToNote(page, { title, body, headerPath, hashtags, rehearsa
   // 見出し画像の保存直後などは押しても進まないことがあるため、公開設定画面(/publish/)に移るまで数回押し直す
   let proceeded = false;
   for (let i = 0; i < 6 && !proceeded; i++) {
-    await clickIfPresent(page, ["公開に進む"], 3000);
+    // 見出し画像の設定後などに出る小窓(ダイアログ)がボタンを覆っていることがあるため、先に閉じる
+    await page.keyboard.press("Escape").catch(() => {});
+    const dlgClose = page.locator('[role="dialog"] button, [aria-modal="true"] button').filter({ hasText: /^\s*(閉じる|OK|とじる)\s*$/ });
+    for (let k = 0; k < (await dlgClose.count().catch(() => 0)); k++) await dlgClose.nth(k).click({ timeout: 2000 }).catch(() => {});
+    const btn = page.getByRole("button", { name: "公開に進む", exact: true }).first();
+    if (i < 3) await btn.click({ timeout: 5000 }).catch(() => {});
+    else await btn.dispatchEvent("click").catch(() => {}); // 覆われていても押せるよう、直接クリックイベントを送る
+    await page.waitForTimeout(3000);
     proceeded = /\/publish\/?/.test(page.url()) ||
       await page.locator('input[placeholder*="ハッシュタグ"]').first().isVisible().catch(() => false);
     if (!proceeded) await page.waitForTimeout(2000);
