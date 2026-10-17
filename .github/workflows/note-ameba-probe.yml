@@ -1,0 +1,53 @@
+name: note-ameba-probe
+
+# note/Amebaの画面構成の診断(手動実行のみ、2026-10-17新設)。投稿・保存は一切しない。
+# ログインして投稿画面の入力欄・ボタン、統計APIの応答構造をログに出す。
+# 自動投稿・インサイト収集がサイト側のUI変更で失敗したときの調査用。
+
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: read
+
+concurrency:
+  group: note-ameba-auto-publish
+  cancel-in-progress: false
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: tools/note_ameba
+        run: npm ci
+
+      - name: Install Playwright Chromium
+        working-directory: tools/note_ameba
+        run: npx playwright install --with-deps chromium
+
+      - name: Probe note/Ameba page structure (no posting)
+        working-directory: tools/note_ameba
+        env:
+          NOTE_EMAIL: ${{ secrets.NOTE_EMAIL }}
+          NOTE_PASSWORD: ${{ secrets.NOTE_PASSWORD }}
+          AMEBA_ID: ${{ secrets.AMEBA_ID }}
+          AMEBA_PASSWORD: ${{ secrets.AMEBA_PASSWORD }}
+          AMEBA_BLOG_ID: ${{ secrets.AMEBA_BLOG_ID }}
+        run: node probe.js
+
+      - name: Upload screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: note-ameba-probe-screenshots
+          path: tools/note_ameba/failure-screenshots/
+          if-no-files-found: ignore
+          retention-days: 7

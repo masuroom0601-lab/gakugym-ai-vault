@@ -138,9 +138,15 @@ jobs:
             always: と limits: は変更しないこと。
 
       - name: Commit and push results
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config user.name "gakugym-ai-bot"
           git config user.email "bot@example.com"
+          # claude-code-actionは終了時に自分のトークンを無効化するため、push用の認証を
+          # このワークフロー自身のGITHUB_TOKENに戻す(2026-10-17初回実行でpushが認証エラーになった)
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git add 04_analytics/note_ameba/ 02_departments/note_ameba/insights.md 02_departments/note_ameba/hashtag-pool.yml 03_assets/images/note_ameba/reference/
           if ! git diff --cached --quiet; then
             git commit -m "note/ameba weekly insights $(date +%F)"
