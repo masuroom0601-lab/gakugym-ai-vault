@@ -45,7 +45,8 @@ async function renderHeader({ title, subject, photo, label }, outPath, browser) 
     await page.goto("file://" + TEMPLATE + "?d=" + encodeURIComponent(b64));
     await page.waitForSelector('body[data-ready="true"]', { timeout: 15000 }).catch(() => {});
     fs.mkdirSync(path.dirname(outPath), { recursive: true });
-    await page.screenshot({ path: outPath });
+    // .jpg なら軽量なJPEG(提案用の画像はリポジトリに溜まるため)、それ以外はPNGで保存
+    await page.screenshot(/\.jpe?g$/i.test(outPath) ? { path: outPath, type: "jpeg", quality: 88 } : { path: outPath });
     await page.close();
     return outPath;
   } finally {

@@ -41,12 +41,12 @@ jobs:
 
             frontmatterには既存の項目(department, role, date, status: review, platform,
             subject, theme_source, approved_by)に加えて、以下を必ず入れてください
-            (投稿時に tools/note_ameba/select.js が最終的なハッシュタグ・見出し画像を選ぶ材料になります):
+            (この後 tools/note_ameba/suggest.js が、益田さんの手動投稿用にハッシュタグ・見出し画像を選ぶ材料になります):
             - hashtag_candidates: この記事に合うハッシュタグ候補を3〜5個(#は付けない。
               02_departments/note_ameba/hashtag-pool.yml にある言葉を優先し、無ければ新しく提案してよい)
             - image_keywords: 見出し画像の背景写真を選ぶためのキーワードを2〜4個
               (例: [声かけ, 親子, 宿題])
-            ※ hashtags: / header_image: は人が固定したい時に使う項目なので、あなたは書かないこと
+            ※ hashtags: / header_image: / suggested_*: はあなたは書かないこと(suggest.js と人が書く項目)
 
             作成したファイルは
             02_departments/note_ameba/drafts/task-<今日の日付YYYY-MM-DD>-note-001.md
@@ -58,3 +58,34 @@ jobs:
             git add 02_departments/note_ameba/drafts/
             git commit -m "note/ameba weekly draft $(date +%F)"
             git push
+
+      # 2026-10-18追加: 下書きに「おすすめのハッシュタグ・見出し画像」を添付する(手動投稿で使う)
+      # (tools/note_ameba/suggest.js。記事内容・週次インサイト分析の実績から選ぶ決定的処理)
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Attach suggested hashtags and header image
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.name "gakugym-ai-bot"
+          git config user.email "bot@example.com"
+          # claude-code-actionは終了時に自分のトークンを無効化するため、このワークフローのGITHUB_TOKENで取得・pushする
+          git config --local --unset-all http.https://github.com/.extraheader || true
+          git remote set-url origin "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+          git pull --rebase origin main
+          cd tools/note_ameba
+          npm ci
+          npx playwright install --with-deps chromium
+          node suggest.js
+          cd ../..
+          git add 02_departments/note_ameba/drafts/ 02_departments/note_ameba/images/
+          if ! git diff --cached --quiet; then
+            git commit -m "note/ameba: attach suggested hashtags and header image $(date +%F)"
+            git pull --rebase origin main
+            git push origin HEAD:main
+          else
+            echo "No changes to commit."
+          fi
