@@ -65,7 +65,7 @@ def endcard_frame(bg,t):
         x=540+(i-1)*95
         bold(d,(x,1180+dy),"▼",af,"#ffd400","mm",2)
     return im
-p=subprocess.Popen([FFMPEG,"-y","-v","error","-f","rawvideo","-pix_fmt","rgb24","-s",f"{W}x{H}","-r",str(FPS),"-i","-","-an","-c:v","libx264","-pix_fmt","yuv420p","-crf","18",out],stdin=subprocess.PIPE)
+p=subprocess.Popen([FFMPEG,"-y","-v","error","-f","rawvideo","-pix_fmt","rgb24","-s",f"{W}x{H}","-r",str(FPS),"-i","-","-an","-c:v","libx264","-pix_fmt","yuv420p","-crf","18",out+".video.mp4"],stdin=subprocess.PIPE)
 fr=0
 for n in range(COUNT,0,-1):
     for _ in range(FPS):
@@ -76,3 +76,12 @@ bg=endcard_bg()
 for i in range(int(END*FPS)):
     p.stdin.write(endcard_frame(bg,i/FPS).tobytes())
 p.stdin.close(); p.wait()
+# 2026-10-18: カウントダウン効果音(カチカチ+チーン)を合成して重ねる
+import importlib.util
+_spec=importlib.util.spec_from_file_location("countdown_audio",os.path.join(os.path.dirname(os.path.abspath(__file__)),"countdown_audio.py"))
+ca=importlib.util.module_from_spec(_spec); _spec.loader.exec_module(ca)
+total=fr/FPS+END
+wav=out+".audio.wav"
+ca.write(wav,ca.render(total,COUNT))
+subprocess.run([FFMPEG,"-y","-v","error","-i",out+".video.mp4","-i",wav,"-map","0:v","-map","1:a","-c:v","copy","-c:a","aac","-b:a","128k","-shortest",out],check=True)
+os.remove(out+".video.mp4"); os.remove(wav)
