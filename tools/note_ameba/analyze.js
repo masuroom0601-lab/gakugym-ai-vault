@@ -24,6 +24,7 @@ const ROOT = path.join(__dirname, "..", "..");
 const RAW_DIR = path.join(ROOT, "04_analytics", "note_ameba", "raw");
 const PERF_PATH = path.join(ROOT, "04_analytics", "note_ameba", "performance.json");
 const PUBLISHED_DIR = path.join(ROOT, "02_departments", "note_ameba", "published");
+const DRAFTS_DIR = path.join(ROOT, "02_departments", "note_ameba", "drafts");
 const PRIOR_WEIGHT = 2; // 1.0に寄せる強さ(仮想的に「平均並みの記事2本分」を混ぜる)
 const MIN_DAYS = 7;
 
@@ -44,12 +45,18 @@ function latestRaw(rawDir = RAW_DIR) {
   return { file, data: JSON.parse(fs.readFileSync(path.join(rawDir, file), "utf8")) };
 }
 
-function loadPublished(dir = PUBLISHED_DIR) {
-  if (!fs.existsSync(dir)) return [];
-  return fs.readdirSync(dir).filter((f) => f.endsWith(".md")).sort().map((f) => {
-    const p = parseFile(path.join(dir, f));
-    return p ? { file: f, ...p } : null;
-  }).filter(Boolean);
+// 2026-10-18〜は益田さんの手動投稿のため、記事ファイルは drafts/ に残ったままになる。
+// published/ と drafts/ の両方を読み、実際に投稿されたもの(=統計データにタイトル等が一致したもの)だけが集計に入る。
+function loadPublished(dirs = [PUBLISHED_DIR, DRAFTS_DIR]) {
+  const out = [];
+  for (const dir of dirs) {
+    if (!fs.existsSync(dir)) continue;
+    for (const f of fs.readdirSync(dir).filter((f) => f.endsWith(".md")).sort()) {
+      const p = parseFile(path.join(dir, f));
+      if (p) out.push({ file: f, ...p });
+    }
+  }
+  return out;
 }
 
 function matchStat(article, stats, platform) {
@@ -107,8 +114,12 @@ function analyze({ raw, published, now = new Date() }) {
   const rows = published.map((a) => ({
     file: a.file, title: a.title,
     published_at: a.front.published_at || a.front.date || null,
-    image_source: a.front.image_source || null,
-    hashtags: { note: a.front.note_hashtags || [], ameba: a.front.ameba_hashtags || [] },
+    // 実際に使った画像・タグ(手入力)があればそれを、無ければ下書きに添付した提案を使ったものとみなす
+    image_source: a.front.image_source || a.front.suggested_image_source || null,
+    hashtags: {
+      note: a.front.note_hashtags || (a.front.suggested_hashtags && a.front.suggested_hashtags.note) || [],
+      ameba: a.front.ameba_hashtags || (a.front.suggested_hashtags && a.front.suggested_hashtags.ameba) || [],
+    },
     note: null, ameba: null, index: {},
   }));
 
@@ -120,6 +131,7 @@ function analyze({ raw, published, now = new Date() }) {
       const s = matchStat(published[i], stats, platform);
       if (!s) return;
       matchedStats.add(s);
+      if (s.published_at) row.published_at = s.published_at; // 統計側に公開日があればそちらが正確
       const days = daysSince(row.published_at, now);
       row[platform] = {
         views: s.views, likes: s.likes, comments: s.comments,

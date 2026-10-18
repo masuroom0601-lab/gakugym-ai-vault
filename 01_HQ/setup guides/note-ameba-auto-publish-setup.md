@@ -1,5 +1,6 @@
 ---
 title: note/Ameba自動投稿 設定手順書(GitHub Actions secrets)
+note: 2026-10-18 自動投稿は廃止(手動投稿に戻した)。ただしsecretsの NOTE_SESSION / AMEBA_SESSION は週次インサイト分析(ビュー数の取得)で引き続き使う。ログイン状態が切れたら「ログイン状態の保存(方式A)」の手順で再保存する
 status: 未着手(益田さんの作業が必要)
 ---
 

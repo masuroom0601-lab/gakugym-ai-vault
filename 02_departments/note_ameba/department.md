@@ -39,21 +39,17 @@ reports_to: 統括担当
   失敗時は下書きファイルが消えず status: approved のままdrafts/に残るため、
   いつでも手動投稿(コピペ)にフォールバックできる
 
-## 見出し画像・ハッシュタグ(2026-10-17新設、投稿時に自動選定)
-- 投稿のたびに `tools/note_ameba/select.js` が、記事内容・下書き時のAI提案・過去実績から
-  ハッシュタグ(note/Ameba各最大5個、毎回「学ジム」を含む)と見出し画像の背景写真を選び、
-  `header-image.js` が固定テンプレート(`03_assets/creative-templates/note-header.html`)で
-  1280x670の見出し画像を生成して設定する(Amebaは本文先頭に挿入=記事サムネイルになる)
-- ハッシュタグ候補: `02_departments/note_ameba/hashtag-pool.yml`(自由に編集可)
-- 背景写真: `03_assets/images/note_ameba/catalog.yml` に登録した写真から選ぶ。
-  写真がある場合は既存記事に合わせて「写真のみ・文字なし」、未登録・合う写真が無い場合は
-  明るいベージュ地+タイトル文字の見出し画像になる(参考: 03_assets/images/note_ameba/reference/)
-- 下書き作成時(AI)は frontmatter に `hashtag_candidates`(3〜5個)と
-  `image_keywords`(2〜4個)を入れる。選定の材料になる
-- 人が固定したい場合は frontmatter に `hashtags: [...]` / `header_image: <パス>` を書けば
-  その通りに投稿される(自動選定より優先)
-- 投稿前に選定結果だけ確認したい場合: `cd tools/note_ameba && node select.js <下書きのパス>`
-- 画像・タグの設定に失敗しても記事の投稿は続行し、frontmatterの `publish_warnings` に残す
+## 見出し画像・ハッシュタグの提案(2026-10-18更新: 下書きに添付する形に変更)
+- 毎週の下書き作成直後に `tools/note_ameba/suggest.js` が、記事内容・下書き時のAI提案・
+  週次インサイト分析の実績から、おすすめのハッシュタグと見出し画像を選んで**下書きに添付**する
+  - frontmatter の `suggested_hashtags`(note用・Ameba用、各最大5個・「学ジム」を含む)
+  - `suggested_header_image`: `02_departments/note_ameba/images/<下書き名>.jpg`(1280x670。そのままnoteの
+    見出し画像/Amebaの先頭画像として使える。写真がある場合は既存記事に合わせて文字なし)
+- **益田さんは手動投稿のときに、これをコピー・アップロードして使う**
+- 提案と違うタグ・画像を使った場合は、frontmatterに `note_hashtags` / `ameba_hashtags` / `image_source`
+  として実際に使ったものを書いておくと、週次分析がそちらで効果を測る(書かなければ提案通りに使ったとみなす)
+- ハッシュタグ候補: `02_departments/note_ameba/hashtag-pool.yml`、背景写真: `03_assets/images/note_ameba/catalog.yml`
+- 作り直したい場合: `cd tools/note_ameba && node suggest.js <下書きファイル名>`
 
 ## 週次インサイト分析と改善(2026-10-17新設)
 - 毎週日曜05:00 JST、`note-ameba-weekly-insights.yml` がnote/Amebaの記事ごとの

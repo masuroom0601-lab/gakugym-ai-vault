@@ -162,3 +162,21 @@ test("Markdownを貼り付け用HTMLに変換する(見出し・太字・箇条�
   ].join("\n"));
   assert.equal(expectedLength("## 見出し\n\n**本文** です"), "見出し本文です".length);
 });
+
+test("集計: 手動投稿(下書きに提案だけ添付)でも、提案のタグ・画像を使ったものとして集計する", () => {
+  const now = new Date("2026-10-31T00:00:00Z");
+  const published = [
+    { file: "a.md", title: "記事A", body: "", front: { date: "2026-10-01", suggested_hashtags: { note: ["声かけ"], ameba: [] }, suggested_image_source: "img-a" } },
+    { file: "b.md", title: "記事B", body: "", front: { date: "2026-10-01", note_hashtags: ["暗記"], suggested_hashtags: { note: ["使わなかった"] } } },
+    { file: "c.md", title: "未投稿の記事", body: "", front: { date: "2026-10-01" } },
+  ];
+  const raw = { file: "x.json", data: { note: { articles: [
+    { key: "n1", title: "記事A", views: 100, likes: 10, published_at: "2026-10-21T00:00:00+09:00" },
+    { key: "n2", title: "記事B", views: 100, likes: 10 },
+  ] }, ameba: { articles: [] } } };
+  const r = analyze({ raw, published, now });
+  assert.deepEqual(Object.keys(r.hashtags.note).sort(), ["声かけ", "暗記"]);
+  assert.equal(r.images["img-a"].samples, 1);
+  assert.equal(r.articles.find((a) => a.file === "a.md").published_at, "2026-10-21T00:00:00+09:00");
+  assert.equal(r.articles.find((a) => a.file === "c.md").note, null);
+});
