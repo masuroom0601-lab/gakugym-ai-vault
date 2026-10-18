@@ -50,7 +50,7 @@ async function collectNote(page) {
   if (urlname) {
     try {
       const notes = await fetchPublicNotes(urlname);
-      for (const n of notes) byKey.set(n.key, { title: n.title, key: n.key, url: n.url, views: null, likes: toInt(n.likes), comments: toInt(n.comments) });
+      for (const n of notes) byKey.set(n.key, { title: n.title, key: n.key, url: n.url, published_at: n.published_at || null, views: null, likes: toInt(n.likes), comments: toInt(n.comments) });
       out.source = "note public api";
       out.references = await saveReferenceImages(notes);
       console.log(`note公開API: 記事${notes.length}件 / 参考画像${out.references.length}件`);

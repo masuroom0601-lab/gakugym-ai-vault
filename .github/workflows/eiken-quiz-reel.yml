@@ -83,7 +83,9 @@ jobs:
           OUT="${{ steps.target.outputs.out }}"
           DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$OUT")
           SIZE=$(stat -c %s "$OUT")
-          echo "duration=$DUR size=$SIZE"
+          AUD=$(ffprobe -v error -select_streams a -show_entries stream=codec_type -of csv=p=0 "$OUT")
+          echo "duration=$DUR size=$SIZE audio=$AUD"
+          [ "$AUD" = "audio" ] || { echo "カウントダウン効果音が入っていません"; exit 1; }
           python3 -c "import sys; d=float('$DUR'); s=int('$SIZE'); sys.exit(0 if 12.5<=d<=13.5 and s>100000 else 1)"
 
       - name: Record path in draft
