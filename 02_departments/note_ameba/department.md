@@ -42,7 +42,7 @@ reports_to: 統括担当
 ## 見出し画像・ハッシュタグの提案(2026-10-18更新: 下書きに添付する形に変更)
 - 毎週の下書き作成直後に `tools/note_ameba/suggest.js` が、記事内容・下書き時のAI提案・
   週次インサイト分析の実績から、おすすめのハッシュタグと見出し画像を選んで**下書きに添付**する
-  - frontmatter の `suggested_hashtags`(note用・Ameba用、各最大5個・「学ジム」を含む)
+  - frontmatter の `suggested_hashtags`(note用・Ameba用、各最大5個。「#学ジム」は知名度が低いため付けない)
   - `suggested_header_image`: `02_departments/note_ameba/images/<下書き名>.jpg`(1280x670。そのままnoteの
     見出し画像/Amebaの先頭画像として使える。写真がある場合は既存記事に合わせて文字なし)
 - **益田さんは手動投稿のときに、これをコピー・アップロードして使う**
