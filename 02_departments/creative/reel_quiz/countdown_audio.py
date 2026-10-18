@@ -9,6 +9,7 @@
 import math, random, struct, sys, wave
 
 SR = 44100
+BELL_HZ = 1760  # 「チーン」の高さ。2026-10-18、益田さん指示で1320Hzから上げた
 
 def render(total=13.0, count=10):
     n = int(total * SR)
@@ -34,9 +35,9 @@ def render(total=13.0, count=10):
         out = []
         for i in range(int(1.6 * SR)):
             t = i / SR
-            v = (math.sin(2 * math.pi * 1320 * t) * math.exp(-t * 2.5)
-                 + 0.5 * math.sin(2 * math.pi * 2640 * t) * math.exp(-t * 4)
-                 + 0.25 * math.sin(2 * math.pi * 3960 * t) * math.exp(-t * 6))
+            v = (math.sin(2 * math.pi * BELL_HZ * t) * math.exp(-t * 2.5)
+                 + 0.5 * math.sin(2 * math.pi * BELL_HZ * 2 * t) * math.exp(-t * 4)
+                 + 0.25 * math.sin(2 * math.pi * BELL_HZ * 3 * t) * math.exp(-t * 6))
             out.append(gain * min(1.0, t * 400) * v / 1.75)
         return out
 
