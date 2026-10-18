@@ -17,13 +17,11 @@ name: note-ameba-auto-publish
 # 見出し画像の背景写真を選び、header-image.js が見出し画像(1280x670)を生成して設定する。
 # 生成した見出し画像は 02_departments/note_ameba/images/ に保存・コミットされる。
 
+# 【2026-10-18 停止】益田さんの判断で、note/Ameba記事の自動投稿はやめ、週1の下書きを益田さんが
+# 手動投稿する運用に戻した。自動実行(push・毎朝の定時実行)はすべて外してある。
+# このファイルとtools/note_ameba/publish.jsは参考として残しているだけで、手動で「Run workflow」
+# しない限り動かない(誤って実行しないこと)。
 on:
-  push:
-    branches: [main]
-    paths:
-      - '02_departments/note_ameba/drafts/**'
-  schedule:
-    - cron: '20 21 * * *'   # 毎日06:20 JST相当のフォールバック(pushトリガーの取りこぼし対策)
   workflow_dispatch: {}
 
 permissions:
