@@ -17,7 +17,15 @@ reports_to: 統括担当
   リーチと現在のフォロワー数を取得し、`04_analytics/manual-input/`に書き込む
 - Threads/YouTube/LINE: 各公式Insight/Analytics APIから自動取得(予定。
   現時点ではAPIトークン未設定のため未稼働)
-- TikTok/X/note/Ameba: 公式APIなしのため、あなたが手動で数値をメモした値を04_analytics/に入力する運用
+- **TikTok(2026-10-21追加)**: TikTok公式Display APIから自動取得
+  (`.github/workflows/tiktok-weekly-analytics-fetch.yml`が毎週日曜04:50 JST頃に
+  フォロワー数・動画ごとの再生数を取得し`04_analytics/manual-input/`に書き込む。
+  Instagramのエルグラム連携とは異なりclaude.aiのコネクタは不要で、GitHub Secrets
+  (`TIKTOK_CLIENT_KEY`/`TIKTOK_CLIENT_SECRET`/`TIKTOK_REFRESH_TOKEN`)のみで動く。
+  **益田さんがトークンを登録するまでは未稼働**で、それまでは手動入力のまま。
+  設定手順は`01_HQ/setup guides/tiktok-content-posting-api-setup.md.md`参照。
+  公式APIでは「保存」件数は取得できないため、その項目は空欄のまま残る)
+- X/note/Ameba: 公式APIなしのため、あなたが手動で数値をメモした値を04_analytics/に入力する運用
 - **【2026-10-17時点の重要な注記】** `04_analytics/manual-input/`への
   週次手入力が2026-09以降一度も行われておらず、**実エンゲージメントデータは
   2026-10-17時点でまだ存在しない**。同日、エルグラム連携による自動取得の
@@ -65,6 +73,7 @@ reports_to: 統括担当
   ファイルを荒らさない設計にしている
 - Threads/YouTube/LINEの公式APIトークンは未設定のため、現状は
   `04_analytics/manual-input/` への手入力が情報源(益田さんが投稿の都度入力)。
-  Instagramのみ2026-10-17にエルグラム経由の自動取得に切り替えた
-  (TikTok/X/note/Amebaは引き続き手入力が必要)。
+  Instagramは2026-10-17にエルグラム経由の自動取得に切り替えた。TikTokは
+  2026-10-21にTikTok公式API経由の自動取得の仕組みを追加したが、益田さんの
+  トークン登録が済むまでは稼働しない(X/note/Amebaは引き続き手入力が必要)。
   トークン設定後はAPI自動取得を追加予定(`01_HQ/roadmap.md` Phase5参照)

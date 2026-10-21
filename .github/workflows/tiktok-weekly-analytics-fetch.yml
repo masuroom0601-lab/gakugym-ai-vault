@@ -1,0 +1,57 @@
+name: tiktok-weekly-analytics-fetch
+
+# TikTok公式API(Display API)から自社アカウント(massu_gakugym)のフォロワー数・
+# 動画ごとの再生数等を取得し、04_analytics/manual-input/<週の月曜日>.md のTikTok欄に
+# 自動で書き込む。Instagramの「エルグラム」連携(claude.aiのRoutine経由)とは異なり、
+# TikTok公式APIのトークンのみで完結するため、GitHub Actionsのスケジュール実行だけで動く。
+#
+# トークン未設定の間は tools/tiktok_analytics/fetch.js が何もせず正常終了するだけなので、
+# セットアップ前でもこのワークフロー自体は安全に有効化しておける。
+# 設定手順: 01_HQ/setup guides/tiktok-api-setup.md
+
+on:
+  schedule:
+    - cron: '50 19 * * 6'   # 毎週土曜19:50 UTC = 毎週日曜04:50 JST相当(エルグラムの取得タイミングに合わせた)
+  workflow_dispatch: {}
+
+env:
+  TZ: Asia/Tokyo
+
+permissions:
+  contents: write
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        working-directory: tools/tiktok_analytics
+        run: npm install --omit=dev
+
+      - name: Fetch TikTok analytics
+        working-directory: tools/tiktok_analytics
+        env:
+          TIKTOK_CLIENT_KEY: ${{ secrets.TIKTOK_CLIENT_KEY }}
+          TIKTOK_CLIENT_SECRET: ${{ secrets.TIKTOK_CLIENT_SECRET }}
+          TIKTOK_REFRESH_TOKEN: ${{ secrets.TIKTOK_REFRESH_TOKEN }}
+        run: node fetch.js
+
+      - name: Commit and push results
+        run: |
+          git config user.name "gakugym-ai-bot"
+          git config user.email "bot@example.com"
+          git add 04_analytics/manual-input/
+          if ! git diff --cached --quiet; then
+            git commit -m "tiktok weekly analytics fetch $(date +%F)"
+            git pull --rebase origin main
+            git push origin main
+          else
+            echo "No changes to commit."
+          fi

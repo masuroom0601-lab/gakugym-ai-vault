@@ -1,0 +1,13 @@
+{
+  "name": "gakugym-tiktok-analytics",
+  "private": true,
+  "version": "1.0.0",
+  "description": "学ジム TikTok担当: TikTok公式Display APIから自社アカウントのフォロワー数・プロフィール文・動画ごとの再生数等を取得し、週次アナリティクス入力シートに自動反映する決定的スクリプト",
+  "main": "fetch.js",
+  "scripts": {
+    "fetch": "node fetch.js"
+  },
+  "dependencies": {
+    "js-yaml": "^4.1.0"
+  }
+}

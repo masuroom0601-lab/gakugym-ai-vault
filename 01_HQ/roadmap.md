@@ -1014,3 +1014,39 @@ GitHub Actionsから直接呼べない制約があるため、エルグラムの
 
 過去に作成済みの日本史関連ドラフト(`02_departments/instagram_tiktok/drafts/`配下)
 は記録としてそのまま残し、削除・修正は行っていない。
+
+### TikTok自社アカウント分析の自動化基盤を構築(2026-10-21)
+益田さんより、Instagramの「エルグラム」と同様にTikTok(`massu_gakugym`)側も
+フォロワー伸び率・プロフィール文・動画ごとの再生数を自分で分析できるようにしたい
+との依頼があった。vidIQ・Higgsfieldいずれのツールにも「TikTokの自分の
+アカウントの分析データを取得する」機能は無く(vidIQはIG専用のowner-insights、
+Higgsfieldは投稿用のOAuth接続のみ)、既存の仕組みの延長では対応できないことを
+確認した。
+
+対応方法として、(A) TikTok公式API(Display API)連携を新規構築、(B) ブラウザ
+自動操作で代替、(C) 当面は手動入力継続、の3択を提示し、益田さんは(A)を選択した
+(note/Ameba自動投稿がブラウザ自動操作の不安定さで結局手動運用に戻った経緯が
+あったため、公式APIの方が安定すると判断)。
+
+構築した内容:
+- `tools/tiktok_analytics/fetch.js`: TikTok公式Display API
+  (`user.info.stats`/`user.info.profile`/`video.list`スコープ)から
+  フォロワー数・動画ごとの再生数等を取得し、
+  `04_analytics/manual-input/<週の月曜日>.md`のTikTok欄に書き込む決定的スクリプト
+  (LINE配信の`tools/line/broadcast.js`と同様、LLMを介さない機械的処理)
+- `.github/workflows/tiktok-weekly-analytics-fetch.yml`: 毎週日曜04:50 JST頃に
+  上記を実行。GitHub Secretsのトークンのみで完結するため、Instagramのエルグラム
+  連携(claude.aiのRoutine+コネクタが必要)とは異なり、Routineの画面不可視問題は
+  発生しない設計
+- `01_HQ/setup guides/tiktok-content-posting-api-setup.md.md`: 既存の
+  (未着手だった)Content Posting API連携手順書に、分析用スコープの追加と
+  「分析データの取得」節を追記。同じOAuth認可で分析(今すぐ使える)と将来の
+  自動投稿(アプリ監査待ち)の両方のトークンを一度に準備できる設計にした
+- `02_departments/analytics/department.md`: データ取得方法にTikTokの自動取得を
+  追記(益田さんがGitHub Secretsにトークンを登録するまでは未稼働である旨を明記)
+
+**残課題**: 益田さんがTikTok for Developersでアプリを作成し、OAuth認可フロー
+(手順6〜7)を実施してGitHub Secrets(`TIKTOK_CLIENT_KEY`/`TIKTOK_CLIENT_SECRET`/
+`TIKTOK_REFRESH_TOKEN`)に登録するまでは、このワークフローは「トークン未設定」
+としてスキップされ続ける(害はないが、設定完了まではTikTok欄は引き続き手入力)。
+公式APIでは「保存」件数が取得できないため、その項目は今後も空欄のまま残る。
