@@ -1077,3 +1077,31 @@ CTAシーンを英検クイズリール(`render_reel.py`、GitHub Actions `eiken
 二重表示チェックを追加)、`.github/workflows/eiken-quiz-reel.yml`(コメントの
 秒数表記)。次回の台本生成(GitHub Actions自動実行)から新しい16秒版のリールが
 生成される。
+
+### TikTok自社アカウント分析: Bright Data/Playwright案を検討の末、公式APIを維持(2026-10-22)
+益田さんから、TikTok公式API連携の手順が面倒そうなので、Bright Data(有料スクレイピング
+サービス)やPlaywright自作スクレイピングで代替できないか、という相談があった。
+
+検討した結果:
+- **Bright Data**: TikTok Profilesスクレイパー(dataset `gd_l1villgoiiidt09ci`)という
+  製品が実在し、益田さんの用途(週1回・自分のアカウント1件のみ)なら無料枠内か、
+  課金されても数円程度で収まる見込みと分かった。ただし正式なリクエスト/レスポンス
+  仕様をこのセッションから確認できず(ドキュメントサイトへのアクセスが環境の
+  ネットワークポリシーで遮断されていた)、不確かな仕様のまま実装するリスクを
+  説明した上で、プラグイン導入を提案した。益田さんがインストール手順で迷われ、
+  最終的に料金への懸念もあり導入を見送った。
+- **Playwright自作スクレイピング**: 試しにこのセッション内でTikTokの公開
+  プロフィールページへのアクセスを試みたが、**TikTok側のbot対策ではなく、
+  このセッションの実行環境自体のネットワークポリシーが`www.tiktok.com`への
+  接続を拒否しており、検証すらできなかった**(プロキシログに
+  「gateway answered 403 to CONNECT, host: www.tiktok.com」の記録あり)。
+  GitHub Actions上なら到達できる可能性はあるが、note/Amebaの自動投稿で
+  実際に経験した「bot対策でのブロック・不安定化からの手動運用への回帰」という
+  前例があり、リスクとして明示した。
+
+最終的に益田さんの判断で、**既に構築済みのTikTok公式API方式
+(`tools/tiktok_analytics/fetch.js`、`.github/workflows/tiktok-weekly-analytics-fetch.yml`)
+を維持する**ことになった。追加の実装変更はなし。益田さんご自身による
+TikTok for Developersのアプリ作成・OAuth認可・GitHub Secrets登録(手順は
+`01_HQ/setup guides/tiktok-content-posting-api-setup.md.md`参照)が完了すれば、
+次の日曜から自動的に稼働する。
