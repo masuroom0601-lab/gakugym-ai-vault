@@ -1,7 +1,8 @@
 name: eiken-quiz-reel
 
 # 台本(x-threads-daily-draftが作る task-<日付>-quiz-001.md)から
-# 「今日の1問」リール動画(1080x1920・13秒)を自動生成してmainにコミットする。
+# 「今日の1問」リール動画(1080x1920・16秒。2026-10-22、フォロー/いいね/保存を
+# 促すCTAシーンを追加して13秒から16秒になった)を自動生成してmainにコミットする。
 # 旧Canva画像Routineの代替(2026-10-12)。claude.aiのRoutine側のCanva版は停止すること。
 #
 # 【2026-10-13更新、重要】x-threads-daily-draft(本来06:00 JST)はGitHub Actions側の
