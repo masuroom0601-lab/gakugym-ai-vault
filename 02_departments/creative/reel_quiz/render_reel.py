@@ -4,6 +4,14 @@ W,H,FPS=1080,1920,30
 FONT=os.environ["REEL_FONT"]; FFMPEG=os.environ.get("REEL_FFMPEG","ffmpeg")
 level, q, opts, out = sys.argv[1], sys.argv[2], sys.argv[3].split("|"), sys.argv[4]
 COUNT=10; END=2.5; CTA=3.0
+AVATAR_PATH=os.path.join(os.path.dirname(os.path.abspath(__file__)),"avatar.png")
+def circular_avatar(size):
+    # 2026-10-22追加: CTAシーンのアバターに、益田さん提供のまっすーイラストを丸く切り抜いて使う
+    if not os.path.exists(AVATAR_PATH): return None
+    av=Image.open(AVATAR_PATH).convert("RGB").resize((size,size),Image.LANCZOS)
+    mask=Image.new("L",(size,size),0); ImageDraw.Draw(mask).ellipse((0,0,size,size),fill=255)
+    out=Image.new("RGBA",(size,size)); out.paste(av,(0,0),mask)
+    return out
 def f(sz): return ImageFont.truetype(FONT, sz)
 def bold(d,xy,t,font,fill,anchor="la",w=2):
     d.text(xy,t,font=font,fill=fill,anchor=anchor,stroke_width=w,stroke_fill=fill)
@@ -80,7 +88,9 @@ def cta_frame(bg,t):
     bold(d,(540,300),"@massu_gakugym",f(48),"#ffd400","mm",1)
     r=110; cx,cy=540,520
     d.ellipse((cx-r,cy-r,cx+r,cy+r),fill="white",outline="#ffd400",width=8)
-    bold(d,(cx,cy),"ま",f(100),"#4472c4","mm",2)
+    av=circular_avatar(2*(r-8))
+    if av: im.paste(av,(cx-av.width//2,cy-av.height//2),av)
+    else: bold(d,(cx,cy),"ま",f(100),"#4472c4","mm",2)
     bd=46; bx,by=cx+r-10,cy+r-10
     d.ellipse((bx-bd,by-bd,bx+bd,by+bd),fill="#ffd400",outline="white",width=6)
     bold(d,(bx,by-6),"+",f(70),"#4472c4","mm",2)
