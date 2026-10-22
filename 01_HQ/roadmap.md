@@ -1050,3 +1050,30 @@ Higgsfieldは投稿用のOAuth接続のみ)、既存の仕組みの延長では�
 `TIKTOK_REFRESH_TOKEN`)に登録するまでは、このワークフローは「トークン未設定」
 としてスキップされ続ける(害はないが、設定完了まではTikTok欄は引き続き手入力)。
 公式APIでは「保存」件数が取得できないため、その項目は今後も空欄のまま残る。
+
+### 英検クイズリールにフォロー/いいね/保存CTAシーンを追加(2026-10-22)
+益田さんから、Instagram/TikTokリール(Canvaテンプレート)の既存エンディング
+(アカウント紹介+フォロー・いいね・保存の訴求)の参考動画が共有され、同様の
+CTAシーンを英検クイズリール(`render_reel.py`、GitHub Actions `eiken-quiz-reel.yml`
+が毎日自動生成)の末尾にも追加してほしいとの依頼があった。
+
+`render_reel.py`に`cta_frame()`を新設し、「答え&解説は概要欄へ!」のエンド画面
+(2.5秒)の直後に3秒のCTAシーンを追加した(アカウント名`@massu_gakugym`の円形
+アバター風バッジ・「フォロー&いいね&保存で毎日の英検対策を見逃さない!」の
+見出し・フォロー/いいね/保存の3アイコンを軽くパルスさせるアニメーション)。
+これにより動画の総尺は13秒→16秒になった。
+
+実装中、既存の`endcard_bg()`関数が「背景生成」と「答え&解説は概要欄へ!の文字
+描画」を同時に行っていたことに気づかず、新しい`cta_frame()`もこの関数が返す
+画像を土台に使ったため、**CTAシーンにもエンド画面の文字が二重表示されるバグ**
+が発生した(ローカルで実際にレンダリングして確認し発見)。`endcard_bg()`を
+`plain_bg()`(背景のみ)に分離し、エンド画面の文字描画は`endcard_frame()`側に
+移すことで解消。修正後、ローカルでの実レンダリング・フレーム抽出による目視確認
+で問題がないことを確認した。
+
+更新したファイル: `02_departments/creative/reel_quiz/render_reel.py`、
+`02_departments/creative/department.md`、`02_departments/x_threads/department.md`、
+`01_HQ/setup guides/eiken-quiz-reel-routine-setup.md`(QC手順に14.5秒目の
+二重表示チェックを追加)、`.github/workflows/eiken-quiz-reel.yml`(コメントの
+秒数表記)。次回の台本生成(GitHub Actions自動実行)から新しい16秒版のリールが
+生成される。
