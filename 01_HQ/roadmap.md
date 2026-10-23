@@ -1105,3 +1105,12 @@ CTAシーンを英検クイズリール(`render_reel.py`、GitHub Actions `eiken
 TikTok for Developersのアプリ作成・OAuth認可・GitHub Secrets登録(手順は
 `01_HQ/setup guides/tiktok-content-posting-api-setup.md.md`参照)が完了すれば、
 次の日曜から自動的に稼働する。
+
+### 英検クイズリールの対象級に3級を追加(2026-10-23)
+益田さんより、これまで準2級〜準1級の4段階からランダムに出題していた英検クイズ
+リールに加えて、3級レベルの問題も今後作るようにしてほしいとの依頼があった。
+`02_departments/x_threads/department.md`の対象級リストと、実際に台本を生成する
+`.github/workflows/x-threads-daily-draft.yml`のプロンプト内の級リスト・
+frontmatterのlevel選択肢を、いずれも3級を含む5段階(3級・準2級・準2級プラス・
+2級・準1級)に更新した。3級は中学卒業〜高校入門レベルのやさしい問題にする旨も
+明記し、他の級との難易度差が出るようにした。次回以降の自動生成から反映される。
