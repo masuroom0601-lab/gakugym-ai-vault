@@ -1,32 +1,343 @@
 {
-  "generated_at": "2026-10-17T21:59:18.286Z",
-  "source": "2026-10-18.json",
+  "generated_at": "2026-10-24T22:16:25.115Z",
+  "source": "2026-10-25.json",
   "method": "1日あたりビュー(とスキ/いいね)をプラットフォーム内の中央値=1.0で相対化。タグ・画像のscoreはサンプルが少ないほど1.0に寄せた平均",
-  "articles": [],
+  "articles": [
+    {
+      "file": "task-2026-09-12-note-001.md",
+      "title": "「勉強しなさい」と言うほど、子どもは机に向かわなくなる ― 保護者様に知ってほしい声かけの工夫",
+      "published_at": "2026-09-12",
+      "image_source": "03_assets/images/note_ameba/parent-son-homework.png",
+      "hashtags": {
+        "note": [
+          "保護者",
+          "声かけ",
+          "子育て",
+          "コーチング",
+          "子育ての悩み"
+        ],
+        "ameba": [
+          "保護者",
+          "声かけ",
+          "子育て",
+          "コーチング",
+          "子育ての悩み"
+        ]
+      },
+      "note": null,
+      "ameba": null,
+      "index": {}
+    },
+    {
+      "file": "task-2026-09-14-note-001.md",
+      "title": "テスト前に「焦り」を見せる子どもに、保護者様ができること",
+      "published_at": "2026-09-14T10:06:51+09:00",
+      "image_source": "03_assets/images/note_ameba/boy-mock-exam.png",
+      "hashtags": {
+        "note": [
+          "保護者",
+          "声かけ",
+          "子育て",
+          "子育ての悩み",
+          "教育"
+        ],
+        "ameba": [
+          "保護者",
+          "声かけ",
+          "子育て",
+          "子育ての悩み",
+          "教育"
+        ]
+      },
+      "note": {
+        "views": 7,
+        "likes": 0,
+        "comments": 0,
+        "views_per_day": 0.17,
+        "likes_per_day": 0
+      },
+      "ameba": {
+        "views": null,
+        "likes": null,
+        "comments": null,
+        "views_per_day": null,
+        "likes_per_day": null
+      },
+      "index": {
+        "note": 0.107
+      }
+    },
+    {
+      "file": "task-2026-09-21-note-001.md",
+      "title": "総合型選抜、親はどこまで手伝っていい? ― 志望理由書と向き合う保護者様へ",
+      "published_at": "2026-09-21T09:53:14+09:00",
+      "image_source": "03_assets/images/note_ameba/teacher-student-consultation.png",
+      "hashtags": {
+        "note": [
+          "総合型選抜",
+          "保護者",
+          "コーチング",
+          "教育",
+          "声かけ"
+        ],
+        "ameba": [
+          "総合型選抜",
+          "保護者",
+          "コーチング",
+          "教育",
+          "声かけ"
+        ]
+      },
+      "note": {
+        "views": 27,
+        "likes": 2,
+        "comments": 0,
+        "views_per_day": 0.8,
+        "likes_per_day": 0.059
+      },
+      "ameba": {
+        "views": null,
+        "likes": null,
+        "comments": null,
+        "views_per_day": null,
+        "likes_per_day": null
+      },
+      "index": {
+        "note": 0.725
+      }
+    },
+    {
+      "file": "task-2026-09-28-note-001.md",
+      "title": "模試の結果で一喜一憂しない親のスタンス ― 数字より見てほしいこと",
+      "published_at": "2026-10-12T08:07:35+09:00",
+      "image_source": "03_assets/images/note_ameba/boy-mock-exam.png",
+      "hashtags": {
+        "note": [
+          "声かけ",
+          "保護者",
+          "教育",
+          "コーチング",
+          "子育て"
+        ],
+        "ameba": [
+          "声かけ",
+          "保護者",
+          "教育",
+          "コーチング",
+          "子育て"
+        ]
+      },
+      "note": {
+        "views": 19,
+        "likes": 2,
+        "comments": 0,
+        "views_per_day": 1.47,
+        "likes_per_day": 0.154
+      },
+      "ameba": {
+        "views": null,
+        "likes": null,
+        "comments": null,
+        "views_per_day": null,
+        "likes_per_day": null
+      },
+      "index": {
+        "note": 1.509
+      }
+    },
+    {
+      "file": "task-2026-10-05-note-001.md",
+      "title": "「勉強しなさい」を言わずに机に向かわせる方法 ― 声かけより先に整えたい「仕組み」",
+      "published_at": "2026-10-05",
+      "image_source": "03_assets/images/note_ameba/parent-son-homework.png",
+      "hashtags": {
+        "note": [
+          "声かけ",
+          "保護者",
+          "勉強習慣",
+          "教育",
+          "コーチング"
+        ],
+        "ameba": [
+          "声かけ",
+          "保護者",
+          "勉強習慣",
+          "教育",
+          "コーチング"
+        ]
+      },
+      "note": {
+        "views": 2,
+        "likes": 0,
+        "comments": 0,
+        "views_per_day": 0.1,
+        "likes_per_day": 0
+      },
+      "ameba": null,
+      "index": {
+        "note": 0.063
+      }
+    },
+    {
+      "file": "task-2026-10-12-note-001.md",
+      "title": "暗記が苦手な子への声かけ、NG例とOK例 ― 「覚えられない」は才能ではなく「やり方」の問題です",
+      "published_at": "2026-10-17T15:52:30+09:00",
+      "image_source": "03_assets/images/note_ameba/girl-vocab-cards.png",
+      "hashtags": {
+        "note": [
+          "声かけ",
+          "暗記",
+          "勉強法",
+          "保護者",
+          "やる気"
+        ],
+        "ameba": [
+          "声かけ",
+          "暗記",
+          "勉強法",
+          "保護者",
+          "やる気"
+        ]
+      },
+      "note": {
+        "views": 7,
+        "likes": 1,
+        "comments": 0,
+        "views_per_day": 0.92,
+        "likes_per_day": 0.131
+      },
+      "ameba": {
+        "views": null,
+        "likes": null,
+        "comments": null,
+        "views_per_day": null,
+        "likes_per_day": null
+      },
+      "index": {
+        "note": 1.075
+      }
+    },
+    {
+      "file": "task-2026-10-19-note-001.md",
+      "title": "テスト計画を立てても続かない子への向き合い方 ― 「続かない」は意志の弱さではなく「設計」の問題です",
+      "published_at": "2026-10-19",
+      "image_source": "03_assets/images/note_ameba/parent-son-homework.png",
+      "hashtags": {
+        "note": [
+          "声かけ",
+          "保護者",
+          "勉強習慣",
+          "子育ての悩み",
+          "定期テスト"
+        ],
+        "ameba": [
+          "声かけ",
+          "保護者",
+          "勉強習慣",
+          "子育ての悩み",
+          "定期テスト"
+        ]
+      },
+      "note": null,
+      "ameba": null,
+      "index": {}
+    }
+  ],
   "hashtags": {
-    "note": {},
+    "note": {
+      "保護者": {
+        "samples": 5,
+        "mean": 0.696,
+        "score": 0.783
+      },
+      "声かけ": {
+        "samples": 5,
+        "mean": 0.696,
+        "score": 0.783
+      },
+      "子育て": {
+        "samples": 2,
+        "mean": 0.808,
+        "score": 0.904
+      },
+      "子育ての悩み": {
+        "samples": 1,
+        "mean": 0.107,
+        "score": 0.702
+      },
+      "教育": {
+        "samples": 4,
+        "mean": 0.601,
+        "score": 0.734
+      },
+      "総合型選抜": {
+        "samples": 1,
+        "mean": 0.725,
+        "score": 0.908
+      },
+      "コーチング": {
+        "samples": 3,
+        "mean": 0.766,
+        "score": 0.859
+      },
+      "勉強習慣": {
+        "samples": 1,
+        "mean": 0.063,
+        "score": 0.688
+      },
+      "暗記": {
+        "samples": 1,
+        "mean": 1.075,
+        "score": 1.025
+      },
+      "勉強法": {
+        "samples": 1,
+        "mean": 1.075,
+        "score": 1.025
+      },
+      "やる気": {
+        "samples": 1,
+        "mean": 1.075,
+        "score": 1.025
+      }
+    },
     "ameba": {}
   },
-  "images": {},
+  "images": {
+    "03_assets/images/note_ameba/boy-mock-exam.png": {
+      "samples": 2,
+      "mean": 0.808,
+      "score": 0.904
+    },
+    "03_assets/images/note_ameba/teacher-student-consultation.png": {
+      "samples": 1,
+      "mean": 0.725,
+      "score": 0.908
+    },
+    "03_assets/images/note_ameba/parent-son-homework.png": {
+      "samples": 1,
+      "mean": 0.063,
+      "score": 0.688
+    },
+    "03_assets/images/note_ameba/girl-vocab-cards.png": {
+      "samples": 1,
+      "mean": 1.075,
+      "score": 1.025
+    }
+  },
   "unmatched": {
     "note": [
-      "暗記が苦手な子への声かけ、NG例とOK例 ― 「覚えられない」は才能ではなく「やり方」の問題です",
-      "模試の結果で一喜一憂しない親のスタンス ― 数字より見てほしいこと",
-      "総合型選抜、親はどこまで手伝っていい? ― 志望理由書と向き合う保護者様へ",
-      "テスト前に「焦り」を見せる子どもに、保護者様ができること",
       "「勉強しなさい」と言わずに子どもが自発的に動き出す！プロコーチが教える親の接し方"
     ],
     "ameba": [
-      "パン3枚でサンドした具沢山サンド",
-      "お値段見て即ポチした厚底ブーツ",
-      "時間がない中頑張る娘のえらい姿",
-      "母の認知症と息子の適応障害",
-      "堀ちえみ 機内で食べた木村屋のパン",
-      "クロ 恒例の母の愛情たっぷりお弁当",
-      "暗記が苦手な子への声かけ、NG例とOK例 ― 「覚えられない」は才能ではなく「やり方」の問題です",
-      "模試の結果で一喜一憂しない親のスタンス ― 数字より見てほしいこと",
-      "総合型選抜、親はどこまで手伝っていい? ― 志望理由書と向き合う保護者様へ",
-      "テスト前に「焦り」を見せる子どもに、保護者様ができること",
+      "堀ちえみの夫 披露宴の御料理の数々",
+      "利回り30%の全空アパートを即撤退",
+      "最難関だった夫のトイレの付き添い",
+      "高橋英樹 固く閉まったユリの蕾",
+      "高橋英樹 番組収録で選んだ鮭弁当",
+      "電気代のために5000円多く入金",
+      "4教科の偏差値が60を超えた結果",
+      "無視されたと泣く娘に心配な一日",
       "「勉強しなさい！」はもう卒業。中高生の自主性を引き出す「3つの神声かけ」と家庭の接し方"
     ]
   }
