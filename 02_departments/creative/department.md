@@ -200,3 +200,26 @@ Instagram/TikTok部署のreviewフォルダと連動
   受け、`02_departments/creative/reel_quiz/avatar.png`として保存。
   `circular_avatar()`で丸くマスクしてアバター円の中に合成するようにした
   (画像が無い環境でも落ちないよう、無ければ従来の「ま」文字表示にフォールバックする)
+
+### Instagram/TikTok「スマホ対策枠」のセルフチェック形式リール(2026-10-24新設)
+英検クイズ形式のリールが、Canva Tips形式のリールよりvidIQ実測で大幅に再生数が
+高かったことを受け、Instagram/TikTokの「スマホ対策枠」週(詳細:
+`02_departments/instagram_tiktok/department.md`)のリールも、Canvaではなく
+英検クイズと同じPython(Pillow+ffmpeg)製の参加型フォーマットで生成するように
+変更した。
+- `02_departments/creative/reel_quiz/render_checkup.py`: 「スマホ習慣セルフ
+  チェック」形式の動画を生成する(タイトル表示→チェック項目を1つずつ表示
+  (チェックマークがアニメーションで入る)→診断ライン+「改善法は概要欄へ!」
+  →英検クイズと同じCTAシーン(フォロー/いいね/保存)の構成)。`render_reel.py`の
+  `wrap()`をそのまま流用しようとしたところ、**英語用(スペース区切り)の折り返し
+  ロジックのままでは日本語の長文がまったく折り返されず画面外にはみ出す不具合**
+  が発生したため、日本語用に1文字ずつ詰めて折り返す実装に直した
+  (`render_checkup.py`固有の`wrap()`。`render_reel.py`側は英語の問題文・選択肢
+  でこれまで通り問題なく動くため変更していない)
+- `02_departments/creative/reel_quiz/make_checkup_from_draft.py`: 台本
+  (instagram_tiktokのdraft内「## リール台本(スマホ習慣セルフチェック形式)」節)
+  からタイトル・チェック項目・診断ラインをパースして`render_checkup.py`を呼ぶ
+  (`make_reel_from_draft.py`と同じ構成)
+- `.github/workflows/instagram-checkup-reel.yml`: 台本のfrontmatterに
+  `reel_format: checkup`がある日だけ動く(通常のTips週はこれまで通りCanva
+  Routineが処理するためスキップされる)

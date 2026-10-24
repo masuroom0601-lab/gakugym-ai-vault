@@ -1,0 +1,109 @@
+name: instagram-checkup-reel
+
+# 「スマホ対策」週のInstagram/TikTokリールを、Canvaではなくスクリプトで
+# セルフチェック(参加型)形式の動画として自動生成してmainにコミットする。
+# 2026-10-24追加: 英検クイズ形式(カウントダウン+4択)のリールが、Canvaの
+# Tips形式リールより実測(vidIQ)で大幅に再生数が高かったため、同じ「参加させる」
+# 構造をスマホ対策コンテンツにも適用する。詳細: 01_HQ/roadmap.md参照。
+#
+# instagram-tiktok-daily-draft が書く台本のfrontmatterに `reel_format: checkup`
+# がある日だけ動く(無い日はこれまで通りCanva Routineが処理するためスキップ)。
+
+on:
+  schedule:
+    - cron: '30 21 * * *'   # 毎日06:30 JST(フォールバック)
+  workflow_run:
+    workflows: ["instagram-tiktok-daily-draft"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      date:
+        description: '対象日(YYYY-MM-DD)。空なら今日(JST)'
+        required: false
+
+env:
+  TZ: Asia/Tokyo
+
+permissions:
+  contents: write
+
+concurrency:
+  group: instagram-checkup-reel
+  cancel-in-progress: false
+
+jobs:
+  reel:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Decide target draft
+        id: target
+        run: |
+          D="${{ github.event.inputs.date }}"
+          [ -z "$D" ] && D=$(date +%F)
+          DRAFT="02_departments/instagram_tiktok/drafts/task-${D}-ig-001.md"
+          OUT="02_departments/creative/reel_quiz/checkup-daily/reel-${D}.mp4"
+          echo "date=$D" >> "$GITHUB_OUTPUT"
+          echo "draft=$DRAFT" >> "$GITHUB_OUTPUT"
+          echo "out=$OUT" >> "$GITHUB_OUTPUT"
+          if [ ! -f "$DRAFT" ]; then
+            echo "台本が無いためスキップ: $DRAFT"; echo "skip=true" >> "$GITHUB_OUTPUT"
+          elif ! grep -q "^reel_format: checkup" "$DRAFT"; then
+            echo "本日はスマホ対策枠ではない(reel_format: checkupが無い)ためスキップ"
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          elif grep -q "reel-${D}.mp4" "$DRAFT" && [ -f "$OUT" ]; then
+            echo "生成済みのためスキップ"; echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install dependencies
+        if: steps.target.outputs.skip != 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-ipafont-gothic
+          python3 -m pip install -q pillow
+
+      - name: Generate reel
+        if: steps.target.outputs.skip != 'true'
+        run: |
+          python3 02_departments/creative/reel_quiz/make_checkup_from_draft.py \
+            "${{ steps.target.outputs.draft }}" "${{ steps.target.outputs.out }}"
+
+      - name: Sanity check video
+        if: steps.target.outputs.skip != 'true'
+        run: |
+          OUT="${{ steps.target.outputs.out }}"
+          DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$OUT")
+          SIZE=$(stat -c %s "$OUT")
+          echo "duration=$DUR size=$SIZE"
+          python3 -c "import sys; d=float('$DUR'); s=int('$SIZE'); sys.exit(0 if 10.0<=d<=30.0 and s>100000 else 1)"
+
+      - name: Record path in draft
+        if: steps.target.outputs.skip != 'true'
+        run: |
+          python3 - <<'PY'
+          p = "${{ steps.target.outputs.draft }}"
+          line = "- リール動画: ${{ steps.target.outputs.out }}"
+          t = open(p, encoding="utf-8").read()
+          if line not in t:
+              if "## リール動画" in t:
+                  t = t.rstrip("\n") + "\n" + line + "\n"
+              else:
+                  t = t.rstrip("\n") + "\n\n## リール動画\n" + line + "\n"
+              open(p, "w", encoding="utf-8").write(t)
+          PY
+
+      - name: Commit and push
+        if: steps.target.outputs.skip != 'true'
+        run: |
+          git config user.name "gakugym-ai-bot"
+          git config user.email "bot@example.com"
+          git add 02_departments/instagram_tiktok/drafts/ 02_departments/creative/reel_quiz/checkup-daily/
+          git commit -m "instagram checkup reel generation ${{ steps.target.outputs.date }}"
+          git pull --rebase origin main
+          git push origin main
