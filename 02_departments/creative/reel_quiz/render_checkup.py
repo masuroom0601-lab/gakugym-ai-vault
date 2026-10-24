@@ -38,13 +38,23 @@ def badge(d,text):
     d.rounded_rectangle((80,110,430,240),10,fill="#4472c4")
     bold(d,(255,175),text,f(56),"white","mm",1)
 def intro_frame(t):
+    # 2026-10-24: 文字数が少ない(タイトルが短い)とブロック全体が画面上部に
+    # 偏って見える、という指摘を受け、内容量に応じてブロック全体を画面中央寄りに
+    # 配置するよう変更(固定y座標の積み上げをやめ、ブロック高さから逆算する)
     im,d=dotted_bg(t)
     badge(d,"スマホ習慣")
-    bold(d,(80,330),"あなたは何個当てはまる?",f(60),"#111111","la",2)
-    y=460
-    for l in wrap(d,title,f(84),920):
-        bold(d,(80,y),l,f(84),"#e60000","la",3); y+=118
-    bold(d,(80,y+60),"正直にチェックしてみて!",f(54),"#111111","la",2)
+    title_font=f(84)
+    title_lines=wrap(d,title,title_font,920)
+    sub_h,gap1,line_h,gap2,foot_h=84,50,118,60,70
+    n=len(title_lines)
+    block_h=sub_h+gap1+line_h*n+gap2+foot_h
+    y0=1060-block_h/2
+    bold(d,(80,y0),"あなたは何個当てはまる?",f(60),"#111111","la",2)
+    ty=y0+sub_h+gap1
+    for i,l in enumerate(title_lines):
+        bold(d,(80,ty+i*line_h),l,title_font,"#e60000","la",3)
+    fy=ty+line_h*n+gap2
+    bold(d,(80,fy),"正直にチェックしてみて!",f(54),"#111111","la",2)
     return im
 def checkbox(d,cx,cy,size,checked,scale):
     s=size*scale
@@ -53,15 +63,21 @@ def checkbox(d,cx,cy,size,checked,scale):
         p=[(cx-s*0.28,cy+s*0.02),(cx-s*0.06,cy+s*0.26),(cx+s*0.32,cy-s*0.26)]
         d.line(p,fill="#e60000",width=int(s*0.12),joint="curve")
 def item_frame(idx,total,text,t_local):
+    # 2026-10-24: 項目の文字数が少ない(1行で収まる)ときに、チェックボックス+文章の
+    # ブロックが画面上部に偏って見える、という指摘を受け、ブロック高さに応じて
+    # 画面中央寄りに配置するよう変更
     im,d=dotted_bg()
     badge(d,"スマホ習慣")
     bold(d,(1000,175),f"{idx}/{total}",f(50),"#4472c4","rm",1)
     checked = t_local>0.35
     scale = min(1.0, 0.7+0.3*min(1.0,t_local/0.35)) if checked else 1.0
-    checkbox(d,180,480,140,checked,scale)
-    y=420
-    for l in wrap(d,text,f(66),760):
-        bold(d,(280,y),l,f(66),"#111111","la",2); y+=92
+    lines=wrap(d,text,f(66),760)
+    line_h=92
+    block_h=line_h*len(lines)
+    ty=1060-block_h/2
+    for i,l in enumerate(lines):
+        bold(d,(280,ty+i*line_h),l,f(66),"#111111","la",2)
+    checkbox(d,180,ty+block_h/2-18,140,checked,scale)
     return im
 def verdict_bg():
     im=Image.new("RGB",(W,H),"#4472c4")
@@ -71,17 +87,25 @@ def verdict_bg():
         im=Image.blend(ph.crop((l,tp,l+W,tp+H)),Image.new("RGB",(W,H),"black"),0.55)
     return im
 def verdict_frame(bg,t):
+    # 2026-10-24: 診断ラインが短いと画面上部に偏って見える指摘を受け、ブロック高さに
+    # 応じて中央寄りに配置するよう変更
     im=bg.copy(); d=ImageDraw.Draw(im)
-    y=600
-    for l in wrap(d,verdict,f(76),920):
-        bold(d,(540,y),l,f(76),"white","mm",3); y+=108
-    bold(d,(540,y+60),"改善法は概要欄へ!",f(90),"#ffd400","mm",3)
+    lines=wrap(d,verdict,f(76),920)
+    line_h,gap1,cta_h,gap2=108,80,90,180
+    n=len(lines)
+    block_h=line_h*n+gap1+cta_h+gap2
+    y0=1040-block_h/2
+    for i,l in enumerate(lines):
+        bold(d,(540,y0+i*line_h),l,f(76),"white","mm",3)
+    cta_y=y0+line_h*n+gap1
+    bold(d,(540,cta_y),"改善法は概要欄へ!",f(90),"#ffd400","mm",3)
+    arrow_y=cta_y+gap2
     af=f(100); amp=22; freq=1.8
     for i in range(3):
         phase=i*0.75
         dy=amp*max(0.0, math.sin(2*math.pi*freq*t-phase))
         x=540+(i-1)*95
-        bold(d,(x,y+260+dy),"▼",af,"#ffd400","mm",2)
+        bold(d,(x,arrow_y+dy),"▼",af,"#ffd400","mm",2)
     return im
 def heart(d,cx,cy,r,fill):
     d.ellipse((cx-r,cy-r,cx,cy),fill=fill); d.ellipse((cx,cy-r,cx+r,cy),fill=fill)
