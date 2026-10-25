@@ -87,7 +87,10 @@ jobs:
           AUD=$(ffprobe -v error -select_streams a -show_entries stream=codec_type -of csv=p=0 "$OUT")
           echo "duration=$DUR size=$SIZE audio=$AUD"
           [ "$AUD" = "audio" ] || { echo "カウントダウン効果音が入っていません"; exit 1; }
-          python3 -c "import sys; d=float('$DUR'); s=int('$SIZE'); sys.exit(0 if 12.5<=d<=13.5 and s>100000 else 1)"
+          # 2026-10-22のCTAシーン追加で動画は13秒→16秒になったが、この判定基準の
+          # 更新を忘れており、10/23〜10/25の3日分の生成が「長さが想定と違う」として
+          # 誤って失敗扱いになっていた(2026-10-25、益田さんの指摘で発覚・修正)
+          python3 -c "import sys; d=float('$DUR'); s=int('$SIZE'); sys.exit(0 if 15.5<=d<=16.5 and s>100000 else 1)"
 
       - name: Record path in draft
         if: steps.target.outputs.skip != 'true'
