@@ -1,5 +1,5 @@
 ---
-title: Canva日次クリエイティブ生成 Routine 設定手順書(claude.ai Routines)
+title: Canva日次リール生成 Routine 設定手順書(claude.ai Routines)
 status: 着手済
 ---
 
@@ -115,7 +115,10 @@ Autofillで差し込まれるフィールド構成(下記)自体は変わって�
    UIの名称・場所は変わることがあります)
 
 2. 「新規Routine作成」を選び、以下を設定する:
-   - **名前**: `Canva日次クリエイティブ生成`
+   - **名前**: `Canva日次リール生成`(2026-10-27訂正: 本ファイルは長らく
+     「Canva日次クリエイティブ生成」という誤った名前を記載していたが、実際に
+     稼働しているRoutine名は「Canva日次リール生成」だった。益田さんの
+     「そんなRoutineは無い」という指摘で発覚・修正)
    - **スケジュール**: 毎日 06:15(日本時間)
      (Instagram/TikTok担当AIの下書き生成が毎朝06:00 JSTに終わった後を狙っています)
    - **リポジトリ**: `masuroom0601-lab/gakugym-ai-vault`を選択(「手順」欄の下にある

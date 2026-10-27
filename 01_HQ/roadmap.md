@@ -1468,3 +1468,24 @@ vidIQで確認したところ、bioは既に①と同じ原体験(スマホ依�
 完了するまでは、奇数日の`canva_7rules`形式は台本までは自動生成されるが、
 実際の動画(Canvaデザイン)は自動生成されない。追記完了後、テスト実行で
 動作確認を行うこと。
+
+### Routine名の誤記を発見・修正(2026-10-27)
+益田さんから「『Canva日次クリエイティブ生成』というRoutineは無いと思う」との
+指摘があり、`list_triggers`で実際に稼働しているRoutine一覧を確認した。
+①の`EAHXtgN-KXU`をAutofillしているRoutineの実際の名前は**「Canva日次リール生成」**
+(trigger_id: `trig_019dLfqUecViz2Ke9zzCebUL`)であり、
+`01_HQ/setup guides/canva-routine-setup.md.md`が長らく「Canva日次クリエイティブ
+生成」という誤った名前を記載していたことが判明した(いつから誤っていたかは
+不明。Routine自体の中身・プロンプトは記載通りの内容で正しく稼働していた)。
+ファイルのtitleと手順2の名前指定を正しい名前に修正した。
+
+ついでに`list_triggers`で確認できた、このVaultに関連する他のRoutine一覧も
+記録しておく(今後同様の混乱を避けるため):
+- 週次競合分析(日曜02:53 JST)
+- エルグラム週次データ取得(日曜04:50 JST)
+- 英検クイズ日次レビュー(毎日12:15 JST、このセッションに紐づくRoutine)
+- Canva日次英検クイズ生成(**無効化済み**。2026-10-12にPythonスクリプト
+  パイプライン〔eiken-quiz-reel.yml〕へ置き換えられたため停止中)
+- Canva日次フィード生成(毎日03:01 JST、①フィードの`DAHWhf0nHMY`複製処理)
+- **Canva日次リール生成**(毎日12:30 JST、①リールの`EAHXtgN-KXU`Autofill処理。
+  ③の処理はここに追記する)
