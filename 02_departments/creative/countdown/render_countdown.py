@@ -40,25 +40,22 @@ def navy_bg():
     return im, d
 
 
-def nth_weekday_of_month(year, month, weekday, n):
-    d = datetime.date(year, month, 1)
-    count = 0
-    while True:
-        if d.weekday() == weekday:
-            count += 1
-            if count == n:
-                return d
+def first_saturday_on_or_after_jan13(year):
+    # 2026-10-27修正: 大学入試センターの公式ルールは「1月13日以降の最初の
+    # 土曜日及びその翌日の2日間」。以前は誤って「1月第2土曜日」で計算して
+    # おり、2027年の場合に1月9日(誤り)と算出していた。正しくは1月13日
+    # (2027年は水曜日)以降最初の土曜日である1月16日(益田さんのご指摘で
+    # 判明・修正)。
+    d = datetime.date(year, 1, 13)
+    while d.weekday() != 5:  # 5 = 土曜日
         d += datetime.timedelta(days=1)
+    return d
 
 
 def next_kyotsu_test_date(today):
-    # 共通テストは例年1月第2土曜日(直近の実施傾向に基づく仮定。
-    # 大学入試センターの正式発表と異なる場合は、この関数の第2引数(月内の週番号)を
-    # 要確認・要修正)
-    SAT = 5
-    candidate = nth_weekday_of_month(today.year, 1, SAT, 2)
+    candidate = first_saturday_on_or_after_jan13(today.year)
     if today > candidate:
-        candidate = nth_weekday_of_month(today.year + 1, 1, SAT, 2)
+        candidate = first_saturday_on_or_after_jan13(today.year + 1)
     return candidate
 
 
@@ -108,7 +105,7 @@ def main():
         im.paste(av, (W // 2 - 75, 1340), av)
 
     bold(d, (540, 1580), msg, f(42), "white", "mm", 1)
-    bold(d, (540, 1660), target.strftime("%Y年%m月%d日(土)実施予定"), f(32), "#aab4d6", "mm", 1)
+    bold(d, (540, 1660), target.strftime("%Y年%m月%d日(土)午前9時30分開始予定"), f(32), "#aab4d6", "mm", 1)
 
     im.save(out_path)
     print(f"days_left={days_left} target={target.isoformat()}")
