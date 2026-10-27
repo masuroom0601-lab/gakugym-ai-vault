@@ -81,6 +81,9 @@ def circular_avatar(size):
 
 def main():
     out_path = sys.argv[1]
+    out_dir = os.path.dirname(out_path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
     today = datetime.date.today()
     target = next_kyotsu_test_date(today)
     days_left = (target - today).days
