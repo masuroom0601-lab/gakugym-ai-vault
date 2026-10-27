@@ -1438,3 +1438,33 @@ Canva上の作業待ち。
 科目知識Tipsは使わない制約)を記録した。③専用のdrafts・daily-draft生成
 ワークフローはまだ存在しないため、実際のRoutineプロンプトへの組み込みは
 ③アカウント稼働後に行う。
+
+### ③アカウント作成・自動化パイプライン構築(2026-10-27)
+益田さんから③のInstagram/TikTokアカウントを作成したとの連絡があった
+(`@massu_smartphone`、https://www.instagram.com/massu_smartphone/)。
+vidIQで確認したところ、bioは既に①と同じ原体験(スマホ依存克服→GMARCH合格)を
+軸にした訴求になっており、フォロワー4・投稿0の状態だった。
+
+これを受け、③の自動化パイプラインを構築した:
+- `.github/workflows/sumaho-habit-daily-draft.yml`(新規): ③専用のリール台本を
+  毎日06:00 JSTに自動生成する。department.mdの「扱ってよい切り口の例」に
+  従い、科目知識のTips下書きは一切作らないことをプロンプトで明示。リール形式は
+  日付の偶奇で機械的に決定(偶数日: `reel_format: checkup`、奇数日:
+  `reel_format: canva_7rules`)し、2日以上同じ形式が連続しないことを
+  履歴確認なしで保証する設計にした
+- `.github/workflows/instagram-checkup-reel.yml`: 参照先を①のdrafts
+  (`instagram_tiktok/drafts/`)から③のdrafts(`sumaho_habit/drafts/`)へ
+  向け直した。トリガーも`instagram-tiktok-daily-draft`から
+  `sumaho-habit-daily-draft`の完了に変更
+- `01_HQ/setup guides/canva-routine-setup.md.md`: 「③用テンプレートについて」
+  節に、claude.aiのCanva Routineへ追記してもらうプロンプト全文を用意した
+  (①向けRoutineと同じ構造で、③のdraftsを読んで`EAHZNFA_vrc`をAutofillする
+  処理)。**このRoutineはUI作成のためClaude Codeから直接編集できず、
+  益田さんご自身でRoutineの編集画面にこの追記をお願いする必要がある**
+- `02_departments/sumaho_habit/department.md`: ステータスをアカウント作成済みに
+  更新し、各パイプラインの配線状況を最新化した
+
+**残っているブロッカー**: Canva Routineへのプロンプト追記(益田さんの作業)が
+完了するまでは、奇数日の`canva_7rules`形式は台本までは自動生成されるが、
+実際の動画(Canvaデザイン)は自動生成されない。追記完了後、テスト実行で
+動作確認を行うこと。

@@ -296,33 +296,77 @@ Instagram/TikTok担当AIが台本(下書き)を自動生成しています。あ
 「尺の伸縮の有無に関わらず、この種の動画デザイン自体が構造化編集非対応」という、
 より根本的な制約が判明し、最終的にブランドテンプレート+Autofill方式へ全面移行した。
 
-## ③用テンプレートについて(2026-10-27追加、現時点では未配線)
+## ③用テンプレートについて(2026-10-27追加、2026-10-27更新: アカウント作成・配線準備完了)
 
-③(習慣化メソッド発信アカウント、構想中)用の15秒リールテンプレート
+③(習慣化メソッド発信アカウント、`massu_smartphone`)用の15秒リールテンプレート
 (`DAHEwfFJ4jE`、「【受験R本編】学年1位のスマホルール」)を、益田さんが
 修正・Bulk createでのフィールド接続を完了し、ブランドテンプレートとして
 公開した。詳細・コンテンツルールは`02_departments/sumaho_habit/department.md`
-の「2.「〇選」リスト型リール」節が正とする。ここでは本Routineへの将来的な
-組み込み方のメモだけ残す。
+の「2.「〇選」リスト型リール」節が正とする。
 
 - **ブランドテンプレートID**: `EAHZNFA_vrc`
 - **データフィールド(2個)**: `内容(メソッド名)`(タイトル)、`本編7項目`
   (7項目を改行区切りで1フィールドにまとめる。①〜⑦の番号もテキスト側で含める)
 - 2026-10-27に`autofill-design`でテスト生成(`DAHZNFZWeII`)し、正しく反映
   されることを確認済み
-- **現時点では本Routineのプロンプトに組み込んでいない**。理由: ③のInstagram/
-  TikTokアカウント自体がまだ作成されておらず(構想段階)、③専用のdraftsディレクトリ・
-  daily-draft生成ワークフローも存在しないため、Routineが読みに行く対象が無い
-- ③のアカウントとdraftsパイプラインが整い次第、本Routineのプロンプトに
-  「③のdraftsを見て、`reel_template: sumaho_7rules`のようなマーカーがあれば
-  `EAHZNFA_vrc`をAutofillする」という分岐を追加する(①の`EAHXtgN-KXU`分岐と
-  並行して動かす想定)。その際、③のリールは
-  `02_departments/creative/reel_quiz/render_checkup.py`型(セルフチェック診断)
-  とこのCanvaテンプレート型を日によって使い分ける方針なので、daily-draft側で
-  どちらの形式にするかを決めるロジックも合わせて設計する必要がある
-- **【重要】このテンプレートには科目知識のTips下書きを一切使わないこと**。
-  スマホ対策・習慣化メソッドの内容のみに限定する(`sumaho_habit/department.md`
-  の「扱ってよい切り口の例」参照)
+- ③専用のdrafts(`02_departments/sumaho_habit/drafts/`)・daily-draft生成
+  ワークフロー(`.github/workflows/sumaho-habit-daily-draft.yml`)を2026-10-27に
+  新設した。奇数日は`reel_format: canva_7rules`の台本が作られる
+  (偶数日は`reel_format: checkup`で、こちらは`instagram-checkup-reel.yml`が
+  別途Pythonスクリプトで処理するため、本Routineの対象外)
+
+### 【益田さん作業依頼】本Routineのプロンプトへの追記が必要
+このRoutineはclaude.ai上でUI作成されているため、Claude Codeセッション側からは
+直接編集できません。お手数ですが、Routineの編集画面を開き、プロンプト本文の
+末尾(手順7のコミット・プッシュより前、できれば手順1〜7全体の後)に、以下を
+追記してください:
+
+```
+## ③(sumaho_habit、massu_smartphone)の処理(2026-10-27追加)
+
+上記の①向け手順とは別に、以下もあわせて毎回確認してください。
+
+1. 本日の日付(YYYY-MM-DD)を確認し、
+   `02_departments/sumaho_habit/drafts/task-<today>-sumaho-001.md` を探す。
+   無い、またはfrontmatterに `reel_format: canva_7rules` が無い場合は
+   何もせず終了する(checkup形式や台本が無い日は対象外)。
+
+2. そのファイルから以下を読み取る:
+   - タイトル(「## リール台本(〇選リスト型・Canva)」節の「**タイトル**:」)
+   - 項目7個(「①」〜「⑦」で始まる7行)
+
+3. `autofill-design` で本編動画を生成する:
+   - `brand_template_id`: `EAHZNFA_vrc`
+   - `data`:
+     - `内容(メソッド名)`: 台本のタイトル
+     - `本編7項目`: 7項目を改行区切りで1つのテキストにまとめたもの
+       (①〜⑦の番号を含めること)
+   - `title`パラメータ(Canva上のデザイン名)には「<today> ③リール <タイトル>」
+     のような名前を付ける
+
+4. チェック役エージェントに、生成デザインのタイトル・7項目が台本の内容と
+   一致しているか確認させる(①の手順4と同じやり方)。問題があれば
+   `autofill-design`をやり直す。
+
+5. `02_departments/creative/drafts/<today>-canva.md` とは別のファイル
+   `02_departments/sumaho_habit/drafts/task-<today>-sumaho-001.md` 自体に、
+   以下の節を追記する(①のように別ファイルに分けず、同じdraftファイルに
+   直接追記する):
+   ```
+   ## Canvaデザイン(③)
+   - 本編: <autofill-designで作った新デザインのedit_url>
+   ```
+
+6. git add 02_departments/sumaho_habit/drafts/ も手順7のコミットに含める
+   (①の `02_departments/creative/drafts/` と合わせて、同じコミットで
+   まとめてコミット・プッシュしてよい)
+
+【重要】このテンプレートには科目知識のTips下書きを一切使わないこと。
+スマホ対策・習慣化メソッドの内容のみに限定する(台本側で既に守られている
+はずだが、念のため生成前に台本の内容を確認すること)。
+```
+
+追記が完了したら、一度「今すぐ実行」等のテスト実行で動作確認してください。
 
 ## うまくいかない場合
 - Canvaコネクタがオンになっているのに動かない場合、claude.aiのRoutines UI側の

@@ -1,15 +1,21 @@
 ---
 department: sumaho_habit
-role: 習慣化メソッド発信担当(③アカウント、2026-10-27新設・構想中)
+role: 習慣化メソッド発信担当(③アカウント、2026-10-27新設)
 reports_to: 統括担当
 ---
 
-## ステータス(2026-10-27時点)
-**本アカウント(Instagram/TikTok)はまだ作成されていない(構想段階)。**
-アカウント作成は益田さんご自身の作業。作成後、本ファイルの設計を元に
-daily-draft生成ワークフロー等の自動化を整備する。経緯の全体像は
-`01_HQ/roadmap.md`の「複数アカウント展開構想とmassu_gakugymの英検専門化」
-「③習慣化メソッド発信アカウントの設計」節を参照。
+## ステータス(2026-10-27更新: アカウント作成・自動化配線完了)
+**Instagram/TikTokアカウント作成済み: [@massu_smartphone](https://www.instagram.com/massu_smartphone/)**
+(2026-10-27、益田さんが作成。bioは既に①と同じ原体験〔スマホ依存克服→GMARCH
+合格〕を軸にした訴求になっている)。
+
+daily-draft生成ワークフロー(`.github/workflows/sumaho-habit-daily-draft.yml`)・
+セルフチェック診断リールの自動生成(`instagram-checkup-reel.yml`、参照先を
+③のdraftsへ向け直し済み)・「〇選」リスト型リールのCanva Routine配線メモ
+(`01_HQ/setup guides/canva-routine-setup.md.md`「③用テンプレートについて」節、
+ただしRoutine本体へのプロンプト追記は益田さんの作業待ち)を2026-10-27に整備した。
+経緯の全体像は`01_HQ/roadmap.md`の「複数アカウント展開構想とmassu_gakugymの
+英検専門化」「③習慣化メソッド発信アカウントの設計」節を参照。
 
 ## ミッション
 スマホがやめられない受験生に向けて、スマホ習慣化のメソッドを発信する。
@@ -30,12 +36,11 @@ daily-draft生成ワークフロー等の自動化を整備する。経緯の全
 - `02_departments/creative/reel_quiz/make_checkup_from_draft.py`(台本パーサー)
 - `.github/workflows/instagram-checkup-reel.yml`(自動生成ワークフロー)
 
-**【要対応、アカウント稼働時】** `instagram-checkup-reel.yml`は現状、
-`02_departments/instagram_tiktok/drafts/`(①のdrafts)を見る設定のままに
-なっている。③のアカウントが実際に稼働する際は、③専用のdrafts配置・
-daily-draft生成ワークフローを新設し、このワークフローの参照先を向け直す
-必要がある(現時点では①がこのフォーマットを使わなくなったため、本ワークフロー
-自体は実質的に動かない状態)。
+**2026-10-27更新**: `instagram-checkup-reel.yml`の参照先を①のdrafts
+(`instagram_tiktok/drafts/`)から③のdrafts(`sumaho_habit/drafts/`)へ
+向け直し済み。偶数日に`.github/workflows/sumaho-habit-daily-draft.yml`が
+`reel_format: checkup`の台本を作った時だけ動く(下記「2.」との使い分けは
+日付の偶奇で機械的に決定)。
 
 扱ってよい切り口の例(①の「スマホ対策・デジタル習慣構築」節から移管):
 - 勉強中のスマホの物理的な遠ざけ方(置き場所・タイマーロックアプリ等)
@@ -74,12 +79,13 @@ daily-draft生成ワークフローを新設し、このワークフローの参
 - 構造化編集API(`read-design`/`edit-design`)では相変わらず
   `"type": "unsupported"`(動画デザイン特有の制約)のため、①と同じく
   Autofill方式でのみ運用可能
-- **【要対応、③アカウント稼働時】** ③専用のdrafts配置・daily-draft生成
-  ワークフローが無いため、このテンプレートを使った自動生成パイプライン
-  (claude.ai Routine)はまだ構築していない。手順・プロンプトの土台は
-  `01_HQ/setup guides/canva-routine-setup.md.md`の①向けRoutineを参考にし、
-  ③のdraftsができた時点でこのRoutineにロジックを追加する(詳細は同ファイルの
-  「③用テンプレートについて」節参照)
+- **2026-10-27更新**: ③専用のdrafts(`sumaho_habit/drafts/`)・daily-draft
+  生成ワークフロー(`sumaho-habit-daily-draft.yml`)を新設した。奇数日に
+  `reel_format: canva_7rules`の台本が作られる。ただし実際にこのテンプレートを
+  Autofillする処理は claude.ai の Canva Routine 側が担うため、**Routineの
+  プロンプトへの追記(益田さんの作業)が完了するまでは自動生成は動かない**
+  (手順は`01_HQ/setup guides/canva-routine-setup.md.md`「③用テンプレート
+  について」節に用意済み)
 
 ### 3. 「共通テストまであと〇日」カウントダウン(ストーリーズ・毎日)
 全受験生に刺さる汎用的な習慣化フックとして、2026-10-27に新設した。

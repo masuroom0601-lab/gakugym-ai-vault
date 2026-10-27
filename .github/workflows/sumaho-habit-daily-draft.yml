@@ -1,0 +1,140 @@
+name: sumaho-habit-daily-draft
+
+# ③(習慣化メソッド発信アカウント、massu_smartphone)のリール台本を
+# 毎日自動生成する。2026-10-27、アカウント作成を受けて新設。
+#
+# リールの形式は日によって2パターンを使い分ける(益田さんの指示、
+# 02_departments/sumaho_habit/department.md参照):
+# - 偶数日: セルフチェック診断形式(reel_format: checkup) →
+#   instagram-checkup-reel.ymlがPythonスクリプトで動画生成
+# - 奇数日: 「〇選」リスト型(reel_format: canva_7rules) →
+#   claude.aiのCanva Routine(01_HQ/setup guides/canva-routine-setup.md.md
+#   「③用テンプレートについて」節)がAutofillで動画生成
+#
+# 単純な日付の偶奇で決めているのは、2日以上同じ形式が連続しないことを
+# 機械的に保証するため(履歴を確認するロジックより単純・確実)。
+
+on:
+  schedule:
+    - cron: '0 21 * * *'   # 毎日06:00 JST
+  workflow_dispatch: {}
+
+env:
+  TZ: Asia/Tokyo
+
+permissions:
+  contents: write
+  id-token: write
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Decide reel format
+        id: format
+        run: |
+          D=$(date +%F)
+          DAY=$(date +%-d)
+          if [ $((DAY % 2)) -eq 0 ]; then
+            FMT="checkup"
+          else
+            FMT="canva_7rules"
+          fi
+          echo "date=$D" >> "$GITHUB_OUTPUT"
+          echo "format=$FMT" >> "$GITHUB_OUTPUT"
+
+      - name: Generate sumaho_habit draft
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          show_full_output: true
+          claude_args: |
+            --allowedTools "Write,Bash(git *)"
+          prompt: |
+            あなたは「学ジム」のsumaho_habit担当AIです(アカウント: massu_smartphone、
+            スマホがやめられない受験生向けの習慣化メソッド発信専門)。
+            以下のファイルを読み、そこに書かれたルールに厳密に従ってください:
+            - 02_departments/sumaho_habit/department.md
+            - 03_assets/brand-guide.md(ただし学ジムブランドの前面訴求はしない。
+              ③は送客を狙わないアカウントであることに特に注意すること)
+            - 00_INBOX/ 内のネタ(あれば参考にする)
+
+            本日のリール形式は **${{ steps.format.outputs.format }}** です
+            (${{ steps.format.outputs.date }}、日付の偶奇で機械的に決定済み)。
+
+            **【最重要・絶対厳守】科目知識のTips下書き(現代文・古文・英語等の
+            勉強法・暗記法)は一切作らないこと。必ずdepartment.mdの「扱ってよい
+            切り口の例」(スマホの物理的な遠ざけ方、通知/SNS対策、スマホを勉強の
+            武器に変える使い方、スマホ依存克服の原体験、「意志ではなく仕組み」
+            という切り口)に沿った、スマホ対策・習慣化メソッドの内容のみを
+            扱うこと。**
+
+            ## reel_format: checkup の場合(偶数日)
+            以下の見出し・書式で台本を書くこと(動画生成スクリプトがこの書式を
+            機械的にパースするため、見出し・太字の位置を変えないこと):
+            ```
+            ## リール台本(スマホ習慣セルフチェック形式)
+
+            **タイトル**: <6〜12文字程度。例: スマホ依存度チェック>
+
+            **チェック項目**:
+            1. <スマホ習慣の具体的なあるある行動。1行、できれば20字前後>
+            2. <同上>
+            (5〜6個を推奨。4〜8個の範囲で収めること)
+
+            **診断ライン**: <例: 3個以上当てはまったら、スマホに"使われている"状態かも>
+            ```
+            キャプションには、チェック項目への具体的な改善法(仕組み・対策)を
+            必ず書くこと(動画のエンド画面が「改善法は概要欄へ!」と案内する仕様のため)。
+
+            ## reel_format: canva_7rules の場合(奇数日)
+            以下の見出し・書式で台本を書くこと:
+            ```
+            ## リール台本(〇選リスト型・Canva)
+
+            **タイトル**: <6〜14文字程度。例: スマホに勝つ受験生の7ルール>
+
+            **項目(7個固定)**:
+            ①<1行、できれば15字前後>
+            ②<同上>
+            ③<同上>
+            ④<同上>
+            ⑤<同上>
+            ⑥<同上>
+            ⑦<同上>
+            ```
+            項目は必ず7個ちょうど作成すること(多くても少なくてもいけない)。
+
+            ## 両形式共通
+            台本の下に「## 投稿用キャプション(投稿時にそのままコピペする本文)」
+            節をコードブロックで作成すること。構成:
+            1. フック文(1〜2行)
+            2. 台本の内容を踏まえた具体的な補足・改善法
+            3. CTA(保存・フォローを促す一文)
+            4. ハッシュタグ最大5個(`#学ジム`は付けない。brand-guide.md参照)
+
+            frontmatterは以下の形式にすること:
+            ```
+            ---
+            department: sumaho_habit
+            role: 習慣化メソッド発信担当
+            date: <today>
+            status: draft
+            type: reel
+            reel_format: ${{ steps.format.outputs.format }}
+            approved_by:
+            ---
+            ```
+
+            作成したファイルは
+            02_departments/sumaho_habit/drafts/task-<today>-sumaho-001.md
+            という名前で保存してください(frontmatter込み)。
+
+            最後に、以下のコマンドで変更をコミット・プッシュしてください:
+            git config user.name "gakugym-ai-bot"
+            git config user.email "bot@example.com"
+            git add 02_departments/sumaho_habit/drafts/
+            git commit -m "sumaho habit daily draft $(date +%F)"
+            git push

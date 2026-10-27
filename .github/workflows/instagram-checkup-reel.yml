@@ -6,21 +6,22 @@ name: instagram-checkup-reel
 # Tips形式リールより実測(vidIQ)で大幅に再生数が高かったため、同じ「参加させる」
 # 構造をスマホ対策コンテンツにも適用する。詳細: 01_HQ/roadmap.md参照。
 #
-# instagram-tiktok-daily-draft が書く台本のfrontmatterに `reel_format: checkup`
-# がある日だけ動く(無い日はこれまで通りCanva Routineが処理するためスキップ)。
+# sumaho-habit-daily-draft が書く台本のfrontmatterに `reel_format: checkup`
+# がある日だけ動く(無い日、または`reel_format: canva_7rules`の日はCanva
+# Routine側が処理するためスキップ)。
 #
 # 【2026-10-27追記】massu_gakugym(①)は英検専門アカウントへ全面転換し、
 # instagram-tiktok-daily-draftはもう`reel_format: checkup`を出力しなくなった。
-# このパイプラインは新規アカウント③(習慣化メソッド発信、構想中。
-# `02_departments/sumaho_habit/department.md`参照)に移管する予定。③の
-# drafts構成ができるまでは、下記の参照先(①のdrafts)が一致する日がなく、
-# 実質休眠状態になる。
+# このパイプラインは新規アカウント③(習慣化メソッド発信、`massu_smartphone`、
+# `02_departments/sumaho_habit/department.md`参照)に移管した。参照先を
+# ①のdrafts(`instagram_tiktok/drafts/`)から③のdrafts
+# (`sumaho_habit/drafts/`)に向け直した。
 
 on:
   schedule:
     - cron: '30 21 * * *'   # 毎日06:30 JST(フォールバック)
   workflow_run:
-    workflows: ["instagram-tiktok-daily-draft"]
+    workflows: ["sumaho-habit-daily-draft"]
     types: [completed]
   workflow_dispatch:
     inputs:
@@ -52,7 +53,7 @@ jobs:
         run: |
           D="${{ github.event.inputs.date }}"
           [ -z "$D" ] && D=$(date +%F)
-          DRAFT="02_departments/instagram_tiktok/drafts/task-${D}-ig-001.md"
+          DRAFT="02_departments/sumaho_habit/drafts/task-${D}-sumaho-001.md"
           OUT="02_departments/creative/reel_quiz/checkup-daily/reel-${D}.mp4"
           echo "date=$D" >> "$GITHUB_OUTPUT"
           echo "draft=$DRAFT" >> "$GITHUB_OUTPUT"
@@ -110,7 +111,7 @@ jobs:
         run: |
           git config user.name "gakugym-ai-bot"
           git config user.email "bot@example.com"
-          git add 02_departments/instagram_tiktok/drafts/ 02_departments/creative/reel_quiz/checkup-daily/
-          git commit -m "instagram checkup reel generation ${{ steps.target.outputs.date }}"
+          git add 02_departments/sumaho_habit/drafts/ 02_departments/creative/reel_quiz/checkup-daily/
+          git commit -m "sumaho habit checkup reel generation ${{ steps.target.outputs.date }}"
           git pull --rebase origin main
           git push origin main
