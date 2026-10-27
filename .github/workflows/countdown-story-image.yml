@@ -1,0 +1,77 @@
+name: countdown-story-image
+
+# ③(習慣化メソッド発信アカウント、構想中)のストーリーズ用、「共通テストまで
+# あと〇日」カウントダウン画像を毎日自動生成してmainにコミットする。
+# 2026-10-27追加。詳細: 01_HQ/roadmap.md参照。
+#
+# ストーリーズへの投稿自体はInstagram Graph APIのStories自動投稿が未整備のため、
+# 画像生成までを自動化し、投稿は益田さんが毎日手動で行う。
+
+on:
+  schedule:
+    - cron: '0 20 * * *'   # 毎日05:00 JST
+  workflow_dispatch: {}
+
+env:
+  TZ: Asia/Tokyo
+
+permissions:
+  contents: write
+
+concurrency:
+  group: countdown-story-image
+  cancel-in-progress: false
+
+jobs:
+  image:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Decide output path
+        id: target
+        run: |
+          D=$(date +%F)
+          OUT="02_departments/creative/countdown/daily/countdown-${D}.png"
+          echo "date=$D" >> "$GITHUB_OUTPUT"
+          echo "out=$OUT" >> "$GITHUB_OUTPUT"
+          if [ -f "$OUT" ]; then
+            echo "生成済みのためスキップ"; echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Install dependencies
+        if: steps.target.outputs.skip != 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-ipafont-gothic
+          python3 -m pip install -q pillow
+
+      - name: Generate countdown image
+        if: steps.target.outputs.skip != 'true'
+        env:
+          REEL_FONT: /usr/share/fonts/opentype/ipafont-gothic/ipag.ttf
+        run: |
+          python3 02_departments/creative/countdown/render_countdown.py \
+            "${{ steps.target.outputs.out }}"
+
+      - name: Sanity check image
+        if: steps.target.outputs.skip != 'true'
+        run: |
+          OUT="${{ steps.target.outputs.out }}"
+          SIZE=$(stat -c %s "$OUT")
+          echo "size=$SIZE"
+          [ "$SIZE" -gt 20000 ] || { echo "画像サイズが異常に小さい"; exit 1; }
+
+      - name: Commit and push
+        if: steps.target.outputs.skip != 'true'
+        run: |
+          git config user.name "gakugym-ai-bot"
+          git config user.email "bot@example.com"
+          git add 02_departments/creative/countdown/daily/
+          git commit -m "countdown story image ${{ steps.target.outputs.date }}"
+          git pull --rebase origin main
+          git push origin main
