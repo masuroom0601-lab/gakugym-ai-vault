@@ -47,13 +47,14 @@ jobs:
         if: steps.target.outputs.skip != 'true'
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq fonts-ipafont-gothic
+          sudo apt-get install -y -qq fonts-ipafont-gothic fonts-ipafont-mincho
           python3 -m pip install -q pillow
 
       - name: Generate countdown image
         if: steps.target.outputs.skip != 'true'
         env:
           REEL_FONT: /usr/share/fonts/opentype/ipafont-gothic/ipag.ttf
+          REEL_MINCHO_FONT: /usr/share/fonts/opentype/ipafont-mincho/ipam.ttf
         run: |
           python3 02_departments/creative/countdown/render_countdown.py \
             "${{ steps.target.outputs.out }}"

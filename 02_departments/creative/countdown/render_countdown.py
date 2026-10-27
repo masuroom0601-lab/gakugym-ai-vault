@@ -6,9 +6,19 @@ from PIL import Image, ImageDraw, ImageFont
 # 「試験日カウントダウン企画」は撤回し、全受験生に刺さる共通テストの
 # カウントダウンとして③に割り当てた(詳細: 01_HQ/roadmap.md 2026-10-27参照)。
 # 学ジムのロゴ・サービス名は出さない(③は送客を狙わないため)。
+#
+# 【2026-10-27デザイン変更】益田さんが参考として共有してくれた、他塾(Z会東大
+# コース)のXアカウントのカウントダウン投稿(紺地+ミンチョ体見出し+白箱に赤字の
+# 大きな数字、というデザイン)を参考に、英検クイズリールと見た目が被らないよう
+# 配色・フォント・レイアウトを一新した。ただし元投稿そのものの模倣にならない
+# よう、アカウントの透かし文字(@ハンドルの縦書き)は入れない、配色は独自の紺、
+# ボックスは角丸にする、など差別化した上で、ストーリーズの縦長(1080x1920)に
+# 合わせてレイアウトを再構成している。
 
 W, H = 1080, 1920
 FONT = os.environ["REEL_FONT"]
+MINCHO_FONT = os.environ.get("REEL_MINCHO_FONT", FONT)
+BG_COLOR = "#16235c"
 AVATAR_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "reel_quiz", "avatar.png")
 
 
@@ -16,17 +26,17 @@ def f(sz):
     return ImageFont.truetype(FONT, sz)
 
 
+def fm(sz):
+    return ImageFont.truetype(MINCHO_FONT, sz)
+
+
 def bold(d, xy, t, font, fill, anchor="la", w=2):
     d.text(xy, t, font=font, fill=fill, anchor=anchor, stroke_width=w, stroke_fill=fill)
 
 
-def dotted_bg():
-    im = Image.new("RGB", (W, H), "white")
+def navy_bg():
+    im = Image.new("RGB", (W, H), BG_COLOR)
     d = ImageDraw.Draw(im)
-    step = 90
-    for gy in range(-step, H + step, step):
-        for gx in range(-step, W + step, step):
-            d.ellipse((gx - 6, gy - 6, gx + 6, gy + 6), fill="#e3eafa")
     return im, d
 
 
@@ -79,19 +89,26 @@ def main():
     days_left = (target - today).days
     msg = MESSAGES[today.toordinal() % len(MESSAGES)]
 
-    im, d = dotted_bg()
-    d.rounded_rectangle((80, 150, 560, 280), 10, fill="#4472c4")
-    bold(d, (320, 215), "共通テストまで", f(52), "white", "mm", 1)
+    im, d = navy_bg()
 
-    bold(d, (540, 850), str(days_left), f(420), "#e60000", "mm", 6)
-    bold(d, (540, 1150), "日", f(120), "#111111", "mm", 3)
+    # 見出し(ミンチョ体で「共通テスト」、下にアルファベットで「COUNTDOWN」)
+    bold(d, (540, 300), "共通テスト", fm(104), "white", "mm", 1)
+    bold(d, (540, 430), "C O U N T D O W N", f(48), "white", "mm", 1)
 
-    av = circular_avatar(140)
+    # 白箱+赤字の大きな数字(角丸にして元ネタの直角ボックスと差別化)
+    box_w, box_h = 760, 480
+    box = (W // 2 - box_w // 2, 640, W // 2 + box_w // 2, 640 + box_h)
+    d.rounded_rectangle(box, 40, fill="white")
+    bold(d, (W // 2, 640 + box_h // 2), str(days_left), f(300), "#e60000", "mm", 4)
+
+    bold(d, (540, 1200), "あと何日?", f(64), "white", "mm", 2)
+
+    av = circular_avatar(150)
     if av is not None:
-        im.paste(av, (W // 2 - 70, 1320), av)
+        im.paste(av, (W // 2 - 75, 1340), av)
 
-    bold(d, (540, 1540), msg, f(44), "#111111", "mm", 1)
-    bold(d, (540, 1620), target.strftime("%Y年%m月%d日(土)実施予定"), f(34), "#666666", "mm", 1)
+    bold(d, (540, 1580), msg, f(42), "white", "mm", 1)
+    bold(d, (540, 1660), target.strftime("%Y年%m月%d日(土)実施予定"), f(32), "#aab4d6", "mm", 1)
 
     im.save(out_path)
     print(f"days_left={days_left} target={target.isoformat()}")
