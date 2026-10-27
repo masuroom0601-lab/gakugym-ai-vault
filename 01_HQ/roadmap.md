@@ -1513,3 +1513,13 @@ vidIQで確認したところ、bioは既に①と同じ原体験(スマホ依�
   `instagram-tiktok-daily-draft.yml`から既にcheckupトリガーを削除済みのため、
   新ルール通りのTips形式〔英検語彙シリーズ等〕の下書きが生成され、自動的に
   解消する見込み)。
+
+### ③タイトル表現の修正(2026-10-27、「スマホに勝つ」→「スマホの誘惑に勝つ」)
+益田さんから、本日生成された③の「スマホに勝つ受験生の7ルール」というタイトルが
+「何に勝つのか一見分かりにくい」との指摘があった。「スマホの誘惑に勝つ」のように
+対象を明確にする言い回しに統一することにし、以下を修正した:
+- `.github/workflows/sumaho-habit-daily-draft.yml`・`02_departments/sumaho_habit/department.md`:
+  タイトル例を「スマホの誘惑に勝つ受験生の7ルール」に修正
+- `02_departments/sumaho_habit/drafts/task-2026-10-27-sumaho-001.md`: タイトルを修正し、
+  `autofill-design`で再生成(新: `DAHZNsHA1pY`)。旧デザイン(`DAHZNulZqsQ`)・
+  さらに前の試作(`DAHZNi6ED5Y`)は不要なため削除可能
