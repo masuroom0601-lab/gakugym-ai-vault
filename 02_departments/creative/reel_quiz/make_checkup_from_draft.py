@@ -43,11 +43,18 @@ def die(msg):
     print("ERROR:", msg, file=sys.stderr); sys.exit(1)
 
 def parse(path):
+    # 2026-10-28修正: 以前は正規表現が台本ファイル全体から数字始まりの行を拾って
+    # いたため、「## 投稿用キャプション」節内の「チェック項目ごとの改善法」の
+    # 番号付きリスト(1.〜6.)まで一緒に拾ってしまい、常に項目数が2倍(例: 6個の
+    # はずが12個)にカウントされて必ず失敗していた(2026-10-24の構築時から一度も
+    # 成功していなかった長期バグ。益田さんの指摘で発覚)。「**チェック項目**:」
+    # 〜「**診断ライン**:」の間だけを対象にスコープを絞って修正した。
     t = open(path, encoding="utf-8").read()
     title = re.search(r"\*\*タイトル\*\*:\s*(.+)", t)
-    items = re.findall(r"^\d+\.\s*(.+)$", t, re.M)
+    section = re.search(r"\*\*チェック項目\*\*:\s*\n(.*?)\n\*\*診断ライン\*\*:", t, re.S)
+    items = re.findall(r"^\d+\.\s*(.+)$", section.group(1), re.M) if section else []
     verdict = re.search(r"\*\*診断ライン\*\*:\s*(.+)", t)
-    if not (title and items and verdict):
+    if not (title and section and verdict):
         die("台本からタイトル/チェック項目/診断ラインを読み取れません(「## リール台本(スマホ習慣セルフチェック形式)」節の記法を確認してください)")
     if not (4 <= len(items) <= 8):
         die(f"チェック項目は4〜8個を想定していますが{len(items)}個でした")
