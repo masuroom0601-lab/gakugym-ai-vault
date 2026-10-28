@@ -4,7 +4,10 @@ W,H,FPS=1080,1920,30
 FONT=os.environ["REEL_FONT"]; FFMPEG=os.environ.get("REEL_FFMPEG","ffmpeg")
 level, q, opts, out = sys.argv[1], sys.argv[2], sys.argv[3].split("|"), sys.argv[4]
 COUNT=10; END=2.5; CTA=3.0
-AVATAR_PATH=os.path.join(os.path.dirname(os.path.abspath(__file__)),"avatar.png")
+AVATAR_PATH=os.path.join(os.path.dirname(os.path.abspath(__file__)),"avatar_eiken.png")
+# 2026-10-28更新: 益田さんが英検クイズリールCTA用に新しいアイコンを用意したため、
+# 共用の avatar.png(③のcheckup/countdownでも使っている)とは別ファイルに分離した。
+# ③側のアイコンは変更していない。
 def circular_avatar(size):
     # 2026-10-22追加: CTAシーンのアバターに、益田さん提供のまっすーイラストを丸く切り抜いて使う
     if not os.path.exists(AVATAR_PATH): return None
