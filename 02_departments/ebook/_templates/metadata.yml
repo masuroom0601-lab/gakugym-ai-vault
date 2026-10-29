@@ -1,0 +1,8 @@
+---
+title: "<タイトル>"
+subtitle: "<サブタイトル>"
+author: "<著者名>"
+lang: ja-JP
+rights: "© 2026 <著者名>"
+# 表紙画像(1600x2560px推奨)。drafts/<book-slug>/cover.jpg に置けば自動で使われる
+---
