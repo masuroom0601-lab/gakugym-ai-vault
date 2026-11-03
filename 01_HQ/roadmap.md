@@ -1700,3 +1700,6 @@ GitHub Actions(`passnavi-probe.yml`、手動実行の調査用)からパスナ�
   慶應「2026年度 一般選抜 統計総括」PDF(2026/4/24公表)を取得し、学部・学科・方式別14項目の
   データ(`02_departments/sougou/ranking/data/2026-keio-general.json`)と描画スクリプト
   (`creative/ranking/render_ranking.py`)で見本動画を作成。②の部署フォルダ`02_departments/sougou/`を新設
+- 同日追記: 倍率ランキングは③massu_smartphoneで投稿することに変更。棒グラフの出方を遅く(1行1.0秒)、
+  1位発表の背景をキャンパス写真(Wikimedia Commons、CC BY-SA 3.0、表記入り)、CTAを③のアバター+
+  勉強風景の動画背景(Mixkit)に。「毎日発信中」は削除。素材取り込み用に`asset-fetch.yml`を追加

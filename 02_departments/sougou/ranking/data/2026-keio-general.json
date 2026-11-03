@@ -98,5 +98,11 @@
    "passers": 291,
    "ratio": 2.6
   }
- ]
+ ],
+ "campus_photo": {
+  "path": "assets/campus_keio.jpg",
+  "credit": "写真:Kentin / Wikimedia Commons(CC BY-SA 3.0)",
+  "source": "https://commons.wikimedia.org/wiki/File:Keio_university.jpg",
+  "license": "CC BY-SA 3.0"
+ }
 }

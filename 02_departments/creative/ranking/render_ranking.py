@@ -170,7 +170,8 @@ def top1(t):
         bold(d, (540, y), r["name"], fit(d, r["name"], 100, 960), "white", "mm", 3)
         y += 170
     ratio = firsts[0]["ratio"]
-    bold(d, (540, y + 80), f"{ratio:.1f}倍", f(int(200 * s)), RED, "mm", 4)
+    # 写真の上でも読めるよう、倍率は黒いフチ付きで描く
+    d.text((540, y + 80), f"{ratio:.1f}倍", font=f(int(200 * s)), fill=RED, anchor="mm", stroke_width=10, stroke_fill="#111111")
     r0 = firsts[0]
     d.text((540, y + 260), f"受験者{r0['examinees']:,}人 / 合格者{r0['passers']:,}人", font=f(44), fill="#c5cbe0", anchor="mm")
     footer(d, light=True)
