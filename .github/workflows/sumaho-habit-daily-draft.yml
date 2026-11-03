@@ -44,6 +44,17 @@ jobs:
           fi
           echo "date=$D" >> "$GITHUB_OUTPUT"
           echo "format=$FMT" >> "$GITHUB_OUTPUT"
+          # 2026-11-03追加: セルフチェック回は「standard(スマホ依存度)」と
+          # 「dopamine(ドーパミン中毒)」を交互に作る(A/Bテスト)。直前のセルフチェック
+          # 台本の checkup_variant を見て反対側にする(記載なし=standard扱い)
+          VAR=""
+          if [ "$FMT" = checkup ]; then
+            LAST=$(grep -l "^reel_format: checkup" 02_departments/sumaho_habit/drafts/task-*-sumaho-001.md 2>/dev/null | grep -v "task-$D-" | sort | tail -1)
+            LASTVAR=$(grep -m1 "^checkup_variant:" "$LAST" 2>/dev/null | awk '{print $2}')
+            if [ "$LASTVAR" = dopamine ]; then VAR=standard; else VAR=dopamine; fi
+            echo "直前のセルフチェック台本: $LAST ($LASTVAR) → 今回: $VAR"
+          fi
+          echo "variant=$VAR" >> "$GITHUB_OUTPUT"
 
       - name: Generate sumaho_habit draft
         uses: anthropics/claude-code-action@v1
@@ -72,6 +83,25 @@ jobs:
             扱うこと。**
 
             ## reel_format: checkup の場合(偶数日)
+            **本日の診断の切り口(checkup_variant): ${{ steps.format.outputs.variant }}**
+            (セルフチェック回ごとに standard と dopamine を交互に作るA/Bテスト中。
+            checkup形式の日は、frontmatterに `checkup_variant: ${{ steps.format.outputs.variant }}`
+            を必ず入れること)
+            - standard: これまで通り「スマホの使い方・依存度」に関するチェック項目。
+              診断ラインの例: 3個以上当てはまったら、スマホに"使われている"状態かも
+            - dopamine: 診断ラインを **「N個以上当てはまったあなたは"ドーパミン中毒"かも」**
+              の形にする(Nは項目数に応じて3〜4)。チェック項目はスマホに限定せず、
+              ゲーム・動画・映画・SNS・集中力など「強い刺激に慣れて勉強に集中できない」
+              行動に幅を広げてよい。項目例:
+              ・1日のゲーム時間が2時間以上
+              ・通学中に英単語帳を開かず、ついゲームをしてしまう
+              ・机に向かうと15分以内に集中力が切れてしまう
+              ・20分以上の長尺動画を最後まで見られない
+              ・サブスクの映画を倍速で見ている
+              タイトル例: 「ドーパミン中毒度チェック」「集中できない脳チェック」
+              (過去30日のタイトルと重ねないルールは同様に守る)。キャプションの改善法も
+              ゲーム・動画を含めた刺激の減らし方にする。「中毒」は医学的な診断ではなく
+              セルフチェックの比喩であることが伝わる柔らかいトーンにし、不安を煽りすぎない
             以下の見出し・書式で台本を書くこと(動画生成スクリプトがこの書式を
             機械的にパースするため、見出し・太字の位置を変えないこと):
             ```
@@ -140,6 +170,7 @@ jobs:
             status: draft
             type: reel
             reel_format: ${{ steps.format.outputs.format }}
+            checkup_variant: <checkup形式の日のみ ${{ steps.format.outputs.variant }} を記入。canva_7rulesの日はこの行自体を書かない>
             approved_by:
             ---
             ```

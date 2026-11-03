@@ -81,7 +81,11 @@ def main():
         except ImportError:
             die("Pillowを使えません")
     title, items, verdict = parse(draft)
-    env = dict(os.environ, REEL_FONT=font, REEL_FFMPEG=ffmpeg)
+    # 2026-11-03追加: frontmatterの checkup_variant (standard / dopamine) で表示ラベルを切り替える
+    m = re.search(r"^checkup_variant:\s*(\w+)", open(draft, encoding="utf-8").read(), re.M)
+    variant = m.group(1) if m else "standard"
+    print("variant:", variant)
+    env = dict(os.environ, REEL_FONT=font, REEL_FFMPEG=ffmpeg, CHECKUP_VARIANT=variant)
     bg = os.path.join(HERE, "end_bg_2.jpg")
     r = subprocess.run([sys.executable, os.path.join(HERE, "render_checkup.py"),
                         title, "|".join(items), verdict, out, bg], env=env)

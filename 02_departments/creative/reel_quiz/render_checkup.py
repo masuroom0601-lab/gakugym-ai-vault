@@ -8,6 +8,13 @@ W,H,FPS=1080,1920,30
 FONT=os.environ["REEL_FONT"]; FFMPEG=os.environ.get("REEL_FFMPEG","ffmpeg")
 title, items, verdict, out = sys.argv[1], sys.argv[2].split("|"), sys.argv[3], sys.argv[4]
 ITEM=2.2; INTRO=1.8; VERDICT=2.8; CTA=3.0
+# 2026-11-03追加: 診断の切り口を2種類で交互にA/Bテストする(益田さんの指示)。
+# standard=スマホ依存度、dopamine=「ドーパミン中毒」(ゲーム・動画・集中力まで広げた版)
+VARIANT=os.environ.get("CHECKUP_VARIANT","standard")
+LABELS={
+    "standard":{"badge":"スマホ習慣","meter":"スマホ依存 危険度","cta":"スマホ対策も見逃さない!"},
+    "dopamine":{"badge":"ドーパミン","meter":"ドーパミン中毒 危険度","cta":"集中力の戻し方も見逃さない!"},
+}[VARIANT if VARIANT in ("standard","dopamine") else "standard"]
 AVATAR_PATH=os.path.join(os.path.dirname(os.path.abspath(__file__)),"avatar.png")
 def circular_avatar(size):
     if not os.path.exists(AVATAR_PATH): return None
@@ -18,14 +25,47 @@ def circular_avatar(size):
 def f(sz): return ImageFont.truetype(FONT, sz)
 def bold(d,xy,t,font,fill,anchor="la",w=2):
     d.text(xy,t,font=font,fill=fill,anchor=anchor,stroke_width=w,stroke_fill=fill)
+CLOSE="、。,.!?!?」』”)ー"
+def _kata(c): return "ァ"<=c<="ヺ" or c=="ー"
+def _kanji(c): return "一"<=c<="鿿"
+def _hira(c): return "ぁ"<=c<="ゖ"
+QUOTES='"“”「」『』'
+def _break_cost(s,k):
+    # s[:k] と s[k:] の間で改行するコスト(小さいほど自然)
+    a,b=s[k-1],s[k]
+    if b in CLOSE or a in "「『“(": return 10**6
+    q=sum(1 for c in s[:k] if c in '"“”')
+    if q%2==1 or s[:k].count("「")>s[:k].count("」"): return 60  # "…"や「…」の途中
+    if b in "をがにでとはのもへや" and not _hira(a): return 35  # 行頭に助詞が来る
+    if a in "、。!?!?」』”)" or (a=='"' and q%2==0): return 0
+    if b in "「『“(" or b=='"': return 0
+    if b in "をがにでとはのもへや" and not _hira(a): return 35  # 行頭に助詞が来る
+    if s[k:].startswith(("あなた","きみ")): return 2
+    if a in "はがをにでもと" and not _hira(b): return 2
+    if (_kata(a) and _kanji(b)) or (_kanji(a) and _hira(b)) or (_hira(a) and _kanji(b)): return 10
+    if (_kanji(a) and _kanji(b)) or (_kata(a) and _kata(b)) or (a.isdigit() and b.isdigit()): return 40
+    if _hira(a) and _hira(b): return 35
+    return 20
 def wrap(d,t,font,maxw):
-    # 日本語は単語間にスペースが無いため、英語用の単語区切りではなく1文字ずつ詰めて折り返す
-    lines,cur=[],""
-    for ch in t:
-        test=cur+ch
-        if d.textlength(test,font=font)<=maxw: cur=test
-        else: lines.append(cur); cur=ch
-    lines.append(cur); return lines
+    # 日本語は単語間にスペースが無いため、2026-11-03に「改行位置を文全体で最適化」
+    # する方式に変更: 熟語や"…"の途中・行頭の句読点を避け、句読点や助詞の後などの
+    # 自然な位置で、なるべく行の長さが揃うように改行する
+    n=len(t); INF=float("inf")
+    best=[INF]*(n+1); prev=[-1]*(n+1); best[0]=0
+    for j in range(1,n+1):
+        for i in range(j-1,-1,-1):
+            w=d.textlength(t[i:j],font=font)
+            if w>maxw and j-i>1: break
+            if best[i]==INF: continue
+            c=best[i]+20
+            if j<n:
+                c+=_break_cost(t,j)+10*((maxw-w)/maxw)**2
+            elif j-i<=3 and i>0:
+                c+=25  # 最終行が2〜3文字だけになるのを避ける
+            if c<best[j]: best[j]=c; prev[j]=i
+    lines=[]; j=n
+    while j>0: lines.append(t[prev[j]:j]); j=prev[j]
+    return lines[::-1]
 def dotted_bg(t=0.0):
     im=Image.new("RGB",(W,H),"white"); d=ImageDraw.Draw(im)
     step=90; off=(t*30)%step
@@ -56,7 +96,7 @@ def title_lines(d,text,maxw):
     head=segs[0]
     if len(head)>7:
         mid=len(head)//2
-        cuts=[i+1 for i,ch in enumerate(head[:-1]) if ch in "のなをにとでがはい" and not ("ぁ"<=head[i+1]<="ゖ") and abs(i+1-mid)<=3]
+        cuts=[i+1 for i,ch in enumerate(head[:-1]) if ((ch in "のなをにとでがはい" and not ("ぁ"<=head[i+1]<="ゖ")) or (_kata(ch) and _kanji(head[i+1]))) and abs(i+1-mid)<=3]
         cut=min(cuts,key=lambda c:abs(c-mid)) if cuts else mid
         segs=[head[:cut],head[cut:]]+segs[1:]
     out=[]
@@ -76,7 +116,7 @@ def intro_frame(t):
     # バッジ上端(top)〜フッター下端までの全体を画面中央(y=960)に寄せる
     top=int(960-(430+total+90+185)/2)
     d.rounded_rectangle((300,top,780,top+120),60,fill="#4472c4",outline="#111111",width=8)
-    outline(d,(540,top+60),"スマホ習慣",f(66),"white","#111111",3)
+    outline(d,(540,top+60),LABELS["badge"],f(66),"white","#111111",3)
     outline(d,(540,top+230),"あなたは何個",f(92),"white","#111111",9)
     outline(d,(540,top+340),"当てはまる?",f(92),"white","#111111",9)
     by0=top+430; by1=by0+total+90
@@ -120,7 +160,7 @@ def danger_meter(d,idx,total,t_local):
     k=min(1.0,t_local/0.4); k=1-(1-k)**3
     v=prev+(cur-prev)*k
     x0,x1,y0,y1=140,940,1560,1630
-    bold(d,(540,1500),"スマホ依存 危険度",f(54),"#111111","mm",2)
+    bold(d,(540,1500),LABELS["meter"],f(54),"#111111","mm",2)
     d.rounded_rectangle((x0,y0,x1,y1),35,fill="#e6e9f2",outline="#c9cfdd",width=4)
     fw=int((x1-x0)*v)
     if fw>40:
@@ -132,7 +172,7 @@ def item_frame(idx,total,text,t_local):
     # ブロックが画面上部に偏って見える、という指摘を受け、ブロック高さに応じて
     # 画面中央寄りに配置するよう変更
     im,d=dotted_bg()
-    badge(d,"スマホ習慣")
+    badge(d,LABELS["badge"])
     bold(d,(1000,175),f"{idx}/{total}",f(50),"#4472c4","rm",1)
     st=expr_stage(idx,total); prev_st=expr_stage(idx-1,total) if idx>1 else st
     sz=440
@@ -200,7 +240,7 @@ def cta_frame(bg,t):
     d.ellipse((bx-bd,by-bd,bx+bd,by+bd),fill="#ffd400",outline="white",width=6)
     bold(d,(bx,by-6),"+",f(70),"#4472c4","mm",2)
     bold(d,(540,730),"フォロー&いいね&保存で",f(58),"white","mm",2)
-    bold(d,(540,805),"スマホ対策も見逃さない!",f(58),"white","mm",2)
+    bold(d,(540,805),LABELS["cta"],f(58),"white","mm",2)
     icons=[("フォロー","follow"),("いいね","heart"),("保存","bookmark")]
     for i,(label,kind) in enumerate(icons):
         ix=270+i*270; iy=1150
