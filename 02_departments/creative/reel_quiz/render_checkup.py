@@ -97,6 +97,36 @@ def checkbox(d,cx,cy,size,checked,scale):
     if checked:
         p=[(cx-s*0.28,cy+s*0.02),(cx-s*0.06,cy+s*0.26),(cx+s*0.32,cy-s*0.26)]
         d.line(p,fill="#e60000",width=int(s*0.12),joint="curve")
+# 2026-11-03追加: 本編シーンの余白を活かすため、上部に大きなアバターを置き、
+# 項目が進むごとに表情が段階的に深刻になる演出(笑顔→苦笑い→焦り→ショック→青ざめ)と、
+# 下部に「スマホ依存 危険度」メーターを追加した(益田さんの提案)。
+# 表情差分はCanvaの画像生成で作成(avatar_expr/stage1〜4.png、stage0は通常のavatar.png)。
+EXPR_DIR=os.path.join(os.path.dirname(os.path.abspath(__file__)),"avatar_expr")
+_expr_cache={}
+def expr_avatar(stage,size):
+    key=(stage,size)
+    if key not in _expr_cache:
+        path=AVATAR_PATH if stage==0 else os.path.join(EXPR_DIR,f"stage{stage}.png")
+        if not os.path.exists(path): path=AVATAR_PATH
+        av=Image.open(path).convert("RGB").resize((size,size),Image.LANCZOS)
+        mask=Image.new("L",(size,size),0); ImageDraw.Draw(mask).ellipse((0,0,size,size),fill=255)
+        o=Image.new("RGBA",(size,size)); o.paste(av,(0,0),mask); _expr_cache[key]=o
+    return _expr_cache[key]
+def expr_stage(idx,total):
+    return 0 if total<=1 else round((idx-1)*4/(total-1))
+def danger_meter(d,idx,total,t_local):
+    # 前の項目の位置から今の項目の位置まで、最初の0.4秒でゲージが伸びる
+    prev,cur=(idx-1)/total,idx/total
+    k=min(1.0,t_local/0.4); k=1-(1-k)**3
+    v=prev+(cur-prev)*k
+    x0,x1,y0,y1=140,940,1560,1630
+    bold(d,(540,1500),"スマホ依存 危険度",f(54),"#111111","mm",2)
+    d.rounded_rectangle((x0,y0,x1,y1),35,fill="#e6e9f2",outline="#c9cfdd",width=4)
+    fw=int((x1-x0)*v)
+    if fw>40:
+        col="#2db84d" if v<0.34 else ("#ffb400" if v<0.67 else "#e60000")
+        d.rounded_rectangle((x0,y0,x0+fw,y1),35,fill=col)
+    bold(d,(x1,y1+55),f"{int(round(v*100))}%",f(50),"#e60000" if v>=0.67 else "#111111","rm",2)
 def item_frame(idx,total,text,t_local):
     # 2026-10-24: 項目の文字数が少ない(1行で収まる)ときに、チェックボックス+文章の
     # ブロックが画面上部に偏って見える、という指摘を受け、ブロック高さに応じて
@@ -104,12 +134,21 @@ def item_frame(idx,total,text,t_local):
     im,d=dotted_bg()
     badge(d,"スマホ習慣")
     bold(d,(1000,175),f"{idx}/{total}",f(50),"#4472c4","rm",1)
+    st=expr_stage(idx,total); prev_st=expr_stage(idx-1,total) if idx>1 else st
+    sz=440
+    if st!=prev_st and t_local<0.3:
+        sz=int(440*(1+0.12*math.sin(math.pi*t_local/0.3)))  # 表情が変わる瞬間だけ軽く弾ませる
+    cy=560
+    ring="#4472c4" if st<2 else ("#ffb400" if st<4 else "#e60000")
+    d.ellipse((540-sz//2-12,cy-sz//2-12,540+sz//2+12,cy+sz//2+12),fill=ring)
+    av=expr_avatar(st,sz); im.paste(av,(540-sz//2,cy-sz//2),av)
+    danger_meter(d,idx,total,t_local)
     checked = t_local>0.35
     scale = min(1.0, 0.7+0.3*min(1.0,t_local/0.35)) if checked else 1.0
     lines=wrap(d,text,f(66),760)
     line_h=92
     block_h=line_h*len(lines)
-    ty=1060-block_h/2
+    ty=1130-block_h/2
     for i,l in enumerate(lines):
         bold(d,(280,ty+i*line_h),l,f(66),"#111111","la",2)
     checkbox(d,180,ty+block_h/2-18,140,checked,scale)
