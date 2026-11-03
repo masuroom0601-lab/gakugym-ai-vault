@@ -106,22 +106,32 @@ def fit_font(d, text, size, min_size=28):
 
 def draw_classic(im, d, days_left, msg, target):
     # 2026-11-03以前の「中央を空けない」デザイン(ca47ad6の直前の版を復元)
-    bold(d, (540, 300), "共通テスト", fm(104), "white", "mm", 1)
-    bold(d, (540, 430), "C O U N T D O W N", f(48), "white", "mm", 1)
+    # 2026-11-03調整: 数字だけだと何の数字か分かりにくいとの指摘で、白箱の中を
+    # 「あと [数字] 日」の並びにし、数字の下の「あと何日?」は削除した。
+    # 空いた分、下のブロックを詰めて全体を少し下げて上下のバランスを取っている。
+    Y = 40  # 全体の下げ幅
+    bold(d, (540, 300 + Y), "共通テスト", fm(104), "white", "mm", 1)
+    bold(d, (540, 430 + Y), "C O U N T D O W N", f(48), "white", "mm", 1)
 
-    box_w, box_h = 760, 480
-    box = (W // 2 - box_w // 2, 640, W // 2 + box_w // 2, 640 + box_h)
-    d.rounded_rectangle(box, 40, fill="white")
-    bold(d, (W // 2, 640 + box_h // 2), str(days_left), f(300), "#e60000", "mm", 4)
-
-    bold(d, (540, 1200), "あと何日?", f(64), "white", "mm", 2)
+    box_w, box_h = 900, 480
+    by0 = 640 + Y
+    d.rounded_rectangle((W // 2 - box_w // 2, by0, W // 2 + box_w // 2, by0 + box_h), 40, fill="white")
+    num = str(days_left)
+    fa, fn, fd = f(80), f(300), f(120)
+    wa, wn, wd = d.textlength("あと", font=fa), d.textlength(num, font=fn), d.textlength("日", font=fd)
+    gap = 22
+    x = W // 2 - (wa + gap + wn + gap + wd) / 2
+    cy = by0 + box_h // 2
+    bold(d, (x, cy + 95), "あと", fa, "#16235c", "ls", 2)
+    bold(d, (x + wa + gap + wn / 2, cy), num, fn, "#e60000", "mm", 4)
+    bold(d, (x + wa + gap + wn + gap, cy + 95), "日", fd, "#16235c", "ls", 2)
 
     av = circular_avatar(150)
     if av is not None:
-        im.paste(av, (W // 2 - 75, 1340), av)
+        im.paste(av, (W // 2 - 75, by0 + box_h + 110), av)
 
-    bold(d, (540, 1580), msg, fit_font(d, msg, 42), "white", "mm", 1)
-    bold(d, (540, 1660), target.strftime("%Y年%m月%d日(土)午前9時30分開始予定"), f(32), "#aab4d6", "mm", 1)
+    bold(d, (540, by0 + box_h + 340), msg, fit_font(d, msg, 42), "white", "mm", 1)
+    bold(d, (540, by0 + box_h + 420), target.strftime("%Y年%m月%d日(土)午前9時30分開始予定"), f(32), "#aab4d6", "mm", 1)
 
 
 def draw_lyrics(im, d, days_left, msg, target):
