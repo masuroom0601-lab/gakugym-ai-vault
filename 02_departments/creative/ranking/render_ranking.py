@@ -138,14 +138,30 @@ ROW_TOP = 300 + max(0, (1460 - N * ROW_H) // 2)
 LABEL_X, BAR_X0, BAR_X1 = 165, 520, 830  # 2桁倍率(19.0倍等)と重ならない幅
 
 
-def ranking(t):
-    """下位から1行ずつ棒が伸びて表示される"""
+# 2026-11-03: 学科・方式が多い大学(早稲田など)は「学科ごと全部」を複数画面に分けて見せる
+# (益田さんの指示)。1画面15行。下位のページから順に発表し、最後に1〜15位のページを見せる。
+# 1画面だけの大学は従来どおり1行1.0秒、複数画面の大学は動画が長くなりすぎないよう1行0.3秒。
+PER_PAGE = 15
+PAGES = [ranked[i:i + PER_PAGE] for i in range(0, N, PER_PAGE)]
+MULTI = len(PAGES) > 1
+PSTEP, PHOLD = (0.3, 1.6) if MULTI else (STEP, HOLD)
+if MULTI:
+    ROW_H = int(1460 / PER_PAGE)
+    ROW_TOP = 300
+
+
+def ranking_page(pi, t):
+    """pi番目のページ(0=1位〜)を、下の行から1行ずつ棒を伸ばして表示する"""
+    rows_p = PAGES[pi]
+    n = len(rows_p)
     im, d = base()
-    bold(d, (540, 130), f"{data['short']} {data['selection']} 倍率ランキング", fit(d, f"{data['short']} {data['selection']} 倍率ランキング", 62, 980), NAVY, "mm", 2)
-    d.text((540, 205), f"{YEAR}年度入試結果", font=f(38), fill=GRAY, anchor="mm")
-    shown = int(t / STEP) + 1  # 下から何行出ているか
-    for i, (rk, r) in enumerate(ranked):
-        order_from_bottom = N - 1 - i
+    title = f"{data['short']} {data['selection']} 倍率ランキング"
+    bold(d, (540, 130), title, fit(d, title, 62, 980), NAVY, "mm", 2)
+    sub = f"{YEAR}年度入試結果" + (f"  ({pi + 1}/{len(PAGES)}ページ・全{N}学科/方式)" if MULTI else "")
+    d.text((540, 205), sub, font=fit(d, sub, 38, 980), fill=GRAY, anchor="mm")
+    shown = int(t / PSTEP) + 1
+    for i, (rk, r) in enumerate(rows_p):
+        order_from_bottom = n - 1 - i
         y = ROW_TOP + i * ROW_H + ROW_H // 2
         visible = order_from_bottom < shown
         top3 = rk is not None and rk <= 3
@@ -155,12 +171,12 @@ def ranking(t):
             d.text((LABEL_X - 60, y), "?", font=f(40), fill="#c9cfdd", anchor="mm")
             d.rounded_rectangle((BAR_X0, y - 16, BAR_X1, y + 16), 16, fill="#e4e7f0")
             continue
-        k = min(1.0, (t - order_from_bottom * STEP) / 0.6)
+        k = min(1.0, (t - order_from_bottom * PSTEP) / min(0.6, PSTEP * 2))
         k = 1 - (1 - k) ** 3
         rcol = RED if rk == 1 else (NAVY if rk else GRAY)
-        bold(d, (LABEL_X - 60, y), f"{rk}" if rk else "-", f(46 if top3 else 40), rcol, "mm", 2)
+        bold(d, (LABEL_X - 60, y), f"{rk}" if rk else "-", f(46 if top3 else (40 if (rk or 0) < 100 else 32)), rcol, "mm", 2)
         d.text((LABEL_X - 30, y + 18), "位" if rk else "", font=f(22), fill=rcol, anchor="lm")
-        bold(d, (LABEL_X, y), r["name"], fit(d, r["name"], 40, BAR_X0 - LABEL_X - 20), "#111111", "lm", 1)
+        bold(d, (LABEL_X, y), r["name"], fit(d, r["name"], 40, BAR_X0 - LABEL_X - 20, 20), "#111111", "lm", 1)
         d.rounded_rectangle((BAR_X0, y - 16, BAR_X1, y + 16), 16, fill="#e4e7f0")
         if r.get("ratio") is not None:
             bw = int((BAR_X1 - BAR_X0) * (r["ratio"] / maxr) * k)
@@ -335,8 +351,9 @@ p = subprocess.Popen([FFMPEG, "-y", "-v", "error", "-f", "rawvideo", "-pix_fmt",
                       "-an", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18", out], stdin=subprocess.PIPE)
 for i in range(int(COVER * FPS)):
     p.stdin.write(cover(i / FPS).tobytes())
-for i in range(int((N * STEP + HOLD) * FPS)):
-    p.stdin.write(ranking(i / FPS).tobytes())
+for pi in reversed(range(len(PAGES))):  # 下位のページから順に、最後に1位のページ
+    for i in range(int((len(PAGES[pi]) * PSTEP + PHOLD) * FPS)):
+        p.stdin.write(ranking_page(pi, i / FPS).tobytes())
 for i in range(int(TOP1 * FPS)):
     p.stdin.write(top1(i / FPS).tobytes())
 for i in range(int(PROMO * FPS)):
