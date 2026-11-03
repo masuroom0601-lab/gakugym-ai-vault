@@ -29,7 +29,14 @@ COVER, STEP, HOLD, TOP1, CTA = 2.2, 1.0, 1.8, 2.8, 3.0  # 2026-11-03: 棒の出�
 data = json.load(open(sys.argv[1], encoding="utf-8"))
 out = sys.argv[2]
 YEAR = int(data["year"])
-assert YEAR == 2026, "2026年度以外のデータは使わない(益田さんの指示)"
+# 2025年度以前のデータは絶対に使わない(益田さんの指示)。一般選抜は2026年度に統一。
+# 総合型は2026-11-03の益田さんの判断で「最終結果がそろった最新の年度」(2026年度以降)を使う
+assert YEAR >= 2026, "2025年度以前のデータは使わない"
+if data["selection"] == "一般選抜":
+    assert YEAR == 2026, "一般選抜は2026年度で統一"
+# 分母・分子の種類(総合型は受験者数が公表されないことが多いので志願者数で割る)
+COUNT_KEY = data.get("count_key", "examinees")
+COUNT_LABEL = {"examinees": "受験者", "applicants": "志願者"}[COUNT_KEY]
 
 
 def f(sz):
@@ -48,7 +55,7 @@ def fit(d, t, size, maxw, min_size=24):
 
 # 順位: 倍率の高い順。非公開は最下段にまとめる。表示上の倍率(小数1桁)が同じなら同順位
 rows = data["rows"]
-pub = sorted([r for r in rows if r.get("ratio") is not None], key=lambda r: -r["examinees"] / r["passers"])
+pub = sorted([r for r in rows if r.get("ratio") is not None], key=lambda r: -r[COUNT_KEY] / r["passers"])
 hidden = [r for r in rows if r.get("ratio") is None]
 ranked, prev, rank = [], None, 0
 for i, r in enumerate(pub):
@@ -61,8 +68,8 @@ for r in hidden:
 N = len(ranked)
 maxr = max([r["ratio"] for _, r in ranked if r.get("ratio")] or [1])
 
-SRC = f"出典:{data['source']['publisher']}「{data['source']['title']}」({data['source']['published'].replace('-', '/')}公表)"
-FORMULA = "倍率=受験者数÷合格者数"
+SRC = data["source"].get("footer") or f"出典:{data['source']['publisher']}「{data['source']['title']}」({data['source']['published'].replace('-', '/')}公表)"
+FORMULA = f"倍率={COUNT_LABEL}数÷合格者数"
 
 
 def footer(d, light=False, col=None):
@@ -121,8 +128,10 @@ def cover(t):
     return im
 
 
-ROW_TOP, ROW_H = 300, min(96, int(1460 / max(N, 1)))
-LABEL_X, BAR_X0, BAR_X1 = 165, 520, 900
+# 項目が少ない大学でも上に寄らないよう、行間を広げて縦方向の中央に配置する
+ROW_H = min(150, int(1460 / max(N, 1)))
+ROW_TOP = 300 + max(0, (1460 - N * ROW_H) // 2)
+LABEL_X, BAR_X0, BAR_X1 = 165, 520, 830  # 2桁倍率(19.0倍等)と重ならない幅
 
 
 def ranking(t):
@@ -198,7 +207,7 @@ def top1(t):
     # 写真の上でも読めるよう、倍率は黒いフチ付きで描く
     d.text((540, y + 80), f"{ratio:.1f}倍", font=f(int(200 * s)), fill=RED, anchor="mm", stroke_width=10, stroke_fill="#111111")
     r0 = firsts[0]
-    d.text((540, y + 260), f"受験者{r0['examinees']:,}人 / 合格者{r0['passers']:,}人", font=f(44), fill="#c5cbe0", anchor="mm")
+    d.text((540, y + 260), f"{COUNT_LABEL}{r0[COUNT_KEY]:,}人 / 合格者{r0['passers']:,}人", font=f(44), fill="#c5cbe0", anchor="mm")
     footer(d, light=True)
     return im
 

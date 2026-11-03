@@ -1,0 +1,92 @@
+{
+ "university": "慶應義塾大学",
+ "short": "慶應",
+ "selection": "総合型選抜",
+ "year": 2026,
+ "count_key": "applicants",
+ "source": {
+  "publisher": "慶應義塾大学",
+  "title": "2026年度 各総合型選抜 選考結果",
+  "published": "各学部公表資料",
+  "items": [
+   {
+    "row": "文学部 自主応募推薦",
+    "title": "2026年度 文学部自主応募制による推薦入学者選考 選考結果",
+    "url": "https://www.keio.ac.jp/files/a098a2280e0a9ab1794d5cfcb8fc1fc5d4b029c207cb9356cd23d4d1b2a3aefd",
+    "year_evidence": "PDF1行目「2026年度 文学部自主応募制による推薦入学者選考 選考結果」"
+   },
+   {
+    "row": "理工学部 分野志向型",
+    "title": "2026年度 理工学部分野志向型入試 選考結果",
+    "url": "https://www.keio.ac.jp/files/6d21055fc4e4b9a063311a0e610f226919fe714a0b01333e24e8dabf447767b3",
+    "year_evidence": "PDF1行目「2026年度 理工学部分野志向型入試 選考結果」(電気情報工・数理科学・化学の3学科合計。学科別は非公表)"
+   },
+   {
+    "row": "看護医療 AO A方式/B方式",
+    "title": "2027年度 看護医療学部AO入試 募集要項 内「参考資料:2026年度看護医療学部AO入試選考結果」",
+    "url": "https://www.keio.ac.jp/files/78bb2b33e13d960cf023ba26c5f4da22fcc891f6acaedbd7629514b64260f29b",
+    "year_evidence": "表題「参考資料:2026年度看護医療学部AO入試選考結果」(出願者数A=男4+女48、B=女19)"
+   },
+   {
+    "row": "法学部 FIT入試",
+    "title": "非公開",
+    "url": null,
+    "year_evidence": "2026年度選考結果PDFは公式サイトから削除済み(2026-11-03確認、益田さんの判断で非公開表示)"
+   },
+   {
+    "row": "総合政策・環境情報 AO",
+    "title": "非公開",
+    "url": null,
+    "year_evidence": "公式サイトで2026年度の選考結果を確認できず(2026-11-03確認、益田さんの判断で非公開表示)"
+   }
+  ],
+  "fetched": "2026-11-03",
+  "footer": "出典:慶應義塾大学 各学部「2026年度 選考結果」(公式サイト・募集要項)/非公開=公式に未掲載"
+ },
+ "formula": "志願者数÷最終合格者数(総合型の公表資料に受験者数が無いため)",
+ "rows": [
+  {
+   "name": "文学部 自主応募推薦",
+   "applicants": 390,
+   "passers": 116,
+   "ratio": 3.4
+  },
+  {
+   "name": "理工学部 分野志向型",
+   "applicants": 19,
+   "passers": 9,
+   "ratio": 2.1
+  },
+  {
+   "name": "看護医療 AO A方式",
+   "applicants": 52,
+   "passers": 5,
+   "ratio": 10.4
+  },
+  {
+   "name": "看護医療 AO B方式",
+   "applicants": 19,
+   "passers": 1,
+   "ratio": 19.0
+  },
+  {
+   "name": "法学部 FIT入試",
+   "ratio": null
+  },
+  {
+   "name": "総合政策・環境情報 AO",
+   "ratio": null
+  }
+ ],
+ "campus_photo": {
+  "path": "assets/campus_keio.jpg",
+  "credit": "写真:Kentin / Wikimedia Commons(CC BY-SA 3.0)",
+  "source": "https://commons.wikimedia.org/wiki/File:Keio_university.jpg",
+  "license": "CC BY-SA 3.0"
+ },
+ "school_color": {
+  "hex": "#0b2a6b",
+  "name": "三色旗の紺",
+  "note": "慶應の三色旗(紺・赤・紺)の紺"
+ }
+}
