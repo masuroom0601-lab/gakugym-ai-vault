@@ -111,24 +111,36 @@ def main():
 
     im, d = navy_bg()
 
-    # 見出し(ミンチョ体で「共通テスト」、下にアルファベットで「COUNTDOWN」)
-    bold(d, (540, 300), "共通テスト", fm(104), "white", "mm", 1)
-    bold(d, (540, 430), "C O U N T D O W N", f(48), "white", "mm", 1)
+    # 2026-11-03レイアウト変更: ストーリーズで音源の「歌詞スタンプ」を載せると
+    # 見出しと数字の間に入り込んで窮屈になる、との指摘を受け、画面中央
+    # (y=LYRIC_TOP〜LYRIC_BOTTOM)を歌詞用の空きスペースとして何も置かないようにした。
+    # 上は見出し+数字、下はアイコン+一言にまとめる。上端・下端はストーリーズの
+    # UI(プロフィール名・返信欄)と重ならないよう余白を取る。
+    LYRIC_TOP, LYRIC_BOTTOM = 830, 1400
 
-    # 白箱+赤字の大きな数字(角丸にして元ネタの直角ボックスと差別化)
-    box_w, box_h = 760, 480
-    box = (W // 2 - box_w // 2, 640, W // 2 + box_w // 2, 640 + box_h)
-    d.rounded_rectangle(box, 40, fill="white")
-    bold(d, (W // 2, 640 + box_h // 2), str(days_left), f(300), "#e60000", "mm", 4)
+    bold(d, (540, 270), "共通テスト", fm(96), "white", "mm", 1)
+    bold(d, (540, 375), "C O U N T D O W N", f(44), "white", "mm", 1)
 
-    bold(d, (540, 1200), "あと何日?", f(64), "white", "mm", 2)
+    # 白箱の中に「あと [数字] 日」を1行で収める
+    box_w, box_h = 820, 320
+    by0 = 450
+    d.rounded_rectangle((W // 2 - box_w // 2, by0, W // 2 + box_w // 2, by0 + box_h), 40, fill="white")
+    num = str(days_left)
+    fa, fn, fd = f(64), f(250), f(96)
+    wa, wn, wd = d.textlength("あと", font=fa), d.textlength(num, font=fn), d.textlength("日", font=fd)
+    gap = 18
+    x = W // 2 - (wa + gap + wn + gap + wd) / 2
+    cy = by0 + box_h // 2
+    bold(d, (x, cy + 70), "あと", fa, "#16235c", "ls", 2)
+    bold(d, (x + wa + gap + wn / 2, cy), num, fn, "#e60000", "mm", 4)
+    bold(d, (x + wa + gap + wn + gap, cy + 70), "日", fd, "#16235c", "ls", 2)
 
-    av = circular_avatar(150)
+    av = circular_avatar(120)
     if av is not None:
-        im.paste(av, (W // 2 - 75, 1340), av)
+        im.paste(av, (W // 2 - 60, LYRIC_BOTTOM + 40), av)
 
-    bold(d, (540, 1580), msg, f(42), "white", "mm", 1)
-    bold(d, (540, 1660), target.strftime("%Y年%m月%d日(土)午前9時30分開始予定"), f(32), "#aab4d6", "mm", 1)
+    bold(d, (540, LYRIC_BOTTOM + 220), msg, f(42), "white", "mm", 1)
+    bold(d, (540, LYRIC_BOTTOM + 290), target.strftime("%Y年%m月%d日(土)午前9時30分開始予定"), f(32), "#aab4d6", "mm", 1)
 
     im.save(out_path)
     print(f"days_left={days_left} target={target.isoformat()}")
