@@ -10,6 +10,10 @@ name: countdown-story-image
 on:
   schedule:
     - cron: '0 20 * * *'   # 毎日05:00 JST
+    # 2026-11-03追加: GitHub Actionsの定時実行が混雑で大幅に遅れる/飛ばされることがあり、
+    # 11/3分が昼になっても生成されなかったため予備の時刻を追加(生成済みの日はスキップされる)
+    - cron: '0 0 * * *'    # 予備: 毎日09:00 JST
+    - cron: '0 3 * * *'    # 予備: 毎日12:00 JST
   workflow_dispatch: {}
 
 env:
