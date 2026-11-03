@@ -1,0 +1,68 @@
+name: source-probe
+
+# 2026-11-03追加: 「大学 学部別倍率ランキング」リール(②総合型選抜アカウント)の
+# 情報源=各大学の公式発表(入試結果ページ・PDF)を GitHub Actions から読み、
+# 内容をログに出す調査用ワークフロー(手動実行のみ)。
+# 開発環境からは大学サイトに直接接続できないため、Actions経由で確認する。
+# (旧 passnavi-probe.yml。パスナビは利用規約上、商用の二次利用ができないため使わない)
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: '調べるURL(HTMLまたはPDF)'
+        required: true
+      grep:
+        description: 'リンク・本文から抜き出す行の正規表現(空なら先頭から出す)'
+        required: false
+        default: ''
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install tools
+        run: sudo apt-get install -y -qq poppler-utils >/dev/null
+      - name: Fetch
+        env:
+          URL: ${{ github.event.inputs.url }}
+          GREP: ${{ github.event.inputs.grep }}
+        run: |
+          curl -sSL -A "Mozilla/5.0 (compatible; gakugym-research/1.0)" -o doc.bin -D headers.txt -w "status=%{http_code} final=%{url_effective} type=%{content_type}\n" "$URL" || true
+          ls -l doc.bin || exit 0
+          if head -c 5 doc.bin | grep -q "%PDF"; then
+            pdfinfo doc.bin | grep -E "Pages|CreationDate|ModDate|Title" || true
+            pdftotext -layout doc.bin doc.txt
+            python3 - <<'PY'
+          import re, os
+          g = os.environ.get("GREP", "")
+          lines = [l.rstrip() for l in open("doc.txt", encoding="utf-8", errors="replace") if l.strip()]
+          print("=== pdf text (%d lines) ===" % len(lines))
+          sel = [l for l in lines if re.search(g, l)] if g else lines
+          for l in sel[:900]: print(l)
+          PY
+          else
+            python3 - <<'PY'
+          import re, html, os
+          from urllib.parse import urljoin
+          raw = open("doc.bin", encoding="utf-8", errors="replace").read()
+          base = os.environ["URL"]
+          g = os.environ.get("GREP", "")
+          print("=== title:", re.search(r"<title>(.*?)</title>", raw, re.S).group(1).strip() if "<title>" in raw else "-")
+          # リンクはテキスト付きで出す
+          pairs = re.findall(r'<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', raw, re.S)
+          out = []
+          for h, t in pairs:
+              t = html.unescape(re.sub(r"<[^>]+>", "", t)).strip()
+              line = f"{t} -> {urljoin(base, h)}"
+              if not g or re.search(g, line): out.append(line)
+          print("=== links (%d / %d) ===" % (len(out), len(pairs)))
+          for l in out[:400]: print(l)
+          txt = re.sub(r"<script.*?</script>|<style.*?</style>", " ", raw, flags=re.S)
+          txt = html.unescape(re.sub(r"<[^>]+>", "\n", txt))
+          lines = [l.strip() for l in txt.splitlines() if l.strip()]
+          print("=== text ===")
+          sel = [l for l in lines if re.search(g, l)] if g else lines[:400]
+          for l in sel[:600]: print(l)
+          PY
+          fi
