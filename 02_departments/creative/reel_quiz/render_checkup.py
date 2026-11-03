@@ -13,7 +13,7 @@ ITEM=2.2; INTRO=1.8; VERDICT=2.8; CTA=3.0
 VARIANT=os.environ.get("CHECKUP_VARIANT","standard")
 LABELS={
     "standard":{"badge":"スマホ習慣","meter":"スマホ依存 危険度","cta":"スマホ対策も見逃さない!"},
-    "dopamine":{"badge":"ドーパミン","meter":"ドーパミン中毒 危険度","cta":"集中力の戻し方も見逃さない!"},
+    "dopamine":{"badge":"ドーパミン","meter":"ドーパミン中毒 危険度","cta":"勉強に集中するコツも見逃さない!"},
 }[VARIANT if VARIANT in ("standard","dopamine") else "standard"]
 AVATAR_PATH=os.path.join(os.path.dirname(os.path.abspath(__file__)),"avatar.png")
 def circular_avatar(size):
@@ -209,8 +209,22 @@ def verdict_frame(bg,t):
     n=len(lines)
     block_h=line_h*n+gap1+cta_h+gap2
     y0=1040-block_h/2
+    # 2026-11-03: 「ドーパミン中毒」の語だけ赤で強調する(益田さんの指示)
+    RED_WORDS=["ドーパミン中毒"]
+    red=set()
+    for wd in RED_WORDS:
+        st=verdict.find(wd)
+        while st>=0:
+            red.update(range(st,st+len(wd))); st=verdict.find(wd,st+1)
+    pos=0; fv=f(76)
     for i,l in enumerate(lines):
-        bold(d,(540,y0+i*line_h),l,f(76),"white","mm",3)
+        pos=verdict.find(l,pos)
+        x=540-d.textlength(l,font=fv)/2; y=y0+i*line_h
+        for j,ch in enumerate(l):
+            col="#ff3030" if pos+j in red else "white"
+            bold(d,(x,y),ch,fv,col,"lm",3)
+            x+=d.textlength(ch,font=fv)
+        pos+=len(l)
     cta_y=y0+line_h*n+gap1
     bold(d,(540,cta_y),"改善法は概要欄へ!",f(90),"#ffd400","mm",3)
     arrow_y=cta_y+gap2

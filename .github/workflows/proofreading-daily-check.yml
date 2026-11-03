@@ -3,7 +3,16 @@ name: proofreading-daily-check
 on:
   schedule:
     - cron: '10 21 * * *'   # 毎日 06:10 JST(下書き生成の直後、秘書担当・統括担当の前)
+  # 2026-11-03追加: ③(sumaho_habit)の下書きは生成に時間がかかり06:10に間に合わないことが
+  # あるため、下書き生成ワークフローの完了直後にも走らせる
+  workflow_run:
+    workflows: ["sumaho-habit-daily-draft"]
+    types: [completed]
   workflow_dispatch: {}
+
+concurrency:
+  group: proofreading-daily-check
+  cancel-in-progress: false
 
 env:
   TZ: Asia/Tokyo   # 日本時間で日付を扱うため(UTCのままだとJST朝のcronで日付が1日ずれる不具合があった)
@@ -17,6 +26,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: main
 
       - name: Proofread pending drafts
         uses: anthropics/claude-code-action@v1
@@ -31,13 +42,16 @@ jobs:
             以下の日次業務を実行してください。
 
             ## 対象範囲
-            以下4部署の drafts/ フォルダ内で、frontmatterの status が
+            以下5部署の drafts/ フォルダ内で、frontmatterの status が
             "draft" になっているファイルすべてを対象とする
             (review/todo/published等、他のstatusのファイルは対象外):
             - 02_departments/instagram_tiktok/drafts/
             - 02_departments/x_threads/drafts/
             - 02_departments/note_ameba/drafts/
             - 02_departments/line/drafts/
+            - 02_departments/sumaho_habit/drafts/(2026-11-03追加。ただしファイル名の
+              日付が今日(JST)から2日前以降のものだけ。それより古い③の下書きは投稿済みの
+              ため対象外)
 
             対象ファイルが1件もない場合は、何もせず終了してよい(コミットも不要)。
 
@@ -50,6 +64,20 @@ jobs:
                フォーマット通りか
             4. (該当ファイルがあれば)クリエイティブ担当が生成した画像/動画の
                文字化けチェック指示が明記されているか
+            5. 【sumaho_habit(③massu_smartphone)のみ】02_departments/sumaho_habit/department.md
+               のルールに沿っているか。特に:
+               - 学ジムのロゴ・サービス名・送客(LINE誘導等)が入っていない(③は送客しない)。
+                 キャプションに #学ジム が無く、ハッシュタグは5個以内
+               - 科目知識の勉強法Tipsではなく、スマホ対策・習慣化(dopamine版はゲーム・動画・
+                 集中力まで可)の内容になっている
+               - checkup形式: チェック項目が4〜8個、「**タイトル**:」「**チェック項目**:」
+                 「**診断ライン**:」の書式が崩れていない(動画生成が機械的に読むため)。
+                 frontmatterに checkup_variant があり、dopamine版なら診断ラインが
+                 「N個以上当てはまったあなたは"ドーパミン中毒"かも」の形で、「中毒」を
+                 病気の診断のように断定したり不安を煽りすぎたりしていない
+               - canva_7rules形式: 項目が①〜⑦のちょうど7個
+               - 直近30日の③の台本とタイトルが重複していない(title_checked_against の記載)
+               - キャプションの改善法がチェック項目・7項目と対応している
 
             ## 判定と更新方法(ファイルの移動は行わず、frontmatterのみ変更する)
             - 問題がない場合:
@@ -75,4 +103,5 @@ jobs:
             git config user.email "bot@example.com"
             git add 02_departments/*/drafts/
             git commit -m "proofreading check $(date +%F)"
-            git push
+            git pull --rebase origin main
+            git push origin HEAD:main

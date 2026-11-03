@@ -20,6 +20,9 @@ reports_to: 統括担当
 
 ## 自動化メモ
 - `.github/workflows/proofreading-daily-check.yml` が毎日06:10 JSTに実行
-- 対象は instagram_tiktok / x_threads / note_ameba / line の drafts/ で status: draft のもの
+- 対象は instagram_tiktok / x_threads / note_ameba / line / sumaho_habit の drafts/ で status: draft のもの
+  (sumaho_habitは2026-11-03追加。直近2日分のみ。③専用のチェック項目
+  〔送客なし・書式・dopamine版の表現・重複〕はワークフローのプロンプトに記載。
+  ③の下書き生成ワークフロー完了直後にも自動で走る)
 - ファイルの物理的な移動は行わず、frontmatterの status のみを変更する
   (status: review = 校正担当のチェック済み・あなたの最終承認待ち)
