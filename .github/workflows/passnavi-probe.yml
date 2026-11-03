@@ -33,12 +33,13 @@ jobs:
           raw = open("page.html", encoding="utf-8", errors="replace").read()
           links = sorted(set(re.findall(r'href="([^"]+)"', raw)))
           print("=== title:", re.search(r"<title>(.*?)</title>", raw, re.S).group(1).strip() if "<title>" in raw else "-")
-          print("=== links (%d) ===" % len(links))
-          for l in links[:400]: print(l)
+          g = os.environ.get("GREP", "")
+          sl = [l for l in links if re.search(g, l)] if g else links
+          print("=== links (%d / %d) ===" % (len(sl), len(links)))
+          for l in sl[:400]: print(l)
           txt = re.sub(r"<script.*?</script>|<style.*?</style>", " ", raw, flags=re.S)
           txt = html.unescape(re.sub(r"<[^>]+>", "\n", txt))
           lines = [l.strip() for l in txt.splitlines() if l.strip()]
-          g = os.environ.get("GREP", "")
           print("=== text ===")
           sel = [l for l in lines if re.search(g, l)] if g else lines[:400]
           for l in sel[:600]: print(l)
