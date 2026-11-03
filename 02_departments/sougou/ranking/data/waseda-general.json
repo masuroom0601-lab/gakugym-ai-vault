@@ -1,0 +1,126 @@
+{
+ "university": "早稲田大学",
+ "short": "早稲田",
+ "selection": "一般選抜",
+ "year": 2026,
+ "count_key": "examinees",
+ "source": {
+  "publisher": "早稲田大学",
+  "title": "2026年度一般選抜および大学入学共通テスト利用入学試験結果(学部・学科・専修別 志願者数・受験者数・合格者数・補欠者数)",
+  "url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf",
+  "index_url": "https://www.waseda.jp/inst/admission/undergraduate/result/",
+  "published": "2026-05",
+  "fetched": "2026-11-03",
+  "year_evidence": "PDF本文1行目「2026年度一般選抜および大学入学共通テスト利用入学試験結果」/公式「近年の入試結果」ページの「2026年度入試結果」見出し配下に掲載/PDF作成日 2026-05-09/URLのアップロード月 2026/05(ページ・PDFに正確な公表日の記載なし)"
+ },
+ "footer": "出典:早稲田大学「2026年度一般選抜および大学入学共通テスト利用入学試験結果」(2026/5公表)",
+ "formula": "受験者数÷合格者数(合格者数=一般選抜の合格者数+補欠からの合格者数。学部内の学科・方式を合計。共通テスト利用は除く)",
+ "rows": [
+  {
+   "name": "文学部",
+   "examinees": 12078,
+   "passers": 1196,
+   "ratio": 10.1,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "商学部",
+   "examinees": 10701,
+   "passers": 1102,
+   "ratio": 9.7,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "文化構想学部",
+   "examinees": 10664,
+   "passers": 1105,
+   "ratio": 9.7,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育学部",
+   "examinees": 12527,
+   "passers": 2126,
+   "ratio": 5.9,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "法学部",
+   "examinees": 3976,
+   "passers": 770,
+   "ratio": 5.2,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "社会科学部",
+   "examinees": 4768,
+   "passers": 996,
+   "ratio": 4.8,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "国際教養学部",
+   "examinees": 1371,
+   "passers": 300,
+   "ratio": 4.6,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "人間科学部",
+   "examinees": 4284,
+   "passers": 1031,
+   "ratio": 4.2,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "創造理工学部",
+   "examinees": 2907,
+   "passers": 732,
+   "ratio": 4.0,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "先進理工学部",
+   "examinees": 3783,
+   "passers": 953,
+   "ratio": 4.0,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "基幹理工学部",
+   "examinees": 3739,
+   "passers": 1005,
+   "ratio": 3.7,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "スポーツ科学部",
+   "examinees": 1062,
+   "passers": 310,
+   "ratio": 3.4,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "政治経済学部",
+   "examinees": 2277,
+   "passers": 696,
+   "ratio": 3.3,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  }
+ ],
+ "school_color": {
+  "hex": "#8e1729",
+  "name": "WASEDA Red(えんじ)",
+  "note": "早稲田大学公式「UIのカラーシステム」(https://www.waseda.jp/top/assets/uploads/2021/06/UI3001.png)でWASEDA RedがR142 G23 B40 = #8E1729と指定"
+ },
+ "campus_photo": {
+  "path": "assets/campus_waseda.jpg",
+  "credit": "写真:Kakidai / Wikimedia Commons(CC BY-SA 4.0)",
+  "source": "https://commons.wikimedia.org/wiki/File:Waseda_University_2014.JPG",
+  "license": "CC BY-SA 4.0"
+ },
+ "caption": "早稲田で一番倍率が高い学部、知ってる?\n\n2026年度の一般選抜(学部別入試)で倍率が高かったのはこの3つ。\n1位 文学部 10.1倍\n2位 商学部 9.7倍\n3位 文化構想学部 9.7倍\n(倍率=受験者数÷合格者数。補欠からの合格者を含み、学部内の学科・方式は合計。共通テスト利用は除く)\n\n出典:早稲田大学公式発表(2026年度一般選抜および大学入学共通テスト利用入学試験結果)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #早稲田大学 #一般選抜 #受験生",
+ "factcheck": {
+  "status": "pending"
+ }
+}
