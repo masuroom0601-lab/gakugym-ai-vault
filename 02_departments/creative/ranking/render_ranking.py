@@ -65,8 +65,8 @@ SRC = f"出典:{data['source']['publisher']}「{data['source']['title']}」({dat
 FORMULA = "倍率=受験者数÷合格者数"
 
 
-def footer(d, light=False):
-    col = "#c5cbe0" if light else GRAY
+def footer(d, light=False, col=None):
+    col = col or ("#c5cbe0" if light else GRAY)
     fs = fit(d, SRC, 24, W - 80)
     d.text((W // 2, 1845), SRC, font=fs, fill=col, anchor="mm")
     d.text((W // 2, 1878), FORMULA, font=f(22), fill=col, anchor="mm")
@@ -77,22 +77,47 @@ def base(dark=False):
     return im, ImageDraw.Draw(im)
 
 
+def _hex(c):
+    c = c.lstrip("#"); return tuple(int(c[i:i + 2], 16) for i in (0, 2, 4))
+
+
+def _shade(c, k):
+    r, g, b = _hex(c)
+    if k >= 0:
+        return "#%02x%02x%02x" % tuple(int(v + (255 - v) * k) for v in (r, g, b))
+    return "#%02x%02x%02x" % tuple(int(v * (1 + k)) for v in (r, g, b))
+
+
+def _is_light(c):
+    r, g, b = _hex(c)
+    return 0.299 * r + 0.587 * g + 0.114 * b > 150
+
+
+# 2026-11-03: 表紙の背景は各大学のスクールカラー(益田さんの指示)。色はデータJSONの
+# "school_color"に、大学公式の表記を確認した上で入れる(未設定なら紺)
+SCHOOL = data.get("school_color", {}).get("hex", NAVY)
+
+
 def cover(t):
-    im, d = base(dark=True)
+    im = Image.new("RGB", (W, H), SCHOOL); d = ImageDraw.Draw(im)
+    light = _is_light(SCHOOL)
+    stripe = _shade(SCHOOL, -0.12 if light else 0.10)
     # 斜めのストライプで動きを出す
     off = int(t * 40) % 120
     for x in range(-H, W + H, 120):
-        d.polygon([(x + off, 0), (x + off + 50, 0), (x + off + 50 - H * 0.4, H), (x + off - H * 0.4, H)], fill="#1a2d6b")
-    d.rounded_rectangle((250, 470, 830, 570), 50, fill=GOLD)
-    bold(d, (540, 520), f"{YEAR}年度 {data['selection']}", f(54), NAVY, "mm", 2)
+        d.polygon([(x + off, 0), (x + off + 50, 0), (x + off + 50 - H * 0.4, H), (x + off - H * 0.4, H)], fill=stripe)
+    ink = "#111111"  # 文字のフチ(明るい色の背景でも読めるように)
+    d.rounded_rectangle((250, 470, 830, 570), 50, fill="white", outline=ink, width=6)
+    bold(d, (540, 520), f"{YEAR}年度 {data['selection']}", f(54), ink, "mm", 2)
     uni = data["university"]
-    bold(d, (540, 760), uni, fit(d, uni, 130, 960), "white", "mm", 3)
-    bold(d, (540, 930), "学部別", f(110), GOLD, "mm", 3)
-    bold(d, (540, 1080), "倍率ランキング", f(120), GOLD, "mm", 3)
-    k = min(1.0, t / 0.4)
-    d.rounded_rectangle((170, 1250, 910, 1360), 55, fill="white")
+    # 背景と金色の明るさが近い(オレンジ・黄・水色など)ときは金色をやめて白にする
+    lum = lambda c: 0.299 * _hex(c)[0] + 0.587 * _hex(c)[1] + 0.114 * _hex(c)[2]
+    accent = GOLD if abs(lum(GOLD) - lum(SCHOOL)) > 70 else "white"
+    for txt, y, font, col in [(uni, 760, fit(d, uni, 130, 960), "white"), ("学部別", 930, f(110), accent), ("倍率ランキング", 1080, f(120), accent)]:
+        d.text((540, y), txt, font=font, fill=col, anchor="mm", stroke_width=10, stroke_fill=ink)
+    d.rounded_rectangle((170, 1250, 910, 1360), 55, fill="white", outline=ink, width=6)
     bold(d, (540, 1305), "あなたの志望学部は何倍?", f(54), RED, "mm", 2)
-    footer(d, light=True)
+    footer(d, col="#1a1a1a" if light else "#e6e9f2")
     return im
 
 
@@ -209,6 +234,24 @@ def study_frames():
         pr.kill()
 
 
+def draw_icon(d, kind, x, y, r):
+    if kind == "follow":
+        w = max(6, int(r * 0.16)); a = int(r * 0.48)
+        d.rounded_rectangle((x - a, y - w // 2, x + a, y + w // 2), w // 2, fill="white")
+        d.rounded_rectangle((x - w // 2, y - a, x + w // 2, y + a), w // 2, fill="white")
+    elif kind == "save":
+        # Instagramの保存マーク(しおり形の白抜き)
+        bw, bh = r * 0.78, r * 1.0
+        x0, x1, y0, y1 = x - bw / 2, x + bw / 2, y - bh / 2, y + bh / 2
+        d.line([(x0, y1), (x0, y0), (x1, y0), (x1, y1), (x, y1 - bh * 0.3), (x0, y1)], fill="white", width=max(5, int(r * 0.12)), joint="curve")
+    elif kind == "share":
+        # 紙飛行機(DM送信のマーク)
+        s = r * 0.62
+        tip, left, bottom, fold = (x + s, y - s * 0.95), (x - s, y - s * 0.25), (x + s * 0.2, y + s), (x - s * 0.05, y + s * 0.05)
+        d.line([left, tip, bottom, fold, left], fill="white", width=max(5, int(r * 0.11)), joint="curve")
+        d.line([fold, tip], fill="white", width=max(4, int(r * 0.09)))
+
+
 def cta(t, bg):
     # 2026-11-03: ③のセルフチェックリールと同じCTA(アバター+ID)。「毎日発信中」は
     # 毎日出すとは限らないため使わない(益田さんの指示)
@@ -226,14 +269,16 @@ def cta(t, bg):
     bold(d, (bx, by - 6), "+", f(70), "#4472c4", "mm", 2)
     bold(d, (540, 730), "フォロー&保存で", f(58), "white", "mm", 2)
     bold(d, (540, 805), "志望校の倍率も見逃さない!", f(58), "white", "mm", 2)
-    labels = [("フォロー", "+"), ("保存", "■"), ("シェア", "↗")]
-    for i, (lab, sym) in enumerate(labels):
-        x = 270 + i * 270
+    # 2026-11-03: マークを味気なくしないよう、保存=Instagramの保存マーク、シェア=紙飛行機にし、
+    # 色もボタンごとに分けた(益田さんの指示)
+    icons = [("フォロー", "follow", "#4472c4"), ("保存", "save", "#f2b200"), ("シェア", "share", "#e8457c")]
+    for i, (lab, kind, col) in enumerate(icons):
+        x, y = 270 + i * 270, 1150
         sc = 1.0 + 0.15 * max(0.0, math.sin(2 * math.pi * 1.5 * t - i * 0.6))
         rr = int(80 * sc)
-        d.ellipse((x - rr, 1150 - rr, x + rr, 1150 + rr), fill="white")
-        bold(d, (x, 1150), sym, f(int(80 * sc)), NAVY, "mm", 2)
-        bold(d, (x, 1300), lab, f(48), "white", "mm", 2)
+        d.ellipse((x - rr, y - rr, x + rr, y + rr), fill=col, outline="white", width=6)
+        draw_icon(d, kind, x, y, rr)
+        bold(d, (x, y + 150), lab, f(48), "white", "mm", 2)
     footer(d, light=True)
     return im
 

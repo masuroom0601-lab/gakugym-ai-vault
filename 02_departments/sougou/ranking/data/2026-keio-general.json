@@ -104,5 +104,10 @@
   "credit": "写真:Kentin / Wikimedia Commons(CC BY-SA 3.0)",
   "source": "https://commons.wikimedia.org/wiki/File:Keio_university.jpg",
   "license": "CC BY-SA 3.0"
+ },
+ "school_color": {
+  "hex": "#0b2a6b",
+  "name": "三色旗の紺",
+  "note": "慶應の三色旗(紺・赤・紺)の紺"
  }
 }
