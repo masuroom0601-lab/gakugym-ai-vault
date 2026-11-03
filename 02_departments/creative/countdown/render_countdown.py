@@ -97,24 +97,34 @@ def circular_avatar(size):
     return out
 
 
-def main():
-    out_path = sys.argv[1]
-    out_dir = os.path.dirname(out_path)
-    if out_dir:
-        os.makedirs(out_dir, exist_ok=True)
-    # 第2引数(YYYY-MM-DD)で投稿日を指定可能(予約投稿用に先の日付分をまとめて作るため)
-    today = datetime.date.fromisoformat(sys.argv[2]) if len(sys.argv) > 2 else datetime.date.today()
-    target = next_kyotsu_test_date(today)
-    days_left = (target - today).days
-    # 2026-11-03変更: 日ごとの独立ランダムだと連続する日で同じ文言が出たため、
-    # 固定シードでシャッフルした並びを日付順に1つずつ使う方式にした
-    # (ランダムな並びのまま、20日間は同じ文言が出ない)
-    order = MESSAGES[:]
-    random.Random("gakugym-countdown").shuffle(order)
-    msg = order[today.toordinal() % len(order)]
+def fit_font(d, text, size, min_size=28):
+    # 長い一言は画面幅(左右60pxの余白)に収まるまで文字を小さくする
+    while size > min_size and d.textlength(text, font=f(size)) > W - 120:
+        size -= 2
+    return f(size)
 
-    im, d = navy_bg()
 
+def draw_classic(im, d, days_left, msg, target):
+    # 2026-11-03以前の「中央を空けない」デザイン(ca47ad6の直前の版を復元)
+    bold(d, (540, 300), "共通テスト", fm(104), "white", "mm", 1)
+    bold(d, (540, 430), "C O U N T D O W N", f(48), "white", "mm", 1)
+
+    box_w, box_h = 760, 480
+    box = (W // 2 - box_w // 2, 640, W // 2 + box_w // 2, 640 + box_h)
+    d.rounded_rectangle(box, 40, fill="white")
+    bold(d, (W // 2, 640 + box_h // 2), str(days_left), f(300), "#e60000", "mm", 4)
+
+    bold(d, (540, 1200), "あと何日?", f(64), "white", "mm", 2)
+
+    av = circular_avatar(150)
+    if av is not None:
+        im.paste(av, (W // 2 - 75, 1340), av)
+
+    bold(d, (540, 1580), msg, fit_font(d, msg, 42), "white", "mm", 1)
+    bold(d, (540, 1660), target.strftime("%Y年%m月%d日(土)午前9時30分開始予定"), f(32), "#aab4d6", "mm", 1)
+
+
+def draw_lyrics(im, d, days_left, msg, target):
     # 2026-11-03レイアウト変更: ストーリーズで音源の「歌詞スタンプ」を載せると
     # 見出しと数字の間に入り込んで窮屈になる、との指摘を受け、画面中央
     # (y=LYRIC_TOP〜LYRIC_BOTTOM)を歌詞用の空きスペースとして何も置かないようにした。
@@ -145,12 +155,37 @@ def main():
     if av is not None:
         im.paste(av, (W // 2 - 60, LYRIC_BOTTOM + 40), av)
 
-    # 長い一言は画面幅(左右60pxの余白)に収まるまで文字を小さくする
-    msz = 42
-    while msz > 28 and d.textlength(msg, font=f(msz)) > W - 120:
-        msz -= 2
-    bold(d, (540, LYRIC_BOTTOM + 220), msg, f(msz), "white", "mm", 1)
+    bold(d, (540, LYRIC_BOTTOM + 220), msg, fit_font(d, msg, 42), "white", "mm", 1)
     bold(d, (540, LYRIC_BOTTOM + 290), target.strftime("%Y年%m月%d日(土)午前9時30分開始予定"), f(32), "#aab4d6", "mm", 1)
+
+
+def main():
+    out_path = sys.argv[1]
+    out_dir = os.path.dirname(out_path)
+    if out_dir:
+        os.makedirs(out_dir, exist_ok=True)
+    # 第2引数(YYYY-MM-DD)で投稿日を指定可能(予約投稿用に先の日付分をまとめて作るため)
+    today = datetime.date.fromisoformat(sys.argv[2]) if len(sys.argv) > 2 else datetime.date.today()
+    target = next_kyotsu_test_date(today)
+    days_left = (target - today).days
+    # 2026-11-03変更: 日ごとの独立ランダムだと連続する日で同じ文言が出たため、
+    # 固定シードでシャッフルした並びを日付順に1つずつ使う方式にした
+    # (ランダムな並びのまま、20日間は同じ文言が出ない)
+    order = MESSAGES[:]
+    random.Random("gakugym-countdown").shuffle(order)
+    msg = order[today.toordinal() % len(order)]
+
+    im, d = navy_bg()
+
+    # 2026-11-03: デザインを2種類に分けた(益田さんの指示)。
+    # - classic: 中央を空けない従来デザイン。ストーリーズの予約投稿は
+    #   音源なしでしかできないため、予約投稿用はこちらを使う(daily_classic/に保存)
+    # - lyrics: 中央に歌詞スタンプ用の空きを作ったデザイン(daily/に保存)
+    style = os.environ.get("COUNTDOWN_STYLE", "lyrics")
+    if style == "classic":
+        draw_classic(im, d, days_left, msg, target)
+    else:
+        draw_lyrics(im, d, days_left, msg, target)
 
     im.save(out_path)
     print(f"days_left={days_left} target={target.isoformat()}")

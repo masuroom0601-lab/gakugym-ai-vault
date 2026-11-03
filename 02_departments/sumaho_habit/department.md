@@ -113,6 +113,11 @@ daily-draft生成ワークフロー(`.github/workflows/sumaho-habit-daily-draft.
 - 自動化: `.github/workflows/countdown-story-image.yml`(毎日05:00 JST、
   `02_departments/creative/countdown/daily/countdown-<date>.png`に生成・
   コミット)
+- **【2026-11-03】デザインは2種類を毎日両方作る**:
+  - `countdown/daily_classic/` … 中央を空けない従来デザイン。ストーリーズの予約投稿は
+    音源なしでしかできないため、**予約投稿にはこちらを使う**
+  - `countdown/daily/` … 中央に歌詞スタンプ用の空きを作ったデザイン(音源付きで投稿する時用)
+  - 11/4〜11/27(残り73〜50日)の分は両方とも先行制作済み
 - **投稿は益田さんが毎日手動で行う**(Instagram Graph APIのStories自動投稿は
   現状未整備のため、画像生成までを自動化する運用)
 - 学ジムのロゴ・サービス名は画像に含めない
