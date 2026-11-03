@@ -37,7 +37,8 @@ jobs:
         if: steps.list.outputs.files != ''
         run: |
           sudo apt-get install -y -qq poppler-utils >/dev/null
-          python3 02_departments/creative/ranking/factcheck_ranking.py ${{ steps.list.outputs.files }} | tee factcheck-machine.txt || true
+          FACTCHECK_DUMP=factcheck-sources python3 02_departments/creative/ranking/factcheck_ranking.py ${{ steps.list.outputs.files }} | tee factcheck-machine.txt || true
+          ls factcheck-sources || true
       - name: Proofreader review
         if: steps.list.outputs.files != ''
         uses: anthropics/claude-code-action@v1
@@ -55,8 +56,12 @@ jobs:
             あります。これを読んだうえで、各データについて以下を確認すること:
             1. 機械チェックがすべてOKか(NGが1つでもあれば不合格)
             2. 各行の数字が、出典の表の「正しい行・列」から取られているか(別の学科・方式・年度・
-               別の列〔例: 第1次合格者〕の数字を取り違えていないか)。必要なら
-               curl -sL <URL> -o /tmp/x.pdf && pdftotext -layout /tmp/x.pdf - で出典を自分で読む
+               別の列〔例: 第1次合格者〕の数字を取り違えていないか)。出典の本文は機械チェックが取得して
+               factcheck-sources/<番号>.txt に保存してある(<番号>.url が元のURL)。必ずこれを読んで照合すること
+               (大学サイトは curl で直接取るとHTMLが返ることがあるため。自分で取る場合は
+               curl -sL -A "Mozilla/5.0" -e "https://<大学のドメイン>/" <URL>)。
+               行数が多いデータでも、最低でも上位10行と非公開の行、parts を使った行はすべて目視で照合すること
+               倍率の丸めは四捨五入(機械チェック側で対応済み)
             3. 年度ルール: 2025年度以前のデータは絶対に不可。一般選抜は2026年度。総合型は最終結果が
                そろった最新年度(途中結果=第1次合格者数などは不可)
             4. 倍率の定義(count_key: examinees=受験者数÷合格者数 / applicants=志願者数÷合格者数)が

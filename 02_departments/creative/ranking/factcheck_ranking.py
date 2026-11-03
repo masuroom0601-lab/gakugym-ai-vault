@@ -15,7 +15,8 @@
   5. 「非公開」の行は出典URLが空であること
 使い方: python3 factcheck_ranking.py <data.json> [...]
 """
-import json, re, subprocess, sys, tempfile, urllib.request
+import json, os, re, subprocess, sys, tempfile, urllib.request
+from decimal import Decimal, ROUND_HALF_UP
 
 UA = "Mozilla/5.0 (compatible; gakugym-factcheck/1.0)"
 _cache = {}
@@ -24,7 +25,8 @@ _cache = {}
 def text_of(url):
     if url in _cache:
         return _cache[url]
-    req = urllib.request.Request(url, headers={"User-Agent": UA})
+    ref = re.match(r"https?://[^/]+/", url).group(0)
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Referer": ref})
     raw = urllib.request.urlopen(req, timeout=60).read()
     if raw[:5] == b"%PDF-":
         with tempfile.NamedTemporaryFile(suffix=".pdf") as f:
@@ -34,6 +36,12 @@ def text_of(url):
         t = re.sub(r"<[^>]+>", " ", raw.decode("utf-8", "replace"))
     t = t.translate(str.maketrans("０１２３４５６７８９，", "0123456789,"))
     _cache[url] = t
+    dump = os.environ.get("FACTCHECK_DUMP")
+    if dump:  # 校正担当AIが同じ本文を読めるよう保存しておく(大学サイトはcurlだと弾かれることがある)
+        os.makedirs(dump, exist_ok=True)
+        idx = len(os.listdir(dump)) // 2 + 1
+        open(f"{dump}/{idx}.txt", "w", encoding="utf-8").write(t)
+        open(f"{dump}/{idx}.url", "w").write(url)
     return t
 
 
@@ -73,7 +81,8 @@ def check(path):
                 errs.append(f"passersの内訳{parts['passers']}が出典と合わない")
         elif not has_num(t, p):
             errs.append(f"passers={p} が出典に無い")
-        if round(n / p, 1) != r["ratio"]:
+        # 四捨五入(Pythonのroundは2.25→2.2になるため使わない)
+        if float((Decimal(n) / Decimal(p)).quantize(Decimal("0.1"), ROUND_HALF_UP)) != r["ratio"]:
             errs.append(f"倍率 {r['ratio']} ≠ {n}/{p}={n / p:.3f}")
         lines.append(("OK " if not errs else "NG ") + f" {name}: {n}/{p}={r['ratio']}倍" + ("" if not errs else " ← " + " / ".join(errs)))
         ok &= not errs
