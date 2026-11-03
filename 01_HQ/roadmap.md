@@ -1567,3 +1567,11 @@ CTAシーンで使っているアイコンを新しいイラストに変更し�
 対策・勉強法として書く。リールの語彙・熟語シリーズは従来通り級ローテーション。
 `02_departments/instagram_tiktok/department.md`・`instagram-tiktok-daily-draft.yml`・
 `02_departments/planning/department.md`を更新。
+
+### タイトルのローテーションに「問いかけ型」を追加(2026-11-03)
+益田さんの指示により、①のタイトルのローテーション(数字訴求型/言い切り・
+ノウハウ型/なぜ型)に4つ目として「問いかけ型」(「〜知ってる?」「〜どうやってる?」)
+を追加した。例「熟語の見分け方、知ってる?」「似た単語、どう判別してる?」。
+リールの13文字制限に収めるため、益田さんの例「似た単語の判別、どうやってる?」(15文字)は
+「似た単語、どう判別してる?」(13文字)に言い換えて例示した。
+`02_departments/instagram_tiktok/department.md`・`instagram-tiktok-daily-draft.yml`を更新。
