@@ -120,14 +120,16 @@ def main():
     # (y=LYRIC_TOP〜LYRIC_BOTTOM)を歌詞用の空きスペースとして何も置かないようにした。
     # 上は見出し+数字、下はアイコン+一言にまとめる。上端・下端はストーリーズの
     # UI(プロフィール名・返信欄)と重ならないよう余白を取る。
-    LYRIC_TOP, LYRIC_BOTTOM = 830, 1400
+    # 2026-11-03調整: 空きが広すぎるとの指摘で、上を80px下げ下を150px上げた(空き約430px)
+    LYRIC_TOP, LYRIC_BOTTOM = 860, 1250
+    T = 80  # 上ブロックの下げ幅
 
-    bold(d, (540, 270), "共通テスト", fm(96), "white", "mm", 1)
-    bold(d, (540, 375), "C O U N T D O W N", f(44), "white", "mm", 1)
+    bold(d, (540, 270 + T), "共通テスト", fm(96), "white", "mm", 1)
+    bold(d, (540, 375 + T), "C O U N T D O W N", f(44), "white", "mm", 1)
 
     # 白箱の中に「あと [数字] 日」を1行で収める
     box_w, box_h = 820, 320
-    by0 = 450
+    by0 = 450 + T
     d.rounded_rectangle((W // 2 - box_w // 2, by0, W // 2 + box_w // 2, by0 + box_h), 40, fill="white")
     num = str(days_left)
     fa, fn, fd = f(64), f(250), f(96)
