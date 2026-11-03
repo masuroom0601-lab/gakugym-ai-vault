@@ -34,6 +34,10 @@ YEAR = int(data["year"])
 assert YEAR >= 2026, "2025年度以前のデータは使わない"
 if data["selection"] == "一般選抜":
     assert YEAR == 2026, "一般選抜は2026年度で統一"
+# 2026-11-03: 校正担当のファクトチェック(ranking-factcheck.yml)に合格したデータでしか
+# 本番の動画を作らない。見本づくりの時だけ RANKING_ALLOW_UNCHECKED=1 で通す
+if data.get("factcheck", {}).get("status") != "ok" and os.environ.get("RANKING_ALLOW_UNCHECKED") != "1":
+    sys.exit(f"ファクトチェック未合格のため作成しない: {sys.argv[1]} (factcheck={data.get('factcheck')})")
 # 分母・分子の種類(総合型は受験者数が公表されないことが多いので志願者数で割る)
 COUNT_KEY = data.get("count_key", "examinees")
 COUNT_LABEL = {"examinees": "受験者", "applicants": "志願者"}[COUNT_KEY]
@@ -277,7 +281,7 @@ def cta(t, bg):
     d.ellipse((bx - bd, by - bd, bx + bd, by + bd), fill=GOLD, outline="white", width=6)
     bold(d, (bx, by - 6), "+", f(70), "#4472c4", "mm", 2)
     bold(d, (540, 730), "フォロー&保存で", f(58), "white", "mm", 2)
-    bold(d, (540, 805), "志望校の倍率も見逃さない!", f(58), "white", "mm", 2)
+    bold(d, (540, 805), "受験情報を見逃さない!", f(58), "white", "mm", 2)
     # 2026-11-03: マークを味気なくしないよう、保存=Instagramの保存マーク、シェア=紙飛行機にし、
     # 色もボタンごとに分けた(益田さんの指示)
     icons = [("フォロー", "follow", "#4472c4"), ("保存", "save", "#f2b200"), ("シェア", "share", "#e8457c")]

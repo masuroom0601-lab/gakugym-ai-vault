@@ -1,0 +1,77 @@
+name: ranking-factcheck
+
+# 2026-11-03追加(益田さんの指示): 大学 学部別倍率ランキングのデータを、校正担当が
+# 毎回必ずファクトチェックする。合格(factcheck.status: ok)したデータでしか
+# render_ranking.py は本番の動画を作らない。
+# 1) factcheck_ranking.py で、出典(大学公式のPDF・ページ)を取りに行き、年度・数字・倍率を機械的に照合
+# 2) 校正担当AIが、機械チェックの結果と出典を見て、行と資料の対応・年度ルール・倍率の定義を確認し合否を付ける
+
+on:
+  schedule:
+    - cron: '20 21 * * *'   # 毎日06:20 JST(未チェックのデータがあれば実行)
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: ranking-factcheck
+  cancel-in-progress: false
+
+jobs:
+  factcheck:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Find data needing check
+        id: list
+        run: |
+          FILES=$(python3 -c 'import json,glob; print(" ".join(p for p in sorted(glob.glob("02_departments/sougou/ranking/data/*.json")) if json.load(open(p)).get("factcheck",{}).get("status")!="ok"))')
+          echo "files=$FILES" >> "$GITHUB_OUTPUT"
+          [ -n "$FILES" ] && echo "対象: $FILES" || echo "チェック待ちのデータなし"
+      - name: Machine check against official sources
+        if: steps.list.outputs.files != ''
+        run: |
+          sudo apt-get install -y -qq poppler-utils >/dev/null
+          python3 02_departments/creative/ranking/factcheck_ranking.py ${{ steps.list.outputs.files }} | tee factcheck-machine.txt || true
+      - name: Proofreader review
+        if: steps.list.outputs.files != ''
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          show_full_output: true
+          claude_args: |
+            --allowedTools "Read,Edit,Bash(git *),Bash(curl *),Bash(pdftotext *),Bash(python3 *)"
+          prompt: |
+            あなたは「学ジム」の校正担当AIです。02_departments/proofreading/department.md と
+            02_departments/sougou/department.md のルールに従い、大学 学部別倍率ランキングの
+            データをファクトチェックしてください。対象: ${{ steps.list.outputs.files }}
+
+            factcheck-machine.txt に、出典(大学公式のPDF・ページ)と数字を機械的に照合した結果が
+            あります。これを読んだうえで、各データについて以下を確認すること:
+            1. 機械チェックがすべてOKか(NGが1つでもあれば不合格)
+            2. 各行の数字が、出典の表の「正しい行・列」から取られているか(別の学科・方式・年度・
+               別の列〔例: 第1次合格者〕の数字を取り違えていないか)。必要なら
+               curl -sL <URL> -o /tmp/x.pdf && pdftotext -layout /tmp/x.pdf - で出典を自分で読む
+            3. 年度ルール: 2025年度以前のデータは絶対に不可。一般選抜は2026年度。総合型は最終結果が
+               そろった最新年度(途中結果=第1次合格者数などは不可)
+            4. 倍率の定義(count_key: examinees=受験者数÷合格者数 / applicants=志願者数÷合格者数)が
+               出典の列と合っているか。合格者数は補欠・追加合格を含む最終の数字か
+            5. 「非公開」の行に、公式で確認できない理由が記録されているか
+            6. 出典表記(source)・写真のクレジット(campus_photo.credit)が入っているか
+
+            結果は各JSONの "factcheck" を次の形に書き換えること(他のキーは変更しない):
+            合格: {"status": "ok", "checked_at": "<今日の日付>", "checker": "校正担当", "notes": "<確認した内容を1〜3行>"}
+            不合格: {"status": "ng", "checked_at": "<今日の日付>", "checker": "校正担当", "notes": "<どの行の何が問題か>"}
+            データの数字そのものは書き換えない(指摘のみ。修正はデータ作成側が行う)。
+
+            最後に以下でコミット・プッシュする:
+            git config user.name "gakugym-ai-bot"
+            git config user.email "bot@example.com"
+            git add 02_departments/sougou/ranking/data/
+            git commit -m "ranking factcheck $(date +%F)"
+            git pull --rebase origin main
+            git push origin HEAD:main

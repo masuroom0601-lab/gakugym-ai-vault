@@ -49,33 +49,45 @@
    "name": "文学部 自主応募推薦",
    "applicants": 390,
    "passers": 116,
-   "ratio": 3.4
+   "ratio": 3.4,
+   "source_url": "https://www.keio.ac.jp/files/a098a2280e0a9ab1794d5cfcb8fc1fc5d4b029c207cb9356cd23d4d1b2a3aefd"
   },
   {
    "name": "理工学部 分野志向型",
    "applicants": 19,
    "passers": 9,
-   "ratio": 2.1
+   "ratio": 2.1,
+   "source_url": "https://www.keio.ac.jp/files/6d21055fc4e4b9a063311a0e610f226919fe714a0b01333e24e8dabf447767b3"
   },
   {
    "name": "看護医療 AO A方式",
    "applicants": 52,
    "passers": 5,
-   "ratio": 10.4
+   "ratio": 10.4,
+   "source_url": "https://www.keio.ac.jp/files/78bb2b33e13d960cf023ba26c5f4da22fcc891f6acaedbd7629514b64260f29b",
+   "parts": {
+    "applicants": [
+     4,
+     48
+    ]
+   }
   },
   {
    "name": "看護医療 AO B方式",
    "applicants": 19,
    "passers": 1,
-   "ratio": 19.0
+   "ratio": 19.0,
+   "source_url": "https://www.keio.ac.jp/files/78bb2b33e13d960cf023ba26c5f4da22fcc891f6acaedbd7629514b64260f29b"
   },
   {
    "name": "法学部 FIT入試",
-   "ratio": null
+   "ratio": null,
+   "source_url": null
   },
   {
    "name": "総合政策・環境情報 AO",
-   "ratio": null
+   "ratio": null,
+   "source_url": null
   }
  ],
  "campus_photo": {
@@ -88,5 +100,9 @@
   "hex": "#0b2a6b",
   "name": "三色旗の紺",
   "note": "慶應の三色旗(紺・赤・紺)の紺"
+ },
+ "factcheck": {
+  "status": "pending",
+  "note": "校正担当(ranking-factcheck.yml)のチェック待ち"
  }
 }

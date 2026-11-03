@@ -18,85 +18,99 @@
    "name": "文学部",
    "examinees": 4764,
    "passers": 1425,
-   "ratio": 3.3
+   "ratio": 3.3,
+   "source_url": "https://www.keio.ac.jp/files/32d7248026715b4d0ee6aa84b49c136bd32cd6fe3e25c6cc126df449e852b3a1"
   },
   {
    "name": "経済学部 A方式",
    "examinees": 3977,
    "passers": 1036,
-   "ratio": 3.8
+   "ratio": 3.8,
+   "source_url": "https://www.keio.ac.jp/files/32d7248026715b4d0ee6aa84b49c136bd32cd6fe3e25c6cc126df449e852b3a1"
   },
   {
    "name": "経済学部 B方式",
    "examinees": 2164,
    "passers": 389,
-   "ratio": 5.6
+   "ratio": 5.6,
+   "source_url": "https://www.keio.ac.jp/files/32d7248026715b4d0ee6aa84b49c136bd32cd6fe3e25c6cc126df449e852b3a1"
   },
   {
    "name": "法学部 法律学科",
    "examinees": 1491,
    "passers": 393,
-   "ratio": 3.8
+   "ratio": 3.8,
+   "source_url": "https://www.keio.ac.jp/files/32d7248026715b4d0ee6aa84b49c136bd32cd6fe3e25c6cc126df449e852b3a1"
   },
   {
    "name": "法学部 政治学科",
    "examinees": 1347,
    "passers": 325,
-   "ratio": 4.1
+   "ratio": 4.1,
+   "source_url": "https://www.keio.ac.jp/files/32d7248026715b4d0ee6aa84b49c136bd32cd6fe3e25c6cc126df449e852b3a1"
   },
   {
    "name": "商学部 A方式",
    "examinees": 4782,
    "passers": 1601,
-   "ratio": 3.0
+   "ratio": 3.0,
+   "source_url": "https://www.keio.ac.jp/files/32d7248026715b4d0ee6aa84b49c136bd32cd6fe3e25c6cc126df449e852b3a1"
   },
   {
    "name": "商学部 B方式",
    "examinees": 3216,
    "passers": 358,
-   "ratio": 9.0
+   "ratio": 9.0,
+   "source_url": "https://www.keio.ac.jp/files/32d7248026715b4d0ee6aa84b49c136bd32cd6fe3e25c6cc126df449e852b3a1"
   },
   {
    "name": "医学部",
    "examinees": 1058,
    "passers": 189,
-   "ratio": 5.6
+   "ratio": 5.6,
+   "source_url": "https://www.keio.ac.jp/files/32d7248026715b4d0ee6aa84b49c136bd32cd6fe3e25c6cc126df449e852b3a1"
   },
   {
    "name": "理工学部",
    "examinees": 7785,
    "passers": 2449,
-   "ratio": 3.2
+   "ratio": 3.2,
+   "source_url": "https://www.keio.ac.jp/files/32d7248026715b4d0ee6aa84b49c136bd32cd6fe3e25c6cc126df449e852b3a1"
   },
   {
    "name": "総合政策学部",
    "examinees": 3019,
    "passers": 404,
-   "ratio": 7.5
+   "ratio": 7.5,
+   "source_url": "https://www.keio.ac.jp/files/32d7248026715b4d0ee6aa84b49c136bd32cd6fe3e25c6cc126df449e852b3a1"
   },
   {
    "name": "環境情報学部",
    "examinees": 2434,
    "passers": 349,
-   "ratio": 7.0
+   "ratio": 7.0,
+   "source_url": "https://www.keio.ac.jp/files/32d7248026715b4d0ee6aa84b49c136bd32cd6fe3e25c6cc126df449e852b3a1"
   },
   {
    "name": "看護医療学部",
    "examinees": 454,
    "passers": 166,
-   "ratio": 2.7
+   "ratio": 2.7,
+   "source_url": "https://www.keio.ac.jp/files/32d7248026715b4d0ee6aa84b49c136bd32cd6fe3e25c6cc126df449e852b3a1"
   },
   {
    "name": "薬学部 薬学科",
    "examinees": 1028,
    "passers": 333,
-   "ratio": 3.1
+   "ratio": 3.1,
+   "source_url": "https://www.keio.ac.jp/files/32d7248026715b4d0ee6aa84b49c136bd32cd6fe3e25c6cc126df449e852b3a1"
   },
   {
    "name": "薬学部 薬科学科",
    "examinees": 768,
    "passers": 291,
-   "ratio": 2.6
+   "ratio": 2.6,
+   "source_url": "https://www.keio.ac.jp/files/32d7248026715b4d0ee6aa84b49c136bd32cd6fe3e25c6cc126df449e852b3a1"
   }
  ],
  "campus_photo": {
@@ -109,5 +123,9 @@
   "hex": "#0b2a6b",
   "name": "三色旗の紺",
   "note": "慶應の三色旗(紺・赤・紺)の紺"
+ },
+ "factcheck": {
+  "status": "pending",
+  "note": "校正担当(ranking-factcheck.yml)のチェック待ち"
  }
 }
