@@ -1,0 +1,174 @@
+name: ranking-daily
+
+# 2026-11-03追加(益田さんの指示): 「大学 学部別倍率ランキング」リールを毎日1本ずつ作る。
+# 作成順は 02_departments/sougou/ranking/queue.json(早稲田一般→早稲田総合型→上智一般→…)。
+#   1) research: 次の1本のデータを、大学の公式発表だけから作る(データ作成担当AI)
+#   2) factcheck: 校正担当が公式出典と照合して合否を付ける(ranking-factcheck.yml を呼ぶ)
+#   3) render: 合格したデータだけ動画にする(不合格なら作らず、翌日に同じ大学を直してやり直す)
+# ルールの詳細: 02_departments/sougou/department.md
+
+on:
+  schedule:
+    - cron: '0 20 * * *'   # 毎日05:00 JST
+    - cron: '0 0 * * *'    # 予備: 09:00 JST(その日の分が出来ていればスキップ)
+  workflow_dispatch: {}
+
+env:
+  TZ: Asia/Tokyo
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: ranking-daily
+  cancel-in-progress: false
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    outputs:
+      skip: ${{ steps.next.outputs.skip }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Decide next item
+        id: next
+        run: |
+          D=$(date +%F)
+          if ls 02_departments/creative/ranking/daily/${D}-*.mp4 >/dev/null 2>&1; then
+            echo "今日の分は作成済み"; echo "skip=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          python3 02_departments/creative/ranking/next_item.py >> "$GITHUB_OUTPUT"
+          python3 02_departments/creative/ranking/next_item.py
+          SLUG=$(python3 02_departments/creative/ranking/next_item.py | sed -n 's/^slug=//p')
+          [ -n "$SLUG" ] || { echo "全大学作成済み"; echo "skip=true" >> "$GITHUB_OUTPUT"; exit 0; }
+          DATA=$(python3 02_departments/creative/ranking/next_item.py | sed -n 's/^data=//p')
+          ST=$( [ -f "$DATA" ] && python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('factcheck',{}).get('status',''))" "$DATA" || echo none)
+          echo "既存データの状態: $ST"
+          echo "state=$ST" >> "$GITHUB_OUTPUT"
+          echo "skip=false" >> "$GITHUB_OUTPUT"
+      - name: Install tools
+        if: steps.next.outputs.skip != 'true' && steps.next.outputs.state != 'ok'
+        run: sudo apt-get install -y -qq poppler-utils >/dev/null
+      - name: Build data from official sources
+        if: steps.next.outputs.skip != 'true' && steps.next.outputs.state != 'ok'
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          show_full_output: true
+          claude_args: |
+            --allowedTools "Read,Write,Edit,WebSearch,WebFetch,Bash(curl *),Bash(pdftotext *),Bash(pdfinfo *),Bash(python3 *),Bash(git *),Bash(ls *),Bash(file *)"
+          prompt: |
+            あなたは「学ジム」の受験データ作成担当AIです。③massu_smartphoneで投稿する
+            「大学 学部別倍率ランキング」リールの、今日の1本分のデータを作ります。
+            まず 02_departments/sougou/department.md のルールを必ず全部読むこと。
+
+            今日の対象: ${{ steps.next.outputs.university }}(${{ steps.next.outputs.type == 'national' && '国公立' || '私立' }})/
+            ${{ steps.next.outputs.kind == 'general' && '一般選抜' || '総合型選抜(無ければ公募制推薦)' }}
+            保存先: ${{ steps.next.outputs.data }}
+            既存データの状態: ${{ steps.next.outputs.state }}(ng の場合は、そのJSONの factcheck.notes の
+            指摘をすべて直すこと。数字を推測で埋めず、公式出典で確認し直す)
+
+            見本(同じ形式で作る): 02_departments/sougou/ranking/data/2026-keio-general.json と
+            2026-keio-sougou.json、調査メモの例: 2026-keio-sougou.research.md
+
+            ## 絶対ルール
+            - 情報源は大学の公式発表(大学の公式サイト・公式PDF・募集要項)のみ。パスナビ・河合塾Kei-Net・
+              予備校サイト・ニュースサイトの数字は一切使わない(調べる手がかりにするのは可)
+            - 2025年度以前のデータは絶対に使わない。一般選抜は2026年度入試。総合型は「最終結果が
+              そろった最新の年度」(2027年度の最終結果が全部出ていれば2027年度、まだなら2026年度。
+              第1次合格者数など途中の数字は不可)
+            - 出典の本文に年度(例「2026年度」)が書かれていることを自分の目で確認する
+            - 開発用の環境からは大学サイトに直接つながらないことがあるが、ここ(GitHub Actions)からは
+              curl で取得できる。PDFは curl -sL <URL> -o /tmp/x.pdf && pdftotext -layout /tmp/x.pdf - で読む
+
+            ## 集計ルール
+            - 一般選抜: 私立は「個別学部入試(学部別日程)」のデータ。全学部統一日程・共通テスト利用は除く。
+              国公立は「前期日程」を使う(後期は使わない)
+            - 総合型: 総合型選抜。総合型が無い大学(学部)は「公募制推薦」(一般・総合型以外で、志望理由書・
+              小論文・課題・面接を中心とした選抜。指定校推薦は含めない)で代用し、行名に入試名を書く
+            - 並べる単位は学科ごと(学科が無ければ学部、方式で分かれていれば方式ごと)。ICUは教養学部のみでよい
+            - 倍率 = 受験者数÷合格者数(count_key: examinees)。受験者数が公表されていない場合は
+              志願者数÷合格者数(count_key: applicants)。合格者数は補欠・追加合格を含む最終の数字。小数1桁に丸める
+            - 公式で数字が確認できない学科・入試は ratio を null、source_url を null にして「非公開」扱い。
+              理由を source.items か調査メモに必ず書く
+            - 行が20を超える場合は、学部ごとの合計(学部内の受験者・合格者の合計)にまとめてよい(その旨を調査メモに書く)
+
+            ## JSONに必ず入れる項目
+            university / short("${{ steps.next.outputs.short }}") / selection("一般選抜" or "総合型選抜" or
+            公募制推薦で代用した場合は "公募制推薦") / year / count_key / rows(name, examinees or applicants,
+            passers, ratio, source_url。合計が本文に無く内訳しか無い場合は parts) / source(publisher, title,
+            url または items, published, fetched, year_evidence。動画の下端に出す短い出典文を footer に。
+            例「出典:○○大学「2026年度 一般選抜 入試結果」(2026/4/1公表)」) / formula /
+            school_color(hex と name。大学公式サイトのスクールカラー表記で確認。見つからなければ
+            大学のロゴ・サイトの基調色にし、note に根拠を書く) / campus_photo / caption /
+            factcheck: {"status": "pending"}
+
+            ## キャンパス写真(1位発表の背景)
+            Wikimedia Commons から、その大学のキャンパス・象徴的な建物の写真を探す
+            (API例: https://commons.wikimedia.org/w/api.php?action=query&generator=search&gsrsearch=<大学名英語>%20campus&gsrnamespace=6&prop=imageinfo&iiprop=url|size|extmetadata&iiextmetadatafilter=LicenseShortName|Artist&format=json)。
+            ライセンスは CC0 / Public domain / CC BY / CC BY-SA のみ(NC・ND・不明は不可)。大学公式サイトの写真は使わない。
+            縦長または高解像度(短辺1000px以上)を優先。見つかったら
+            curl -sL -A "gakugym-asset-fetch/1.0" <URL> -o 02_departments/creative/ranking/assets/campus_${{ steps.next.outputs.slug }}.jpg
+            で保存し、campus_photo に path("assets/campus_${{ steps.next.outputs.slug }}.jpg")・credit(例「写真:作者 / Wikimedia Commons(CC BY-SA 4.0)」)・
+            source・license を入れ、02_departments/creative/ranking/assets/CREDITS.md の表に1行追記する。
+            見つからなければ campus_photo は書かない(紺の背景になる)。
+
+            ## 投稿用キャプション(caption)
+            ③のトーン(一人称「私」、呼びかけ「きみ」、学ジムの名前は出さない)で、
+            1. フック1〜2行(例: 「慶應で一番倍率が高い学部、知ってる?」)
+            2. 上位3つと倍率、倍率の定義(受験者数÷合格者数 など)と年度
+            3. 「出典:<大学名>公式発表(<資料名>)」
+            4. 「オープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね」
+            5. 保存・フォローを促す一文
+            6. ハッシュタグ5個以内(#大学受験 #倍率 #<大学名> など。#学ジム は付けない)
+
+            ## 最後に
+            調査メモを ${{ steps.next.outputs.data }} と同じ場所に <同じ名前>.research.md として書く
+            (使った出典URL・年度の根拠・非公開の理由・集計の判断)。そして:
+            git config user.name "gakugym-ai-bot"
+            git config user.email "bot@example.com"
+            git add 02_departments/sougou/ranking/data/ 02_departments/creative/ranking/assets/
+            git commit -m "ranking data: ${{ steps.next.outputs.slug }}-${{ steps.next.outputs.kind }}"
+            git pull --rebase origin main
+            git push origin HEAD:main
+
+  factcheck:
+    needs: research
+    if: needs.research.outputs.skip != 'true'
+    uses: ./.github/workflows/ranking-factcheck.yml
+    secrets: inherit
+
+  render:
+    needs: [research, factcheck]
+    if: needs.research.outputs.skip != 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Render if fact-checked
+        id: r
+        run: |
+          D=$(date +%F)
+          python3 02_departments/creative/ranking/next_item.py > next.txt; cat next.txt
+          SLUG=$(sed -n 's/^slug=//p' next.txt); KIND=$(sed -n 's/^kind=//p' next.txt); DATA=$(sed -n 's/^data=//p' next.txt)
+          [ -f "$DATA" ] || { echo "データがありません"; exit 1; }
+          ST=$(python3 -c "import json,sys; print(json.load(open(sys.argv[1])).get('factcheck',{}).get('status',''))" "$DATA")
+          if [ "$ST" != "ok" ]; then
+            echo "ファクトチェック不合格/未完了のため動画は作らない(翌日に修正してやり直し): $ST"; exit 0
+          fi
+          sudo apt-get update -qq && sudo apt-get install -y -qq ffmpeg fonts-ipafont-gothic >/dev/null
+          python3 -m pip install -q pillow
+          OUT="02_departments/creative/ranking/daily/${D}-${SLUG}-${KIND}.mp4"
+          mkdir -p "$(dirname "$OUT")"
+          REEL_FONT=/usr/share/fonts/opentype/ipafont-gothic/ipag.ttf python3 02_departments/creative/ranking/render_ranking.py "$DATA" "$OUT"
+          SIZE=$(stat -c %s "$OUT"); [ "$SIZE" -gt 200000 ] || { echo "動画サイズが異常"; exit 1; }
+          git config user.name "gakugym-ai-bot"
+          git config user.email "bot@example.com"
+          git add "$OUT"
+          git commit -m "ranking reel ${D}: ${SLUG}-${KIND}"
+          git pull --rebase origin main
+          git push origin HEAD:main

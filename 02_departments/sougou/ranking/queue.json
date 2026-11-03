@@ -1,0 +1,553 @@
+{
+ "note": "倍率ランキングの作成順(益田さん指定)。1日1本、上から順に作る。kind: general=一般選抜 / sougou=総合型(無ければ公募制推薦)",
+ "items": [
+  {
+   "slug": "keio",
+   "university": "慶應義塾大学",
+   "short": "慶應",
+   "type": "private",
+   "kind": "general",
+   "done": true
+  },
+  {
+   "slug": "keio",
+   "university": "慶應義塾大学",
+   "short": "慶應",
+   "type": "private",
+   "kind": "sougou",
+   "done": true
+  },
+  {
+   "slug": "waseda",
+   "university": "早稲田大学",
+   "short": "早稲田",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "waseda",
+   "university": "早稲田大学",
+   "short": "早稲田",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "sophia",
+   "university": "上智大学",
+   "short": "上智",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "sophia",
+   "university": "上智大学",
+   "short": "上智",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "tus",
+   "university": "東京理科大学",
+   "short": "東京理科",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "tus",
+   "university": "東京理科大学",
+   "short": "東京理科",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "icu",
+   "university": "国際基督教大学",
+   "short": "ICU",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "icu",
+   "university": "国際基督教大学",
+   "short": "ICU",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "meiji",
+   "university": "明治大学",
+   "short": "明治",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "meiji",
+   "university": "明治大学",
+   "short": "明治",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "aoyama",
+   "university": "青山学院大学",
+   "short": "青山学院",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "aoyama",
+   "university": "青山学院大学",
+   "short": "青山学院",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "rikkyo",
+   "university": "立教大学",
+   "short": "立教",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "rikkyo",
+   "university": "立教大学",
+   "short": "立教",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "chuo",
+   "university": "中央大学",
+   "short": "中央",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "chuo",
+   "university": "中央大学",
+   "short": "中央",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "hosei",
+   "university": "法政大学",
+   "short": "法政",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "hosei",
+   "university": "法政大学",
+   "short": "法政",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "gakushuin",
+   "university": "学習院大学",
+   "short": "学習院",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "gakushuin",
+   "university": "学習院大学",
+   "short": "学習院",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "kansai",
+   "university": "関西大学",
+   "short": "関西",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "kansai",
+   "university": "関西大学",
+   "short": "関西",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "kwansei",
+   "university": "関西学院大学",
+   "short": "関西学院",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "kwansei",
+   "university": "関西学院大学",
+   "short": "関西学院",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "doshisha",
+   "university": "同志社大学",
+   "short": "同志社",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "doshisha",
+   "university": "同志社大学",
+   "short": "同志社",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "ritsumei",
+   "university": "立命館大学",
+   "short": "立命館",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "ritsumei",
+   "university": "立命館大学",
+   "short": "立命館",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "seikei",
+   "university": "成蹊大学",
+   "short": "成蹊",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "seikei",
+   "university": "成蹊大学",
+   "short": "成蹊",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "seijo",
+   "university": "成城大学",
+   "short": "成城",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "seijo",
+   "university": "成城大学",
+   "short": "成城",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "meijigakuin",
+   "university": "明治学院大学",
+   "short": "明治学院",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "meijigakuin",
+   "university": "明治学院大学",
+   "short": "明治学院",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "dokkyo",
+   "university": "獨協大学",
+   "short": "獨協",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "dokkyo",
+   "university": "獨協大学",
+   "short": "獨協",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "kokugakuin",
+   "university": "國學院大學",
+   "short": "國學院",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "kokugakuin",
+   "university": "國學院大學",
+   "short": "國學院",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "musashi",
+   "university": "武蔵大学",
+   "short": "武蔵",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "musashi",
+   "university": "武蔵大学",
+   "short": "武蔵",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "nihon",
+   "university": "日本大学",
+   "short": "日本",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "nihon",
+   "university": "日本大学",
+   "short": "日本",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "toyo",
+   "university": "東洋大学",
+   "short": "東洋",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "toyo",
+   "university": "東洋大学",
+   "short": "東洋",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "komazawa",
+   "university": "駒澤大学",
+   "short": "駒澤",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "komazawa",
+   "university": "駒澤大学",
+   "short": "駒澤",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "senshu",
+   "university": "専修大学",
+   "short": "専修",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "senshu",
+   "university": "専修大学",
+   "short": "専修",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "kyoto-sangyo",
+   "university": "京都産業大学",
+   "short": "京都産業",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "kyoto-sangyo",
+   "university": "京都産業大学",
+   "short": "京都産業",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "kindai",
+   "university": "近畿大学",
+   "short": "近畿",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "kindai",
+   "university": "近畿大学",
+   "short": "近畿",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "konan",
+   "university": "甲南大学",
+   "short": "甲南",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "konan",
+   "university": "甲南大学",
+   "short": "甲南",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "ryukoku",
+   "university": "龍谷大学",
+   "short": "龍谷",
+   "type": "private",
+   "kind": "general"
+  },
+  {
+   "slug": "ryukoku",
+   "university": "龍谷大学",
+   "short": "龍谷",
+   "type": "private",
+   "kind": "sougou"
+  },
+  {
+   "slug": "utokyo",
+   "university": "東京大学",
+   "short": "東大",
+   "type": "national",
+   "kind": "general"
+  },
+  {
+   "slug": "utokyo",
+   "university": "東京大学",
+   "short": "東大",
+   "type": "national",
+   "kind": "sougou"
+  },
+  {
+   "slug": "kyoto",
+   "university": "京都大学",
+   "short": "京大",
+   "type": "national",
+   "kind": "general"
+  },
+  {
+   "slug": "kyoto",
+   "university": "京都大学",
+   "short": "京大",
+   "type": "national",
+   "kind": "sougou"
+  },
+  {
+   "slug": "hitotsubashi",
+   "university": "一橋大学",
+   "short": "一橋",
+   "type": "national",
+   "kind": "general"
+  },
+  {
+   "slug": "hitotsubashi",
+   "university": "一橋大学",
+   "short": "一橋",
+   "type": "national",
+   "kind": "sougou"
+  },
+  {
+   "slug": "sciencetokyo",
+   "university": "東京科学大学",
+   "short": "東京科学",
+   "type": "national",
+   "kind": "general"
+  },
+  {
+   "slug": "sciencetokyo",
+   "university": "東京科学大学",
+   "short": "東京科学",
+   "type": "national",
+   "kind": "sougou"
+  },
+  {
+   "slug": "hokkaido",
+   "university": "北海道大学",
+   "short": "北大",
+   "type": "national",
+   "kind": "general"
+  },
+  {
+   "slug": "hokkaido",
+   "university": "北海道大学",
+   "short": "北大",
+   "type": "national",
+   "kind": "sougou"
+  },
+  {
+   "slug": "tohoku",
+   "university": "東北大学",
+   "short": "東北",
+   "type": "national",
+   "kind": "general"
+  },
+  {
+   "slug": "tohoku",
+   "university": "東北大学",
+   "short": "東北",
+   "type": "national",
+   "kind": "sougou"
+  },
+  {
+   "slug": "nagoya",
+   "university": "名古屋大学",
+   "short": "名古屋",
+   "type": "national",
+   "kind": "general"
+  },
+  {
+   "slug": "nagoya",
+   "university": "名古屋大学",
+   "short": "名古屋",
+   "type": "national",
+   "kind": "sougou"
+  },
+  {
+   "slug": "osaka",
+   "university": "大阪大学",
+   "short": "阪大",
+   "type": "national",
+   "kind": "general"
+  },
+  {
+   "slug": "osaka",
+   "university": "大阪大学",
+   "short": "阪大",
+   "type": "national",
+   "kind": "sougou"
+  },
+  {
+   "slug": "kobe",
+   "university": "神戸大学",
+   "short": "神戸",
+   "type": "national",
+   "kind": "general"
+  },
+  {
+   "slug": "kobe",
+   "university": "神戸大学",
+   "short": "神戸",
+   "type": "national",
+   "kind": "sougou"
+  },
+  {
+   "slug": "kyushu",
+   "university": "九州大学",
+   "short": "九大",
+   "type": "national",
+   "kind": "general"
+  },
+  {
+   "slug": "kyushu",
+   "university": "九州大学",
+   "short": "九大",
+   "type": "national",
+   "kind": "sougou"
+  }
+ ]
+}

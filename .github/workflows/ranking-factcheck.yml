@@ -10,6 +10,7 @@ on:
   schedule:
     - cron: '20 21 * * *'   # 毎日06:20 JST(未チェックのデータがあれば実行)
   workflow_dispatch: {}
+  workflow_call: {}   # ranking-daily.yml から呼ばれる
 
 permissions:
   contents: write
