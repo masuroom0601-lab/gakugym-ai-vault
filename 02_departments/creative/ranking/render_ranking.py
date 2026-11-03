@@ -78,8 +78,18 @@ FORMULA = f"倍率={COUNT_LABEL}数÷合格者数"
 
 def footer(d, light=False, col=None):
     col = col or ("#c5cbe0" if light else GRAY)
-    fs = fit(d, SRC, 24, W - 80)
-    d.text((W // 2, 1845), SRC, font=fs, fill=col, anchor="mm")
+    # 出典が長い大学は画面からはみ出さないよう2行に分ける(2026-11-03、早稲田で発覚)
+    fs = f(24)
+    if d.textlength(SRC, font=fs) <= W - 80:
+        lines = [SRC]
+    else:
+        cut = max(range(1, len(SRC)), key=lambda i: (SRC[i - 1] in "」)、/ ", -abs(i - len(SRC) / 2)))
+        cut = cut if abs(cut - len(SRC) / 2) < len(SRC) / 4 else len(SRC) // 2
+        lines = [SRC[:cut], SRC[cut:]]
+        fs = fit(d, max(lines, key=lambda x: d.textlength(x, font=f(24))), 24, W - 80, 16)
+    y = 1878 - 30 * len(lines)
+    for ln in lines:
+        d.text((W // 2, y), ln, font=fs, fill=col, anchor="mm"); y += 30
     d.text((W // 2, 1878), FORMULA, font=f(22), fill=col, anchor="mm")
 
 
