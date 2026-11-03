@@ -151,7 +151,7 @@ def bookmark(d,cx,cy,w,h,fill):
 def cta_frame(bg,t):
     im=bg.copy(); d=ImageDraw.Draw(im)
     bold(d,(540,210),"まっすー",f(72),"white","mm",2)
-    bold(d,(540,300),"@massu_gakugym",f(48),"#ffd400","mm",1)
+    bold(d,(540,300),"@massu_smartphone",f(48),"#ffd400","mm",1)
     r=110; cx,cy=540,520
     d.ellipse((cx-r,cy-r,cx+r,cy+r),fill="white",outline="#ffd400",width=8)
     av=circular_avatar(2*(r-8))
