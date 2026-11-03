@@ -58,6 +58,10 @@ jobs:
               if not g or re.search(g, line): out.append(line)
           print("=== links (%d / %d) ===" % (len(out), len(pairs)))
           for l in out[:400]: print(l)
+          # <a>以外(onclick・data属性・単引用符など)に埋まったPDF/ファイルのURLも拾う
+          raws = sorted(set(re.findall(r"""(?:href|src|data-[a-z-]+)\s*=\s*['"]([^'"]+\.pdf[^'"]*|[^'"]*/files/[^'"]+)['"]""", raw)))
+          print("=== raw file urls (%d) ===" % len(raws))
+          for u in raws[:200]: print(urljoin(base, u))
           txt = re.sub(r"<script.*?</script>|<style.*?</style>", " ", raw, flags=re.S)
           txt = html.unescape(re.sub(r"<[^>]+>", "\n", txt))
           lines = [l.strip() for l in txt.splitlines() if l.strip()]
