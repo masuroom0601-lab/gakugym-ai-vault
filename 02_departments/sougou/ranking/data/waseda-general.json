@@ -14,97 +14,506 @@
   "year_evidence": "PDF本文1行目「2026年度一般選抜および大学入学共通テスト利用入学試験結果」/公式「近年の入試結果」ページの「2026年度入試結果」見出し配下に掲載/PDF作成日 2026-05-09/URLのアップロード月 2026/05(ページ・PDFに正確な公表日の記載なし)"
  },
  "footer": "出典:早稲田大学「2026年度一般選抜および大学入学共通テスト利用入学試験結果」(2026/5公表)",
- "formula": "受験者数÷合格者数(合格者数=一般選抜の合格者数+補欠からの合格者数。学部内の学科・方式を合計。共通テスト利用は除く)",
+ "formula": "受験者数÷合格者数(合格者数=一般選抜の合格者数+補欠からの合格者数。学科・方式ごと。共通テスト利用は除く)",
  "rows": [
   {
-   "name": "文学部",
-   "examinees": 12078,
-   "passers": 1196,
-   "ratio": 10.1,
+   "name": "教育 初等教育学専攻 A・B方式",
+   "examinees": 380,
+   "passers": 28,
+   "ratio": 13.6,
    "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
   },
   {
-   "name": "商学部",
-   "examinees": 10701,
-   "passers": 1102,
-   "ratio": 9.7,
+   "name": "文 一般",
+   "examinees": 8193,
+   "passers": 751,
+   "ratio": 10.9,
    "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
   },
   {
-   "name": "文化構想学部",
-   "examinees": 10664,
-   "passers": 1105,
-   "ratio": 9.7,
+   "name": "商 地歴・公民型",
+   "examinees": 8054,
+   "passers": 740,
+   "ratio": 10.9,
    "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
   },
   {
-   "name": "教育学部",
-   "examinees": 12527,
-   "passers": 2126,
-   "ratio": 5.9,
+   "name": "文化構想 一般",
+   "examinees": 6991,
+   "passers": 667,
+   "ratio": 10.5,
    "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
   },
   {
-   "name": "法学部",
-   "examinees": 3976,
-   "passers": 770,
+   "name": "教育 教育学専攻教育学専修 A・B方式",
+   "examinees": 1112,
+   "passers": 118,
+   "ratio": 9.4,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "文 英語4技能",
+   "examinees": 3885,
+   "passers": 445,
+   "ratio": 8.7,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "文化構想 英語4技能",
+   "examinees": 3673,
+   "passers": 438,
+   "ratio": 8.4,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 教育学専攻教育心理学専修 A・B方式",
+   "examinees": 521,
+   "passers": 64,
+   "ratio": 8.1,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 社会科公共市民学専修 A・B方式",
+   "examinees": 1991,
+   "passers": 260,
+   "ratio": 7.7,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "商 数学型",
+   "examinees": 2647,
+   "passers": 362,
+   "ratio": 7.3,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 国語国文 A・B方式",
+   "examinees": 1383,
+   "passers": 192,
+   "ratio": 7.2,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 教育学専攻生涯教育学専修 A・B方式",
+   "examinees": 526,
+   "passers": 75,
+   "ratio": 7.0,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 社会科地理歴史専修 A・B方式",
+   "examinees": 1566,
+   "passers": 227,
+   "ratio": 6.9,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 理学科地球科学専修 A・B方式",
+   "examinees": 717,
+   "passers": 112,
+   "ratio": 6.4,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 複合文化 A・B方式",
+   "examinees": 1002,
+   "passers": 162,
+   "ratio": 6.2,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "人間科学 健康福祉科 国英型",
+   "examinees": 1145,
+   "passers": 198,
+   "ratio": 5.8,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf",
+   "parts": {
+    "passers": [
+     194,
+     4
+    ]
+   }
+  },
+  {
+   "name": "基幹理工 学系4",
+   "examinees": 484,
+   "passers": 85,
+   "ratio": 5.7,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 数学科 A・B方式",
+   "examinees": 779,
+   "passers": 138,
+   "ratio": 5.6,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 英語英文 A・B方式",
+   "examinees": 1650,
+   "passers": 308,
+   "ratio": 5.4,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "社会科学 数学型",
+   "examinees": 1765,
+   "passers": 340,
    "ratio": 5.2,
    "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
   },
   {
-   "name": "社会科学部",
-   "examinees": 4768,
-   "passers": 996,
+   "name": "法",
+   "examinees": 3976,
+   "passers": 770,
+   "ratio": 5.2,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf",
+   "parts": {
+    "passers": [
+     722,
+     48
+    ]
+   }
+  },
+  {
+   "name": "教育 教育学専攻教育心理学専修 C方式",
+   "examinees": 60,
+   "passers": 12,
+   "ratio": 5.0,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "先進理工 生命医科学",
+   "examinees": 687,
+   "passers": 141,
+   "ratio": 4.9,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "先進理工 物理",
+   "examinees": 779,
+   "passers": 164,
    "ratio": 4.8,
    "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
   },
   {
-   "name": "国際教養学部",
+   "name": "人間科学 人間環境科 国英型",
+   "examinees": 1087,
+   "passers": 234,
+   "ratio": 4.6,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf",
+   "parts": {
+    "passers": [
+     232,
+     2
+    ]
+   }
+  },
+  {
+   "name": "人間科学 人間情報科 国英型",
+   "examinees": 582,
+   "passers": 126,
+   "ratio": 4.6,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "社会科学 総合問題型",
+   "examinees": 3003,
+   "passers": 656,
+   "ratio": 4.6,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "国際教養",
    "examinees": 1371,
    "passers": 300,
    "ratio": 4.6,
    "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
   },
   {
-   "name": "人間科学部",
-   "examinees": 4284,
-   "passers": 1031,
+   "name": "人間科学 健康福祉科 数学選抜",
+   "examinees": 212,
+   "passers": 47,
+   "ratio": 4.5,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "創造理工 総合機械工",
+   "examinees": 935,
+   "passers": 208,
+   "ratio": 4.5,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf",
+   "parts": {
+    "passers": [
+     200,
+     8
+    ]
+   }
+  },
+  {
+   "name": "創造理工 経営システム工",
+   "examinees": 588,
+   "passers": 139,
    "ratio": 4.2,
    "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
   },
   {
-   "name": "創造理工学部",
-   "examinees": 2907,
-   "passers": 732,
-   "ratio": 4.0,
+   "name": "教育 初等教育学専攻 C方式",
+   "examinees": 21,
+   "passers": 5,
+   "ratio": 4.2,
    "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
   },
   {
-   "name": "先進理工学部",
-   "examinees": 3783,
-   "passers": 953,
-   "ratio": 4.0,
+   "name": "基幹理工 学系3",
+   "examinees": 1243,
+   "passers": 304,
+   "ratio": 4.1,
    "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
   },
   {
-   "name": "基幹理工学部",
-   "examinees": 3739,
-   "passers": 1005,
+   "name": "人間科学 人間環境科 数学選抜",
+   "examinees": 265,
+   "passers": 65,
+   "ratio": 4.1,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "先進理工 化学・生命化学",
+   "examinees": 430,
+   "passers": 111,
+   "ratio": 3.9,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "創造理工 建築",
+   "examinees": 687,
+   "passers": 184,
    "ratio": 3.7,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf",
+   "parts": {
+    "passers": [
+     153,
+     31
+    ]
+   }
+  },
+  {
+   "name": "先進理工 電気・情報生命工",
+   "examinees": 491,
+   "passers": 137,
+   "ratio": 3.6,
    "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
   },
   {
-   "name": "スポーツ科学部",
-   "examinees": 1062,
-   "passers": 310,
+   "name": "創造理工 環境資源工",
+   "examinees": 239,
+   "passers": 68,
+   "ratio": 3.5,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "先進理工 応用物理",
+   "examinees": 465,
+   "passers": 133,
+   "ratio": 3.5,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "先進理工 応用化学",
+   "examinees": 931,
+   "passers": 267,
+   "ratio": 3.5,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "創造理工 社会環境工",
+   "examinees": 458,
+   "passers": 133,
+   "ratio": 3.4,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf",
+   "parts": {
+    "passers": [
+     122,
+     11
+    ]
+   }
+  },
+  {
+   "name": "政治経済 経済",
+   "examinees": 1027,
+   "passers": 299,
    "ratio": 3.4,
    "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
   },
   {
-   "name": "政治経済学部",
-   "examinees": 2277,
-   "passers": 696,
+   "name": "基幹理工 学系2",
+   "examinees": 1539,
+   "passers": 449,
+   "ratio": 3.4,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf",
+   "parts": {
+    "passers": [
+     413,
+     36
+    ]
+   }
+  },
+  {
+   "name": "スポーツ科学",
+   "examinees": 1062,
+   "passers": 310,
+   "ratio": 3.4,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf",
+   "parts": {
+    "passers": [
+     284,
+     26
+    ]
+   }
+  },
+  {
+   "name": "人間科学 人間情報科 数学選抜",
+   "examinees": 242,
+   "passers": 73,
    "ratio": 3.3,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "政治経済 国際政治経済",
+   "examinees": 444,
+   "passers": 140,
+   "ratio": 3.2,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "政治経済 政治",
+   "examinees": 806,
+   "passers": 257,
+   "ratio": 3.1,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 国語国文 C方式",
+   "examinees": 86,
+   "passers": 28,
+   "ratio": 3.1,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "人間科学 健康福祉科 数英型",
+   "examinees": 298,
+   "passers": 99,
+   "ratio": 3.0,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf",
+   "parts": {
+    "passers": [
+     84,
+     15
+    ]
+   }
+  },
+  {
+   "name": "基幹理工 学系1",
+   "examinees": 473,
+   "passers": 167,
+   "ratio": 2.8,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf",
+   "parts": {
+    "passers": [
+     160,
+     7
+    ]
+   }
+  },
+  {
+   "name": "教育 教育学専攻教育学専修 C方式",
+   "examinees": 50,
+   "passers": 18,
+   "ratio": 2.8,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 理学科生物学専修 D方式",
+   "examinees": 98,
+   "passers": 36,
+   "ratio": 2.7,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 教育学専攻生涯教育学専修 C方式",
+   "examinees": 25,
+   "passers": 10,
+   "ratio": 2.5,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "人間科学 人間情報科 数英型",
+   "examinees": 235,
+   "passers": 95,
+   "ratio": 2.5,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "人間科学 人間環境科 数英型",
+   "examinees": 218,
+   "passers": 94,
+   "ratio": 2.3,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf",
+   "parts": {
+    "passers": [
+     84,
+     10
+    ]
+   }
+  },
+  {
+   "name": "教育 社会科公共市民学専修 C方式",
+   "examinees": 86,
+   "passers": 38,
+   "ratio": 2.3,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 社会科地理歴史専修 C方式",
+   "examinees": 99,
+   "passers": 44,
+   "ratio": 2.3,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 英語英文 C方式",
+   "examinees": 105,
+   "passers": 55,
+   "ratio": 1.9,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 複合文化 C方式",
+   "examinees": 69,
+   "passers": 45,
+   "ratio": 1.5,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 数学科 C方式",
+   "examinees": 66,
+   "passers": 44,
+   "ratio": 1.5,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 理学科生物学専修 C方式",
+   "examinees": 105,
+   "passers": 82,
+   "ratio": 1.3,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
+  },
+  {
+   "name": "教育 理学科地球科学専修 C方式",
+   "examinees": 30,
+   "passers": 25,
+   "ratio": 1.2,
    "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/97a8b9659f04c1fba9e71f1ec77ca91d.pdf"
   }
  ],
@@ -119,11 +528,8 @@
   "source": "https://commons.wikimedia.org/wiki/File:Waseda_University_2014.JPG",
   "license": "CC BY-SA 4.0"
  },
- "caption": "早稲田で一番倍率が高い学部、知ってる?\n\n2026年度の一般選抜(学部別入試)で倍率が高かったのはこの3つ。\n1位 文学部 10.1倍\n2位 商学部 9.7倍\n3位 文化構想学部 9.7倍\n(倍率=受験者数÷合格者数。補欠からの合格者を含み、学部内の学科・方式は合計。共通テスト利用は除く)\n\n出典:早稲田大学公式発表(2026年度一般選抜および大学入学共通テスト利用入学試験結果)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #早稲田大学 #一般選抜 #受験生",
+ "caption": "早稲田で一番倍率が高い学科・方式、知ってる?\n\n2026年度の一般選抜(学部別入試)で倍率が高かったのはこの3つ。\n1位 教育 初等教育学専攻 A・B方式 13.6倍\n2位 文 一般 10.9倍\n3位 商 地歴・公民型 10.9倍\n(倍率=受験者数÷合格者数。補欠からの合格者を含む。共通テスト利用は除く)\n\n出典:早稲田大学公式発表(2026年度一般選抜および大学入学共通テスト利用入学試験結果)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #早稲田大学 #一般選抜 #受験生",
  "factcheck": {
-  "status": "ng",
-  "checked_at": "2026-11-03",
-  "checker": "校正担当",
-  "notes": "機械チェックでNG8件。文学部(受験者数12078・合格者数1196)と文化構想学部(受験者数10664・合格者数1105)は受験者数・合格者数とも出典に無い。法学部770・社会科学部996・人間科学部1031・創造理工学部732・基幹理工学部1005・スポーツ科学部310・政治経済学部696は合格者数が出典に無い(補欠からの合格者の足し忘れ、または学科・方式の合計ミスの疑い)。上位3位(文学部・商学部・文化構想学部)の根拠が崩れるため、キャプションの順位も要修正。出典PDFを再確認し、各学部の学科・方式を合計し直すこと。 【2026-11-03 益田さんの方針変更】学部ごとの合計にまとめず、学科・方式ごとに全行を載せること(動画は複数ページ対応済み)。補欠からの合格を足した行は parts に内訳を入れること。"
+  "status": "pending"
  }
 }
