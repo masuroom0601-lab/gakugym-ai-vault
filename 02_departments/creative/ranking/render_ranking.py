@@ -11,13 +11,20 @@
 使い方: python3 render_ranking.py <data.json> <out.mp4>
 """
 import json, math, os, subprocess, sys
-from PIL import Image, ImageDraw, ImageFont
+from PIL import Image, ImageDraw, ImageFont, ImageFilter
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ASSETS = os.path.join(HERE, "assets")
+# 2026-11-03: 投稿先は③massu_smartphone(益田さんの指示)。CTAは③のアバター・IDを使う
+AVATAR_PATH = os.path.join(HERE, "..", "reel_quiz", "avatar.png")
+HANDLE = "@massu_smartphone"
+STUDY_VIDEO = os.path.join(ASSETS, "study_bg.mp4")  # CTAの背景(勉強風景の動画)
 
 W, H, FPS = 1080, 1920, 30
 FONT = os.environ["REEL_FONT"]
 FFMPEG = os.environ.get("REEL_FFMPEG", "ffmpeg")
 NAVY, GOLD, RED, GRAY = "#14245a", "#f2b200", "#e60000", "#8a93ad"
-COVER, STEP, HOLD, TOP1, CTA = 2.2, 0.62, 1.6, 2.6, 2.6
+COVER, STEP, HOLD, TOP1, CTA = 2.2, 1.0, 1.8, 2.8, 3.0  # 2026-11-03: 棒の出方が速いとの指摘で STEP 0.62→1.0秒
 
 data = json.load(open(sys.argv[1], encoding="utf-8"))
 out = sys.argv[2]
@@ -110,7 +117,7 @@ def ranking(t):
             d.text((LABEL_X - 60, y), "?", font=f(40), fill="#c9cfdd", anchor="mm")
             d.rounded_rectangle((BAR_X0, y - 16, BAR_X1, y + 16), 16, fill="#e4e7f0")
             continue
-        k = min(1.0, (t - order_from_bottom * STEP) / 0.35)
+        k = min(1.0, (t - order_from_bottom * STEP) / 0.6)
         k = 1 - (1 - k) ** 3
         rcol = RED if rk == 1 else (NAVY if rk else GRAY)
         bold(d, (LABEL_X - 60, y), f"{rk}" if rk else "-", f(46 if top3 else 40), rcol, "mm", 2)
@@ -128,8 +135,30 @@ def ranking(t):
     return im
 
 
+def photo_bg(path, dim=0.55, blur=2):
+    ph = Image.open(path).convert("RGB")
+    r = max(W / ph.width, H / ph.height)
+    ph = ph.resize((int(ph.width * r) + 1, int(ph.height * r) + 1), Image.LANCZOS)
+    l, tp = (ph.width - W) // 2, (ph.height - H) // 2
+    ph = ph.crop((l, tp, l + W, tp + H))
+    if blur:
+        ph = ph.filter(ImageFilter.GaussianBlur(blur))
+    return Image.blend(ph, Image.new("RGB", (W, H), "black"), dim)
+
+
+CAMPUS = data.get("campus_photo") or {}
+CAMPUS_IMG = photo_bg(os.path.join(HERE, CAMPUS["path"])) if CAMPUS.get("path") else None
+
+
 def top1(t):
-    im, d = base(dark=True)
+    # 2026-11-03: 背景に大学キャンパスの写真(ライセンス確認済みのもの)を使う
+    if CAMPUS_IMG is not None:
+        im = CAMPUS_IMG.copy(); d = ImageDraw.Draw(im)
+        if CAMPUS.get("credit"):
+            fc = fit(d, CAMPUS["credit"], 22, W - 80)
+            d.text((W // 2, 1800), CAMPUS["credit"], font=fc, fill="#c5cbe0", anchor="mm")
+    else:
+        im, d = base(dark=True)
     firsts = [r for rk, r in ranked if rk == 1]
     s = 1.0 + 0.08 * max(0.0, math.sin(math.pi * min(1.0, t / 0.35)))
     bold(d, (540, 520), "倍率 第1位", f(int(80 * s)), GOLD, "mm", 3)
@@ -148,19 +177,62 @@ def top1(t):
     return im
 
 
-def cta(t):
-    im, d = base(dark=True)
-    bold(d, (540, 640), "他の大学の倍率も", f(80), "white", "mm", 3)
-    bold(d, (540, 760), "毎日発信中!", f(90), GOLD, "mm", 3)
+def circular_avatar(size):
+    av = Image.open(AVATAR_PATH).convert("RGB").resize((size, size), Image.LANCZOS)
+    mask = Image.new("L", (size, size), 0)
+    ImageDraw.Draw(mask).ellipse((0, 0, size, size), fill=255)
+    o = Image.new("RGBA", (size, size)); o.paste(av, (0, 0), mask)
+    return o
+
+
+AV = circular_avatar(204)
+
+
+def study_frames():
+    """CTA背景の勉強風景動画を1フレームずつ返す(足りなければループ)"""
+    if not os.path.exists(STUDY_VIDEO):
+        while True:
+            yield None
+    cmd = [FFMPEG, "-v", "error", "-stream_loop", "-1", "-i", STUDY_VIDEO, "-vf",
+           f"scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},fps={FPS}",
+           "-f", "rawvideo", "-pix_fmt", "rgb24", "-"]
+    pr = subprocess.Popen(cmd, stdout=subprocess.PIPE)
+    dark = Image.new("RGB", (W, H), "black")
+    try:
+        while True:
+            buf = pr.stdout.read(W * H * 3)
+            if len(buf) < W * H * 3:
+                yield None; continue
+            yield Image.blend(Image.frombytes("RGB", (W, H), buf), dark, 0.55)
+    finally:
+        pr.kill()
+
+
+def cta(t, bg):
+    # 2026-11-03: ③のセルフチェックリールと同じCTA(アバター+ID)。「毎日発信中」は
+    # 毎日出すとは限らないため使わない(益田さんの指示)
+    if bg is None:
+        im, d = base(dark=True)
+    else:
+        im = bg; d = ImageDraw.Draw(im)
+    bold(d, (540, 210), "まっすー", f(72), "white", "mm", 2)
+    bold(d, (540, 300), HANDLE, f(48), GOLD, "mm", 1)
+    r = 110; cx, cy = 540, 520
+    d.ellipse((cx - r, cy - r, cx + r, cy + r), fill="white", outline=GOLD, width=8)
+    im.paste(AV, (cx - AV.width // 2, cy - AV.height // 2), AV)
+    bd = 46; bx, by = cx + r - 10, cy + r - 10
+    d.ellipse((bx - bd, by - bd, bx + bd, by + bd), fill=GOLD, outline="white", width=6)
+    bold(d, (bx, by - 6), "+", f(70), "#4472c4", "mm", 2)
+    bold(d, (540, 730), "フォロー&保存で", f(58), "white", "mm", 2)
+    bold(d, (540, 805), "志望校の倍率も見逃さない!", f(58), "white", "mm", 2)
     labels = [("フォロー", "+"), ("保存", "■"), ("シェア", "↗")]
     for i, (lab, sym) in enumerate(labels):
         x = 270 + i * 270
         sc = 1.0 + 0.15 * max(0.0, math.sin(2 * math.pi * 1.5 * t - i * 0.6))
-        r = int(80 * sc)
-        d.ellipse((x - r, 1050 - r, x + r, 1050 + r), fill="white")
-        bold(d, (x, 1050), sym, f(int(80 * sc)), NAVY, "mm", 2)
-        bold(d, (x, 1200), lab, f(48), "white", "mm", 2)
-    bold(d, (540, 1400), "志望校選びに役立ててね", f(52), "white", "mm", 2)
+        rr = int(80 * sc)
+        d.ellipse((x - rr, 1150 - rr, x + rr, 1150 + rr), fill="white")
+        bold(d, (x, 1150), sym, f(int(80 * sc)), NAVY, "mm", 2)
+        bold(d, (x, 1300), lab, f(48), "white", "mm", 2)
     footer(d, light=True)
     return im
 
@@ -173,8 +245,9 @@ for i in range(int((N * STEP + HOLD) * FPS)):
     p.stdin.write(ranking(i / FPS).tobytes())
 for i in range(int(TOP1 * FPS)):
     p.stdin.write(top1(i / FPS).tobytes())
+frames = study_frames()
 for i in range(int(CTA * FPS)):
-    p.stdin.write(cta(i / FPS).tobytes())
+    p.stdin.write(cta(i / FPS, next(frames)).tobytes())
 p.stdin.close()
 p.wait()
 print(out)

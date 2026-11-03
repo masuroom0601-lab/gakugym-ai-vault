@@ -1,0 +1,52 @@
+name: asset-fetch
+
+# 2026-11-03追加: リール用の素材(ライセンス確認済みのキャンパス写真・勉強風景の動画など)を
+# 指定URLからダウンロードしてリポジトリに保存する(手動実行のみ)。
+# 開発環境からは素材サイトに直接つながらないため、Actions経由で取り込む。
+# 取り込む素材のライセンスと出典は、必ず同じフォルダの CREDITS.md に記録すること。
+
+on:
+  workflow_dispatch:
+    inputs:
+      url:
+        description: 'ダウンロードするURL'
+        required: true
+      path:
+        description: '保存先(リポジトリ内のパス。02_departments/creative/ 配下のみ)'
+        required: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: asset-fetch
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Download
+        env:
+          URL: ${{ github.event.inputs.url }}
+          OUT: ${{ github.event.inputs.path }}
+        run: |
+          case "$OUT" in 02_departments/creative/*) ;; *) echo "保存先は02_departments/creative/配下のみ"; exit 1;; esac
+          case "$OUT" in *..*) echo "不正なパス"; exit 1;; esac
+          mkdir -p "$(dirname "$OUT")"
+          curl -sSLf -A "gakugym-asset-fetch/1.0 (contact via GitHub repo)" -o "$OUT" "$URL"
+          ls -l "$OUT"; file "$OUT"
+          SIZE=$(stat -c %s "$OUT"); [ "$SIZE" -lt 60000000 ] || { echo "60MB超は取り込まない"; exit 1; }
+      - name: Commit
+        env:
+          OUT: ${{ github.event.inputs.path }}
+        run: |
+          git config user.name "gakugym-ai-bot"
+          git config user.email "bot@example.com"
+          git add "$OUT"
+          git commit -m "asset fetch: $OUT"
+          git pull --rebase origin main
+          git push origin HEAD:main
