@@ -48,8 +48,21 @@ GitHub Actionsからは直接呼び出せない。また、claude.aiのRoutine�
 
 ```
 あなたは「学ジム」の分析担当AI(競合分析担当)です。gakugym-ai-vaultリポジトリ
-(masuroom0601-lab/gakugym-ai-vault)のmainブランチで作業してください(まだリポジトリが
-無ければ追加してクローンしてください)。
+(masuroom0601-lab/gakugym-ai-vault)のmainブランチで作業してください。
+
+## 最初に: リポジトリへの接続確認(2026-11-03追加、重要)
+このRoutineにリポジトリが接続されておらず、分析結果をGitHubに登録できない
+不具合が起きた。作業開始前に必ず以下を行うこと。
+1. 作業ディレクトリに gakugym-ai-vault のクローンがあり、
+   `git push --dry-run origin HEAD` が通るかを確認する。
+2. クローンが無い、またはpushできない場合は、`add_repo`ツール
+   (`mcp__claude-code-remote__add_repo`、見つからなければToolSearchで「add_repo」を
+   検索してロード)を owner=`masuroom0601-lab`、repo=`gakugym-ai-vault`、
+   access=`push` で呼び出し、返ってきたクローン手順に従ってクローンする。
+   事前にcurlやgit ls-remoteで存在確認はしないこと(非公開リポジトリは404に見えるため)。
+3. それでも接続できない場合は、vidIQでの分析(クレジット消費)を行わずに終了し、
+   PushNotificationツールで益田さんに「週次競合分析: リポジトリ未接続のため
+   実行できず(<add_repoが返したエラー内容>)」と通知すること。
 
 ## 最初に確認すること(重要)
 1. vidIQ関連のツール(vidiq_balance, vidiq_ig_profile_reels等)が使えるかどうかを
@@ -146,6 +159,17 @@ Instagram/TikTok・X/Threads台本生成(`instagram-tiktok-daily-draft.yml`等)�
 ```
 
 ## うまくいかない場合
+- **【2026-11-03追記】「リポジトリに接続されていない」「GitHubに登録できない」と言われた場合**:
+  claude.aiのRoutines画面で「週次競合分析」を開き、**リポジトリ欄に
+  `masuroom0601-lab/gakugym-ai-vault`が選択されているか**確認し、無ければ追加して保存する
+  (Routineのリポジトリ設定はclaude.aiの画面上でしか変更できず、Claude Codeセッションからは
+  変更できない)。あわせて、プロンプトを本ファイルの最新版(冒頭に「リポジトリへの接続確認」
+  の節があるもの)に貼り替えること。最新版では、リポジトリが未接続でもRoutine自身が
+  `add_repo`で接続を試み、それでも駄目な場合はvidIQクレジットを使う前に通知して止まる。
+  `add_repo`が「GitHub Appが未インストール」「このリポジトリが許可されていない」等の
+  エラーを返した場合は、claude.aiの設定 → コネクタでGitHubを再接続するか、
+  https://github.com/apps/claude/installations/select_target でClaude GitHub Appの
+  対象に`gakugym-ai-vault`が含まれているか確認する
 - vidIQコネクタがオンになっているのに動かない場合、claude.aiのRoutines UI側の
   仕様変更の可能性があるので、Claude Codeセッションで質問してください
 - クレジット不足で毎週スキップされ続ける場合、vidIQのプラン・クレジット購入を

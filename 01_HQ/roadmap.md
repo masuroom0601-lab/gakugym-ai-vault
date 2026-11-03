@@ -1575,3 +1575,13 @@ CTAシーンで使っているアイコンを新しいイラストに変更し�
 リールの13文字制限に収めるため、益田さんの例「似た単語の判別、どうやってる?」(15文字)は
 「似た単語、どう判別してる?」(13文字)に言い換えて例示した。
 `02_departments/instagram_tiktok/department.md`・`instagram-tiktok-daily-draft.yml`を更新。
+
+### 週次競合分析Routineのリポジトリ未接続問題への対応(2026-11-03)
+益田さんから、「週次競合分析」Routineがリポジトリに接続されておらず、分析結果を
+GitHubに登録できないとの報告があった。実際、`learned-patterns.md`には10/17の手動分析
+以降、Routineによる追記もスキップ記録(`competitor-analysis-access-check-*.md`)も
+1件も無い。Routineのリポジトリ設定はclaude.ai画面でしか変更できないため、
+`01_HQ/setup guides/competitor-analysis-weekly-routine-setup.md`に、(1)画面上での
+リポジトリ再設定手順と、(2)プロンプト冒頭に「リポジトリへの接続確認」節(未接続なら
+`add_repo`で自ら接続し、駄目ならvidIQクレジットを使う前に通知して止まる)を追加した。
+益田さんによるRoutine設定画面でのリポジトリ選択・プロンプト貼り替えが必要。
