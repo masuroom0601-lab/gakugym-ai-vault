@@ -155,6 +155,12 @@ PER_PAGE = 15
 PAGES = [ranked[i:i + PER_PAGE] for i in range(0, N, PER_PAGE)]
 MULTI = len(PAGES) > 1
 PSTEP, PHOLD = (0.3, 1.6) if MULTI else (STEP, HOLD)
+
+
+def page_timing(pi):
+    """2026-11-03: 複数ページでも、最後に見せる1〜15位のページ(pi=0)だけは
+    1ページの大学(慶應)と同じ1行1.0秒でゆっくり出す(益田さんの指示)"""
+    return (STEP, HOLD) if pi == 0 else (PSTEP, PHOLD)
 if MULTI:
     ROW_H = int(1460 / PER_PAGE)
     ROW_TOP = 300
@@ -169,7 +175,8 @@ def ranking_page(pi, t):
     bold(d, (540, 130), title, fit(d, title, 62, 980), NAVY, "mm", 2)
     sub = f"{YEAR}年度入試結果" + (f"  ({pi + 1}/{len(PAGES)}ページ・全{N}学科/方式)" if MULTI else "")
     d.text((540, 205), sub, font=fit(d, sub, 38, 980), fill=GRAY, anchor="mm")
-    shown = int(t / PSTEP) + 1
+    step, _ = page_timing(pi)
+    shown = int(t / step) + 1
     for i, (rk, r) in enumerate(rows_p):
         order_from_bottom = n - 1 - i
         y = ROW_TOP + i * ROW_H + ROW_H // 2
@@ -181,7 +188,7 @@ def ranking_page(pi, t):
             d.text((LABEL_X - 60, y), "?", font=f(40), fill="#c9cfdd", anchor="mm")
             d.rounded_rectangle((BAR_X0, y - 16, BAR_X1, y + 16), 16, fill="#e4e7f0")
             continue
-        k = min(1.0, (t - order_from_bottom * PSTEP) / min(0.6, PSTEP * 2))
+        k = min(1.0, (t - order_from_bottom * step) / min(0.6, step * 2))
         k = 1 - (1 - k) ** 3
         rcol = RED if rk == 1 else (NAVY if rk else GRAY)
         bold(d, (LABEL_X - 60, y), f"{rk}" if rk else "-", f(46 if top3 else (40 if (rk or 0) < 100 else 32)), rcol, "mm", 2)
@@ -362,7 +369,8 @@ p = subprocess.Popen([FFMPEG, "-y", "-v", "error", "-f", "rawvideo", "-pix_fmt",
 for i in range(int(COVER * FPS)):
     p.stdin.write(cover(i / FPS).tobytes())
 for pi in reversed(range(len(PAGES))):  # 下位のページから順に、最後に1位のページ
-    for i in range(int((len(PAGES[pi]) * PSTEP + PHOLD) * FPS)):
+    step, hold = page_timing(pi)
+    for i in range(int((len(PAGES[pi]) * step + hold) * FPS)):
         p.stdin.write(ranking_page(pi, i / FPS).tobytes())
 for i in range(int(TOP1 * FPS)):
     p.stdin.write(top1(i / FPS).tobytes())
