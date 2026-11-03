@@ -1,0 +1,180 @@
+#!/usr/bin/env python3
+"""「○○大学 学部別倍率ランキング」リール(②総合型選抜アカウント)を作る。
+
+2026-11-03追加(益田さんの企画)。データは各大学の公式発表(入試結果ページ・PDF)から
+作ったJSON(02_departments/sougou/ranking/data/*.json)だけを使う。パスナビは利用規約上
+商用の二次利用ができないため使わない(01_HQ/roadmap.md参照)。
+
+構成(約19秒): 表紙 → 下位から順に棒グラフで発表 → 1位を強調 → フォロー誘導。
+出典は各シーンの下端に小さく入れる。
+
+使い方: python3 render_ranking.py <data.json> <out.mp4>
+"""
+import json, math, os, subprocess, sys
+from PIL import Image, ImageDraw, ImageFont
+
+W, H, FPS = 1080, 1920, 30
+FONT = os.environ["REEL_FONT"]
+FFMPEG = os.environ.get("REEL_FFMPEG", "ffmpeg")
+NAVY, GOLD, RED, GRAY = "#14245a", "#f2b200", "#e60000", "#8a93ad"
+COVER, STEP, HOLD, TOP1, CTA = 2.2, 0.62, 1.6, 2.6, 2.6
+
+data = json.load(open(sys.argv[1], encoding="utf-8"))
+out = sys.argv[2]
+YEAR = int(data["year"])
+assert YEAR == 2026, "2026年度以外のデータは使わない(益田さんの指示)"
+
+
+def f(sz):
+    return ImageFont.truetype(FONT, sz)
+
+
+def bold(d, xy, t, font, fill, anchor="la", w=2):
+    d.text(xy, t, font=font, fill=fill, anchor=anchor, stroke_width=w, stroke_fill=fill)
+
+
+def fit(d, t, size, maxw, min_size=24):
+    while size > min_size and d.textlength(t, font=f(size)) > maxw:
+        size -= 2
+    return f(size)
+
+
+# 順位: 倍率の高い順。非公開は最下段にまとめる。表示上の倍率(小数1桁)が同じなら同順位
+rows = data["rows"]
+pub = sorted([r for r in rows if r.get("ratio") is not None], key=lambda r: -r["examinees"] / r["passers"])
+hidden = [r for r in rows if r.get("ratio") is None]
+ranked, prev, rank = [], None, 0
+for i, r in enumerate(pub):
+    if r["ratio"] != prev:
+        rank = i + 1
+    prev = r["ratio"]
+    ranked.append((rank, r))
+for r in hidden:
+    ranked.append((None, r))
+N = len(ranked)
+maxr = max([r["ratio"] for _, r in ranked if r.get("ratio")] or [1])
+
+SRC = f"出典:{data['source']['publisher']}「{data['source']['title']}」({data['source']['published'].replace('-', '/')}公表)"
+FORMULA = "倍率=受験者数÷合格者数"
+
+
+def footer(d, light=False):
+    col = "#c5cbe0" if light else GRAY
+    fs = fit(d, SRC, 24, W - 80)
+    d.text((W // 2, 1845), SRC, font=fs, fill=col, anchor="mm")
+    d.text((W // 2, 1878), FORMULA, font=f(22), fill=col, anchor="mm")
+
+
+def base(dark=False):
+    im = Image.new("RGB", (W, H), NAVY if dark else "#f6f7fb")
+    return im, ImageDraw.Draw(im)
+
+
+def cover(t):
+    im, d = base(dark=True)
+    # 斜めのストライプで動きを出す
+    off = int(t * 40) % 120
+    for x in range(-H, W + H, 120):
+        d.polygon([(x + off, 0), (x + off + 50, 0), (x + off + 50 - H * 0.4, H), (x + off - H * 0.4, H)], fill="#1a2d6b")
+    d.rounded_rectangle((250, 470, 830, 570), 50, fill=GOLD)
+    bold(d, (540, 520), f"{YEAR}年度 {data['selection']}", f(54), NAVY, "mm", 2)
+    uni = data["university"]
+    bold(d, (540, 760), uni, fit(d, uni, 130, 960), "white", "mm", 3)
+    bold(d, (540, 930), "学部別", f(110), GOLD, "mm", 3)
+    bold(d, (540, 1080), "倍率ランキング", f(120), GOLD, "mm", 3)
+    k = min(1.0, t / 0.4)
+    d.rounded_rectangle((170, 1250, 910, 1360), 55, fill="white")
+    bold(d, (540, 1305), "あなたの志望学部は何倍?", f(54), RED, "mm", 2)
+    footer(d, light=True)
+    return im
+
+
+ROW_TOP, ROW_H = 300, min(96, int(1460 / max(N, 1)))
+LABEL_X, BAR_X0, BAR_X1 = 165, 520, 900
+
+
+def ranking(t):
+    """下位から1行ずつ棒が伸びて表示される"""
+    im, d = base()
+    bold(d, (540, 130), f"{data['short']} {data['selection']} 倍率ランキング", fit(d, f"{data['short']} {data['selection']} 倍率ランキング", 62, 980), NAVY, "mm", 2)
+    d.text((540, 205), f"{YEAR}年度入試結果", font=f(38), fill=GRAY, anchor="mm")
+    shown = int(t / STEP) + 1  # 下から何行出ているか
+    for i, (rk, r) in enumerate(ranked):
+        order_from_bottom = N - 1 - i
+        y = ROW_TOP + i * ROW_H + ROW_H // 2
+        visible = order_from_bottom < shown
+        top3 = rk is not None and rk <= 3
+        if top3:
+            d.rounded_rectangle((40, y - ROW_H // 2 + 6, W - 40, y + ROW_H // 2 - 6), 18, fill="#fff3c4")
+        if not visible:
+            d.text((LABEL_X - 60, y), "?", font=f(40), fill="#c9cfdd", anchor="mm")
+            d.rounded_rectangle((BAR_X0, y - 16, BAR_X1, y + 16), 16, fill="#e4e7f0")
+            continue
+        k = min(1.0, (t - order_from_bottom * STEP) / 0.35)
+        k = 1 - (1 - k) ** 3
+        rcol = RED if rk == 1 else (NAVY if rk else GRAY)
+        bold(d, (LABEL_X - 60, y), f"{rk}" if rk else "-", f(46 if top3 else 40), rcol, "mm", 2)
+        d.text((LABEL_X - 30, y + 18), "位" if rk else "", font=f(22), fill=rcol, anchor="lm")
+        bold(d, (LABEL_X, y), r["name"], fit(d, r["name"], 40, BAR_X0 - LABEL_X - 20), "#111111", "lm", 1)
+        d.rounded_rectangle((BAR_X0, y - 16, BAR_X1, y + 16), 16, fill="#e4e7f0")
+        if r.get("ratio") is not None:
+            bw = int((BAR_X1 - BAR_X0) * (r["ratio"] / maxr) * k)
+            if bw > 32:
+                d.rounded_rectangle((BAR_X0, y - 16, BAR_X0 + bw, y + 16), 16, fill=RED if rk == 1 else (GOLD if top3 else "#4472c4"))
+            bold(d, (W - 50, y), f"{r['ratio']:.1f}倍", f(44 if top3 else 40), RED if top3 else "#111111", "rm", 2)
+        else:
+            bold(d, (W - 50, y), "非公開", f(38), GRAY, "rm", 1)
+    footer(d)
+    return im
+
+
+def top1(t):
+    im, d = base(dark=True)
+    firsts = [r for rk, r in ranked if rk == 1]
+    s = 1.0 + 0.08 * max(0.0, math.sin(math.pi * min(1.0, t / 0.35)))
+    bold(d, (540, 520), "倍率 第1位", f(int(80 * s)), GOLD, "mm", 3)
+    # 王冠
+    cx, cy = 540, 360
+    d.polygon([(cx - 110, cy + 60), (cx - 110, cy - 30), (cx - 55, cy + 15), (cx, cy - 60), (cx + 55, cy + 15), (cx + 110, cy - 30), (cx + 110, cy + 60)], fill=GOLD)
+    y = 760
+    for r in firsts:
+        bold(d, (540, y), r["name"], fit(d, r["name"], 100, 960), "white", "mm", 3)
+        y += 170
+    ratio = firsts[0]["ratio"]
+    bold(d, (540, y + 80), f"{ratio:.1f}倍", f(int(200 * s)), RED, "mm", 4)
+    r0 = firsts[0]
+    d.text((540, y + 260), f"受験者{r0['examinees']:,}人 / 合格者{r0['passers']:,}人", font=f(44), fill="#c5cbe0", anchor="mm")
+    footer(d, light=True)
+    return im
+
+
+def cta(t):
+    im, d = base(dark=True)
+    bold(d, (540, 640), "他の大学の倍率も", f(80), "white", "mm", 3)
+    bold(d, (540, 760), "毎日発信中!", f(90), GOLD, "mm", 3)
+    labels = [("フォロー", "+"), ("保存", "■"), ("シェア", "↗")]
+    for i, (lab, sym) in enumerate(labels):
+        x = 270 + i * 270
+        sc = 1.0 + 0.15 * max(0.0, math.sin(2 * math.pi * 1.5 * t - i * 0.6))
+        r = int(80 * sc)
+        d.ellipse((x - r, 1050 - r, x + r, 1050 + r), fill="white")
+        bold(d, (x, 1050), sym, f(int(80 * sc)), NAVY, "mm", 2)
+        bold(d, (x, 1200), lab, f(48), "white", "mm", 2)
+    bold(d, (540, 1400), "志望校選びに役立ててね", f(52), "white", "mm", 2)
+    footer(d, light=True)
+    return im
+
+
+p = subprocess.Popen([FFMPEG, "-y", "-v", "error", "-f", "rawvideo", "-pix_fmt", "rgb24", "-s", f"{W}x{H}", "-r", str(FPS), "-i", "-",
+                      "-an", "-c:v", "libx264", "-pix_fmt", "yuv420p", "-crf", "18", out], stdin=subprocess.PIPE)
+for i in range(int(COVER * FPS)):
+    p.stdin.write(cover(i / FPS).tobytes())
+for i in range(int((N * STEP + HOLD) * FPS)):
+    p.stdin.write(ranking(i / FPS).tobytes())
+for i in range(int(TOP1 * FPS)):
+    p.stdin.write(top1(i / FPS).tobytes())
+for i in range(int(CTA * FPS)):
+    p.stdin.write(cta(i / FPS).tobytes())
+p.stdin.close()
+p.wait()
+print(out)

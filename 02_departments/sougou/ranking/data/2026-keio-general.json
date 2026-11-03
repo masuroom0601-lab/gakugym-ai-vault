@@ -1,0 +1,102 @@
+{
+ "university": "慶應義塾大学",
+ "short": "慶應",
+ "selection": "一般選抜",
+ "year": 2026,
+ "source": {
+  "publisher": "慶應義塾大学",
+  "title": "2026年度 一般選抜 統計総括",
+  "url": "https://www.keio.ac.jp/files/32d7248026715b4d0ee6aa84b49c136bd32cd6fe3e25c6cc126df449e852b3a1",
+  "index_url": "https://www.keio.ac.jp/ja/admissions/faculty/examinations/general-admissions/",
+  "published": "2026-04-24",
+  "fetched": "2026-11-03",
+  "year_evidence": "PDF本文1行目「2026年度 一般選抜 統計総括」/一覧ページ「2026.04.24 公開 2026年度一般選抜 試験結果の公表」"
+ },
+ "formula": "受験者数÷合格者数(合格者数=PDFの「入学許可者 総数」=最終合格者+補欠からの入学許可者)",
+ "rows": [
+  {
+   "name": "文学部",
+   "examinees": 4764,
+   "passers": 1425,
+   "ratio": 3.3
+  },
+  {
+   "name": "経済学部 A方式",
+   "examinees": 3977,
+   "passers": 1036,
+   "ratio": 3.8
+  },
+  {
+   "name": "経済学部 B方式",
+   "examinees": 2164,
+   "passers": 389,
+   "ratio": 5.6
+  },
+  {
+   "name": "法学部 法律学科",
+   "examinees": 1491,
+   "passers": 393,
+   "ratio": 3.8
+  },
+  {
+   "name": "法学部 政治学科",
+   "examinees": 1347,
+   "passers": 325,
+   "ratio": 4.1
+  },
+  {
+   "name": "商学部 A方式",
+   "examinees": 4782,
+   "passers": 1601,
+   "ratio": 3.0
+  },
+  {
+   "name": "商学部 B方式",
+   "examinees": 3216,
+   "passers": 358,
+   "ratio": 9.0
+  },
+  {
+   "name": "医学部",
+   "examinees": 1058,
+   "passers": 189,
+   "ratio": 5.6
+  },
+  {
+   "name": "理工学部",
+   "examinees": 7785,
+   "passers": 2449,
+   "ratio": 3.2
+  },
+  {
+   "name": "総合政策学部",
+   "examinees": 3019,
+   "passers": 404,
+   "ratio": 7.5
+  },
+  {
+   "name": "環境情報学部",
+   "examinees": 2434,
+   "passers": 349,
+   "ratio": 7.0
+  },
+  {
+   "name": "看護医療学部",
+   "examinees": 454,
+   "passers": 166,
+   "ratio": 2.7
+  },
+  {
+   "name": "薬学部 薬学科",
+   "examinees": 1028,
+   "passers": 333,
+   "ratio": 3.1
+  },
+  {
+   "name": "薬学部 薬科学科",
+   "examinees": 768,
+   "passers": 291,
+   "ratio": 2.6
+  }
+ ]
+}
