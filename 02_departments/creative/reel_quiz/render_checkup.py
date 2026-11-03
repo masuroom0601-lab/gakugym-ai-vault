@@ -37,24 +37,59 @@ def dotted_bg(t=0.0):
 def badge(d,text):
     d.rounded_rectangle((80,110,430,240),10,fill="#4472c4")
     bold(d,(255,175),text,f(56),"white","mm",1)
+def outline(d,xy,t,font,fill,stroke,w,anchor="mm"):
+    d.text(xy,t,font=font,fill=fill,anchor=anchor,stroke_width=w,stroke_fill=stroke)
+def sunburst_bg(t):
+    im=Image.new("RGB",(W,H),"#ffd400"); d=ImageDraw.Draw(im)
+    cx,cy,R,n=540,940,2400,24
+    rot=t*6
+    for k in range(n):
+        if k%2: continue
+        a0=math.radians(rot+k*360/n); a1=math.radians(rot+(k+1)*360/n)
+        d.polygon([(cx,cy),(cx+R*math.cos(a0),cy+R*math.sin(a0)),(cx+R*math.cos(a1),cy+R*math.sin(a1))],fill="#ffa400")
+    return im,d
+def title_lines(d,text,maxw):
+    # 1行ずつ別サイズで最大化する。末尾の「チェック」は独立した行にし、
+    # 残りが長い場合は「の」の直後など自然な位置で2行に分ける
+    segs=[text]
+    if text.endswith("チェック") and len(text)>4: segs=[text[:-4],"チェック"]
+    head=segs[0]
+    if len(head)>7:
+        mid=len(head)//2
+        cuts=[i+1 for i,ch in enumerate(head[:-1]) if ch in "のなをにとでがはい" and not ("ぁ"<=head[i+1]<="ゖ") and abs(i+1-mid)<=3]
+        cut=min(cuts,key=lambda c:abs(c-mid)) if cuts else mid
+        segs=[head[:cut],head[cut:]]+segs[1:]
+    out=[]
+    for s in segs:
+        sz=210
+        while sz>90 and d.textlength(s,font=f(sz))>maxw: sz-=5
+        out.append((s,sz))
+    return out
 def intro_frame(t):
-    # 2026-10-24: 文字数が少ない(タイトルが短い)とブロック全体が画面上部に
-    # 偏って見える、という指摘を受け、内容量に応じてブロック全体を画面中央寄りに
-    # 配置するよう変更(固定y座標の積み上げをやめ、ブロック高さから逆算する)
-    im,d=dotted_bg(t)
-    badge(d,"スマホ習慣")
-    title_font=f(84)
-    title_lines=wrap(d,title,title_font,920)
-    sub_h,gap1,line_h,gap2,foot_h=84,50,118,60,70
-    n=len(title_lines)
-    block_h=sub_h+gap1+line_h*n+gap2+foot_h
-    y0=1060-block_h/2
-    bold(d,(80,y0),"あなたは何個当てはまる?",f(60),"#111111","la",2)
-    ty=y0+sub_h+gap1
-    for i,l in enumerate(title_lines):
-        bold(d,(80,ty+i*line_h),l,title_font,"#e60000","la",3)
-    fy=ty+line_h*n+gap2
-    bold(d,(80,fy),"正直にチェックしてみて!",f(54),"#111111","la",2)
+    # 2026-11-03: 表紙=プロフィール一覧のサムネイルになるため、文字が小さく
+    # インパクトが弱いとの指摘を受け全面刷新。黄色×オレンジの集中線背景+
+    # 白枠の中に特大の赤文字タイトル。プロフィール一覧は縦長動画の中央(3:4)
+    # しか表示されないので、要素はすべて y=300〜1600 の範囲に収める。
+    im,d=sunburst_bg(t)
+    lines=title_lines(d,title,860)
+    total=sum(int(sz*1.12) for _,sz in lines)
+    # バッジ上端(top)〜フッター下端までの全体を画面中央(y=960)に寄せる
+    top=int(960-(430+total+90+185)/2)
+    d.rounded_rectangle((300,top,780,top+120),60,fill="#4472c4",outline="#111111",width=8)
+    outline(d,(540,top+60),"スマホ習慣",f(66),"white","#111111",3)
+    outline(d,(540,top+230),"あなたは何個",f(92),"white","#111111",9)
+    outline(d,(540,top+340),"当てはまる?",f(92),"white","#111111",9)
+    by0=top+430; by1=by0+total+90
+    d.rounded_rectangle((60,by0+14,1020,by1+14),40,fill="#111111")
+    d.rounded_rectangle((50,by0,1010,by1),40,fill="white",outline="#111111",width=10)
+    y=by0+45
+    for l,sz in lines:
+        lh=int(sz*1.12)
+        outline(d,(530,y+lh//2),l,f(sz),"#e60000","#111111",5)
+        y+=lh
+    fy=by1+115
+    d.rounded_rectangle((90,fy-70,990,fy+70),70,fill="#e60000",outline="#111111",width=8)
+    outline(d,(540,fy),"正直にチェックしてみて!",f(70),"white","#111111",3)
     return im
 def checkbox(d,cx,cy,size,checked,scale):
     s=size*scale
