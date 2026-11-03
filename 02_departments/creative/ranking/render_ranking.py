@@ -24,7 +24,7 @@ W, H, FPS = 1080, 1920, 30
 FONT = os.environ["REEL_FONT"]
 FFMPEG = os.environ.get("REEL_FFMPEG", "ffmpeg")
 NAVY, GOLD, RED, GRAY = "#14245a", "#f2b200", "#e60000", "#8a93ad"
-COVER, STEP, HOLD, TOP1, CTA = 2.2, 1.0, 1.8, 2.8, 3.0  # 2026-11-03: 棒の出方が速いとの指摘で STEP 0.62→1.0秒
+COVER, STEP, HOLD, TOP1, PROMO, CTA = 2.2, 1.0, 1.8, 2.8, 3.0, 3.0  # 2026-11-03: 棒の出方が速いとの指摘で STEP 0.62→1.0秒
 
 data = json.load(open(sys.argv[1], encoding="utf-8"))
 out = sys.argv[2]
@@ -247,6 +247,41 @@ def study_frames():
         pr.kill()
 
 
+def promo(t):
+    """学部研究シート配布の告知(2026-11-03追加、益田さんの指示)。
+    ③は本来送客しないアカウントだが、倍率ランキング投稿だけは例外として告知を入れる。
+    「学ジム」の名前は出さず「オープンチャット」とだけ書く。リールにはリンクを貼れないため
+    プロフィールのリンクから参加するよう案内する"""
+    im = Image.new("RGB", (W, H), "#fff6d6"); d = ImageDraw.Draw(im)
+    off = int(t * 30) % 90
+    for gy in range(-90, H + 90, 90):
+        for gx in range(-90, W + 90, 90):
+            d.ellipse((gx + off - 6, gy + off - 6, gx + off + 6, gy + off + 6), fill="#f6e3a3")
+    pop = 1.0 + 0.06 * max(0.0, math.sin(math.pi * min(1.0, t / 0.35)))
+    # 学部研究シートのイラスト(紙+チェック欄)
+    cx, cy, sw, sh = 540, 560, int(300 * pop), int(380 * pop)
+    d.rounded_rectangle((cx - sw // 2 + 14, cy - sh // 2 + 14, cx + sw // 2 + 14, cy + sh // 2 + 14), 24, fill="#d9c27a")
+    d.rounded_rectangle((cx - sw // 2, cy - sh // 2, cx + sw // 2, cy + sh // 2), 24, fill="white", outline=NAVY, width=8)
+    d.rectangle((cx - sw // 2 + 30, cy - sh // 2 + 34, cx + sw // 2 - 30, cy - sh // 2 + 80), fill=NAVY)
+    d.text((cx, cy - sh // 2 + 57), "学部研究シート", font=f(int(34 * pop)), fill="white", anchor="mm")
+    for i in range(4):
+        yy = cy - sh // 2 + 130 + i * 58
+        d.rounded_rectangle((cx - sw // 2 + 34, yy - 16, cx - sw // 2 + 66, yy + 16), 6, outline=NAVY, width=5)
+        d.line([(cx - sw // 2 + 84, yy), (cx + sw // 2 - 34, yy)], fill="#c9cfdd", width=10)
+    ink = "#111111"
+    bold(d, (540, 900), "オープンチャットで", f(68), NAVY, "mm", 2)
+    d.text((540, 1030), "学部研究シート", font=f(104), fill=RED, anchor="mm", stroke_width=8, stroke_fill="white")
+    bold(d, (540, 1150), "配布中!", f(90), NAVY, "mm", 3)
+    bold(d, (540, 1290), "志望校選びや総合型対策に", f(52), ink, "mm", 1)
+    d.rounded_rectangle((110, 1390, 970, 1520), 65, fill=NAVY)
+    bold(d, (540, 1455), "プロフィールのリンクから参加", f(56), "white", "mm", 2)
+    # 上向きの矢印(プロフィールへ誘導)
+    ay = 1610 - int(18 * max(0.0, math.sin(2 * math.pi * 1.6 * t)))
+    d.polygon([(540, ay - 60), (490, ay), (590, ay)], fill=RED)
+    footer(d)
+    return im
+
+
 def draw_icon(d, kind, x, y, r):
     if kind == "follow":
         w = max(6, int(r * 0.16)); a = int(r * 0.48)
@@ -304,6 +339,8 @@ for i in range(int((N * STEP + HOLD) * FPS)):
     p.stdin.write(ranking(i / FPS).tobytes())
 for i in range(int(TOP1 * FPS)):
     p.stdin.write(top1(i / FPS).tobytes())
+for i in range(int(PROMO * FPS)):
+    p.stdin.write(promo(i / FPS).tobytes())
 frames = study_frames()
 for i in range(int(CTA * FPS)):
     p.stdin.write(cta(i / FPS, next(frames)).tobytes())
