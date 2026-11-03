@@ -10,7 +10,7 @@
   2. 出典の本文に、データの年度(例「2026年度」)が書かれている
   3. 出典の本文に、志願者(または受験者)数と合格者数がそのまま載っている
      (「4,764」「4764」どちらの書き方でも可。看護医療の男女別のように合計が本文に無い
-     場合は"parts"に内訳を書けば、内訳が本文にあり合計が一致することを確認する)
+     場合や、学科・方式を合計した行・補欠合格を足した行は"parts"に内訳(examinees/applicants/passers それぞれのリスト)を書けば、内訳が本文にあり合計が一致することを確認する)
   4. 倍率 = 分子 ÷ 合格者数 を小数1桁に丸めた値と一致する
   5. 「非公開」の行は出典URLが空であること
 使い方: python3 factcheck_ranking.py <data.json> [...]
@@ -68,7 +68,10 @@ def check(path):
                 errs.append(f"{key}の内訳{parts[key]}が出典と合わない")
         elif not has_num(t, n):
             errs.append(f"{key}={n} が出典に無い")
-        if not has_num(t, p):
+        if "passers" in parts:
+            if sum(parts["passers"]) != p or not all(has_num(t, x) for x in parts["passers"]):
+                errs.append(f"passersの内訳{parts['passers']}が出典と合わない")
+        elif not has_num(t, p):
             errs.append(f"passers={p} が出典に無い")
         if round(n / p, 1) != r["ratio"]:
             errs.append(f"倍率 {r['ratio']} ≠ {n}/{p}={n / p:.3f}")

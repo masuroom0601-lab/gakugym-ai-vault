@@ -99,7 +99,9 @@ jobs:
             ## JSONに必ず入れる項目
             university / short("${{ steps.next.outputs.short }}") / selection("一般選抜" or "総合型選抜" or
             公募制推薦で代用した場合は "公募制推薦") / year / count_key / rows(name, examinees or applicants,
-            passers, ratio, source_url。合計が本文に無く内訳しか無い場合は parts) / source(publisher, title,
+            passers, ratio, source_url。数字が出典にそのまま載っていない行〔学科・方式の合計、合格者+補欠合格など〕は
+            必ず parts に内訳を入れる。例 "parts": {"examinees": [1200, 800], "passers": [300, 150, 20]}。
+            内訳の各数字は出典にそのまま載っている数字であること。校正担当が機械照合できるようにするため) / source(publisher, title,
             url または items, published, fetched, year_evidence。動画の下端に出す短い出典文を footer に。
             例「出典:○○大学「2026年度 一般選抜 入試結果」(2026/4/1公表)」) / formula /
             school_color(hex と name。大学公式サイトのスクールカラー表記で確認。見つからなければ
