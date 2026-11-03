@@ -55,12 +55,19 @@ status: 未着手(益田さんがclaude.ai Routines画面から作成する必�
 利用できなかったため取得をスキップした」旨を記録してコミット・プッシュし、終了してください。
 
 ## 背景
-毎週日曜05:30 JST頃に`analytics-weekly-report.yml`(GitHub Actions)が動き、
-`04_analytics/manual-input/<その週の月曜日>.md`を読んで週次レポートを作成します。
+毎週月曜05:30 JST頃に`analytics-weekly-report.yml`(GitHub Actions)が動き、
+前週の`04_analytics/manual-input/<その週の月曜日>.md`を読んで週次レポートを作成します。
 従来はこのファイルへの数値入力(いいね・保存・リーチ等)を益田さんが手動で行う
 想定でしたが、2026-09以降一度も入力されず、分析が機能していませんでした。この
 Routineは、エルグラム(Instagram分析ツール)から自動でデータを取得し、代わりに
-このファイルへ書き込みます(05:30より前に完了させる必要があります)。
+このファイルへ書き込みます(日曜に実行し、月曜05:30より前に完了させる)。
+
+## 【最重要】どんな結果でも必ず実行ログを残すこと
+どの手順で終了する場合でも(成功・スキップ・エラーすべて)、最後に
+`04_analytics/elgram-run-log/<today>.md` に「何件取得できたか/どこで何の理由で
+終了したか(使った日付の値も)」を数行で書き、コミット・プッシュすること。
+「何もせず終了」は禁止(2026-10-25・11-01の実行が何も残さず終了し、原因が
+追えなかったため)。
 
 ## 手順
 
@@ -68,18 +75,26 @@ Routineは、エルグラム(Instagram分析ツール)から自動でデータ�
    を設定し、git fetch origin main && git checkout -B main origin/main で
    最新のmainを取得する。
 
-2. 今日の日付(JST)を確認し、今週(今日を含む週)の月曜日を計算する。
-   04_analytics/manual-input/<その月曜日YYYY-MM-DD>.md を探す。
-   - ファイルが存在しない場合: 何もせず終了する(analytics-weekly-report.ymlが
-     前週に作成しているはずのファイルが無いということなので、無理に新規作成
-     しない。コミット不要)。
+2. 対象週の月曜日と日曜日を、**必ず次のコマンドで**計算する(自分で暗算したり、
+   `date -d "monday this week"`等の書き方を使わないこと。日曜日に実行すると
+   誤った日付になる):
+   ```
+   TODAY=$(TZ=Asia/Tokyo date +%F)
+   MON=$(TZ=Asia/Tokyo date -d "$TODAY -$(( $(TZ=Asia/Tokyo date +%u) - 1 )) days" +%F)
+   SUN=$(TZ=Asia/Tokyo date -d "$MON +6 days" +%F)
+   echo "$TODAY $MON $SUN"
+   ```
+   (例: 2026-11-01(日)に実行 → MON=2026-10-26、SUN=2026-11-01)
+   04_analytics/manual-input/<MON>.md を探す。
+   - ファイルが存在しない場合: `04_analytics/_templates/weekly-input-template.md`を
+     コピーして作成し(frontmatterのweek_start/week_endをMON/SUNにする)、続行する。
 
 3. エルグラムのツールでデータを取得する:
    - list_bots でbot_id(学ジムのInstagramアカウント、massu_gakugymのはず)を取得する
-   - list_posts でbot_id・status: "posted"・from_dateに今週の月曜日・to_dateに
-     今週の日曜日を指定し、今週投稿されたフィード/リール一覧を取得する
-   - 投稿が1件もない場合は、データ取得による更新は行わず、終了する(無理に
-     空欄を埋めない。コミット不要)
+   - list_posts でbot_id・status: "posted"・from_dateにMON・to_dateにSUNを
+     指定し、今週投稿されたフィード/リール一覧を取得する
+   - 投稿が1件もない場合は、manual-inputは更新しないが、実行ログには
+     「0件だった(MON〜SUN)」と記録する
    - 投稿がある場合、get_post_detail で各投稿の詳細(いいね・保存・リーチ等の
      インサイト)を取得する
    - get_user_stats で、from_dateを今週の月曜日、to_dateを今週の日曜日として、
@@ -99,8 +114,8 @@ Routineは、エルグラム(Instagram分析ツール)から自動でデータ�
      自動取得しました。TikTok以降は引き続き手動入力をお願いします)」の一行を
      追記する(無ければ追加、既にあれば重複させない)
 
-5. 変更があった場合のみコミット・プッシュする:
-   git add 04_analytics/manual-input/
+5. 実行ログと合わせてコミット・プッシュする(ログは毎回必ず作るので、毎回コミットが発生する):
+   git add 04_analytics/manual-input/ 04_analytics/elgram-run-log/
    git commit -m "elgram weekly data fetch $(date +%F)"
    git pull --rebase origin main
    git push origin main
@@ -124,8 +139,8 @@ Routineは、エルグラム(Instagram分析ツール)から自動でデータ�
   推測で埋めないこと
 - 投稿データが0件の週は、無理に「フォロワー数だけ」更新せず何もしないこと
   (中途半端な更新は紛らわしいため)
-- 失敗した場合(エルグラムのツールがエラーを返す等)は、無理に続けず何も
-  変更せずに終了してよい(次週また試行される)
+- 失敗した場合(エルグラムのツールがエラーを返す等)は、無理に続けず
+  manual-inputは変更しないが、エラー内容を実行ログに必ず記録してコミットする
 ```
 
 ## うまくいかない場合
