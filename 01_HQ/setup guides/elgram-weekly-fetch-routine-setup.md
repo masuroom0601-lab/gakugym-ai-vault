@@ -78,12 +78,10 @@ Routineは、エルグラム(Instagram分析ツール)から自動でデータ�
 2. 対象週の月曜日と日曜日を、**必ず次のコマンドで**計算する(自分で暗算したり、
    `date -d "monday this week"`等の書き方を使わないこと。日曜日に実行すると
    誤った日付になる):
-   ```
-   TODAY=$(TZ=Asia/Tokyo date +%F)
-   MON=$(TZ=Asia/Tokyo date -d "$TODAY -$(( $(TZ=Asia/Tokyo date +%u) - 1 )) days" +%F)
-   SUN=$(TZ=Asia/Tokyo date -d "$MON +6 days" +%F)
-   echo "$TODAY $MON $SUN"
-   ```
+       TODAY=$(TZ=Asia/Tokyo date +%F)
+       MON=$(TZ=Asia/Tokyo date -d "$TODAY -$(( $(TZ=Asia/Tokyo date +%u) - 1 )) days" +%F)
+       SUN=$(TZ=Asia/Tokyo date -d "$MON +6 days" +%F)
+       echo "$TODAY $MON $SUN"
    (例: 2026-11-01(日)に実行 → MON=2026-10-26、SUN=2026-11-01)
    04_analytics/manual-input/<MON>.md を探す。
    - ファイルが存在しない場合: `04_analytics/_templates/weekly-input-template.md`を
