@@ -102,12 +102,16 @@ def main():
     out_dir = os.path.dirname(out_path)
     if out_dir:
         os.makedirs(out_dir, exist_ok=True)
-    today = datetime.date.today()
+    # 第2引数(YYYY-MM-DD)で投稿日を指定可能(予約投稿用に先の日付分をまとめて作るため)
+    today = datetime.date.fromisoformat(sys.argv[2]) if len(sys.argv) > 2 else datetime.date.today()
     target = next_kyotsu_test_date(today)
     days_left = (target - today).days
-    # 日付をシードにしてランダム選択する(同じ日に複数回実行しても同じ結果に
-    # なるようにしつつ、日ごとの出現順は固定ローテーションにならないようにする)
-    msg = random.Random(today.isoformat()).choice(MESSAGES)
+    # 2026-11-03変更: 日ごとの独立ランダムだと連続する日で同じ文言が出たため、
+    # 固定シードでシャッフルした並びを日付順に1つずつ使う方式にした
+    # (ランダムな並びのまま、20日間は同じ文言が出ない)
+    order = MESSAGES[:]
+    random.Random("gakugym-countdown").shuffle(order)
+    msg = order[today.toordinal() % len(order)]
 
     im, d = navy_bg()
 
@@ -139,7 +143,11 @@ def main():
     if av is not None:
         im.paste(av, (W // 2 - 60, LYRIC_BOTTOM + 40), av)
 
-    bold(d, (540, LYRIC_BOTTOM + 220), msg, f(42), "white", "mm", 1)
+    # 長い一言は画面幅(左右60pxの余白)に収まるまで文字を小さくする
+    msz = 42
+    while msz > 28 and d.textlength(msg, font=f(msz)) > W - 120:
+        msz -= 2
+    bold(d, (540, LYRIC_BOTTOM + 220), msg, f(msz), "white", "mm", 1)
     bold(d, (540, LYRIC_BOTTOM + 290), target.strftime("%Y年%m月%d日(土)午前9時30分開始予定"), f(32), "#aab4d6", "mm", 1)
 
     im.save(out_path)
