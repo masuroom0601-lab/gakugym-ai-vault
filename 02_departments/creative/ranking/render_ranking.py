@@ -200,6 +200,8 @@ def ranking_page(pi, t):
             if bw > 32:
                 d.rounded_rectangle((BAR_X0, y - 16, BAR_X0 + bw, y + 16), 16, fill=RED if rk == 1 else (GOLD if top3 else "#4472c4"))
             bold(d, (W - 50, y), f"{r['ratio']:.1f}倍", f(44 if top3 else 40), RED if top3 else "#111111", "rm", 2)
+        elif r.get("passers") == 0:
+            bold(d, (W - 50, y), "合格0人", f(38), GRAY, "rm", 1)  # 2026-11-05: 倍率を出せない(非公開ではない)
         else:
             bold(d, (W - 50, y), "非公開", f(38), GRAY, "rm", 1)
     footer(d)

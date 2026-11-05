@@ -57,6 +57,16 @@ def check(path):
     ok, lines = True, []
     for r in d["rows"]:
         name = r["name"]
+        if r.get("ratio") is None and r.get("passers") == 0 and r.get("source_url"):
+            # 2026-11-05: 合格者0人の入試は「非公開」ではなく倍率を出せないだけ。数字を出典と照合する
+            try:
+                t = text_of(r["source_url"])
+                good = (year in re.sub(r"\s+", "", t)) and has_num(t, r[key])
+            except Exception as e:
+                good = False
+            lines.append(f"{'OK ' if good else 'NG '} {name}: 合格者0人({key}={r.get(key)}、倍率は出せない)")
+            ok &= good
+            continue
         if r.get("ratio") is None:
             good = not r.get("source_url")
             lines.append(f"{'OK ' if good else 'NG '} {name}: 非公開(出典URLなし)")
