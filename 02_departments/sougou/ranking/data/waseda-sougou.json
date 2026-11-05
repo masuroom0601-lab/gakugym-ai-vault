@@ -1,0 +1,173 @@
+{
+ "university": "早稲田大学",
+ "short": "早稲田",
+ "selection": "総合型選抜",
+ "year": 2026,
+ "count_key": "applicants",
+ "source": {
+  "publisher": "早稲田大学",
+  "title": "2026年度入試結果「総合型選抜・学校推薦型選抜・帰国生/外国学生を対象とした入試・eスクール入試による入試結果」",
+  "url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf",
+  "index_url": "https://www.waseda.jp/inst/admission/undergraduate/result/",
+  "published": "2026-05",
+  "fetched": "2026-11-05",
+  "year_evidence": "PDF内の各表に「2026年度入試結果」と明記(総合型選抜の各入試)/公式「近年の入試結果」ページ最上段に掲載/PDF作成日2026-05-09/URLのアップロード月2026/05(正確な公表日の記載なし)。2027年度入試は選考が進行中で最終結果が未公表のため2026年度を使用",
+  "items": [
+   {
+    "row": "人間科学 地域探究・貢献入試",
+    "title": "志願者19・最終選考合格者0のため倍率を算出できない(非公開表示)",
+    "url": null,
+    "year_evidence": "PDF「2026年度入試結果」人間科学部の行"
+   },
+   {
+    "row": "スポーツ科学 アスリート選抜(Ⅱ群)",
+    "title": "非公開",
+    "url": null,
+    "year_evidence": "PDFに「公募制ではありません」とあり、志願者数・合格者数の記載なし"
+   }
+  ]
+ },
+ "footer": "出典:早稲田大学「2026年度入試結果(総合型選抜ほか)」(2026/5公表)/非公開=公式に未掲載または合格者0で算出不可",
+ "formula": "志願者数÷最終合格者数(総合型の公表資料に受験者数が無いため。地域探究・貢献入試は最終選考合格者数)",
+ "rows": [
+  {
+   "name": "教育 地域探究・貢献入試",
+   "applicants": 63,
+   "passers": 3,
+   "ratio": 21.0,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf"
+  },
+  {
+   "name": "スポーツ科学 地域探究・貢献入試",
+   "applicants": 17,
+   "passers": 1,
+   "ratio": 17.0,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf"
+  },
+  {
+   "name": "文 地域探究・貢献入試",
+   "applicants": 33,
+   "passers": 2,
+   "ratio": 16.5,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf"
+  },
+  {
+   "name": "法 地域探究・貢献入試",
+   "applicants": 54,
+   "passers": 5,
+   "ratio": 10.8,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf"
+  },
+  {
+   "name": "文化構想 地域探究・貢献入試",
+   "applicants": 86,
+   "passers": 10,
+   "ratio": 8.6,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf"
+  },
+  {
+   "name": "社会科学 全国自己推薦",
+   "applicants": 293,
+   "passers": 37,
+   "ratio": 7.9,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf"
+  },
+  {
+   "name": "文化構想 JCulP 日本学生",
+   "applicants": 171,
+   "passers": 23,
+   "ratio": 7.4,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf"
+  },
+  {
+   "name": "文化構想 JCulP 海外学生",
+   "applicants": 162,
+   "passers": 23,
+   "ratio": 7.0,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf"
+  },
+  {
+   "name": "スポーツ科学 スポーツサポート歴",
+   "applicants": 30,
+   "passers": 5,
+   "ratio": 6.0,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf"
+  },
+  {
+   "name": "国際教養 AO 国内選考",
+   "applicants": 721,
+   "passers": 150,
+   "ratio": 4.8,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf"
+  },
+  {
+   "name": "スポーツ科学 スポーツ自己推薦(Ⅲ群)",
+   "applicants": 375,
+   "passers": 81,
+   "ratio": 4.6,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf"
+  },
+  {
+   "name": "創造理工 建築 AO",
+   "applicants": 76,
+   "passers": 17,
+   "ratio": 4.5,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf"
+  },
+  {
+   "name": "国際教養 AO 国外選考",
+   "applicants": 427,
+   "passers": 123,
+   "ratio": 3.5,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf"
+  },
+  {
+   "name": "人間科学 FACT選抜",
+   "applicants": 51,
+   "passers": 25,
+   "ratio": 2.0,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf"
+  },
+  {
+   "name": "先進理工 特別選抜",
+   "applicants": 5,
+   "passers": 3,
+   "ratio": 1.7,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf"
+  },
+  {
+   "name": "スポーツ科学 トップアスリート(Ⅰ群)",
+   "applicants": 3,
+   "passers": 2,
+   "ratio": 1.5,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf"
+  },
+  {
+   "name": "人間科学 地域探究・貢献入試",
+   "applicants": 19,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.waseda.jp/inst/admission/assets/uploads/2026/05/a62208de0b690578423b7661e2e9a63d.pdf"
+  },
+  {
+   "name": "スポーツ科学 アスリート選抜(Ⅱ群)",
+   "ratio": null,
+   "source_url": null
+  }
+ ],
+ "campus_photo": {
+  "path": "assets/campus_waseda.jpg",
+  "credit": "写真:Kakidai / Wikimedia Commons(CC BY-SA 4.0)",
+  "source": "https://commons.wikimedia.org/wiki/File:Waseda_University_2014.JPG",
+  "license": "CC BY-SA 4.0"
+ },
+ "school_color": {
+  "hex": "#8e1729",
+  "name": "WASEDA Red(えんじ)",
+  "note": "早稲田大学公式「UIのカラーシステム」(https://www.waseda.jp/top/assets/uploads/2021/06/UI3001.png)でWASEDA RedがR142 G23 B40 = #8E1729と指定"
+ },
+ "caption": "早稲田の総合型選抜で一番倍率が高いのは?\n\n2026年度の総合型選抜で倍率が高かったのはこの3つ。\n1位 教育 地域探究・貢献入試 21.0倍\n2位 スポーツ科学 地域探究・貢献入試 17.0倍\n3位 文 地域探究・貢献入試 16.5倍\n(倍率=志願者数÷最終合格者数。2026年度入試。募集人員は若干名)\n\n出典:早稲田大学公式発表(2026年度入試結果 総合型選抜ほか)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #早稲田大学 #総合型選抜 #受験生",
+ "factcheck": {
+  "status": "pending"
+ }
+}
