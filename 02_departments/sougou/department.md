@@ -49,6 +49,8 @@ reports_to: 統括担当
 2. 校正担当がファクトチェック(`ranking-factcheck.yml`)
 3. 合格したら `02_departments/creative/ranking/daily/<日付>-<大学>-<general|sougou>.mp4` に動画を保存
    (不合格なら動画は作らず、翌日に同じ大学を指摘どおり直してやり直す)
+4. 投稿用キャプションを `02_departments/creative/ranking/captions/<日付>-<大学>-<種類>.md` に書き出す
+   (本文はデータJSONの caption。2026-11-06追加)
 - 国公立の一般選抜は前期日程を使う
 
 ## ファイル

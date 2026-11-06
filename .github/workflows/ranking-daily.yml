@@ -173,7 +173,11 @@ jobs:
           SIZE=$(stat -c %s "$OUT"); [ "$SIZE" -gt 200000 ] || { echo "動画サイズが異常"; exit 1; }
           git config user.name "gakugym-ai-bot"
           git config user.email "bot@example.com"
-          git add "$OUT"
+          # 2026-11-06: キャプションを読みやすいMarkdownにも書き出す(captions/<日付>-<大学>-<種類>.md)
+          CAP="02_departments/creative/ranking/captions/${D}-${SLUG}-${KIND}.md"
+          mkdir -p "$(dirname "$CAP")"
+          python3 02_departments/creative/ranking/write_caption.py "$DATA" "$CAP" "$OUT"
+          git add "$OUT" "$CAP"
           git commit -m "ranking reel ${D}: ${SLUG}-${KIND}"
           git pull --rebase origin main
           git push origin HEAD:main

@@ -1728,3 +1728,5 @@ GitHub Actions(`passnavi-probe.yml`、手動実行の調査用)からパスナ�
 台本の「## 選択肢」が①〜④、正解・キャプションがA〜Dと混在し、校正担当が11/3から毎日「要修正」に
 していたため、益田さんの指示で台本全体をA〜Dに統一。`x-threads-daily-draft.yml`の書式・ルールを変更し、
 動画生成`make_reel_from_draft.py`はA〜D(旧台本の①〜④も)を読めるよう修正・動作確認済み
+- 2026-11-06追記: 倍率ランキングのキャプションを`02_departments/creative/ranking/captions/`に1本ずつMarkdownで保存
+  (慶應2本のキャプションも新規作成)。毎日の自動作成でも動画と一緒に書き出すよう`ranking-daily.yml`を変更
