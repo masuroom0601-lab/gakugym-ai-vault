@@ -44,10 +44,12 @@ def parse(path):
     m = re.search(r"^level:\s*(\S+)", t, re.M)
     q = re.search(r"^## 問題\s*\n(.+?)\n\s*\n", t + "\n\n", re.M | re.S)
     sec = re.search(r"^## 選択肢\s*\n(.*?)(?=^## |\Z)", t, re.M | re.S)
-    o = re.findall(r"^([①②③④])\s*(.+)$", sec.group(1) if sec else "", re.M)
+    # 2026-11-05: 台本の選択肢は A〜D 表記に統一(益田さんの指示)。旧台本の①〜④も読めるようにしておく
+    o = re.findall(r"^([A-DＡ-Ｄ①②③④])[\.\)．)]?\s*(.+)$", sec.group(1) if sec else "", re.M)
     if not (m and q) or len(o) != 4:
-        die("台本からlevel/問題/選択肢①〜④を読み取れません")
-    return m.group(1), " ".join(q.group(1).split()), [(c, s.strip()) for c, s in o]
+        die("台本からlevel/問題/選択肢A〜Dを読み取れません")
+    norm = dict(zip("①②③④ＡＢＣＤ", "ABCDABCD"))
+    return m.group(1), " ".join(q.group(1).split()), [(norm.get(c, c), s.strip()) for c, s in o]
 
 def main():
     if len(sys.argv) < 2: die("台本mdを指定してください")
@@ -70,8 +72,7 @@ def main():
         except ImportError:
             die("Pillowを使えません")
     level, q, opts = parse(draft)
-    letters = dict(zip("①②③④", "ABCD"))
-    opt_txt = "|".join(f"{letters[c]}) {s}" for c, s in opts)
+    opt_txt = "|".join(f"{c}) {s}" for c, s in opts)
     env = dict(os.environ, REEL_FONT=font, REEL_FFMPEG=ffmpeg)
     r = subprocess.run([sys.executable, os.path.join(HERE, "render_reel.py"),
                         level, q, opt_txt, out, os.path.join(HERE, "end_bg_1.jpg")], env=env)
