@@ -1,0 +1,246 @@
+{
+ "university": "上智大学",
+ "short": "上智",
+ "selection": "公募制推薦",
+ "year": 2026,
+ "count_key": "applicants",
+ "source": {
+  "publisher": "上智大学",
+  "title": "2026年度 入学試験データ 特別入学試験 志願者・合格者数一覧(推薦入学試験〔公募制〕の列)",
+  "url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf",
+  "index_url": "https://adm.sophia.ac.jp/jpn/gakubu_tokubetsu_ad/ad_toukei/toukei2026/",
+  "published": "2026-04",
+  "fetched": "2026-11-07",
+  "year_evidence": "PDF本文1行目「2026年度 入学試験データ Statistics for 2026 admissions」/公式「2026年度特別入試 入試統計一覧」ページ/URLのアップロード月 2026/04。2027年度の公募制は合格発表が2026/12/10のため最終結果が未確定=使わない",
+  "items": [
+   {
+    "row": "理工 情報理工 公募制",
+    "title": "合格者0人(志願者11人・合格者0人)",
+    "url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf",
+    "year_evidence": "同PDFの情報理工学科・公募制の列(志願者計11、合格者計0)"
+   }
+  ]
+ },
+ "footer": "出典:上智大学「2026年度 入学試験データ 特別入学試験(公募制)」(2026/4公表)",
+ "formula": "志願者数÷合格者数(公募制の公表資料に受験者数が無いため。推薦入学試験〔公募制〕の列。指定校制・帰国生・IB・外国人は除く)",
+ "rows": [
+  {
+   "name": "総合人間科学 心理 公募制",
+   "applicants": 81,
+   "passers": 12,
+   "ratio": 6.8,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "総合人間科学 教育 公募制",
+   "applicants": 49,
+   "passers": 9,
+   "ratio": 5.4,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "総合人間科学 社会 公募制",
+   "applicants": 52,
+   "passers": 10,
+   "ratio": 5.2,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "経済 経営 公募制",
+   "applicants": 81,
+   "passers": 21,
+   "ratio": 3.9,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "法 法律 公募制",
+   "applicants": 99,
+   "passers": 28,
+   "ratio": 3.5,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "外国語 ポルトガル語 公募制",
+   "applicants": 17,
+   "passers": 5,
+   "ratio": 3.4,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "文 史 公募制",
+   "applicants": 35,
+   "passers": 11,
+   "ratio": 3.2,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "神 神 公募制",
+   "applicants": 25,
+   "passers": 8,
+   "ratio": 3.1,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "経済 経済 公募制",
+   "applicants": 53,
+   "passers": 17,
+   "ratio": 3.1,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "法 国際関係法 公募制",
+   "applicants": 48,
+   "passers": 17,
+   "ratio": 2.8,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "理工 機能創造理工 公募制",
+   "applicants": 27,
+   "passers": 10,
+   "ratio": 2.7,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "文 哲 公募制",
+   "applicants": 23,
+   "passers": 9,
+   "ratio": 2.6,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "文 新聞 公募制",
+   "applicants": 66,
+   "passers": 25,
+   "ratio": 2.6,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "総合グローバル 公募制",
+   "applicants": 168,
+   "passers": 64,
+   "ratio": 2.6,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "国際教養 公募制",
+   "applicants": 82,
+   "passers": 31,
+   "ratio": 2.6,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "総合人間科学 社会福祉 公募制",
+   "applicants": 52,
+   "passers": 21,
+   "ratio": 2.5,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "法 地球環境法 公募制",
+   "applicants": 28,
+   "passers": 11,
+   "ratio": 2.5,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "外国語 英語 公募制",
+   "applicants": 135,
+   "passers": 60,
+   "ratio": 2.3,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "理工 物質生命理工 公募制",
+   "applicants": 13,
+   "passers": 6,
+   "ratio": 2.2,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "外国語 イスパニア語 公募制",
+   "applicants": 19,
+   "passers": 9,
+   "ratio": 2.1,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "文 国文 公募制",
+   "applicants": 6,
+   "passers": 3,
+   "ratio": 2.0,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "外国語 ドイツ語 公募制",
+   "applicants": 22,
+   "passers": 12,
+   "ratio": 1.8,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "外国語 ロシア語 公募制",
+   "applicants": 11,
+   "passers": 6,
+   "ratio": 1.8,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "文 英文 公募制",
+   "applicants": 31,
+   "passers": 19,
+   "ratio": 1.6,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "文 フランス文 公募制",
+   "applicants": 15,
+   "passers": 10,
+   "ratio": 1.5,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "総合人間科学 看護 公募制",
+   "applicants": 29,
+   "passers": 20,
+   "ratio": 1.5,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "文 ドイツ文 公募制",
+   "applicants": 18,
+   "passers": 13,
+   "ratio": 1.4,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "外国語 フランス語 公募制",
+   "applicants": 7,
+   "passers": 5,
+   "ratio": 1.4,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  },
+  {
+   "name": "理工 情報理工 公募制",
+   "applicants": 11,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_tokubetsu.pdf"
+  }
+ ],
+ "school_color": {
+  "hex": "#9a003d",
+  "name": "上智のえんじ",
+  "note": "大学公式の色コード記載は確認できず。上智大学 入試情報サイト(adm.sophia.ac.jp)のtheme-color/mask-icon指定色 #9a003d を採用(一般選抜データと同じ)"
+ },
+ "campus_photo": {
+  "path": "assets/campus_sophia.jpg",
+  "credit": "写真:Dick Thomas Johnson / Wikimedia Commons(CC BY 2.0)",
+  "source": "https://commons.wikimedia.org/wiki/File:Sophia_University_Yotsuya_Campus_(6459805535).jpg",
+  "license": "CC BY 2.0"
+ },
+ "caption": "上智で一番倍率が高い学科、知ってる?\n\n私が公式の入試結果を調べたよ。上智には総合型選抜がないので、自己推薦書・課題・面接などで選ぶ公募制推薦で比べてみた(2026年度入試)。倍率が高かったのは、\n1位 総合人間科学 心理 6.8倍\n2位 総合人間科学 教育 5.4倍\n3位 総合人間科学 社会 5.2倍\n(倍率=志願者数÷合格者数。公募制推薦の公表資料に受験者数がないため)\n\n出典:上智大学公式発表(2026年度 入学試験データ 特別入学試験 志願者・合格者数一覧)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね\n\nきみの志望校選びに役立ったら、保存・フォローしてね\n\n#大学受験 #倍率 #上智大学 #公募制推薦 #受験生",
+ "factcheck": {
+  "status": "pending"
+ }
+}
