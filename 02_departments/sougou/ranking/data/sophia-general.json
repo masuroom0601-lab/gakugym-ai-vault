@@ -1,0 +1,399 @@
+{
+ "university": "上智大学",
+ "short": "上智",
+ "selection": "一般選抜",
+ "year": 2026,
+ "count_key": "examinees",
+ "source": {
+  "publisher": "上智大学",
+  "title": "2026年度 入学試験データ 一般入学試験 学部学科試験・共通テスト併用方式 志願者・合格者数一覧",
+  "url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf",
+  "index_url": "https://adm.sophia.ac.jp/jpn/gakubu_ippan_ad/ippan_toukei/toukei2026/",
+  "published": "2026-04",
+  "fetched": "2026-11-06",
+  "year_evidence": "PDF本文1行目「2026年度 入学試験データ Statistics for 2026 admissions」/公式「2026年度一般選抜 入試統計一覧」ページ(4/14訂正版の注記あり)/URLのアップロード月 2026/04"
+ },
+ "footer": "出典:上智大学「2026年度 入学試験データ 学部学科試験・共通テスト併用方式」(2026/4公表)",
+ "formula": "受験者数÷合格者数(受験者数=第一次受験者数(A)、合格者数=最終合格者数(B)+補欠入学許可者数(C)。学部学科試験・共通テスト併用方式。TEAP・共通テスト利用は除く)",
+ "rows": [
+  {
+   "name": "総合人間科学 教育",
+   "examinees": 286,
+   "passers": 43,
+   "ratio": 6.7,
+   "parts": {
+    "passers": [
+     26,
+     17
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "総合人間科学 心理",
+   "examinees": 199,
+   "passers": 34,
+   "ratio": 5.9,
+   "parts": {
+    "passers": [
+     20,
+     14
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "総合人間科学 社会福祉",
+   "examinees": 298,
+   "passers": 63,
+   "ratio": 4.7,
+   "parts": {
+    "passers": [
+     30,
+     33
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "経済 経営",
+   "examinees": 1781,
+   "passers": 399,
+   "ratio": 4.5,
+   "parts": {
+    "passers": [
+     301,
+     98
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "総合人間科学 社会",
+   "examinees": 401,
+   "passers": 98,
+   "ratio": 4.1,
+   "parts": {
+    "passers": [
+     60,
+     38
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "文 哲",
+   "examinees": 194,
+   "passers": 51,
+   "ratio": 3.8,
+   "parts": {
+    "passers": [
+     38,
+     13
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "文 ドイツ文",
+   "examinees": 163,
+   "passers": 43,
+   "ratio": 3.8,
+   "parts": {
+    "passers": [
+     35,
+     8
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "法 法律",
+   "examinees": 721,
+   "passers": 201,
+   "ratio": 3.6,
+   "parts": {
+    "passers": [
+     180,
+     21
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "文 国文",
+   "examinees": 403,
+   "passers": 113,
+   "ratio": 3.6,
+   "parts": {
+    "passers": [
+     85,
+     28
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "総合グローバル",
+   "examinees": 783,
+   "passers": 217,
+   "ratio": 3.6,
+   "parts": {
+    "passers": [
+     180,
+     37
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "文 フランス文",
+   "examinees": 139,
+   "passers": 41,
+   "ratio": 3.4,
+   "parts": {
+    "passers": [
+     30,
+     11
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "経済 経済",
+   "examinees": 1043,
+   "passers": 314,
+   "ratio": 3.3,
+   "parts": {
+    "passers": [
+     250,
+     64
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "外国語 英語",
+   "examinees": 488,
+   "passers": 160,
+   "ratio": 3.1,
+   "parts": {
+    "passers": [
+     140,
+     20
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "文 英文",
+   "examinees": 476,
+   "passers": 157,
+   "ratio": 3.0,
+   "parts": {
+    "passers": [
+     120,
+     37
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "理工 物質生命理工",
+   "examinees": 897,
+   "passers": 301,
+   "ratio": 3.0,
+   "parts": {
+    "passers": [
+     200,
+     101
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "神 神",
+   "examinees": 40,
+   "passers": 14,
+   "ratio": 2.9,
+   "parts": {
+    "passers": [
+     11,
+     3
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "理工 機能創造理工",
+   "examinees": 839,
+   "passers": 304,
+   "ratio": 2.8,
+   "parts": {
+    "passers": [
+     200,
+     104
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "外国語 ロシア語",
+   "examinees": 287,
+   "passers": 102,
+   "ratio": 2.8,
+   "parts": {
+    "passers": [
+     102,
+     0
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "理工 情報理工",
+   "examinees": 794,
+   "passers": 290,
+   "ratio": 2.7,
+   "parts": {
+    "passers": [
+     190,
+     100
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "文 史",
+   "examinees": 314,
+   "passers": 120,
+   "ratio": 2.6,
+   "parts": {
+    "passers": [
+     95,
+     25
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "法 地球環境法",
+   "examinees": 238,
+   "passers": 93,
+   "ratio": 2.6,
+   "parts": {
+    "passers": [
+     60,
+     33
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "外国語 ポルトガル語",
+   "examinees": 307,
+   "passers": 119,
+   "ratio": 2.6,
+   "parts": {
+    "passers": [
+     102,
+     17
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "外国語 イスパニア語",
+   "examinees": 418,
+   "passers": 164,
+   "ratio": 2.5,
+   "parts": {
+    "passers": [
+     130,
+     34
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "法 国際関係法",
+   "examinees": 407,
+   "passers": 171,
+   "ratio": 2.4,
+   "parts": {
+    "passers": [
+     121,
+     50
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "文 新聞",
+   "examinees": 194,
+   "passers": 94,
+   "ratio": 2.1,
+   "parts": {
+    "passers": [
+     70,
+     24
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "外国語 フランス語",
+   "examinees": 265,
+   "passers": 130,
+   "ratio": 2.0,
+   "parts": {
+    "passers": [
+     110,
+     20
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "総合人間科学 看護",
+   "examinees": 174,
+   "passers": 89,
+   "ratio": 2.0,
+   "parts": {
+    "passers": [
+     50,
+     39
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  },
+  {
+   "name": "外国語 ドイツ語",
+   "examinees": 147,
+   "passers": 76,
+   "ratio": 1.9,
+   "parts": {
+    "passers": [
+     65,
+     11
+    ]
+   },
+   "source_url": "https://adm.sophia.ac.jp/assets/uploads/sites/2/2026/04/2026_toukei_ippan_heiyou_correct0414.pdf"
+  }
+ ],
+ "campus_photo": {
+  "path": "assets/campus_sophia.jpg",
+  "credit": "写真:Dick Thomas Johnson / Wikimedia Commons(CC BY 2.0)",
+  "source": "https://commons.wikimedia.org/wiki/File:Sophia_University_Yotsuya_Campus_(6459805535).jpg",
+  "license": "CC BY 2.0"
+ },
+ "school_color": {
+  "hex": "#9a003d",
+  "name": "上智のえんじ",
+  "note": "大学公式の色コード記載は確認できず。上智大学 入試情報サイト(adm.sophia.ac.jp)のtheme-color/mask-icon指定色 #9a003d を採用"
+ },
+ "caption": "上智で一番倍率が高い学科、知ってる?\n\n私が公式の入試結果を調べたよ。2026年度の一般選抜(学部学科試験)で倍率が高かったのは、\n1位 総合人間科学部 教育学科 6.7倍\n2位 総合人間科学部 心理学科 5.9倍\n3位 総合人間科学部 社会福祉学科 4.7倍\n(倍率=第一次受験者数÷合格者数〔最終合格+補欠入学許可〕、2026年度入試)\n\n出典:上智大学公式発表(2026年度 入学試験データ 学部学科試験・共通テスト併用方式)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね\n\nきみの志望校選びに役立ったら、保存・フォローしてね\n\n#大学受験 #倍率 #上智大学 #一般選抜 #受験生",
+ "factcheck": {
+  "status": "pending"
+ }
+}
