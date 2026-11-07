@@ -1,0 +1,287 @@
+{
+  "university": "東京理科大学",
+  "short": "東京理科",
+  "selection": "一般選抜",
+  "year": 2026,
+  "count_key": "examinees",
+  "source": {
+    "publisher": "東京理科大学",
+    "title": "2026年度 入学試験結果(入試ガイド掲載「一般選抜 B方式入学試験」「S方式入学試験」の表)",
+    "url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf",
+    "index_url": "https://www.tus.ac.jp/admissions/university/data/",
+    "published": "2026-06",
+    "fetched": "2026-11-08",
+    "year_evidence": "PDF1ページ目の見出し「［2026年度 入学試験結果］」/B方式・S方式の表の倍率列が「2026年度」「2025年度」で、2026年度が当年/公式「過去の入試データ」ページに掲載/HTTP Last-Modified 2026-06-02(PDF内に正確な公表日の記載なし)"
+  },
+  "footer": "出典:東京理科大学「2026年度 入学試験結果」(2026/6公表)",
+  "formula": "受験者数÷合格者数(合格者数=追加合格者を含む。学科・方式ごと。個別学部入試のB方式・S方式。共通テスト利用のA方式は除く)",
+  "rows": [
+    {
+      "name": "工 建築 B方式",
+      "examinees": 1195,
+      "passers": 239,
+      "ratio": 5.0,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "創域情報 情報理工(C系) B方式",
+      "examinees": 1540,
+      "passers": 334,
+      "ratio": 4.6,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "創域理工 電気電子情報工 S方式",
+      "examinees": 362,
+      "passers": 79,
+      "ratio": 4.6,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "経営 国際デザイン経営 B方式",
+      "examinees": 380,
+      "passers": 86,
+      "ratio": 4.4,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "創域理工 建築 B方式",
+      "examinees": 987,
+      "passers": 227,
+      "ratio": 4.3,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "理一部 物理 B方式",
+      "examinees": 1763,
+      "passers": 420,
+      "ratio": 4.2,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "工 情報工 B方式",
+      "examinees": 1704,
+      "passers": 411,
+      "ratio": 4.1,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "経営 ビジネスエコノミクス B方式",
+      "examinees": 1270,
+      "passers": 328,
+      "ratio": 3.9,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "経営 経営 B方式",
+      "examinees": 1470,
+      "passers": 389,
+      "ratio": 3.8,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "薬 薬学 B方式",
+      "examinees": 1101,
+      "passers": 295,
+      "ratio": 3.7,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "理一部 数学 B方式",
+      "examinees": 1005,
+      "passers": 278,
+      "ratio": 3.6,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "薬 生命創薬科学 B方式",
+      "examinees": 784,
+      "passers": 227,
+      "ratio": 3.5,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "創域理工 生命生物科学 B方式",
+      "examinees": 1217,
+      "passers": 356,
+      "ratio": 3.4,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "創域理工 数理科学 B方式",
+      "examinees": 609,
+      "passers": 180,
+      "ratio": 3.4,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "創域理工 数理科学 S方式",
+      "examinees": 327,
+      "passers": 98,
+      "ratio": 3.3,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "創域理工 機械航空宇宙工 B方式",
+      "examinees": 1400,
+      "passers": 420,
+      "ratio": 3.3,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "創域理工 電気電子情報工 B方式",
+      "examinees": 1169,
+      "passers": 353,
+      "ratio": 3.3,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "理一部 応用化学 B方式",
+      "examinees": 1322,
+      "passers": 401,
+      "ratio": 3.3,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "理一部 化学 B方式",
+      "examinees": 1171,
+      "passers": 380,
+      "ratio": 3.1,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "工 工業化学 B方式",
+      "examinees": 680,
+      "passers": 221,
+      "ratio": 3.1,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "工 機械工 B方式",
+      "examinees": 1635,
+      "passers": 532,
+      "ratio": 3.1,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "工 電気工 B方式",
+      "examinees": 1112,
+      "passers": 365,
+      "ratio": 3.0,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "先進工 電子システム工 B方式",
+      "examinees": 1027,
+      "passers": 339,
+      "ratio": 3.0,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "創域理工 社会基盤工 B方式",
+      "examinees": 1095,
+      "passers": 368,
+      "ratio": 3.0,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "創域理工 先端化学 B方式",
+      "examinees": 835,
+      "passers": 285,
+      "ratio": 2.9,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "理一部 応用数学 B方式",
+      "examinees": 622,
+      "passers": 217,
+      "ratio": 2.9,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "理二部 数学 B方式",
+      "examinees": 223,
+      "passers": 78,
+      "ratio": 2.9,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "創域理工 先端物理 B方式",
+      "examinees": 827,
+      "passers": 292,
+      "ratio": 2.8,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "先進工 マテリアル創成工 B方式",
+      "examinees": 905,
+      "passers": 320,
+      "ratio": 2.8,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "先進工 機能デザイン工 B方式",
+      "examinees": 1001,
+      "passers": 358,
+      "ratio": 2.8,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "先進工 生命システム工 B方式",
+      "examinees": 980,
+      "passers": 355,
+      "ratio": 2.8,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "理一部 科学コミュニケーション B方式",
+      "examinees": 579,
+      "passers": 230,
+      "ratio": 2.5,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "先進工 物理工 B方式",
+      "examinees": 983,
+      "passers": 392,
+      "ratio": 2.5,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "創域情報 情報理工(D系) B方式",
+      "examinees": 1008,
+      "passers": 402,
+      "ratio": 2.5,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "理二部 物理 B方式",
+      "examinees": 285,
+      "passers": 122,
+      "ratio": 2.3,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    },
+    {
+      "name": "理二部 化学 B方式",
+      "examinees": 195,
+      "passers": 106,
+      "ratio": 1.8,
+      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf"
+    }
+  ],
+  "school_color": {
+    "hex": "#64072a",
+    "name": "えんじ(サイト基調色)",
+    "note": "大学公式のスクールカラー表記は見つからなかったため、東京理科大学公式サイトのCSS(https://www.tus.ac.jp/static/css/style.css)でメインカラー(.color__main)に指定されている#64072aを採用"
+  },
+  "campus_photo": {
+    "path": "assets/campus_tus.jpg",
+    "credit": "写真:ジダネ / Wikimedia Commons(CC BY-SA 3.0)",
+    "source": "https://commons.wikimedia.org/wiki/File:Tokyo_University_of_Sciense_(Kagurazaka_campus_Kudan_schoolhouse).JPG",
+    "license": "CC BY-SA 3.0"
+  },
+  "caption": "東京理科大で一番倍率が高い学科、知ってる?\n\n2026年度の一般選抜(個別学部入試=B方式・S方式)で倍率が高かったのはこの3つ。\n1位 工 建築 B方式 5.0倍\n2位 創域情報 情報理工(C系) B方式 4.6倍\n3位 創域理工 電気電子情報工 S方式 4.6倍\n(倍率=受験者数÷合格者数。追加合格者を含む。共通テスト利用のA方式は除く)\n\n出典:東京理科大学公式発表(2026年度 入学試験結果)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #東京理科大学 #一般選抜 #受験生",
+  "factcheck": {
+    "status": "pending"
+  }
+}
