@@ -1730,3 +1730,10 @@ GitHub Actions(`passnavi-probe.yml`、手動実行の調査用)からパスナ�
 動画生成`make_reel_from_draft.py`はA〜D(旧台本の①〜④も)を読めるよう修正・動作確認済み
 - 2026-11-06追記: 倍率ランキングのキャプションを`02_departments/creative/ranking/captions/`に1本ずつMarkdownで保存
   (慶應2本のキャプションも新規作成)。毎日の自動作成でも動画と一緒に書き出すよう`ranking-daily.yml`を変更
+
+### ①のCanva英検語彙・熟語リールを一旦廃止(2026-11-07)
+益田さんの指示で、Canva(ブランドテンプレート`EAHXtgN-KXU`)で作る英検語彙・熟語シリーズのリールを停止。
+`instagram-tiktok-daily-draft.yml`はリール台本・リール用キャプションを作らず、フィード(カルーセル+フィードキャプション)のみ作るよう変更。
+UI作成のRoutine「Canva日次リール生成」は直接編集できないため、③(canva_7rules)だけを処理する差し替え用プロンプトを
+`01_HQ/setup guides/canva-routine-setup.md.md`の「【2026-11-07】差し替え用プロンプト」節に用意し、益田さんに貼り替えを依頼。
+X/Threadsの英検クイズリール、フィード、③・倍率ランキングには影響なし。再開時はdaily-draftのプロンプトと本Routineを戻す
