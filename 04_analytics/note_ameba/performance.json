@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-31T23:07:06.677Z",
-  "source": "2026-11-01.json",
+  "generated_at": "2026-11-07T23:27:18.805Z",
+  "source": "2026-11-08.json",
   "method": "1日あたりビュー(とスキ/いいね)をプラットフォーム内の中央値=1.0で相対化。タグ・画像のscoreはサンプルが少ないほど1.0に寄せた平均",
   "articles": [
     {
@@ -53,12 +53,12 @@
         "views": 7,
         "likes": 0,
         "comments": 0,
-        "views_per_day": 0.15,
+        "views_per_day": 0.13,
         "likes_per_day": 0
       },
       "ameba": null,
       "index": {
-        "note": 0.129
+        "note": 0.146
       }
     },
     {
@@ -86,12 +86,12 @@
         "views": 27,
         "likes": 2,
         "comments": 0,
-        "views_per_day": 0.66,
-        "likes_per_day": 0.049
+        "views_per_day": 0.56,
+        "likes_per_day": 0.042
       },
       "ameba": null,
       "index": {
-        "note": 0.871
+        "note": 0.992
       }
     },
     {
@@ -119,12 +119,12 @@
         "views": 19,
         "likes": 2,
         "comments": 0,
-        "views_per_day": 0.95,
-        "likes_per_day": 0.1
+        "views_per_day": 0.7,
+        "likes_per_day": 0.074
       },
       "ameba": null,
       "index": {
-        "note": 1.431
+        "note": 1.421
       }
     },
     {
@@ -152,12 +152,12 @@
         "views": 2,
         "likes": 0,
         "comments": 0,
-        "views_per_day": 0.07,
+        "views_per_day": 0.06,
         "likes_per_day": 0
       },
       "ameba": null,
       "index": {
-        "note": 0.065
+        "note": 0.067
       }
     },
     {
@@ -185,12 +185,12 @@
         "views": 7,
         "likes": 1,
         "comments": 0,
-        "views_per_day": 0.48,
-        "likes_per_day": 0.068
+        "views_per_day": 0.32,
+        "likes_per_day": 0.046
       },
       "ameba": null,
       "index": {
-        "note": 0.825
+        "note": 0.753
       }
     },
     {
@@ -215,15 +215,15 @@
         ]
       },
       "note": {
-        "views": 5,
-        "likes": 3,
+        "views": 6,
+        "likes": 4,
         "comments": 0,
-        "views_per_day": 0.71,
-        "likes_per_day": 0.429
+        "views_per_day": 0.55,
+        "likes_per_day": 0.367
       },
       "ameba": null,
       "index": {
-        "note": 3.177
+        "note": 3.688
       }
     },
     {
@@ -250,69 +250,94 @@
       "note": null,
       "ameba": null,
       "index": {}
+    },
+    {
+      "file": "task-2026-11-02-note-001.md",
+      "title": "テスト期間中、毎晩どう過ごす? ― 結果は「気合」ではなく「回復」で変わります",
+      "published_at": "2026-11-02",
+      "image_source": "03_assets/images/note_ameba/boy-mock-exam.png",
+      "hashtags": {
+        "note": [
+          "保護者",
+          "声かけ",
+          "子育ての悩み",
+          "定期テスト",
+          "勉強習慣"
+        ],
+        "ameba": [
+          "保護者",
+          "声かけ",
+          "子育ての悩み",
+          "定期テスト",
+          "勉強習慣"
+        ]
+      },
+      "note": null,
+      "ameba": null,
+      "index": {}
     }
   ],
   "hashtags": {
     "note": {
       "保護者": {
         "samples": 6,
-        "mean": 1.083,
-        "score": 1.062
+        "mean": 1.178,
+        "score": 1.133
       },
       "声かけ": {
         "samples": 6,
-        "mean": 1.083,
-        "score": 1.062
+        "mean": 1.178,
+        "score": 1.133
       },
       "子育て": {
         "samples": 2,
-        "mean": 0.78,
-        "score": 0.89
+        "mean": 0.783,
+        "score": 0.892
       },
       "子育ての悩み": {
         "samples": 2,
-        "mean": 1.653,
-        "score": 1.327
+        "mean": 1.917,
+        "score": 1.458
       },
       "教育": {
         "samples": 4,
-        "mean": 0.624,
-        "score": 0.749
+        "mean": 0.657,
+        "score": 0.771
       },
       "総合型選抜": {
         "samples": 1,
-        "mean": 0.871,
-        "score": 0.957
+        "mean": 0.992,
+        "score": 0.997
       },
       "コーチング": {
         "samples": 3,
-        "mean": 0.789,
-        "score": 0.873
+        "mean": 0.827,
+        "score": 0.896
       },
       "勉強習慣": {
         "samples": 2,
-        "mean": 1.621,
-        "score": 1.31
+        "mean": 1.878,
+        "score": 1.439
       },
       "暗記": {
         "samples": 1,
-        "mean": 0.825,
-        "score": 0.942
+        "mean": 0.753,
+        "score": 0.918
       },
       "勉強法": {
         "samples": 1,
-        "mean": 0.825,
-        "score": 0.942
+        "mean": 0.753,
+        "score": 0.918
       },
       "やる気": {
         "samples": 1,
-        "mean": 0.825,
-        "score": 0.942
+        "mean": 0.753,
+        "score": 0.918
       },
       "定期テスト": {
         "samples": 1,
-        "mean": 3.177,
-        "score": 1.726
+        "mean": 3.688,
+        "score": 1.896
       }
     },
     "ameba": {}
@@ -320,23 +345,23 @@
   "images": {
     "03_assets/images/note_ameba/boy-mock-exam.png": {
       "samples": 2,
-      "mean": 0.78,
-      "score": 0.89
+      "mean": 0.783,
+      "score": 0.892
     },
     "03_assets/images/note_ameba/teacher-student-consultation.png": {
       "samples": 1,
-      "mean": 0.871,
-      "score": 0.957
+      "mean": 0.992,
+      "score": 0.997
     },
     "03_assets/images/note_ameba/parent-son-homework.png": {
       "samples": 2,
-      "mean": 1.621,
-      "score": 1.31
+      "mean": 1.878,
+      "score": 1.439
     },
     "03_assets/images/note_ameba/girl-vocab-cards.png": {
       "samples": 1,
-      "mean": 0.825,
-      "score": 0.942
+      "mean": 0.753,
+      "score": 0.918
     }
   },
   "unmatched": {
