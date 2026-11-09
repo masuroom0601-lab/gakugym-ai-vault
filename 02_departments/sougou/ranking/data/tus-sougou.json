@@ -1,395 +1,394 @@
 {
-  "university": "東京理科大学",
-  "short": "東京理科",
-  "selection": "総合型選抜",
-  "year": 2026,
-  "count_key": "applicants",
-  "source": {
-    "publisher": "東京理科大学",
-    "title": "入試データ「総合型選抜 結果」(総合型選抜〔英語資格検定+特定教科評価〕・総合型選抜〔女子〕・総合型選抜〔理学部第二部〕。2026年度入試分)",
-    "url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf",
-    "index_url": "https://www.tus.ac.jp/admissions/university/data/",
-    "published": "2026-06",
-    "fetched": "2026-11-09",
-    "year_evidence": "総合型の結果PDF自体は表のみで本文に「2026年度」の記載が無い(2026-11-09に全文確認。公式の総合型結果で本文に年度が書かれた資料は他に見つからなかった)。公式の根拠: ①公式「入試データ」ページ(https://www.tus.ac.jp/admissions/university/data/)の「入学者選抜結果」欄に、本文に「[2026年度 入学試験結果]」と書かれた一般選抜PDF(https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission.pdf)と並んでこのPDFが掲載。②その一般選抜PDF(入試ガイド)の「総合型選抜(英語資格検定+特定教科評価)/総合型選抜(理学部第二部)/総合型選抜(女子) 入学試験結果は本学ホームページから確認してください」の欄が、上記データページを案内している。③PDFメタデータの作成2026-05-13・更新2026-06-02、URLが/uploads/2026/2026_result_...。2027年度入試の総合型は2026年秋以降の実施で最終結果は未公表のため、最新の最終結果は2026年度入試分。",
-    "footer": "出典:東京理科大学「入試データ 総合型選抜 結果(2026年度入試分)」(2026/6公表)/合格者0人=合格0人"
+ "university": "東京理科大学",
+ "short": "東京理科",
+ "selection": "総合型選抜",
+ "year": 2026,
+ "count_key": "applicants",
+ "source": {
+  "publisher": "東京理科大学",
+  "title": "入試データ「総合型選抜 結果」(総合型選抜〔英語資格検定+特定教科評価〕・総合型選抜〔女子〕・総合型選抜〔理学部第二部〕。2026年度入試分)",
+  "url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf",
+  "index_url": "https://www.tus.ac.jp/admissions/university/data/",
+  "published": "2026-06",
+  "fetched": "2026-11-09",
+  "year_evidence": "PDF本文に年度の記載は無い。公式「過去の入試データ」ページ(year_page)の「入学者選抜結果」欄に「(2026年度入試：2026年6月26日掲載)」とあり、同じ欄の「総合型選抜 結果」リンクがこのPDF(2026-11-09にActionsで確認)。PDFのメタデータは作成2026-05-13・更新2026-06-02。2027年度の最終結果は未公表のため最新の最終結果は2026年度",
+  "footer": "出典:東京理科大学「入試データ 総合型選抜 結果(2026年度入試分)」(2026/6公表)/合格者0人=合格0人",
+  "year_page": "https://www.tus.ac.jp/admissions/university/data/"
+ },
+ "formula": "志願者数÷合格者数(総合型の公表資料に受験者数が無いため)",
+ "rows": [
+  {
+   "name": "薬 薬学 英語資格",
+   "applicants": 14,
+   "passers": 1,
+   "ratio": 14.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
   },
-  "formula": "志願者数÷合格者数(総合型の公表資料に受験者数が無いため)",
-  "rows": [
-    {
-      "name": "薬 薬学 英語資格",
-      "applicants": 14,
-      "passers": 1,
-      "ratio": 14.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "創域理工 生命生物科学 英語資格",
-      "applicants": 5,
-      "passers": 1,
-      "ratio": 5.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "薬 生命創薬科学 英語資格",
-      "applicants": 14,
-      "passers": 3,
-      "ratio": 4.7,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "創域理工 社会基盤工 英語資格",
-      "applicants": 4,
-      "passers": 1,
-      "ratio": 4.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "経営 ビジネスエコノミクス 英語資格",
-      "applicants": 10,
-      "passers": 3,
-      "ratio": 3.3,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "先進工 生命システム工 英語資格",
-      "applicants": 3,
-      "passers": 1,
-      "ratio": 3.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "先進工 機能デザイン工 英語資格",
-      "applicants": 3,
-      "passers": 1,
-      "ratio": 3.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "工 機械工 女子",
-      "applicants": 3,
-      "passers": 1,
-      "ratio": 3.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "工 電気工 英語資格",
-      "applicants": 5,
-      "passers": 2,
-      "ratio": 2.5,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "経営 経営 英語資格",
-      "applicants": 18,
-      "passers": 9,
-      "ratio": 2.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "理一部 応用化学 英語資格",
-      "applicants": 8,
-      "passers": 4,
-      "ratio": 2.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "創域理工 先端物理 英語資格",
-      "applicants": 4,
-      "passers": 2,
-      "ratio": 2.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "創域理工 電気電子情報工 英語資格",
-      "applicants": 4,
-      "passers": 2,
-      "ratio": 2.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "創域理工 機械航空宇宙工 英語資格",
-      "applicants": 4,
-      "passers": 2,
-      "ratio": 2.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "先進工 電子システム工 英語資格",
-      "applicants": 2,
-      "passers": 1,
-      "ratio": 2.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "創域理工 先端化学 女子",
-      "applicants": 2,
-      "passers": 1,
-      "ratio": 2.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "創域理工 電気電子情報工 女子",
-      "applicants": 2,
-      "passers": 1,
-      "ratio": 2.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "先進工 物理工 女子",
-      "applicants": 2,
-      "passers": 1,
-      "ratio": 2.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "創域理工 建築 女子",
-      "applicants": 9,
-      "passers": 5,
-      "ratio": 1.8,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "理二部 化学 理二部",
-      "applicants": 14,
-      "passers": 8,
-      "ratio": 1.8,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "理一部 物理 英語資格",
-      "applicants": 8,
-      "passers": 5,
-      "ratio": 1.6,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "経営 国際デザイン経営 英語資格",
-      "applicants": 17,
-      "passers": 11,
-      "ratio": 1.5,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "創域理工 建築 英語資格",
-      "applicants": 6,
-      "passers": 4,
-      "ratio": 1.5,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "創域情報 情報理工(D系) 英語資格",
-      "applicants": 3,
-      "passers": 2,
-      "ratio": 1.5,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "先進工 生命システム工 女子",
-      "applicants": 3,
-      "passers": 2,
-      "ratio": 1.5,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "理一部 数学 英語資格",
-      "applicants": 14,
-      "passers": 10,
-      "ratio": 1.4,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "工 建築 英語資格",
-      "applicants": 4,
-      "passers": 3,
-      "ratio": 1.3,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "創域情報 情報理工(D系) 女子",
-      "applicants": 5,
-      "passers": 4,
-      "ratio": 1.3,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "工 工業化学 女子",
-      "applicants": 11,
-      "passers": 9,
-      "ratio": 1.2,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "創域情報 情報理工(C系) 英語資格",
-      "applicants": 6,
-      "passers": 5,
-      "ratio": 1.2,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "創域情報 情報理工(C系) 女子",
-      "applicants": 8,
-      "passers": 7,
-      "ratio": 1.1,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "理二部 数学 理二部",
-      "applicants": 21,
-      "passers": 19,
-      "ratio": 1.1,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "理二部 物理 理二部",
-      "applicants": 10,
-      "passers": 10,
-      "ratio": 1.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "理一部 応用数学 英語資格",
-      "applicants": 4,
-      "passers": 4,
-      "ratio": 1.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "工 建築 女子",
-      "applicants": 4,
-      "passers": 4,
-      "ratio": 1.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "創域理工 数理科学 英語資格",
-      "applicants": 3,
-      "passers": 3,
-      "ratio": 1.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "先進工 物理工 英語資格",
-      "applicants": 3,
-      "passers": 3,
-      "ratio": 1.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "工 工業化学 英語資格",
-      "applicants": 2,
-      "passers": 2,
-      "ratio": 1.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "工 電気工 女子",
-      "applicants": 2,
-      "passers": 2,
-      "ratio": 1.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "先進工 マテリアル創成工 女子",
-      "applicants": 2,
-      "passers": 2,
-      "ratio": 1.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "先進工 機能デザイン工 女子",
-      "applicants": 2,
-      "passers": 2,
-      "ratio": 1.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "理一部 科学コミュニケーション 英語資格",
-      "applicants": 1,
-      "passers": 1,
-      "ratio": 1.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "創域理工 先端化学 英語資格",
-      "applicants": 1,
-      "passers": 1,
-      "ratio": 1.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "先進工 マテリアル創成工 英語資格",
-      "applicants": 1,
-      "passers": 1,
-      "ratio": 1.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "創域理工 機械航空宇宙工 女子",
-      "applicants": 1,
-      "passers": 1,
-      "ratio": 1.0,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "工 情報工 英語資格",
-      "applicants": 4,
-      "passers": 0,
-      "ratio": null,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "先進工 電子システム工 女子",
-      "applicants": 4,
-      "passers": 0,
-      "ratio": null,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "工 機械工 英語資格",
-      "applicants": 2,
-      "passers": 0,
-      "ratio": null,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "創域理工 社会基盤工 女子",
-      "applicants": 2,
-      "passers": 0,
-      "ratio": null,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "理一部 化学 英語資格",
-      "applicants": 1,
-      "passers": 0,
-      "ratio": null,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    },
-    {
-      "name": "工 情報工 女子",
-      "applicants": 1,
-      "passers": 0,
-      "ratio": null,
-      "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
-    }
-  ],
-  "campus_photo": {
-    "path": "assets/campus_tus.jpg",
-    "credit": "写真:ジダネ / Wikimedia Commons(CC BY-SA 3.0)",
-    "source": "https://commons.wikimedia.org/wiki/File:Tokyo_University_of_Sciense_(Kagurazaka_campus_Kudan_schoolhouse).JPG",
-    "license": "CC BY-SA 3.0"
+  {
+   "name": "創域理工 生命生物科学 英語資格",
+   "applicants": 5,
+   "passers": 1,
+   "ratio": 5.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
   },
-  "school_color": {
-    "hex": "#64072a",
-    "name": "えんじ(サイト基調色)",
-    "note": "大学公式のスクールカラー表記は見つからなかったため、東京理科大学公式サイトのCSS(https://www.tus.ac.jp/static/css/style.css)でメインカラー(.color__main)に指定されている#64072aを採用"
+  {
+   "name": "薬 生命創薬科学 英語資格",
+   "applicants": 14,
+   "passers": 3,
+   "ratio": 4.7,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
   },
-  "caption": "東京理科大の総合型選抜で、一番倍率が高い学科は?\n\n2026年度入試の総合型選抜で倍率が高かったのはこの3つ。\n1位 薬 薬学 英語資格 14.0倍\n2位 創域理工 生命生物科学 英語資格 5.0倍\n3位 薬 生命創薬科学 英語資格 4.7倍\n(倍率=志願者数÷合格者数。英語資格検定+特定教科評価・女子・理学部第二部の総合型選抜が対象。合格者0人の学科は倍率を出していません)\n\n出典:東京理科大学公式発表(入試データ 総合型選抜 結果)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #東京理科大学 #総合型選抜 #受験生",
-  "factcheck": {
-    "status": "ng",
-    "checked_at": "2026-11-09",
-    "checker": "校正担当",
-    "notes": "機械チェックがNG(全行「出典に2026年度の記載が無い」+合格者0人6行[工 情報工/機械工 英語資格、先進工 電子システム工 女子、創域理工 社会基盤工 女子、理一部 化学 英語資格、工 情報工 女子]が倍率を出せない)。出典PDFは表のみで年度記載が無く、year_evidenceの間接根拠は機械照合で認められない。上位行(薬 薬学14/1、生命生物科学5/1、生命創薬科学14/3)の数字は表の行・列(志願者数÷合格者数)と一致するが、機械NGのため不合格。年度を本文で確認できる資料への差し替え、または0人行の扱いの見直しをデータ作成側で行うこと。"
+  {
+   "name": "創域理工 社会基盤工 英語資格",
+   "applicants": 4,
+   "passers": 1,
+   "ratio": 4.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "経営 ビジネスエコノミクス 英語資格",
+   "applicants": 10,
+   "passers": 3,
+   "ratio": 3.3,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "先進工 生命システム工 英語資格",
+   "applicants": 3,
+   "passers": 1,
+   "ratio": 3.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "先進工 機能デザイン工 英語資格",
+   "applicants": 3,
+   "passers": 1,
+   "ratio": 3.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "工 機械工 女子",
+   "applicants": 3,
+   "passers": 1,
+   "ratio": 3.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "工 電気工 英語資格",
+   "applicants": 5,
+   "passers": 2,
+   "ratio": 2.5,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "経営 経営 英語資格",
+   "applicants": 18,
+   "passers": 9,
+   "ratio": 2.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "理一部 応用化学 英語資格",
+   "applicants": 8,
+   "passers": 4,
+   "ratio": 2.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "創域理工 先端物理 英語資格",
+   "applicants": 4,
+   "passers": 2,
+   "ratio": 2.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "創域理工 電気電子情報工 英語資格",
+   "applicants": 4,
+   "passers": 2,
+   "ratio": 2.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "創域理工 機械航空宇宙工 英語資格",
+   "applicants": 4,
+   "passers": 2,
+   "ratio": 2.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "先進工 電子システム工 英語資格",
+   "applicants": 2,
+   "passers": 1,
+   "ratio": 2.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "創域理工 先端化学 女子",
+   "applicants": 2,
+   "passers": 1,
+   "ratio": 2.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "創域理工 電気電子情報工 女子",
+   "applicants": 2,
+   "passers": 1,
+   "ratio": 2.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "先進工 物理工 女子",
+   "applicants": 2,
+   "passers": 1,
+   "ratio": 2.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "創域理工 建築 女子",
+   "applicants": 9,
+   "passers": 5,
+   "ratio": 1.8,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "理二部 化学 理二部",
+   "applicants": 14,
+   "passers": 8,
+   "ratio": 1.8,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "理一部 物理 英語資格",
+   "applicants": 8,
+   "passers": 5,
+   "ratio": 1.6,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "経営 国際デザイン経営 英語資格",
+   "applicants": 17,
+   "passers": 11,
+   "ratio": 1.5,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "創域理工 建築 英語資格",
+   "applicants": 6,
+   "passers": 4,
+   "ratio": 1.5,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "創域情報 情報理工(D系) 英語資格",
+   "applicants": 3,
+   "passers": 2,
+   "ratio": 1.5,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "先進工 生命システム工 女子",
+   "applicants": 3,
+   "passers": 2,
+   "ratio": 1.5,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "理一部 数学 英語資格",
+   "applicants": 14,
+   "passers": 10,
+   "ratio": 1.4,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "工 建築 英語資格",
+   "applicants": 4,
+   "passers": 3,
+   "ratio": 1.3,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "創域情報 情報理工(D系) 女子",
+   "applicants": 5,
+   "passers": 4,
+   "ratio": 1.3,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "工 工業化学 女子",
+   "applicants": 11,
+   "passers": 9,
+   "ratio": 1.2,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "創域情報 情報理工(C系) 英語資格",
+   "applicants": 6,
+   "passers": 5,
+   "ratio": 1.2,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "創域情報 情報理工(C系) 女子",
+   "applicants": 8,
+   "passers": 7,
+   "ratio": 1.1,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "理二部 数学 理二部",
+   "applicants": 21,
+   "passers": 19,
+   "ratio": 1.1,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "理二部 物理 理二部",
+   "applicants": 10,
+   "passers": 10,
+   "ratio": 1.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "理一部 応用数学 英語資格",
+   "applicants": 4,
+   "passers": 4,
+   "ratio": 1.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "工 建築 女子",
+   "applicants": 4,
+   "passers": 4,
+   "ratio": 1.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "創域理工 数理科学 英語資格",
+   "applicants": 3,
+   "passers": 3,
+   "ratio": 1.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "先進工 物理工 英語資格",
+   "applicants": 3,
+   "passers": 3,
+   "ratio": 1.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "工 工業化学 英語資格",
+   "applicants": 2,
+   "passers": 2,
+   "ratio": 1.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "工 電気工 女子",
+   "applicants": 2,
+   "passers": 2,
+   "ratio": 1.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "先進工 マテリアル創成工 女子",
+   "applicants": 2,
+   "passers": 2,
+   "ratio": 1.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "先進工 機能デザイン工 女子",
+   "applicants": 2,
+   "passers": 2,
+   "ratio": 1.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "理一部 科学コミュニケーション 英語資格",
+   "applicants": 1,
+   "passers": 1,
+   "ratio": 1.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "創域理工 先端化学 英語資格",
+   "applicants": 1,
+   "passers": 1,
+   "ratio": 1.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "先進工 マテリアル創成工 英語資格",
+   "applicants": 1,
+   "passers": 1,
+   "ratio": 1.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "創域理工 機械航空宇宙工 女子",
+   "applicants": 1,
+   "passers": 1,
+   "ratio": 1.0,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "工 情報工 英語資格",
+   "applicants": 4,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "先進工 電子システム工 女子",
+   "applicants": 4,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "工 機械工 英語資格",
+   "applicants": 2,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "創域理工 社会基盤工 女子",
+   "applicants": 2,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "理一部 化学 英語資格",
+   "applicants": 1,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
+  },
+  {
+   "name": "工 情報工 女子",
+   "applicants": 1,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.tus.ac.jp/admissions/uploads/2026/2026_result_university_admission_sougou.pdf"
   }
+ ],
+ "campus_photo": {
+  "path": "assets/campus_tus.jpg",
+  "credit": "写真:ジダネ / Wikimedia Commons(CC BY-SA 3.0)",
+  "source": "https://commons.wikimedia.org/wiki/File:Tokyo_University_of_Sciense_(Kagurazaka_campus_Kudan_schoolhouse).JPG",
+  "license": "CC BY-SA 3.0"
+ },
+ "school_color": {
+  "hex": "#64072a",
+  "name": "えんじ(サイト基調色)",
+  "note": "大学公式のスクールカラー表記は見つからなかったため、東京理科大学公式サイトのCSS(https://www.tus.ac.jp/static/css/style.css)でメインカラー(.color__main)に指定されている#64072aを採用"
+ },
+ "caption": "東京理科大の総合型選抜で、一番倍率が高い学科は?\n\n2026年度入試の総合型選抜で倍率が高かったのはこの3つ。\n1位 薬 薬学 英語資格 14.0倍\n2位 創域理工 生命生物科学 英語資格 5.0倍\n3位 薬 生命創薬科学 英語資格 4.7倍\n(倍率=志願者数÷合格者数。英語資格検定+特定教科評価・女子・理学部第二部の総合型選抜が対象。合格者0人の学科は倍率を出していません)\n\n出典:東京理科大学公式発表(入試データ 総合型選抜 結果)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #東京理科大学 #総合型選抜 #受験生",
+ "factcheck": {
+  "status": "pending",
+  "previous_ng": "機械チェックがNG(全行「出典に2026年度の記載が無い」+合格者0人6行[工 情報工/機械工 英語資格、先進工 電子システム工 女子、創域理工 社会基盤工 女子、理一部 化学 英語資格、工 情報工 女子]が倍率を出せない)。出典PDFは表のみで年度記載が無く、year_evidenceの間接根拠は機械照合で認められない。上位行(薬 薬学14/1、生命生物科学5/1、生命創薬科学14/3)の数字は表の行・列(志願者数÷合格者数)と一致するが、機械NGのため不合格。年度を本文で確認できる資料への差し替え、または0人行の扱いの見直しをデータ作成側で行うこと。"
+ }
 }

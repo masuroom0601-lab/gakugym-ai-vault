@@ -8,6 +8,9 @@
 チェック内容(行ごと):
   1. 出典URLが取得できる(PDFはテキスト化)
   2. 出典の本文に、データの年度(例「2026年度」)が書かれている
+     (2026-11-09、益田さん承認: 出典PDFの本文に年度が無い場合は、データの source.year_page に
+     大学公式の掲載ページを書けば、そのページに「2026年度」の記載と出典URLへのリンクの両方が
+     あることを確認して年度の根拠とみなす。ページは出典と同じ大学のドメインに限る)
   3. 出典の本文に、志願者(または受験者)数と合格者数がそのまま載っている
      (「4,764」「4764」どちらの書き方でも可。看護医療の男女別のように合計が本文に無い
      場合や、学科・方式を合計した行・補欠合格を足した行は"parts"に内訳(examinees/applicants/passers それぞれのリスト)を書けば、内訳が本文にあり合計が一致することを確認する)
@@ -45,6 +48,39 @@ def text_of(url):
     return t
 
 
+_raw = {}
+
+
+def raw_of(url):
+    if url in _raw:
+        return _raw[url]
+    ref = re.match(r"https?://[^/]+/", url).group(0)
+    req = urllib.request.Request(url, headers={"User-Agent": UA, "Referer": ref})
+    _raw[url] = urllib.request.urlopen(req, timeout=60).read().decode("utf-8", "replace")
+    return _raw[url]
+
+
+def year_page_ok(d, year, src_url):
+    """出典本文に年度が無いとき、公式の掲載ページで年度を確かめる。理由を返す(OKならNone)"""
+    page = (d.get("source") or {}).get("year_page")
+    if not page:
+        return "出典に「%s」の記載が無い(source.year_page も未指定)" % year
+    host = lambda u: re.match(r"https?://([^/]+)/", u).group(1)
+    if host(page) != host(src_url):
+        return "year_page が出典と別のドメイン"
+    try:
+        raw = raw_of(page)
+    except Exception as e:
+        return "year_page を取得できない (%s)" % e
+    flat = re.sub(r"\s+", "", re.sub(r"<[^>]+>", " ", raw)).translate(str.maketrans("０１２３４５６７８９", "0123456789"))
+    path = re.sub(r"https?://[^/]+", "", src_url)
+    if year not in flat:
+        return "year_page に「%s」の記載が無い" % year
+    if src_url not in raw and path not in raw:
+        return "year_page に出典へのリンクが無い"
+    return None
+
+
 def has_num(t, n):
     pat = r"(?<![\d,])(%s|%s)(?![\d,])" % (re.escape(f"{n:,}"), re.escape(str(n)))
     return re.search(pat, t) is not None
@@ -61,7 +97,7 @@ def check(path):
             # 2026-11-05: 合格者0人の入試は「非公開」ではなく倍率を出せないだけ。数字を出典と照合する
             try:
                 t = text_of(r["source_url"])
-                good = (year in re.sub(r"\s+", "", t)) and has_num(t, r[key])
+                good = (year in re.sub(r"\s+", "", t) or year_page_ok(d, year, r["source_url"]) is None) and has_num(t, r[key])
             except Exception as e:
                 good = False
             lines.append(f"{'OK ' if good else 'NG '} {name}: 合格者0人({key}={r.get(key)}、倍率は出せない)")
@@ -78,7 +114,9 @@ def check(path):
             lines.append(f"NG  {name}: 出典を取得できない ({e})"); ok = False; continue
         errs = []
         if year not in re.sub(r"\s+", "", t):
-            errs.append(f"出典に「{year}」の記載が無い")
+            why = year_page_ok(d, year, r["source_url"])
+            if why:
+                errs.append(why)
         n, p = r[key], r["passers"]
         parts = r.get("parts", {})
         if key in parts:
