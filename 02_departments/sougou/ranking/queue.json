@@ -57,7 +57,9 @@
    "university": "東京理科大学",
    "short": "東京理科",
    "type": "private",
-   "kind": "sougou"
+   "kind": "sougou",
+   "done": true,
+   "skipped": "2026-11-09 益田さん判断で見送り。総合型の結果PDFにも公式ページのリンク付近にも年度の記載が無く、2026年度と公式に確認できないため"
   },
   {
    "slug": "icu",
