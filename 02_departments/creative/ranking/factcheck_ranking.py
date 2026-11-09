@@ -72,12 +72,16 @@ def year_page_ok(d, year, src_url):
         raw = raw_of(page)
     except Exception as e:
         return "year_page を取得できない (%s)" % e
-    flat = re.sub(r"\s+", "", re.sub(r"<[^>]+>", " ", raw)).translate(str.maketrans("０１２３４５６７８９", "0123456789"))
     path = re.sub(r"https?://[^/]+", "", src_url)
-    if year not in flat:
-        return "year_page に「%s」の記載が無い" % year
-    if src_url not in raw and path not in raw:
+    pos = raw.find(src_url) if src_url in raw else raw.find(path)
+    if pos < 0:
         return "year_page に出典へのリンクが無い"
+    # 2026-11-09: ページ内の別の欄の年度を拾わないよう、リンクの前後(タグを除いた本文で前後150字)に
+    # 年度が書かれていることを求める(東京理科大で別欄の「2026年度入試」を誤って根拠にしかけたため)
+    plain = lambda h: re.sub(r"\s+", "", re.sub(r"<[^>]+>", " ", h)).translate(str.maketrans("０１２３４５６７８９", "0123456789"))
+    before, after = plain(raw[:pos])[-150:], plain(raw[pos:])[:150]
+    if year not in before + after:
+        return "year_page の出典リンクの近く(前後150字)に「%s」の記載が無い" % year
     return None
 
 
