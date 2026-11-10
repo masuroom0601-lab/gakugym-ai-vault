@@ -1,0 +1,98 @@
+{
+ "university": "国際基督教大学",
+ "short": "ICU",
+ "selection": "総合型選抜",
+ "year": 2026,
+ "count_key": "applicants",
+ "source": {
+  "publisher": "国際基督教大学",
+  "title": "入学者選抜結果(志願者数含む)「2026年度入学者選抜結果 1. 志願者数等」総合型選抜",
+  "url": "https://www.icu.ac.jp/admissions/undergraduate/data/",
+  "published": "不明(ページに公表日の記載なし)",
+  "fetched": "2026-11-10",
+  "year_evidence": "ICU公式サイト「入学者選抜結果」ページ本文に見出し「2026年度入学者選抜結果」があり、その下の表「1. 志願者数等」の入試方法=総合型選抜(4月入学専願/4月入学/4月・9月入学の9方式)の志願者・合格者を使用。同ページの「2027年度入学者選抜結果」は一般選抜・EJU・ELBA・学校推薦型が空欄で最終結果がそろっていないため不使用",
+  "items": "受験者数は公表されていないため志願者数÷合格者数(count_key: applicants)。表内の( )は転編入本科学生の内数で、( )の外側の数字を使用。合格者0人の2方式(理数探究利用・EJU9月入学)は ratio null・passers 0。ICUは教養学部のみ"
+ },
+ "footer": "出典:国際基督教大学「2026年度入学者選抜結果」総合型選抜(大学公式サイト掲載)",
+ "formula": "志願者数÷合格者数(受験者数は非公表。ICU総合型選抜の9方式。合格0人は「合格0人」表示)",
+ "rows": [
+  {
+   "name": "教養 EJU利用(4月入学)",
+   "applicants": 43,
+   "passers": 4,
+   "ratio": 10.8,
+   "source_url": "https://www.icu.ac.jp/admissions/undergraduate/data/"
+  },
+  {
+   "name": "教養 社会人",
+   "applicants": 7,
+   "passers": 1,
+   "ratio": 7.0,
+   "source_url": "https://www.icu.ac.jp/admissions/undergraduate/data/"
+  },
+  {
+   "name": "教養 ELBA(英語基準)4月入学",
+   "applicants": 225,
+   "passers": 33,
+   "ratio": 6.8,
+   "source_url": "https://www.icu.ac.jp/admissions/undergraduate/data/"
+  },
+  {
+   "name": "教養 帰国生",
+   "applicants": 445,
+   "passers": 82,
+   "ratio": 5.4,
+   "source_url": "https://www.icu.ac.jp/admissions/undergraduate/data/"
+  },
+  {
+   "name": "教養 IBDP利用",
+   "applicants": 35,
+   "passers": 7,
+   "ratio": 5.0,
+   "source_url": "https://www.icu.ac.jp/admissions/undergraduate/data/"
+  },
+  {
+   "name": "教養 英語外部試験利用",
+   "applicants": 365,
+   "passers": 74,
+   "ratio": 4.9,
+   "source_url": "https://www.icu.ac.jp/admissions/undergraduate/data/"
+  },
+  {
+   "name": "教養 ELBA(英語基準)9月入学",
+   "applicants": 697,
+   "passers": 239,
+   "ratio": 2.9,
+   "source_url": "https://www.icu.ac.jp/admissions/undergraduate/data/"
+  },
+  {
+   "name": "教養 理数探究利用",
+   "applicants": 6,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.icu.ac.jp/admissions/undergraduate/data/"
+  },
+  {
+   "name": "教養 EJU利用(9月入学)",
+   "applicants": 4,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.icu.ac.jp/admissions/undergraduate/data/"
+  }
+ ],
+ "campus_photo": {
+  "path": "assets/campus_icu.jpg",
+  "credit": "写真:Almondchoco / Wikimedia Commons(CC BY-SA 4.0)",
+  "source": "https://commons.wikimedia.org/wiki/File:Entrance_to_ICU_in_spring.jpg",
+  "license": "CC BY-SA 4.0"
+ },
+ "school_color": {
+  "hex": "#005abb",
+  "name": "ICUブルー",
+  "note": "大学公式のスクールカラー表記は確認できず(identityページは403)。ICU公式サイトの共通CSS(www.icu.ac.jp/assets/css/common.css)で最も多く使われている基調色 #005abb を採用"
+ },
+ "caption": "ICUで一番倍率が高い総合型選抜、知ってる?\n\n私が公式の入試結果を調べたよ。2026年度の総合型選抜で倍率が高かったのは、\n1位 EJU利用(4月入学) 10.8倍\n2位 社会人 7.0倍\n3位 ELBA(英語基準)4月入学 6.8倍\n(倍率=志願者数÷合格者数、2026年度入試。ICUは受験者数が非公表なので志願者数で計算。理数探究利用とEJU利用(9月入学)は合格0人)\n\n出典:国際基督教大学公式発表(2026年度入学者選抜結果)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね\n\nきみの志望校選びに役立ったら、保存・フォローしてね\n\n#大学受験 #倍率 #ICU #国際基督教大学 #総合型選抜",
+ "factcheck": {
+  "status": "pending"
+ }
+}
