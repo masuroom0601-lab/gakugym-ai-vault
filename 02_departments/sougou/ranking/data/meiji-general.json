@@ -1,0 +1,336 @@
+{
+ "university": "明治大学",
+ "short": "明治",
+ "selection": "一般選抜",
+ "year": 2026,
+ "count_key": "examinees",
+ "source": {
+  "publisher": "明治大学",
+  "title": "2026年度 一般選抜結果(学部別入学試験結果)",
+  "url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf",
+  "index_url": "https://www.meiji.ac.jp/exam/information/data/index.html",
+  "published": "2026-05",
+  "fetched": "2026-11-11",
+  "year_evidence": "PDF本文の表見出し「2026年度 学部別入学試験結果」/PDF右上「2026年度 一般選抜結果」/入試データページ見出し「2026年度入試データ」配下の「一般選抜結果」リンク。公表日の明記なし(PDF作成日2026-05-15)",
+  "footer": "出典:明治大学「2026年度 学部別入学試験結果」(2026/5公表)"
+ },
+ "formula": "受験者数÷合格者数(合格者数はPDF記載値。政治経済・理工・経営・情報コミュニケーション・総合数理は追加合格、農は補欠合格を含む)",
+ "rows": [
+  {
+   "name": "農 食料環境政策",
+   "examinees": 1383,
+   "passers": 188,
+   "ratio": 7.4,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "文 臨床心理学",
+   "examinees": 389,
+   "passers": 60,
+   "ratio": 6.5,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "文 フランス文学",
+   "examinees": 412,
+   "passers": 64,
+   "ratio": 6.4,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "商 学部別方式",
+   "examinees": 7624,
+   "passers": 1196,
+   "ratio": 6.4,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "情報コミュニケーション 2科目方式",
+   "examinees": 2401,
+   "passers": 382,
+   "ratio": 6.3,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "国際日本 併用型3科目方式",
+   "examinees": 621,
+   "passers": 99,
+   "ratio": 6.3,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "総合数理 ネットワークデザイン",
+   "examinees": 362,
+   "passers": 61,
+   "ratio": 5.9,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "情報コミュニケーション 英語4技能活用",
+   "examinees": 1866,
+   "passers": 320,
+   "ratio": 5.8,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "総合数理 先端メディアサイエンス",
+   "examinees": 806,
+   "passers": 139,
+   "ratio": 5.8,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "総合数理 現象数理統計",
+   "examinees": 606,
+   "passers": 108,
+   "ratio": 5.6,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "文 ドイツ文学",
+   "examinees": 351,
+   "passers": 64,
+   "ratio": 5.5,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "法 法律",
+   "examinees": 4036,
+   "passers": 752,
+   "ratio": 5.4,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "文 日本文学",
+   "examinees": 962,
+   "passers": 181,
+   "ratio": 5.3,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "文 日本史学",
+   "examinees": 563,
+   "passers": 106,
+   "ratio": 5.3,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "文 哲学",
+   "examinees": 297,
+   "passers": 56,
+   "ratio": 5.3,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "商 英語4技能試験利用方式",
+   "examinees": 1624,
+   "passers": 310,
+   "ratio": 5.2,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "情報コミュニケーション 学科",
+   "examinees": 4749,
+   "passers": 935,
+   "ratio": 5.1,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "文 考古学",
+   "examinees": 237,
+   "passers": 48,
+   "ratio": 4.9,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "文 文芸メディア",
+   "examinees": 554,
+   "passers": 114,
+   "ratio": 4.9,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "文 現代社会学",
+   "examinees": 489,
+   "passers": 101,
+   "ratio": 4.8,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "文 演劇学",
+   "examinees": 280,
+   "passers": 58,
+   "ratio": 4.8,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "農 生命科学",
+   "examinees": 1234,
+   "passers": 268,
+   "ratio": 4.6,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "農 農学",
+   "examinees": 1049,
+   "passers": 228,
+   "ratio": 4.6,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "文 西洋史学",
+   "examinees": 441,
+   "passers": 97,
+   "ratio": 4.5,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "国際日本 併用型英語4技能活用",
+   "examinees": 690,
+   "passers": 152,
+   "ratio": 4.5,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "理工 建築学",
+   "examinees": 1615,
+   "passers": 359,
+   "ratio": 4.5,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "農 農芸化学",
+   "examinees": 689,
+   "passers": 156,
+   "ratio": 4.4,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "文 地理学",
+   "examinees": 294,
+   "passers": 67,
+   "ratio": 4.4,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "経営 併用型3科目方式",
+   "examinees": 4276,
+   "passers": 1012,
+   "ratio": 4.2,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "文 アジア史",
+   "examinees": 236,
+   "passers": 56,
+   "ratio": 4.2,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "政治経済 経済",
+   "examinees": 4573,
+   "passers": 1138,
+   "ratio": 4.0,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "文 英米文学",
+   "examinees": 776,
+   "passers": 194,
+   "ratio": 4.0,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "政治経済 政策",
+   "examinees": 951,
+   "passers": 244,
+   "ratio": 3.9,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "理工 生命理工学",
+   "examinees": 409,
+   "passers": 110,
+   "ratio": 3.7,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "理工 情報科学",
+   "examinees": 1535,
+   "passers": 424,
+   "ratio": 3.6,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "理工 機械情報工学",
+   "examinees": 924,
+   "passers": 261,
+   "ratio": 3.5,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "経営 併用型英語4技能活用",
+   "examinees": 479,
+   "passers": 138,
+   "ratio": 3.5,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "政治経済 政治",
+   "examinees": 1370,
+   "passers": 425,
+   "ratio": 3.2,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "理工 機械工学",
+   "examinees": 1466,
+   "passers": 455,
+   "ratio": 3.2,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "理工 電気電子工学",
+   "examinees": 956,
+   "passers": 305,
+   "ratio": 3.1,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "理工 物理学",
+   "examinees": 869,
+   "passers": 287,
+   "ratio": 3.0,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "理工 応用化学",
+   "examinees": 1400,
+   "passers": 477,
+   "ratio": 2.9,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  },
+  {
+   "name": "理工 数学",
+   "examinees": 510,
+   "passers": 199,
+   "ratio": 2.6,
+   "source_url": "https://www.meiji.ac.jp/exam/information/data/6t5h7p000001himy-att/2026nyushidata.pdf"
+  }
+ ],
+ "school_color": {
+  "hex": "#3f1a6b",
+  "name": "紫紺",
+  "note": "明治大学ビジュアルアイデンティティマニュアル(BS-122)でシンボルマークの基本色は紫紺(PANTONE 2104C / DIC 224)。RGB値の公式記載はないため、近似値を使用"
+ },
+ "campus_photo": {
+  "path": "assets/campus_meiji.jpg",
+  "credit": "写真:Lombroso / Wikimedia Commons(Public domain)",
+  "source": "https://commons.wikimedia.org/wiki/File:Meiji_University_(Liberty_Tower).jpg",
+  "license": "Public domain"
+ },
+ "caption": "明治で一番倍率が高い学部・方式、知ってる?\n\n2026年度の一般選抜(学部別入試)で倍率が高かったのはこの3つ。\n1位 農 食料環境政策 7.4倍\n2位 文 臨床心理学 6.5倍\n3位 文 フランス文学 6.4倍\n(倍率=受験者数÷合格者数。追加・補欠合格を含む)\n\n出典:明治大学公式発表(2026年度 学部別入学試験結果)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #明治大学 #一般選抜 #受験生",
+ "factcheck": {
+  "status": "pending"
+ }
+}
