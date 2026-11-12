@@ -1,0 +1,266 @@
+{
+ "university": "明治大学",
+ "short": "明治",
+ "selection": "総合型選抜",
+ "year": 2026,
+ "count_key": "applicants",
+ "source": {
+  "publisher": "明治大学",
+  "title": "2027年度入試ガイド「総合型選抜」(177〜186ページ)掲載の2026年度 志願者数・合格者数",
+  "url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf",
+  "index_url": "https://www.meiji.ac.jp/koho/guidebook/index.html",
+  "published": "2026-04(PDF作成日2026-04-15。公表日の明記なし)",
+  "fetched": "2026-11-12",
+  "year_evidence": "各入試の「■志願者数・合格者数」表の見出し「2026年度 2025年度」。2026年度欄の数字のみ使用(2025年度欄は不使用)。文・農・総合数理・国際日本は第二次選考(最終)の合格者数、理工・商・政治経済は表の合格者数",
+  "footer": "出典:明治大学「2027年度入試ガイド」掲載の2026年度 志願者数・合格者数(総合型選抜)"
+ },
+ "formula": "志願者数÷最終合格者数(総合型の公表資料に受験者数が無いため。二段階選考は第一次選考の志願者数÷第二次選考の合格者数)",
+ "rows": [
+  {
+   "name": "文 文芸メディア 自己推薦",
+   "applicants": 29,
+   "passers": 1,
+   "ratio": 29.0,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "総合数理 先端メディアサイエンス 自己推薦",
+   "applicants": 18,
+   "passers": 1,
+   "ratio": 18.0,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "文 現代社会学 自己推薦",
+   "applicants": 34,
+   "passers": 2,
+   "ratio": 17.0,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "文 臨床心理学 自己推薦",
+   "applicants": 41,
+   "passers": 3,
+   "ratio": 13.7,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "文 演劇学 自己推薦",
+   "applicants": 33,
+   "passers": 3,
+   "ratio": 11.0,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "文 日本史学 自己推薦",
+   "applicants": 28,
+   "passers": 3,
+   "ratio": 9.3,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "政治経済 経済 グローバル型",
+   "applicants": 104,
+   "passers": 15,
+   "ratio": 6.9,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "政治経済 政策 グローバル型",
+   "applicants": 79,
+   "passers": 13,
+   "ratio": 6.1,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "農 食料環境政策 地域農業振興",
+   "applicants": 28,
+   "passers": 5,
+   "ratio": 5.6,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "文 地理学 自己推薦",
+   "applicants": 11,
+   "passers": 2,
+   "ratio": 5.5,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "国際日本 国際日本 自己推薦",
+   "applicants": 75,
+   "passers": 14,
+   "ratio": 5.4,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "農 食料環境政策 自己推薦",
+   "applicants": 42,
+   "passers": 8,
+   "ratio": 5.3,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "文 西洋史学 自己推薦",
+   "applicants": 10,
+   "passers": 2,
+   "ratio": 5.0,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "理工 応用化学 自己推薦",
+   "applicants": 13,
+   "passers": 3,
+   "ratio": 4.3,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "文 英米文学 自己推薦",
+   "applicants": 32,
+   "passers": 8,
+   "ratio": 4.0,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "政治経済 政治 グローバル型",
+   "applicants": 147,
+   "passers": 39,
+   "ratio": 3.8,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "農 農学 自己推薦",
+   "applicants": 35,
+   "passers": 10,
+   "ratio": 3.5,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "理工 建築学 自己推薦",
+   "applicants": 27,
+   "passers": 8,
+   "ratio": 3.4,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "文 日本文学 自己推薦",
+   "applicants": 24,
+   "passers": 8,
+   "ratio": 3.0,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "文 考古学 自己推薦",
+   "applicants": 9,
+   "passers": 3,
+   "ratio": 3.0,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "理工 生命理工学 自己推薦",
+   "applicants": 39,
+   "passers": 13,
+   "ratio": 3.0,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "理工 電気電子工学 自己推薦",
+   "applicants": 49,
+   "passers": 18,
+   "ratio": 2.7,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "理工 機械情報工学 自己推薦",
+   "applicants": 22,
+   "passers": 9,
+   "ratio": 2.4,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "文 アジア史 自己推薦",
+   "applicants": 7,
+   "passers": 3,
+   "ratio": 2.3,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "総合数理 現象数理統計 自己推薦",
+   "applicants": 18,
+   "passers": 8,
+   "ratio": 2.3,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "農 農芸化学 自己推薦",
+   "applicants": 24,
+   "passers": 12,
+   "ratio": 2.0,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "農 生命科学 自己推薦",
+   "applicants": 23,
+   "passers": 12,
+   "ratio": 1.9,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "商 商 公募制(共通テスト) 留学",
+   "applicants": 13,
+   "passers": 7,
+   "ratio": 1.9,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "商 商 公募制(共通テスト) 商業",
+   "applicants": 41,
+   "passers": 23,
+   "ratio": 1.8,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "商 商 公募制(全商協会員校)",
+   "applicants": 37,
+   "passers": 27,
+   "ratio": 1.4,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "文 ドイツ文学 自己推薦",
+   "applicants": 1,
+   "passers": 1,
+   "ratio": 1.0,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "文 フランス文学 自己推薦",
+   "applicants": 6,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  },
+  {
+   "name": "文 哲学 自己推薦",
+   "applicants": 11,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.meiji.ac.jp/koho/guidebook/univ/guide2027_11admission.pdf"
+  }
+ ],
+ "school_color": {
+  "hex": "#3f1a6b",
+  "name": "紫紺",
+  "note": "明治大学ビジュアルアイデンティティマニュアル(BS-122)でシンボルマークの基本色は紫紺(PANTONE 2104C / DIC 224)。RGB値の公式記載はないため、近似値を使用"
+ },
+ "campus_photo": {
+  "path": "assets/campus_meiji.jpg",
+  "credit": "写真:Lombroso / Wikimedia Commons(Public domain)",
+  "source": "https://commons.wikimedia.org/wiki/File:Meiji_University_(Liberty_Tower).jpg",
+  "license": "Public domain"
+ },
+ "caption": "明治の総合型選抜で一番倍率が高いのは?\n\n2026年度の総合型選抜(自己推薦・公募制・グローバル型など)で倍率が高かったのはこの3つ。\n1位 文 文芸メディア 自己推薦 29.0倍\n2位 総合数理 先端メディアサイエンス 自己推薦 18.0倍\n3位 文 現代社会学 自己推薦 17.0倍\n(倍率=志願者数÷最終合格者数。受験者数が公表されていないため。文学部・農学部・総合数理・国際日本は第一次選考の志願者数÷第二次選考の合格者数。合格者0人の入試は倍率を出せません)\n\n出典:明治大学公式発表(2027年度入試ガイド 掲載の2026年度 志願者数・合格者数)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #明治大学 #総合型選抜 #受験生",
+ "factcheck": {
+  "status": "pending"
+ }
+}
