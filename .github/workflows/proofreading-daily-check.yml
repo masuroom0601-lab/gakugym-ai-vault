@@ -29,13 +29,20 @@ jobs:
         with:
           ref: main
 
+      - name: Install tools for question line check
+        # 2026-11-13追加: 英検クイズの問題文が動画で何行になるかを、動画と同じ書体で数えるため
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-ipafont-gothic
+          python3 -m pip install -q pillow
+
       - name: Proofread pending drafts
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           show_full_output: true
           claude_args: |
-            --allowedTools "Read,Edit,Bash(git *)"
+            --allowedTools "Read,Edit,Bash(git *),Bash(python3 02_departments/creative/reel_quiz/check_question_lines.py *)"
           prompt: |
             あなたは「学ジム」の校正担当AIです。
             02_departments/proofreading/department.md に書かれたルールに厳密に従い、
@@ -85,6 +92,9 @@ jobs:
                  重複していれば「要修正」とし、重複した日付と単語を明記する
                - キャプションの冒頭(フック文・コメント誘導)に正解の文字や単語が
                  書かれていないか。正解・解説は「▼正解と解説」の下にあるか
+               - (2026-11-13追加、益田さん承認)問題文の行数: 次のコマンドで動画上の行数を
+                 数える(目分量で判断しない): python3 02_departments/creative/reel_quiz/check_question_lines.py <台本のパス>
+                 3行以上(「NG」と出る)なら「要修正」とし、行数と、短くする案(削れる部分)を書く
 
             ## 判定と更新方法(ファイルの移動は行わず、frontmatterのみ変更する)
             - 問題がない場合:

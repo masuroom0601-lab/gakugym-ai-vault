@@ -18,12 +18,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Install tools for question line check
+        # 2026-11-13追加: 英検クイズの問題文が動画で何行になるかを、動画と同じ書体で数えるため
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-ipafont-gothic
+          python3 -m pip install -q pillow
+
       - name: Generate X/Threads quiz draft
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
           claude_args: |
-            --allowedTools "Read,Write,Bash(git *)"
+            --allowedTools "Read,Write,Bash(git *),Bash(python3 02_departments/creative/reel_quiz/check_question_lines.py *)"
           prompt: |
             あなたは「学ジム」のX/Threads担当AIです。
             以下のファイルを読み、そこに書かれたルールに厳密に従ってください:
@@ -72,6 +79,19 @@ jobs:
                (10/30と11/3に同じ問題が、11/1と11/8に同じ正解postponeが出ていた)。
                「## 検算メモ」の最後に「重複確認: 過去60日(<最古の日付>〜)の正解と重複なし」と
                確認した範囲を書くこと。
+            7. (2026-11-13追加、益田さん承認、最重要)**問題文は動画の画面で2行以内**にすること。
+               閲覧数を比べると、問題文が2行の投稿が伸び(12.5万回・4.6万回)、3行は1万回台、
+               4行以上は1000回未満もあった。長い問題は見る前に離脱される。
+               - 目安は英語でおよそ50文字・10語前後まで。会話形式(A: … B: …)も同じ扱い
+               - 準1級・2級でも短い文で作る。前置きの状況説明(Despite〜, Because of〜,
+                 so〜that…の後半など)を削り、空欄の判断に必要な部分だけ残す
+                 例(準1級): His explanation was too ______ to understand.
+                 例(2級): She was ______ to the city council last year.
+                 (例文は長さの目安。そのまま出題しないこと)
+               - 問題文を決めたら必ず次のコマンドで行数を確かめ、「NG」なら短く作り直して
+                 「OK」になるまで繰り返す(台本ファイルを保存した後に台本のパスを渡してもよい):
+                 python3 02_departments/creative/reel_quiz/check_question_lines.py --text "<問題文>"
+               - 「## 検算メモ」の最後に「行数確認: 動画上N行(check_question_lines.pyでOK)」と書く
 
             作成したファイルは
             02_departments/x_threads/drafts/task-<今日の日付YYYY-MM-DD>-quiz-001.md
