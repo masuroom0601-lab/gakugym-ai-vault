@@ -1,402 +1,402 @@
 {
- "university": "青山学院大学",
- "short": "青山学院",
- "selection": "一般選抜",
- "year": 2026,
- "count_key": "examinees",
- "rows": [
-  {
-   "name": "経済 現代経済デザイン A方式",
-   "examinees": 1051,
-   "passers": 113,
-   "ratio": 9.3,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+  "university": "青山学院大学",
+  "short": "青山学院",
+  "selection": "一般選抜",
+  "year": 2026,
+  "count_key": "examinees",
+  "rows": [
+    {
+      "name": "経済 現代経済デザイン A方式",
+      "examinees": 1051,
+      "passers": 113,
+      "ratio": 9.3,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "国際政治経済 国際コミュニケーション B方式",
+      "examinees": 221,
+      "passers": 24,
+      "ratio": 9.2,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "経済 経済 B方式",
+      "examinees": 2017,
+      "passers": 228,
+      "ratio": 8.8,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "総合文化政策 総合文化政策 A方式",
+      "examinees": 567,
+      "passers": 69,
+      "ratio": 8.2,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "経済 経済 A方式",
+      "examinees": 3045,
+      "passers": 403,
+      "ratio": 7.6,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "文 日本文 B方式",
+      "examinees": 213,
+      "passers": 31,
+      "ratio": 6.9,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "経済 現代経済デザイン B方式",
+      "examinees": 352,
+      "passers": 54,
+      "ratio": 6.5,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "総合文化政策 総合文化政策 B方式",
+      "examinees": 451,
+      "passers": 75,
+      "ratio": 6.0,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "社会情報 社会情報 B方式",
+      "examinees": 596,
+      "passers": 107,
+      "ratio": 5.6,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "文 英米文 C方式",
+      "examinees": 505,
+      "passers": 91,
+      "ratio": 5.5,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "教育人間科学 教育 個別学部日程",
+      "examinees": 302,
+      "passers": 55,
+      "ratio": 5.5,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "社会情報 社会情報 D方式",
+      "examinees": 101,
+      "passers": 20,
+      "ratio": 5.1,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "国際政治経済 国際経済 B方式",
+      "examinees": 132,
+      "passers": 27,
+      "ratio": 4.9,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "地球社会共生 地球社会共生 個別学部日程",
+      "examinees": 280,
+      "passers": 59,
+      "ratio": 4.7,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "国際政治経済 国際コミュニケーション A方式",
+      "examinees": 246,
+      "passers": 52,
+      "ratio": 4.7,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "社会情報 社会情報 A方式",
+      "examinees": 403,
+      "passers": 88,
+      "ratio": 4.6,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "国際政治経済 国際政治 B方式",
+      "examinees": 117,
+      "passers": 26,
+      "ratio": 4.5,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "理工 化学・生命科学 B方式",
+      "examinees": 409,
+      "passers": 96,
+      "ratio": 4.3,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "経営 マーケティング B方式",
+      "examinees": 246,
+      "passers": 58,
+      "ratio": 4.2,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "社会情報 社会情報 C方式",
+      "examinees": 330,
+      "passers": 78,
+      "ratio": 4.2,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "文 英米文 D方式",
+      "examinees": 203,
+      "passers": 48,
+      "ratio": 4.2,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "法 ヒューマンライツ A方式",
+      "examinees": 179,
+      "passers": 46,
+      "ratio": 3.9,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "理工 電気電子工 A方式",
+      "examinees": 641,
+      "passers": 172,
+      "ratio": 3.7,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "教育人間科学 心理 個別学部日程",
+      "examinees": 171,
+      "passers": 46,
+      "ratio": 3.7,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "経営 マーケティング A方式",
+      "examinees": 698,
+      "passers": 193,
+      "ratio": 3.6,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "理工 機械創造工 B方式",
+      "examinees": 284,
+      "passers": 79,
+      "ratio": 3.6,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "理工 経営システム工 B方式",
+      "examinees": 252,
+      "passers": 71,
+      "ratio": 3.5,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "理工 物理科学 B方式",
+      "examinees": 358,
+      "passers": 103,
+      "ratio": 3.5,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "文 英米文 B方式",
+      "examinees": 540,
+      "passers": 156,
+      "ratio": 3.5,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "理工 機械創造工 A方式",
+      "examinees": 685,
+      "passers": 198,
+      "ratio": 3.5,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "理工 物理科学 A方式",
+      "examinees": 421,
+      "passers": 122,
+      "ratio": 3.5,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "文 史 個別学部日程",
+      "examinees": 668,
+      "passers": 194,
+      "ratio": 3.4,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "理工 情報テクノロジー B方式",
+      "examinees": 289,
+      "passers": 86,
+      "ratio": 3.4,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "文 フランス文 B方式",
+      "examinees": 87,
+      "passers": 26,
+      "ratio": 3.3,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "理工 経営システム工 A方式",
+      "examinees": 486,
+      "passers": 154,
+      "ratio": 3.2,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "理工 数理サイエンス B方式",
+      "examinees": 168,
+      "passers": 54,
+      "ratio": 3.1,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "文 比較芸術 個別学部日程",
+      "examinees": 281,
+      "passers": 91,
+      "ratio": 3.1,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "理工 情報テクノロジー A方式",
+      "examinees": 616,
+      "passers": 200,
+      "ratio": 3.1,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "法 ヒューマンライツ B方式",
+      "examinees": 84,
+      "passers": 28,
+      "ratio": 3.0,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "理工 電気電子工 B方式",
+      "examinees": 315,
+      "passers": 105,
+      "ratio": 3.0,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "法 法 A方式",
+      "examinees": 459,
+      "passers": 154,
+      "ratio": 3.0,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "理工 化学・生命科学 A方式",
+      "examinees": 796,
+      "passers": 268,
+      "ratio": 3.0,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "文 日本文 A方式",
+      "examinees": 443,
+      "passers": 150,
+      "ratio": 3.0,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "理工 数理サイエンス A方式",
+      "examinees": 228,
+      "passers": 80,
+      "ratio": 2.9,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "経営 経営 A方式",
+      "examinees": 1239,
+      "passers": 447,
+      "ratio": 2.8,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "文 フランス文 A方式",
+      "examinees": 255,
+      "passers": 94,
+      "ratio": 2.7,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "文 英米文 A方式",
+      "examinees": 378,
+      "passers": 144,
+      "ratio": 2.6,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "国際政治経済 国際経済 A方式",
+      "examinees": 181,
+      "passers": 69,
+      "ratio": 2.6,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "法 法 B方式",
+      "examinees": 164,
+      "passers": 67,
+      "ratio": 2.4,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "国際政治経済 国際政治 A方式",
+      "examinees": 311,
+      "passers": 132,
+      "ratio": 2.4,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "経営 経営 B方式",
+      "examinees": 269,
+      "passers": 121,
+      "ratio": 2.2,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    },
+    {
+      "name": "コミュニティ人間科学 コミュニティ人間科学 個別学部日程",
+      "examinees": 259,
+      "passers": 130,
+      "ratio": 2.0,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+    }
+  ],
+  "source": {
+    "publisher": "青山学院大学",
+    "title": "2026年度 入学者選抜結果【一般選抜(全学部日程)・一般選抜(個別学部日程)・大学入学共通テスト利用入学者選抜】(入学案内2027 p.179-184)",
+    "url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf",
+    "index_url": "https://www.aoyama.ac.jp/admission/undergraduate/guide/",
+    "published": "2026-04",
+    "fetched": "2026-11-13",
+    "year_evidence": "PDF各ページ見出し「2026年度 入学者選抜結果」(文字がアウトライン化されており、画像化して目視で確認)。大学公式「過去の入学者選抜試験結果・参考データ」ページの2026年度列に同PDFへのリンク。公表日の明記なし(PDF作成日2026-04-24、URL日付2026/04)",
+    "footer": "出典:青山学院大学「2026年度 入学者選抜結果」(2026/4公表)"
   },
-  {
-   "name": "国際政治経済 国際コミュニケーション B方式",
-   "examinees": 221,
-   "passers": 24,
-   "ratio": 9.2,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+  "formula": "受験者数÷合格者数(合格者数は出典記載値。※印の行は補欠合格を含む)",
+  "school_color": {
+    "hex": "#00a384",
+    "name": "青山学院グリーン(公式サイトのロゴ色)",
+    "note": "大学公式サイトのロゴ(new-logo.svg)の塗り色 #00a384。スクールカラーの公式な色名・RGB記載は見つからなかったため、公式ロゴ・サイトの基調色を採用"
   },
-  {
-   "name": "経済 経済 B方式",
-   "examinees": 2017,
-   "passers": 228,
-   "ratio": 8.8,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+  "campus_photo": {
+    "path": "assets/campus_aoyama.jpg",
+    "credit": "写真:Kakidai / Wikimedia Commons(CC BY-SA 4.0)",
+    "source": "https://commons.wikimedia.org/wiki/File:2024_Aoyama_Gakuin_University_Goucher_Memorial_Hall.jpg",
+    "license": "CC BY-SA 4.0"
   },
-  {
-   "name": "総合文化政策 総合文化政策 A方式",
-   "examinees": 567,
-   "passers": 69,
-   "ratio": 8.2,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "経済 経済 A方式",
-   "examinees": 3045,
-   "passers": 403,
-   "ratio": 7.6,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "文 日本文 B方式",
-   "examinees": 213,
-   "passers": 31,
-   "ratio": 6.9,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "経済 現代経済デザイン B方式",
-   "examinees": 352,
-   "passers": 54,
-   "ratio": 6.5,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "総合文化政策 総合文化政策 B方式",
-   "examinees": 451,
-   "passers": 75,
-   "ratio": 6.0,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "社会情報 社会情報 B方式",
-   "examinees": 596,
-   "passers": 107,
-   "ratio": 5.6,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "文 英米文 C方式",
-   "examinees": 505,
-   "passers": 91,
-   "ratio": 5.5,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "教育人間科学 教育 個別学部日程",
-   "examinees": 302,
-   "passers": 55,
-   "ratio": 5.5,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "社会情報 社会情報 D方式",
-   "examinees": 101,
-   "passers": 20,
-   "ratio": 5.1,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "国際政治経済 国際経済 B方式",
-   "examinees": 132,
-   "passers": 27,
-   "ratio": 4.9,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "地球社会共生 地球社会共生 個別学部日程",
-   "examinees": 280,
-   "passers": 59,
-   "ratio": 4.7,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "国際政治経済 国際コミュニケーション A方式",
-   "examinees": 246,
-   "passers": 52,
-   "ratio": 4.7,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "社会情報 社会情報 A方式",
-   "examinees": 403,
-   "passers": 88,
-   "ratio": 4.6,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "国際政治経済 国際政治 B方式",
-   "examinees": 117,
-   "passers": 26,
-   "ratio": 4.5,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "理工 化学・生命科学 B方式",
-   "examinees": 409,
-   "passers": 96,
-   "ratio": 4.3,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "経営 マーケティング B方式",
-   "examinees": 246,
-   "passers": 58,
-   "ratio": 4.2,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "社会情報 社会情報 C方式",
-   "examinees": 330,
-   "passers": 78,
-   "ratio": 4.2,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "文 英米文 D方式",
-   "examinees": 203,
-   "passers": 48,
-   "ratio": 4.2,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "法 ヒューマンライツ A方式",
-   "examinees": 179,
-   "passers": 46,
-   "ratio": 3.9,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "理工 電気電子工 A方式",
-   "examinees": 641,
-   "passers": 172,
-   "ratio": 3.7,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "教育人間科学 心理 個別学部日程",
-   "examinees": 171,
-   "passers": 46,
-   "ratio": 3.7,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "経営 マーケティング A方式",
-   "examinees": 698,
-   "passers": 193,
-   "ratio": 3.6,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "理工 機械創造工 B方式",
-   "examinees": 284,
-   "passers": 79,
-   "ratio": 3.6,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "理工 経営システム工 B方式",
-   "examinees": 252,
-   "passers": 71,
-   "ratio": 3.5,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "理工 物理科学 B方式",
-   "examinees": 358,
-   "passers": 103,
-   "ratio": 3.5,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "文 英米文 B方式",
-   "examinees": 540,
-   "passers": 156,
-   "ratio": 3.5,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "理工 機械創造工 A方式",
-   "examinees": 685,
-   "passers": 198,
-   "ratio": 3.5,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "理工 物理科学 A方式",
-   "examinees": 421,
-   "passers": 122,
-   "ratio": 3.5,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "文 史 個別学部日程",
-   "examinees": 668,
-   "passers": 194,
-   "ratio": 3.4,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "理工 情報テクノロジー B方式",
-   "examinees": 289,
-   "passers": 86,
-   "ratio": 3.4,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "文 フランス文 B方式",
-   "examinees": 87,
-   "passers": 26,
-   "ratio": 3.3,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "理工 経営システム工 A方式",
-   "examinees": 486,
-   "passers": 154,
-   "ratio": 3.2,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "理工 数理サイエンス B方式",
-   "examinees": 168,
-   "passers": 54,
-   "ratio": 3.1,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "文 比較芸術 個別学部日程",
-   "examinees": 281,
-   "passers": 91,
-   "ratio": 3.1,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "理工 情報テクノロジー A方式",
-   "examinees": 616,
-   "passers": 200,
-   "ratio": 3.1,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "法 ヒューマンライツ B方式",
-   "examinees": 84,
-   "passers": 28,
-   "ratio": 3.0,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "理工 電気電子工 B方式",
-   "examinees": 315,
-   "passers": 105,
-   "ratio": 3.0,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "法 法 A方式",
-   "examinees": 459,
-   "passers": 154,
-   "ratio": 3.0,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "理工 化学・生命科学 A方式",
-   "examinees": 796,
-   "passers": 268,
-   "ratio": 3.0,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "文 日本文 A方式",
-   "examinees": 443,
-   "passers": 150,
-   "ratio": 3.0,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "理工 数理サイエンス A方式",
-   "examinees": 228,
-   "passers": 80,
-   "ratio": 2.9,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "経営 経営 A方式",
-   "examinees": 1239,
-   "passers": 447,
-   "ratio": 2.8,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "文 フランス文 A方式",
-   "examinees": 255,
-   "passers": 94,
-   "ratio": 2.7,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "文 英米文 A方式",
-   "examinees": 378,
-   "passers": 144,
-   "ratio": 2.6,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "国際政治経済 国際経済 A方式",
-   "examinees": 181,
-   "passers": 69,
-   "ratio": 2.6,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "法 法 B方式",
-   "examinees": 164,
-   "passers": 67,
-   "ratio": 2.4,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "国際政治経済 国際政治 A方式",
-   "examinees": 311,
-   "passers": 132,
-   "ratio": 2.4,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "経営 経営 B方式",
-   "examinees": 269,
-   "passers": 121,
-   "ratio": 2.2,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
-  },
-  {
-   "name": "コミュニティ人間科学 コミュニティ人間科学 個別学部日程",
-   "examinees": 259,
-   "passers": 130,
-   "ratio": 2.0,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf"
+  "caption": "青山学院で一番倍率が高い学部・方式、知ってる?\n\n2026年度の一般選抜(個別学部日程)で倍率が高かったのはこの3つ。\n1位 経済 現代経済デザイン A方式 9.3倍\n2位 国際政治経済 国際コミュニケーション B方式 9.2倍\n3位 経済 経済 B方式 8.8倍\n(倍率=受験者数÷合格者数。補欠合格を含む)\n\n出典:青山学院大学公式発表(2026年度 入学者選抜結果)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #青山学院大学 #一般選抜 #受験生",
+  "factcheck": {
+    "status": "ng",
+    "checked_at": "2026-11-13",
+    "checker": "校正担当",
+    "notes": "機械チェックが全52行でNG(出典PDFは文字がアウトライン化され本文テキストが空〔factcheck-sources/1.txt〕のため、年度・受験者数・合格者数をいずれも機械照合できない。source.year_page も未指定)。校正担当側でも本文テキストからは数字を照合できず、目視での全行照合は今回確認できていない。規則上、NGが1つでもあれば不合格。再提出時は、機械照合できる形(year_page指定の可否を統括担当に確認、または機械チェック側の画像PDF対応)にし、少なくとも上位10行を出典の表と照合できる状態にすること。倍率定義(examinees)・formula・source・写真クレジットの記載自体はある。"
   }
- ],
- "source": {
-  "publisher": "青山学院大学",
-  "title": "2026年度 入学者選抜結果【一般選抜(全学部日程)・一般選抜(個別学部日程)・大学入学共通テスト利用入学者選抜】(入学案内2027 p.179-184)",
-  "url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p179_p184_20260424_jYw27.pdf",
-  "index_url": "https://www.aoyama.ac.jp/admission/undergraduate/guide/",
-  "published": "2026-04",
-  "fetched": "2026-11-13",
-  "year_evidence": "PDF各ページ見出し「2026年度 入学者選抜結果」(文字がアウトライン化されており、画像化して目視で確認)。大学公式「過去の入学者選抜試験結果・参考データ」ページの2026年度列に同PDFへのリンク。公表日の明記なし(PDF作成日2026-04-24、URL日付2026/04)",
-  "footer": "出典:青山学院大学「2026年度 入学者選抜結果」(2026/4公表)"
- },
- "formula": "受験者数÷合格者数(合格者数は出典記載値。※印の行は補欠合格を含む)",
- "school_color": {
-  "hex": "#00a384",
-  "name": "青山学院グリーン(公式サイトのロゴ色)",
-  "note": "大学公式サイトのロゴ(new-logo.svg)の塗り色 #00a384。スクールカラーの公式な色名・RGB記載は見つからなかったため、公式ロゴ・サイトの基調色を採用"
- },
- "campus_photo": {
-  "path": "assets/campus_aoyama.jpg",
-  "credit": "写真:Kakidai / Wikimedia Commons(CC BY-SA 4.0)",
-  "source": "https://commons.wikimedia.org/wiki/File:2024_Aoyama_Gakuin_University_Goucher_Memorial_Hall.jpg",
-  "license": "CC BY-SA 4.0"
- },
- "caption": "青山学院で一番倍率が高い学部・方式、知ってる?\n\n2026年度の一般選抜(個別学部日程)で倍率が高かったのはこの3つ。\n1位 経済 現代経済デザイン A方式 9.3倍\n2位 国際政治経済 国際コミュニケーション B方式 9.2倍\n3位 経済 経済 B方式 8.8倍\n(倍率=受験者数÷合格者数。補欠合格を含む)\n\n出典:青山学院大学公式発表(2026年度 入学者選抜結果)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #青山学院大学 #一般選抜 #受験生",
- "factcheck": {
-  "status": "ng",
-  "checked_at": "2026-11-13",
-  "checker": "校正担当",
-  "notes": "機械チェックが全52行でNG(出典PDFが文字アウトライン化で本文テキスト無し→年度・数字を機械照合できず。source.year_page も未指定)。規則どおり不合格。なお目視では、PDFを画像化して全52行(個別学部日程A/B/C/D方式・各学科)の受験者数・合格者数・倍率を表の正しい行・列(受験者/合格者、※=補欠含む)と照合し全て一致、各ページ見出し『2026年度 入学者選抜結果』を確認、倍率の四捨五入・並び順・formula・出典・写真クレジットも問題なし。内容の誤りは見つからず。解消にはデータ作成側で機械照合可能な形(PDFに年度が無い場合に準じた year_page 指定の可否など)を統括担当に相談、または機械チェック側の画像PDF対応が必要。"
- }
 }
