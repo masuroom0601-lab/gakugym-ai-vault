@@ -4,7 +4,7 @@ description: 秘書担当AIが日次で更新する承認待ちリスト(手編�
 
 # 承認待ちリスト
 
-## 2026-11-11時点の承認待ち
+## 2026-11-13時点の承認待ち
 
 ### instagram_tiktok(56件)
 - 02_departments/instagram_tiktok/drafts/task-2026-09-14-ig-001.md
@@ -64,18 +64,6 @@ description: 秘書担当AIが日次で更新する承認待ちリスト(手編�
 - 02_departments/instagram_tiktok/drafts/task-2026-11-08-ig-001.md
 - 02_departments/instagram_tiktok/drafts/task-2026-11-09-ig-001.md
 
-### note_ameba(10件)
-- 02_departments/note_ameba/drafts/task-2026-09-12-note-001.md
-- 02_departments/note_ameba/drafts/task-2026-09-14-note-001.md
-- 02_departments/note_ameba/drafts/task-2026-09-21-note-001.md
-- 02_departments/note_ameba/drafts/task-2026-09-28-note-001.md
-- 02_departments/note_ameba/drafts/task-2026-10-05-note-001.md
-- 02_departments/note_ameba/drafts/task-2026-10-12-note-001.md
-- 02_departments/note_ameba/drafts/task-2026-10-19-note-001.md
-- 02_departments/note_ameba/drafts/task-2026-10-26-note-001.md
-- 02_departments/note_ameba/drafts/task-2026-11-02-note-001.md
-- 02_departments/note_ameba/drafts/task-2026-11-09-note-001.md
-
 ### x_threads(40件)
 - 02_departments/x_threads/drafts/task-2026-09-12-x-001.md
 - 02_departments/x_threads/drafts/task-2026-09-12-x-002.md
@@ -118,5 +106,15 @@ description: 秘書担当AIが日次で更新する承認待ちリスト(手編�
 - 02_departments/x_threads/drafts/task-2026-11-10-quiz-001.md
 - 02_departments/x_threads/drafts/task-2026-11-11-quiz-001.md
 
-### line(0件)
-- なし
+### note_ameba(10件)
+- 02_departments/note_ameba/drafts/task-2026-09-12-note-001.md
+- 02_departments/note_ameba/drafts/task-2026-09-14-note-001.md
+- 02_departments/note_ameba/drafts/task-2026-09-21-note-001.md
+- 02_departments/note_ameba/drafts/task-2026-09-28-note-001.md
+- 02_departments/note_ameba/drafts/task-2026-10-05-note-001.md
+- 02_departments/note_ameba/drafts/task-2026-10-12-note-001.md
+- 02_departments/note_ameba/drafts/task-2026-10-19-note-001.md
+- 02_departments/note_ameba/drafts/task-2026-10-26-note-001.md
+- 02_departments/note_ameba/drafts/task-2026-11-02-note-001.md
+- 02_departments/note_ameba/drafts/task-2026-11-09-note-001.md
+
