@@ -55,13 +55,20 @@ jobs:
           [ -z "$D" ] && D=$(date +%F)
           DRAFT="02_departments/sumaho_habit/drafts/task-${D}-sumaho-001.md"
           OUT="02_departments/creative/reel_quiz/checkup-daily/reel-${D}.mp4"
+          KIND=checkup
+          # 2026-11-14追加: 「7選」リール(reel_format: canva_7rules)もここで作る。Canvaの自動流し込みが
+          # 使えなくなったため、render_rules7.py で同じ見た目の15秒動画を自前で描く(益田さん: 15秒版を継続)
+          if [ -f "$DRAFT" ] && grep -q "^reel_format: canva_7rules" "$DRAFT"; then
+            KIND=rules7; OUT="02_departments/creative/reel_quiz/rules7-daily/reel-${D}.mp4"
+          fi
+          echo "kind=$KIND" >> "$GITHUB_OUTPUT"
           echo "date=$D" >> "$GITHUB_OUTPUT"
           echo "draft=$DRAFT" >> "$GITHUB_OUTPUT"
           echo "out=$OUT" >> "$GITHUB_OUTPUT"
           if [ ! -f "$DRAFT" ]; then
             echo "台本が無いためスキップ: $DRAFT"; echo "skip=true" >> "$GITHUB_OUTPUT"
-          elif ! grep -q "^reel_format: checkup" "$DRAFT"; then
-            echo "本日はスマホ対策枠ではない(reel_format: checkupが無い)ためスキップ"
+          elif ! grep -Eq "^reel_format: (checkup|canva_7rules)" "$DRAFT"; then
+            echo "本日はリールの台本ではない(reel_format が checkup / canva_7rules ではない)ためスキップ"
             echo "skip=true" >> "$GITHUB_OUTPUT"
           elif grep -q "reel-${D}.mp4" "$DRAFT" && [ -f "$OUT" ]; then
             echo "生成済みのためスキップ"; echo "skip=true" >> "$GITHUB_OUTPUT"
@@ -73,14 +80,19 @@ jobs:
         if: steps.target.outputs.skip != 'true'
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq ffmpeg fonts-ipafont-gothic
+          sudo apt-get install -y -qq ffmpeg fonts-ipafont-gothic fonts-noto-cjk
           python3 -m pip install -q pillow
 
       - name: Generate reel
         if: steps.target.outputs.skip != 'true'
         run: |
-          python3 02_departments/creative/reel_quiz/make_checkup_from_draft.py \
-            "${{ steps.target.outputs.draft }}" "${{ steps.target.outputs.out }}"
+          if [ "${{ steps.target.outputs.kind }}" = rules7 ]; then
+            python3 02_departments/creative/reel_quiz/render_rules7.py \
+              "${{ steps.target.outputs.draft }}" "${{ steps.target.outputs.out }}"
+          else
+            python3 02_departments/creative/reel_quiz/make_checkup_from_draft.py \
+              "${{ steps.target.outputs.draft }}" "${{ steps.target.outputs.out }}"
+          fi
 
       - name: Sanity check video
         if: steps.target.outputs.skip != 'true'
@@ -111,7 +123,7 @@ jobs:
         run: |
           git config user.name "gakugym-ai-bot"
           git config user.email "bot@example.com"
-          git add 02_departments/sumaho_habit/drafts/ 02_departments/creative/reel_quiz/checkup-daily/
+          git add 02_departments/sumaho_habit/drafts/ 02_departments/creative/reel_quiz/checkup-daily/ 02_departments/creative/reel_quiz/rules7-daily/
           git commit -m "sumaho habit checkup reel generation ${{ steps.target.outputs.date }}"
           git pull --rebase origin main
           git push origin main
