@@ -1,0 +1,124 @@
+name: feed-daily-draft
+
+# 2026-11-14追加(益田さん指示): ②総合型(@gakugym_sougougata)・③スマホ対策(@massu_smartphone)の
+# フィード(カルーセル)台本を作る。一覧型は2日に1本、実話型は③だけ週1(土曜)。判定は feed_kind.py。
+# 台本の「## スライド」(JSON)から feed-render.yml が画像を描く(校正担当の合格後)。
+on:
+  schedule:
+    - cron: '20 21 * * *'   # 毎日 06:20 JST
+  workflow_dispatch:
+    inputs:
+      force_kind:
+        description: "試作用: list か story を指定すると、日付の判定を無視してその型で作る"
+        required: false
+        default: ""
+
+env:
+  TZ: Asia/Tokyo
+
+permissions:
+  contents: write
+  id-token: write
+
+concurrency:
+  group: feed-daily-draft
+  cancel-in-progress: false
+
+jobs:
+  draft:
+    runs-on: ubuntu-latest
+    strategy:
+      max-parallel: 1
+      matrix:
+        dept: [sumaho_habit, sougou]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Decide kind
+        id: k
+        run: |
+          K=$(python3 02_departments/creative/feed/feed_kind.py ${{ matrix.dept }})
+          F="${{ github.event.inputs.force_kind }}"
+          if [ -n "$F" ]; then
+            if [ "$F" = "story" ] && [ "${{ matrix.dept }}" != "sumaho_habit" ]; then K=none; else K=$F; fi
+          fi
+          D=$(date +%F)
+          [ -f "02_departments/${{ matrix.dept }}/drafts/feed-${D}-001.md" ] && K=none
+          echo "kind=$K" >> "$GITHUB_OUTPUT"; echo "${{ matrix.dept }}: $K"
+
+      - name: Generate feed draft
+        if: steps.k.outputs.kind != 'none'
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: |
+            --allowedTools "Read,Write,Bash(git *),Bash(ls *)"
+          prompt: |
+            あなたは「学ジム」の ${{ matrix.dept }} 担当AIです(sumaho_habit=③スマホ対策 @massu_smartphone、
+            sougou=②総合型 @gakugym_sougougata)。今日のフィード(Instagramのカルーセル)の台本を1本作ってください。
+            今日の型: ${{ steps.k.outputs.kind }}(list=一覧型 / story=実話型)
+
+            ## 最初に読むもの
+            - 02_departments/${{ matrix.dept }}/department.md、03_assets/brand-guide.md
+            - 02_departments/${{ matrix.dept }}/feed-ideas.md(型のメニュー・テーマの在庫・参考アカウントの切り口)
+            - story の日は 02_departments/sumaho_habit/story-episodes.md(使える事実はここに書いてあることだけ)
+            - 02_departments/${{ matrix.dept }}/drafts/ の過去30日分の feed-*.md(テーマ・項目の重複確認)
+            - 02_departments/creative/feed/render_feed.py の冒頭の説明(スライドの種類と項目)
+
+            ## 内容のルール
+            - ③: スマホ対策・ルーティン・自己規律・学習法。学ジムの名前・サービス・送客は出さない
+            - ②: 総合型選抜の対策。制度や日程は一般論として書き、特定の大学について断定しない。合格を保証する言い方はしない
+            - 共通: 年齢・大学生であること・学校名・学ジムの実績は書かない。医学的な断定をしない。
+              一人称は「僕」、読者への呼びかけは「君」
+            - 過去30日のフィードとテーマが同じにならないこと。表の項目も、過去30日の同じテーマの投稿と半分以上重ねない
+            - list の日: feed-ideas.md の「型のメニュー」から、直近2本と違う型を選ぶ。
+              **6〜10枚**(目安8枚)。1枚目は cover、最後は end。表(table)は1枚10行まで、1行は全角18文字以内の言い切り。
+              〇選の数字は表の行数の合計と一致させる。項目は具体的に(「頑張る」「意識する」だけの項目は禁止)
+            - story の日: story-episodes.md のエピソードだけで組み立てる。**7〜10枚**。1枚目は scover、
+              scene を4〜6枚、最後は end。proof は 02_departments/creative/feed/assets/proof.jpg があるときだけ使う
+              (`ls 02_departments/creative/feed/assets/` で確認)。「出してはいけないこと」は絶対に書かない
+            - quote の text は1行10文字以内で \n で改行する。強調したい語は **…** で囲む(アクセント色になる)
+            - 各スライドの文字は render_feed.py の項目名どおりに書く(余計な項目を足さない)
+
+            ## キャプション
+            1行目にフック(冒頭で言い切る)、次に要点を3〜5行、最後に「保存して見返してね」とフォローのお願い。
+            ハッシュタグは5個まで。#学ジム は付けない。
+
+            ## ファイル
+            02_departments/${{ matrix.dept }}/drafts/feed-<今日の日付YYYY-MM-DD>-001.md を次の書式で作る:
+
+            ---
+            department: ${{ matrix.dept }}
+            date: <今日の日付>
+            status: draft
+            type: フィード
+            feed_type: ${{ steps.k.outputs.kind }}
+            theme: <テーマを一言で>
+            format: <型のメニューの番号と名前。storyなら「実話」>
+            episodes: <storyのとき使ったエピソード番号。listなら空>
+            title_checked_against: <重複確認した過去台本の日付>
+            ---
+
+            ## スライド
+            ```json
+            [ {"type": "cover", ...}, ... ]
+            ```
+
+            ## 投稿用キャプション(そのまま貼る)
+            ```
+            ...
+            ```
+
+            ## 画像
+            (feed-render.yml が校正担当の合格後に画像を作り、ここにフォルダを記録する。
+            文字のはみ出し・文字化けは、日次のお届けまたは投稿前に益田さんが目視確認すること)
+
+            statusは必ず "draft" で保存する。最後に以下でコミット・プッシュする:
+            git config user.name "gakugym-ai-bot"
+            git config user.email "bot@example.com"
+            git add 02_departments/${{ matrix.dept }}/drafts/
+            git commit -m "feed draft ${{ matrix.dept }} $(date +%F)"
+            git pull --rebase origin main
+            git push origin HEAD:main

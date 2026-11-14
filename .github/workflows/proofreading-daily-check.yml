@@ -56,6 +56,7 @@ jobs:
             - 02_departments/x_threads/drafts/
             - 02_departments/note_ameba/drafts/
             - 02_departments/line/drafts/
+            - 02_departments/sougou/drafts/(2026-11-14追加。②総合型のフィード台本)
             - 02_departments/sumaho_habit/drafts/(2026-11-03追加。ただしファイル名の
               日付が今日(JST)から2日前以降のものだけ。それより古い③の下書きは投稿済みの
               ため対象外)
@@ -95,6 +96,16 @@ jobs:
                - (2026-11-13追加、益田さん承認)問題文の行数: 次のコマンドで動画上の行数を
                  数える(目分量で判断しない): python3 02_departments/creative/reel_quiz/check_question_lines.py <台本のパス>
                  3行以上(「NG」と出る)なら「要修正」とし、行数と、短くする案(削れる部分)を書く
+            8. 【②③のフィード台本(sougou/drafts・sumaho_habit/drafts の feed-*.md)のみ、2026-11-14追加】
+               - 「## スライド」の ```json が正しいJSONで、render_feed.py の種類(cover/table/points/scover/scene/
+                 proof/quote/end)と項目名どおりか。枚数は list が6〜10枚、story が7〜10枚。1枚目と最後の種類が決まりどおりか
+               - 表(table)は1枚10行まで・1行は全角18文字以内。〇選の数字と表の行数の合計が一致しているか
+               - 内容が事実として正しく、医学的な断定や合格を保証する言い方が無いか。②は特定の大学について断定していないか
+               - 年齢・大学生であること・学校名・学ジムの実績が書かれていないか。③は学ジムの名前・送客が無いか
+               - story は 02_departments/sumaho_habit/story-episodes.md に書いてある事実だけでできているか。
+                 「出してはいけないこと」(うつ状態・自傷・寮を抜け出した話など)が入っていないか
+               - 過去30日の同じ部署のフィードとテーマが重なっていないか。キャプションのハッシュタグ5個以内・#学ジム なし
+               - 問題がなければ status を review にする(画像はこの合格のあとに描かれる)
             7. 【x_threads の「爆速英単語」台本(task-*-vocab-001.md)のみ、2026-11-14追加】
                - 「## 単語リスト」の表がちょうど40行で、「| 番号 | 英単語 | 意味 |」の書式が崩れていないか
                  (動画はこの表から機械的に作るため)

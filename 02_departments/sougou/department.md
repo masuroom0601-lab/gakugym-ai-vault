@@ -5,7 +5,7 @@ reports_to: 統括担当
 ---
 
 ## ステータス
-②のInstagramアカウントは未作成。**倍率ランキングリールは③massu_smartphoneで投稿する**
+②のInstagramアカウントは作成済み: @gakugym_sougougata(2026-11-14に益田さんから共有。フィードはここに投稿)。倍率ランキングリールは引き続き③で投稿する。以前の記述: ②のInstagramアカウントは未作成。**倍率ランキングリールは③massu_smartphoneで投稿する**
 (2026-11-03、益田さんの指示)。CTAは③のアバター・@massu_smartphoneを使う。
 
 ## 企画: 大学 学部別倍率ランキング(リール)
@@ -61,3 +61,14 @@ reports_to: 統括担当
 - 描画: `02_departments/creative/ranking/render_ranking.py`
 - 大学サイトの確認: `.github/workflows/source-probe.yml`(手動実行。開発環境からは大学サイトに
   直接つながらないため、Actions経由でページ・PDFを読む)
+
+## フィード(カルーセル)の自動作成(2026-11-14追加、益田さん決定)
+受験の王様・ライム@早慶逆転塾などを参考に決めたデザイン(黒の表紙+生成り×黒×アクセント色の表/白地の実話型)。
+AI画像は使わず、文字と図形だけで描く(`02_departments/creative/feed/render_feed.py`)。見本は `creative/feed_redesign/`。
+- 頻度: 一覧型は2日に1本(②③同じ日)、実話型は③だけ毎週土曜(判定は `creative/feed/feed_kind.py`)
+- 枚数: 一覧型は6〜10枚(目安8枚)、実話型は7〜10枚
+- デザインは同じ形式で、テーマ・型はいろいろ変える(〇選/NG集/比べる/チェックリスト/ルーティン/言葉/Q&A)。ネタ帳は `feed-ideas.md`
+- 流れ: 06:20 `feed-daily-draft.yml` が `drafts/feed-<日付>-001.md` を作る → 校正担当が合格(status: review)にする →
+  `feed-render.yml` が `creative/feed/out/<部署>/<日付>/01.png〜` に画像を描く
+- 年齢・大学生であること・学校名・学ジムの実績は出さない
+- アクセント色は青、アカウント名 @gakugym_sougougata。実話型は作らない(益田さん自身の話は総合型の内容ではないため)

@@ -1,0 +1,71 @@
+name: feed-render
+
+# 2026-11-14追加: ②③のフィード台本(feed-<日付>-001.md)が校正担当に合格(status: review/approved)したら、
+# render_feed.py で画像(1080x1350のPNG)を描いて 02_departments/creative/feed/out/<部署>/<日付>/ に保存する。
+on:
+  schedule:
+    - cron: '40 22 * * *'   # 毎日 07:40 JST(フォールバック)
+  workflow_run:
+    workflows: ["proofreading-daily-check"]
+    types: [completed]
+  workflow_dispatch:
+    inputs:
+      date:
+        description: "対象日(YYYY-MM-DD)。空なら今日"
+        required: false
+      skip_status_check:
+        description: "試作用: true にすると校正前の台本でも描く(コミットはしない)"
+        required: false
+        default: "false"
+
+env:
+  TZ: Asia/Tokyo
+
+permissions:
+  contents: write
+
+concurrency:
+  group: feed-render
+  cancel-in-progress: false
+
+jobs:
+  render:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq fonts-noto-cjk fonts-noto-cjk-extra
+          python3 -m pip install -q pillow
+      - name: Render
+        run: |
+          D="${{ github.event.inputs.date }}"; [ -z "$D" ] && D=$(date +%F)
+          SKIP="${{ github.event.inputs.skip_status_check }}"
+          for DEPT in sumaho_habit sougou; do
+            DRAFT=02_departments/$DEPT/drafts/feed-${D}-001.md
+            OUT=02_departments/creative/feed/out/$DEPT/$D
+            [ -f "$DRAFT" ] || { echo "$DEPT: 台本なし"; continue; }
+            [ -d "$OUT" ] && { echo "$DEPT: 描画済み"; continue; }
+            if [ "$SKIP" != "true" ] && ! grep -Eq "^status: (review|approved)" "$DRAFT"; then
+              echo "$DEPT: 校正担当の合格前"; continue
+            fi
+            if ! python3 02_departments/creative/feed/render_feed.py "$DRAFT" "$OUT"; then
+              echo "::error::$DEPT の描画に失敗(台本のスライドJSON・枚数を確認)"; rm -rf "$OUT"; echo "FAIL=1" >> "$GITHUB_ENV"; continue
+            fi
+            grep -q "$OUT" "$DRAFT" || printf -- "- 画像フォルダ: %s\n" "$OUT" >> "$DRAFT"
+          done
+      - name: Commit
+        if: github.event.inputs.skip_status_check != 'true'
+        run: |
+          git config user.name "gakugym-ai-bot"
+          git config user.email "bot@example.com"
+          git add 02_departments/creative/feed/out/ 02_departments/*/drafts/
+          git commit -m "feed images $(date +%F)" || exit 0
+          git pull --rebase -q origin main
+          git push origin HEAD:main
+      - name: Report failure
+        if: env.FAIL == '1'
+        run: exit 1

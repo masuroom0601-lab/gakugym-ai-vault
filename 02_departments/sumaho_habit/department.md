@@ -151,3 +151,15 @@ daily-draft生成ワークフロー(`.github/workflows/sumaho-habit-daily-draft.
 drafts → review(校正担当がコメント)→ あなたが最終承認 → published
 (アカウント未稼働のため、本節は①②に準じた運用になる見込み。稼働開始時に
 確定させる)
+
+## フィード(カルーセル)の自動作成(2026-11-14追加、益田さん決定)
+受験の王様・ライム@早慶逆転塾などを参考に決めたデザイン(黒の表紙+生成り×黒×アクセント色の表/白地の実話型)。
+AI画像は使わず、文字と図形だけで描く(`02_departments/creative/feed/render_feed.py`)。見本は `creative/feed_redesign/`。
+- 頻度: 一覧型は2日に1本(②③同じ日)、実話型は③だけ毎週土曜(判定は `creative/feed/feed_kind.py`)
+- 枚数: 一覧型は6〜10枚(目安8枚)、実話型は7〜10枚
+- デザインは同じ形式で、テーマ・型はいろいろ変える(〇選/NG集/比べる/チェックリスト/ルーティン/言葉/Q&A)。ネタ帳は `feed-ideas.md`
+- 流れ: 06:20 `feed-daily-draft.yml` が `drafts/feed-<日付>-001.md` を作る → 校正担当が合格(status: review)にする →
+  `feed-render.yml` が `creative/feed/out/<部署>/<日付>/01.png〜` に画像を描く
+- 年齢・大学生であること・学校名・学ジムの実績は出さない
+- 実話型は `story-episodes.md` の事実だけで作る(つらすぎる内容は使わない)
+- アクセント色は赤、アカウント名 @massu_smartphone
