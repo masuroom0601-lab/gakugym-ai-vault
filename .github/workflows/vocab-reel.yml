@@ -1,0 +1,47 @@
+name: vocab-reel
+
+# 2026-11-14追加: 「爆速英単語」リール(英単語の読み上げ付き)を単語リストから作る。
+# 読み上げ音声(edge-tts)はネット接続が必要なため、Claudeの作業環境ではなくここで作る。
+on:
+  workflow_dispatch:
+    inputs:
+      list:
+        description: "単語リスト(02_departments/creative/vocab_reel/lists/ 内のファイル名、拡張子なし)"
+        required: true
+        default: "pre1-001"
+
+env:
+  TZ: Asia/Tokyo
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Install tools
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg fonts-noto-cjk fonts-noto-cjk-extra
+          python3 -m pip install -q pillow edge-tts
+      - name: Build reel
+        run: |
+          L="${{ github.event.inputs.list }}"
+          D=02_departments/creative/vocab_reel
+          python3 $D/make_vocab_reel.py $D/lists/$L.json $D/out/$L.mp4
+          DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 $D/out/$L.mp4)
+          AUD=$(ffprobe -v error -select_streams a -show_entries stream=codec_type -of csv=p=0 $D/out/$L.mp4)
+          echo "duration=$DUR audio=$AUD"
+          [ "$AUD" = "audio" ] || { echo "音声が入っていません"; exit 1; }
+      - name: Commit
+        run: |
+          git config user.name "gakugym-ai-bot"
+          git config user.email "bot@example.com"
+          git add 02_departments/creative/vocab_reel/out/
+          git commit -m "爆速英単語リール: ${{ github.event.inputs.list }}" || exit 0
+          git pull --rebase -q origin main
+          git push origin HEAD:main
