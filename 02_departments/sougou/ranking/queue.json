@@ -94,7 +94,9 @@
    "university": "青山学院大学",
    "short": "青山学院",
    "type": "private",
-   "kind": "general"
+   "kind": "general",
+   "done": true,
+   "skipped": "2026-11-14 益田さん判断で見送り。一般選抜の結果PDFが文字のアウトライン化で本文テキストが無く、機械チェックで数字・年度を照合できないため"
   },
   {
    "slug": "aoyama",
