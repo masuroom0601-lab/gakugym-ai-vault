@@ -2,13 +2,24 @@ name: vocab-reel
 
 # 2026-11-14追加: 「爆速英単語」リール(英単語の読み上げ付き)を単語リストから作る。
 # 読み上げ音声(edge-tts)はネット接続が必要なため、Claudeの作業環境ではなくここで作る。
+# 2026-11-14更新: 毎日の自動生成を追加。「爆速英単語」の日(post_kind.py が vocab の日)に、
+# 校正担当が合格(status: review)にした台本 task-<今日>-vocab-001.md から動画を作る。
 on:
+  schedule:
+    - cron: '30 22 * * *'   # 毎日 07:30 JST(フォールバック)
+  workflow_run:
+    workflows: ["proofreading-daily-check"]
+    types: [completed]
   workflow_dispatch:
     inputs:
       list:
-        description: "単語リスト(02_departments/creative/vocab_reel/lists/ 内のファイル名、拡張子なし)"
-        required: true
-        default: "pre1-001"
+        description: "試作用: 単語リスト(lists/ 内のファイル名、拡張子なし)。空なら今日の台本から作る"
+        required: false
+        default: ""
+
+concurrency:
+  group: vocab-reel
+  cancel-in-progress: false
 
 env:
   TZ: Asia/Tokyo
@@ -23,25 +34,49 @@ jobs:
       - uses: actions/checkout@v4
         with:
           ref: main
+      - name: Decide target
+        id: t
+        run: |
+          D=$(date +%F)
+          L="${{ github.event.inputs.list }}"
+          V=02_departments/creative/vocab_reel
+          if [ -n "$L" ]; then
+            echo "src=$V/lists/$L.json" >> "$GITHUB_OUTPUT"; echo "out=$V/out/$L.mp4" >> "$GITHUB_OUTPUT"
+            echo "go=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
+          DRAFT=02_departments/x_threads/drafts/task-${D}-vocab-001.md
+          OUT=$V/daily/vocab-${D}.mp4
+          echo "src=$DRAFT" >> "$GITHUB_OUTPUT"; echo "out=$OUT" >> "$GITHUB_OUTPUT"; echo "draft=$DRAFT" >> "$GITHUB_OUTPUT"
+          if [ "$(python3 $V/post_kind.py $D)" != "vocab" ]; then echo "今日は英検クイズの日"; echo "go=false" >> "$GITHUB_OUTPUT"
+          elif [ ! -f "$DRAFT" ]; then echo "台本がまだ無い"; echo "go=false" >> "$GITHUB_OUTPUT"
+          elif [ -f "$OUT" ]; then echo "生成済み"; echo "go=false" >> "$GITHUB_OUTPUT"
+          elif ! grep -Eq "^status: (review|approved)" "$DRAFT"; then echo "校正担当の合格前(status が review でない)"; echo "go=false" >> "$GITHUB_OUTPUT"
+          else echo "go=true" >> "$GITHUB_OUTPUT"; fi
       - name: Install tools
+        if: steps.t.outputs.go == 'true'
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg fonts-noto-cjk fonts-noto-cjk-extra
           python3 -m pip install -q pillow edge-tts
       - name: Build reel
+        if: steps.t.outputs.go == 'true'
         run: |
-          L="${{ github.event.inputs.list }}"
-          D=02_departments/creative/vocab_reel
-          python3 $D/make_vocab_reel.py $D/lists/$L.json $D/out/$L.mp4
-          DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 $D/out/$L.mp4)
-          AUD=$(ffprobe -v error -select_streams a -show_entries stream=codec_type -of csv=p=0 $D/out/$L.mp4)
+          SRC="${{ steps.t.outputs.src }}"; OUT="${{ steps.t.outputs.out }}"
+          python3 02_departments/creative/vocab_reel/make_vocab_reel.py "$SRC" "$OUT"
+          DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$OUT")
+          AUD=$(ffprobe -v error -select_streams a -show_entries stream=codec_type -of csv=p=0 "$OUT")
           echo "duration=$DUR audio=$AUD"
           [ "$AUD" = "audio" ] || { echo "音声が入っていません"; exit 1; }
       - name: Commit
+        if: steps.t.outputs.go == 'true'
         run: |
+          DRAFT="${{ steps.t.outputs.draft }}"; OUT="${{ steps.t.outputs.out }}"
+          if [ -n "$DRAFT" ] && ! grep -q "$OUT" "$DRAFT"; then
+            printf -- "- リール動画: %s\n" "$OUT" >> "$DRAFT"
+          fi
           git config user.name "gakugym-ai-bot"
           git config user.email "bot@example.com"
-          git add 02_departments/creative/vocab_reel/out/
-          git commit -m "爆速英単語リール: ${{ github.event.inputs.list }}" || exit 0
+          git add 02_departments/creative/vocab_reel/ 02_departments/x_threads/drafts/
+          git commit -m "爆速英単語リール $(date +%F)" || exit 0
           git pull --rebase -q origin main
           git push origin HEAD:main

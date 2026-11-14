@@ -18,7 +18,16 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Decide today's post kind
+        # 2026-11-14追加(益田さん指示): ①英検アカウントは「英検クイズ」と「爆速英単語」を1日おきに交互に投稿する
+        id: kind
+        run: |
+          K=$(python3 02_departments/creative/vocab_reel/post_kind.py)
+          echo "今日の投稿: $K"
+          echo "kind=$K" >> "$GITHUB_OUTPUT"
+
       - name: Install tools for question line check
+        if: steps.kind.outputs.kind == 'quiz'
         # 2026-11-13追加: 英検クイズの問題文が動画で何行になるかを、動画と同じ書体で数えるため
         run: |
           sudo apt-get update -qq
@@ -26,6 +35,7 @@ jobs:
           python3 -m pip install -q pillow
 
       - name: Generate X/Threads quiz draft
+        if: steps.kind.outputs.kind == 'quiz'
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
@@ -149,4 +159,79 @@ jobs:
             git config user.email "bot@example.com"
             git add 02_departments/x_threads/drafts/
             git commit -m "x/threads daily quiz draft $(date +%F)"
+            git push
+
+      - name: Generate vocab reel draft (爆速英単語)
+        if: steps.kind.outputs.kind == 'vocab'
+        uses: anthropics/claude-code-action@v1
+        with:
+          claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          claude_args: |
+            --allowedTools "Read,Write,Bash(git *)"
+          prompt: |
+            あなたは「学ジム」のX/Threads担当AIです(①英検アカウント担当)。
+            02_departments/x_threads/department.md の「爆速英単語」節と 03_assets/brand-guide.md を読み、
+            今日の「爆速英単語」リールの台本(単語リスト)を1本作ってください。
+            (2026-11-14追加、益田さん指示: 英検クイズと1日おきに交互に投稿する。今日は爆速英単語の日)
+
+            ## 作り方
+            1. 級を選ぶ: 「3級・準2級・準2級プラス・2級・準1級」からランダムに1つ。
+               `02_departments/x_threads/drafts/task-*-vocab-001.md` の直近1本と同じ級は避ける。
+            2. その級によく出る英単語を**ちょうど40語**選ぶ。
+               - 見出し語は原形(動詞は原形、名詞は単数形)。熟語は使わず1語の単語にする
+               - 1語は14文字以内(動画に1行で大きく出すため)
+               - 40語の中で重複させない。さらに、過去60日分の同じ級の
+                 `task-*-vocab-001.md` の「## 単語リスト」に出た単語も使わない
+               - 3級は中学〜高校入門レベルのやさしい語、準1級は準1級の頻出語にする
+            3. 各語に日本語の意味を**1つだけ**付ける。
+               - 辞書の第一義(英検で問われる代表的な意味)にする。全角10文字以内の短い訳
+               - **意味の正しさが最重要**(英語として誤った知識を発信しないため)。
+                 書き終えたら40語すべての意味を1語ずつ自分で検算し、自信が無い語は別の語に替える
+               - 品詞が分かる訳にする(動詞は「〜する」、形容詞は「〜な/〜い」など)
+            4. 投稿用キャプションを作る(コードブロック):
+               a) フック1行(例:「英検2級の単語、60秒で40個いける?」)
+               b) コメント誘導1行(例:「何個わかったかコメントで教えてね!」)
+               c) 空行のあと「▼今回の40語」の下に「1. accept 受け入れる」の形で40語すべて
+                  (「## 単語リスト」の表と完全に同じ内容・同じ順番)
+               d) 保存・フォロー訴求1行(例:「保存して試験前にもう1回見よう📌」)
+               e) ハッシュタグ最大5個(#英検 #英検2級 #英単語 など。**#学ジム は付けない**)
+
+            ## 保存するファイル
+            02_departments/x_threads/drafts/task-<今日の日付YYYY-MM-DD>-vocab-001.md を、次の書式で作る:
+
+            ---
+            department: x_threads
+            role: X/Threads担当
+            date: <今日の日付>
+            status: draft
+            type: 爆速英単語
+            level: <3級|準2級|準2級プラス|2級|準1級>
+            approved_by:
+            ---
+
+            ## 単語リスト
+            | 番号 | 英単語 | 意味 |
+            |---|---|---|
+            | 1 | 〜 | 〜 |
+            (40行。動画はこの表から機械的に作るので、書式を崩さないこと)
+
+            ## 選定メモ
+            (級を選んだ理由、直近の級、重複確認: 過去60日(<最古の日付>〜)の同じ級の単語と重複なし)
+
+            ## 投稿用キャプション(Instagram・X・Threads共通、概要欄にそのまま貼る)
+            ```
+            (上の4の構成)
+            ```
+
+            ## リール動画
+            (vocab-reel.yml が校正担当の合格後に動画を作り、ここにファイルパスを記録する。
+            動画の文字化け(英単語・意味・タイトル)は、日次レビューRoutineまたは投稿前に
+            益田さんが目視確認すること)
+
+            statusは必ず "draft" で保存すること(校正担当のチェック対象にするため)。
+            最後に以下でコミット・プッシュする:
+            git config user.name "gakugym-ai-bot"
+            git config user.email "bot@example.com"
+            git add 02_departments/x_threads/drafts/
+            git commit -m "爆速英単語 台本 $(date +%F)"
             git push

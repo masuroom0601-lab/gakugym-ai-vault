@@ -4,7 +4,7 @@
 1語1.5秒で英単語→0.5秒後に日本語訳を表示し、英単語の読み上げ音声を重ねる。
 40語なら本編60秒(+冒頭1.5秒・締め2.5秒)。
 
-使い方:
+使い方(入力は単語リストJSONか、台本 x_threads/drafts/task-<date>-vocab-001.md):
   python3 make_vocab_reel.py lists/pre1-001.json out/pre1-001.mp4            # 読み上げ音声あり(edge-tts)
   python3 make_vocab_reel.py lists/pre1-001.json out/pre1-001.mp4 --no-audio # 音声なし(見た目の確認用)
 
@@ -111,14 +111,36 @@ def tts(words, outdir):
     asyncio.run(run())
 
 
+def load(src):
+    """単語リスト(JSON)か、台本(task-<date>-vocab-001.md)を読む。
+    台本は frontmatter の level と「## 単語リスト」の表(| 番号 | 英単語 | 意味 |)を使う"""
+    if src.endswith(".json"):
+        d = json.load(open(src, encoding="utf-8"))
+        return d["level"], [tuple(w) for w in d["words"]]
+    import re
+    t = open(src, encoding="utf-8").read()
+    m = re.search(r"^level:\s*(\S+)", t, re.M)
+    sec = re.search(r"^## 単語リスト\s*\n(.*?)(?=^## |\Z)", t, re.M | re.S)
+    if not (m and sec):
+        sys.exit("台本から level / 「## 単語リスト」を読み取れません")
+    words = []
+    for line in sec.group(1).splitlines():
+        cells = [c.strip() for c in line.strip().strip("|").split("|")]
+        if len(cells) >= 3 and cells[0].isdigit():
+            words.append((cells[1], cells[2]))
+    if len(words) != 40:
+        sys.exit(f"単語が40語ではありません({len(words)}語)")
+    level = m.group(1)
+    return (level if level.startswith("英検") else "英検" + level), words
+
+
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     if len(args) != 2:
         sys.exit(__doc__)
     src, out = args
     audio = "--no-audio" not in sys.argv
-    data = json.load(open(src, encoding="utf-8"))
-    level, words = data["level"], data["words"]
+    level, words = load(src)
     n = len(words)
     sub = f"{round(n * PER)}秒で{n}単語"
     tmp = tempfile.mkdtemp()
