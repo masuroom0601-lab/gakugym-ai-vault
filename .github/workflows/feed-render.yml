@@ -1,6 +1,6 @@
 name: feed-render
 
-# 2026-11-14追加: ②③のフィード台本(feed-<日付>-001.md)が校正担当に合格(status: review/approved)したら、
+# 2026-11-14追加: ②③のフィード台本と①の今週の1問まとめ(feed-<日付>-001.md)が校正担当に合格(status: review/approved)したら、
 # render_feed.py で画像(1080x1350のPNG)を描いて 02_departments/creative/feed/out/<部署>/<日付>/ に保存する。
 on:
   schedule:
@@ -44,8 +44,10 @@ jobs:
         run: |
           D="${{ github.event.inputs.date }}"; [ -z "$D" ] && D=$(date +%F)
           SKIP="${{ github.event.inputs.skip_status_check }}"
-          for DEPT in sumaho_habit sougou; do
+          for DEPT in sumaho_habit sougou instagram_tiktok; do
             DRAFT=02_departments/$DEPT/drafts/feed-${D}-001.md
+            # ①は日曜の「今週の1問まとめ」だけ(台本名が違う)。2026-11-14追加
+            [ "$DEPT" = instagram_tiktok ] && DRAFT=02_departments/instagram_tiktok/drafts/task-${D}-ig-001.md
             OUT=02_departments/creative/feed/out/$DEPT/$D
             [ -f "$DRAFT" ] || { echo "$DEPT: 台本なし"; continue; }
             [ -d "$OUT" ] && { echo "$DEPT: 描画済み"; continue; }

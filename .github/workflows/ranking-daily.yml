@@ -1,6 +1,6 @@
 name: ranking-daily
 
-# 2026-11-03追加(益田さんの指示): 「大学 学部別倍率ランキング」リールを毎日1本ずつ作る。
+# 2026-11-03追加(益田さんの指示): 「大学 学部別倍率ランキング」リールを1本ずつ作る(2026-11-14から2日に1本)。
 # 作成順は 02_departments/sougou/ranking/queue.json(早稲田一般→早稲田総合型→上智一般→…)。
 #   1) research: 次の1本のデータを、大学の公式発表だけから作る(データ作成担当AI)
 #   2) factcheck: 校正担当が公式出典と照合して合否を付ける(ranking-factcheck.yml を呼ぶ)
@@ -37,6 +37,10 @@ jobs:
         id: next
         run: |
           D=$(date +%F)
+          # 2026-11-14変更(益田さん決定): 毎日→2日に1本。2026-11-15を起点に1日おき(③のフィード一覧型の日と交互になる)
+          if [ $(( ( $(date -d "$D" +%s) - $(date -d 2026-11-15 +%s) ) / 86400 % 2 )) -ne 0 ]; then
+            echo "今日は倍率ランキングのお休みの日"; echo "skip=true" >> "$GITHUB_OUTPUT"; exit 0
+          fi
           if ls 02_departments/creative/ranking/daily/${D}-*.mp4 >/dev/null 2>&1; then
             echo "今日の分は作成済み"; echo "skip=true" >> "$GITHUB_OUTPUT"; exit 0
           fi

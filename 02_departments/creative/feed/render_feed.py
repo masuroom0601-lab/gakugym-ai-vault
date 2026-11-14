@@ -4,7 +4,7 @@
 デザインは 2026-11-14 に益田さんと決めた形(受験の王様・ライム@早慶逆転塾を参考にした一覧型/実話型)。
 AI画像は使わず、文字と図形だけで描く。人物はまっすーのアイコン(reel_quiz/avatar.png)だけ。
 
-台本: <部署>/drafts/feed-<日付>-001.md の「## スライド」節にある ```json のリスト。
+台本: <部署>/drafts/feed-<日付>-001.md(①の今週の1問まとめは task-<日付>-ig-001.md)の「## スライド」節にある ```json のリスト。
 使い方: python3 render_feed.py <台本md> <出力フォルダ>
   → 出力フォルダに 01.png, 02.png ... (1080x1350) を書き出す
 
@@ -29,11 +29,13 @@ PROOF = os.path.join(HERE, "assets", "proof.jpg")
 FONT_DIRS = ["/usr/share/fonts/opentype/noto", "/usr/share/fonts/truetype/noto"]
 BLACK, CREAM, INK, GRAY, LINE, PAPER = "#141414", "#f7f3ea", "#151515", "#5b5b5b", "#d9d2c3", "#ececea"
 LINE_BLUE = "#2f7fd6"
-ACCOUNTS = {  # 部署フォルダ名 → アクセント色・アカウント名
-    "sumaho_habit": {"acc": "#d7261e", "handle": "@massu_smartphone"},
-    "sougou": {"acc": "#2a5bb8", "handle": "@gakugym_sougougata"},
+ACCOUNTS = {  # 部署フォルダ名 → アクセント色・アカウント名・アイコン
+    "sumaho_habit": {"acc": "#d7261e", "handle": "@massu_smartphone", "avatar": "avatar.png"},
+    "sougou": {"acc": "#2a5bb8", "handle": "@gakugym_sougougata", "avatar": "avatar.png"},
+    # 2026-11-14追加: ①英検の「今週の1問まとめ」(毎週日曜)。色は英検クイズのリールと同じ青
+    "instagram_tiktok": {"acc": "#4472c4", "handle": "@massu_gakugym", "avatar": "avatar_eiken.png"},
 }
-LIMITS = {"list": (6, 10), "story": (7, 10)}  # 一覧型は6〜10枚、実話型は7〜10枚(2026-11-14 益田さん決定)
+LIMITS = {"list": (6, 10), "story": (7, 10), "weekly": (4, 10)}  # 一覧型は6〜10枚、実話型は7〜10枚(2026-11-14 益田さん決定)
 
 
 def _font(kind, w, s):
@@ -276,6 +278,8 @@ def render(md, outdir):
     if dept not in ACCOUNTS:
         sys.exit(f"対応していない部署です: {dept}")
     A = ACCOUNTS[dept]
+    global AVATAR
+    AVATAR = os.path.join(HERE, "..", "reel_quiz", A["avatar"])
     kind = (re.search(r"^feed_type:\s*(\S+)", t, re.M) or [None, "list"])[1]
     m = re.search(r"^## スライド\s*\n.*?```json\s*\n(.*?)```", t, re.M | re.S)
     if not m:
