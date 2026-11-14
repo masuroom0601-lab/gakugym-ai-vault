@@ -117,7 +117,10 @@ def cover(s, A):
     x = 60 + d.textlength(s["num"], font=nf) + 20
     d.text((x, 900), s["unit"], font=F(200), fill=CREAM, anchor="lm")
     if s.get("sub"):
-        d.text((x + 225, 840), s["sub"].replace("\\n", "\n"), font=F(52, "Bold"), fill=CREAM, spacing=12)
+        sub = s["sub"].replace("\\n", "\n"); room = 1030 - (x + 225)
+        sz = 52
+        while sz > 28 and max(d.textlength(l, font=F(sz, "Bold")) for l in sub.split("\n")) > room: sz -= 2
+        d.text((x + 225, 840), sub, font=F(sz, "Bold"), fill=CREAM, spacing=12)
     d.line((70, 1090, 1010, 1090), fill=acc, width=6)
     d.text((70, 1170), s["foot"], font=fit(d, s["foot"], 58, 780, "Bold", S), fill=CREAM, anchor="lm")
     im.paste(av := avatar(150, acc), (880, 1110), av)
@@ -141,14 +144,16 @@ def footer(im, d, text, acc):
 def table(s, A, start, page):
     im = Image.new("RGB", (W, H), CREAM); d = ImageDraw.Draw(im); acc = A["acc"]
     header(d, s["title"], page, acc)
-    rows = s["rows"]; top, rh = 190, 95
+    rows = s["rows"]
+    rh = min(120, 950 // max(len(rows), 1))  # 行が少ない表は行を高くし、上下の中央に置く
+    top = 190 + (950 - rh * len(rows)) // 2
     d.rectangle((50, top, 1030, top + rh * len(rows)), outline=LINE, width=3)
     for i, t in enumerate(rows):
         y = top + i * rh
         d.rectangle((50, y, 160, y + rh), fill=acc)
-        d.text((105, y + rh // 2), str(start + i), font=F(48 if start + i < 100 else 40, "Bold"), fill="white", anchor="mm")
+        d.text((105, y + rh // 2), str(start + i), font=F(min(56, rh // 2) if start + i < 100 else 40, "Bold"), fill="white", anchor="mm")
         if i: d.line((160, y, 1030, y), fill=LINE, width=3)
-        draw_rich(d, (190, y + rh // 2), t, fit(d, t, 46, 820, "Bold"), INK, acc)
+        draw_rich(d, (190, y + rh // 2), t, fit(d, t, min(54, rh // 2), 820, "Bold"), INK, acc)
     footer(im, d, s.get("foot", "できる**1**つを、今日から。"), acc)
     return grain(im)
 
@@ -251,15 +256,17 @@ def proof(s, A):
 
 
 def quote(s, A):
-    im = Image.new("RGB", (W, H), PAPER); im = grain(grain(im)); d = ImageDraw.Draw(im)
-    f = F(92, "Bold"); lines = []
-    for part in s["text"].split("\\n"):
-        lines += wrap_ja(d, part, f, 880)
-    y = H // 2 - len(lines) * 70
+    """紙の質感の地に一言。改行は台本どおり(1行10文字以内のルール)。**…** はアクセント色"""
+    im = Image.new("RGB", (W, H), PAPER); im = grain(grain(im)); d = ImageDraw.Draw(im); acc = A["acc"]
+    lines = [l for l in s["text"].replace("\\n", "\n").split("\n") if l.strip()]
+    sz = 96
+    while sz > 40 and max(d.textlength(plain(l), font=F(sz, "Bold")) for l in lines) > 900: sz -= 4
+    f = F(sz, "Bold"); step = int(sz * 1.5)
+    y = H // 2 - (len(lines) - 1) * step // 2 - 40
     for ln in lines:
-        d.text((W // 2, y), ln, font=f, fill=INK, anchor="mm", stroke_width=6, stroke_fill="white"); y += 140
+        draw_rich(d, (W // 2, y), ln, f, INK, acc, anchor="m"); y += step
     if s.get("by"):
-        d.text((980, y + 40), "— " + s["by"], font=F(44, "Medium"), fill=INK, anchor="rm")
+        d.text((980, y + 10), "— " + s["by"], font=F(44, "Medium"), fill=INK, anchor="rm")
     return im
 
 
