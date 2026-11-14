@@ -2,7 +2,7 @@ import os, random
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 W, H = 1080, 1350
 OUT = os.path.dirname(os.path.abspath(__file__))
-AV = "/home/user/gakugym-ai-vault/02_departments/creative/reel_quiz/avatar_eiken.png"
+AV = "/home/user/gakugym-ai-vault/02_departments/creative/reel_quiz/avatar.png"
 ND = "/usr/share/fonts/opentype/noto/"
 BLACK, CREAM, RED, INK, GRAY, LINE = "#141414", "#f7f3ea", "#d7261e", "#151515", "#5b5b5b", "#d9d2c3"
 
@@ -27,52 +27,65 @@ def grain(im, amt=10):
 
 
 # ---------- A: 一覧型(受験の王様の型) ----------
-def a_cover():
+def a_cover(kicker, l1, l2, num, unit, sub, foot, handle, acc):
     im = Image.new("RGB", (W, H), BLACK); d = ImageDraw.Draw(im)
-    d.rectangle((70, 90, 80, 160), fill=RED)
-    d.text((105, 125), "今週のクイズ、全部わかる？", font=S(52), fill=CREAM, anchor="lm")
-    d.text((70, 270), "英検", font=F(210), fill=CREAM, anchor="lm")
-    d.text((70, 500), "頻出語", font=F(210), fill=CREAM, anchor="lm")
-    d.text((60, 790), "7", font=F(430), fill=RED, anchor="lm")
-    d.text((330, 900), "問", font=F(200), fill=CREAM, anchor="lm")
-    d.text((570, 830), "1週間で\n解いた", font=F(64, "Bold"), fill=CREAM, spacing=12)
-    d.line((70, 1090, 1010, 1090), fill=RED, width=6)
-    d.text((70, 1170), "保存して、週末の復習に。", font=S(58), fill=CREAM, anchor="lm")
-    im.paste(av := avatar(150, RED), (880, 1110), av)
-    d.text((70, 1275), "@massu_gakugym", font=F(30, "Bold"), fill="#9a9a9a", anchor="lm")
+    d.rectangle((70, 90, 80, 160), fill=acc)
+    d.text((105, 125), kicker, font=S(52), fill=CREAM, anchor="lm")
+    def fit(t, mx, w=940):
+        z = mx
+        while d.textlength(t, font=F(z)) > w: z -= 4
+        return F(z)
+    tf = fit(l2 if len(l2) > len(l1) else l1, 180)
+    d.text((70, 280), l1, font=tf, fill=CREAM, anchor="lm")
+    d.text((70, 490), l2, font=tf, fill=CREAM, anchor="lm")
+    nf = F(360)
+    d.text((60, 800), num, font=nf, fill=acc, anchor="lm")
+    x = 60 + d.textlength(num, font=nf) + 20
+    d.text((x, 900), unit, font=F(200), fill=CREAM, anchor="lm")
+    d.text((x + 225, 840), sub, font=F(52, "Bold"), fill=CREAM, spacing=12)
+    d.line((70, 1090, 1010, 1090), fill=acc, width=6)
+    d.text((70, 1170), foot, font=S(58), fill=CREAM, anchor="lm")
+    im.paste(av := avatar(150, acc), (880, 1110), av)
+    d.text((70, 1275), handle, font=F(30, "Bold"), fill="#9a9a9a", anchor="lm")
     return grain(im)
 
 
-ROWS = [("postpone", "延期する", "準2+"), ("quiet", "静かな", "3級"), ("hungry", "おなかがすいた", "3級"),
-        ("afford", "〜する余裕がある", "準2"), ("highest", "一番高い", "3級"),
-        ("tarnish", "傷つける・汚す", "準1"), ("remind", "思い出させる", "2級")]
-
-
-def a_inner():
+def a_inner(title_parts, rows, page, foot_parts, acc):
     im = Image.new("RGB", (W, H), CREAM); d = ImageDraw.Draw(im)
-    d.text((60, 95), "今週の", font=F(64), fill=INK, anchor="lm")
-    d.text((262, 95), "7", font=F(80), fill=RED, anchor="lm")
-    d.text((320, 95), "問まとめ", font=F(64), fill=INK, anchor="lm")
-    d.line((870, 60, 870, 130), fill=LINE, width=3)
-    d.text((1020, 95), "01 / 01", font=F(34, "Bold"), fill=INK, anchor="rm")
+    x = 60
+    tot = sum(d.textlength(t, font=F(sz)) for t, c, sz in title_parts)
+    k = min(1.0, 790 / tot)
+    title_parts = [(t, c, int(sz * k)) for t, c, sz in title_parts]
+    for t, c, sz in title_parts:
+        f = F(sz); d.text((x, 95), t, font=f, fill=acc if c else INK, anchor="lm"); x += d.textlength(t, font=f)
+    d.line((880, 60, 880, 130), fill=LINE, width=3)
+    d.text((1020, 95), page, font=F(34, "Bold"), fill=INK, anchor="rm")
     d.line((50, 160, 1030, 160), fill=LINE, width=3)
-    top, rh = 195, 130
-    d.rectangle((50, top, 1030, top + rh * 7), outline=LINE, width=3)
-    for i, (en, ja, lv) in enumerate(ROWS):
+    top, rh = 190, 95
+    d.rectangle((50, top, 1030, top + rh * len(rows)), outline=LINE, width=3)
+    for i, (n, t) in enumerate(rows):
         y = top + i * rh
-        d.rectangle((50, y, 165, y + rh), fill=RED)
-        d.text((107, y + rh // 2), str(i + 1), font=F(58, "Bold"), fill="white", anchor="mm")
-        if i: d.line((165, y, 1030, y), fill=LINE, width=3)
-        d.text((195, y + rh // 2), en, font=F(56, "Bold"), fill=INK, anchor="lm")
-        d.text((520, y + rh // 2), ja, font=F(42, "Bold"), fill=GRAY, anchor="lm")
-        d.rounded_rectangle((900, y + 40, 1005, y + rh - 40), 10, outline=RED, width=3)
-        d.text((952, y + rh // 2), lv, font=F(30, "Bold"), fill=RED, anchor="mm")
-    d.line((50, 1150, 1030, 1150), fill=LINE, width=3)
-    d.text((60, 1235), "わからなかった", font=F(46, "Bold"), fill=INK, anchor="lm")
-    d.text((400, 1235), "1", font=F(64), fill=RED, anchor="lm")
-    d.text((445, 1235), "語だけ覚えよう。", font=F(46, "Bold"), fill=INK, anchor="lm")
-    im.paste(av := avatar(120), (920, 1175), av)
+        d.rectangle((50, y, 160, y + rh), fill=acc)
+        d.text((105, y + rh // 2), str(n), font=F(48, "Bold"), fill="white", anchor="mm")
+        if i: d.line((160, y, 1030, y), fill=LINE, width=3)
+        d.text((190, y + rh // 2), t, font=F(46, "Bold"), fill=INK, anchor="lm")
+    d.line((50, 1175, 1030, 1175), fill=LINE, width=3)
+    x = 60
+    for t, c in foot_parts:
+        f = F(64) if c else F(46, "Bold")
+        d.text((x, 1250), t, font=f, fill=acc if c else INK, anchor="lm"); x += d.textlength(t, font=f) + 6
+    im.paste(av := avatar(120), (920, 1195), av)
     return grain(im)
+
+
+SUMAHO = ["起きてすぐスマホを見ない", "勉強中のスマホは別の部屋へ", "通知はぜんぶオフにする", "最初の5分だけやると決める",
+          "勉強する時間と場所を固定する", "25分やったら5分休む", "休憩中もスマホは触らない", "やったことを1行だけ記録する",
+          "寝る1時間前にスマホを手放す", "できなかった日も自分を責めない"]
+SOUGOU = ["志望理由が「憧れ」で終わっている", "パンフレットの言葉をそのまま使う", "大学で学びたいことがぼんやり",
+          "自分の経験と志望がつながらない", "卒業後の目標が書かれていない", "アドミッション・ポリシーを読まない",
+          "字数の半分を自己紹介に使う", "「〜したいと思います」が多い", "先生に一度も読んでもらっていない",
+          "締切の前日に書き始める"]
+NAVY = "#2a5bb8"
 
 
 # ---------- B: 実話型(ライムの型) ----------
@@ -108,7 +121,7 @@ def b_cover():
     d.text((W // 2, 1040), "模試の偏差値", font=F(44, "Bold"), fill=GRAY, anchor="mm")
     d.text((W // 2, 1180), "＼やる気に頼らなくても変われる／", font=F(44, "Bold"), fill=INK, anchor="mm")
     im.paste(av := avatar(110), (60, 1200), av)
-    d.text((190, 1255), "@massu_gakugym", font=F(30, "Bold"), fill="#9a9a9a", anchor="lm")
+    d.text((190, 1255), "@massu_smartphone", font=F(30, "Bold"), fill="#9a9a9a", anchor="lm")
     return im
 
 
@@ -136,13 +149,22 @@ def b_proof():
 
 
 if __name__ == "__main__":
-    pages = {"A1_cover": a_cover(), "A2_inner": a_inner(), "B1_cover": b_cover(), "B2_inner": b_inner(), "B3_proof": b_proof()}
+    pages = {
+        "S_A1_cover": a_cover("スマホに負けて1日が終わる君へ。", "スマホに勝つ", "勉強ルーティン", "10", "選",
+                              "今日から\nひとつだけ", "保存して、今夜からひとつ。", "@massu_smartphone", RED),
+        "S_A2_inner": a_inner([("スマホに勝つ勉強ルーティン", 0, 52), ("10", 1, 64), ("選", 0, 52)],
+                              list(enumerate(SUMAHO, 1)), "01 / 01", [("できる", 0), ("1", 1), ("つを、今夜から。", 0)], RED),
+        "G_A1_cover": a_cover("総合型選抜を受ける君へ。", "志望理由書で", "落ちる人の特徴", "10", "選",
+                              "出す前に\nチェック", "保存して、提出前に見返そう。", "@（総合型アカウント）", NAVY),
+        "G_A2_inner": a_inner([("志望理由書で落ちる人の特徴", 0, 52), ("10", 1, 64), ("選", 0, 52)],
+                              list(enumerate(SOUGOU, 1)), "01 / 01", [("当てはまったら", 0), ("1", 1), ("つずつ直そう。", 0)], NAVY),
+        "S_B1_cover": b_cover(), "S_B2_inner": b_inner(), "S_B3_proof": b_proof(),
+    }
     for k, im in pages.items():
         im.save(os.path.join(OUT, k + ".png"))
-    sheet = Image.new("RGB", (W * 2 + 40, H), "#888")
-    sheet.paste(pages["A1_cover"], (0, 0)); sheet.paste(pages["A2_inner"], (W + 40, 0))
-    sheet.resize(((W * 2 + 40) // 2, H // 2)).save(os.path.join(OUT, "A_sheet.jpg"), quality=90)
-    sheet = Image.new("RGB", (W * 3 + 80, H), "#888")
-    for i, k in enumerate(["B1_cover", "B2_inner", "B3_proof"]):
-        sheet.paste(pages[k], (i * (W + 40), 0))
-    sheet.resize(((W * 3 + 80) // 2, H // 2)).save(os.path.join(OUT, "B_sheet.jpg"), quality=90)
+    for name, keys in {"sheet_sumaho_list": ["S_A1_cover", "S_A2_inner"], "sheet_sougou_list": ["G_A1_cover", "G_A2_inner"],
+                       "sheet_sumaho_story": ["S_B1_cover", "S_B2_inner", "S_B3_proof"]}.items():
+        sh = Image.new("RGB", (len(keys) * (W + 40) - 40, H), "#888")
+        for i, k in enumerate(keys):
+            sh.paste(pages[k], (i * (W + 40), 0))
+        sh.resize((sh.width // 2, H // 2)).save(os.path.join(OUT, name + ".jpg"), quality=90)
