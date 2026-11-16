@@ -1,74 +1,74 @@
 {
- "university": "青山学院大学",
- "short": "青山学院",
- "selection": "公募制推薦",
- "year": 2026,
- "count_key": "applicants",
- "rows": [
-  {
-   "name": "文学 比較芸術 自己推薦",
-   "applicants": 44,
-   "passers": 6,
-   "ratio": 7.3,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p185_20260424_Psa51.pdf"
+  "university": "青山学院大学",
+  "short": "青山学院",
+  "selection": "公募制推薦",
+  "year": 2026,
+  "count_key": "applicants",
+  "rows": [
+    {
+      "name": "文学 比較芸術 自己推薦",
+      "applicants": 44,
+      "passers": 6,
+      "ratio": 7.3,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p185_20260424_Psa51.pdf"
+    },
+    {
+      "name": "コミュニティ人間科学 自己推薦",
+      "applicants": 108,
+      "passers": 26,
+      "ratio": 4.2,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p185_20260424_Psa51.pdf"
+    },
+    {
+      "name": "地球社会共生 自己推薦",
+      "applicants": 220,
+      "passers": 54,
+      "ratio": 4.1,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p185_20260424_Psa51.pdf"
+    },
+    {
+      "name": "文学 史 自己推薦",
+      "applicants": 52,
+      "passers": 14,
+      "ratio": 3.7,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p185_20260424_Psa51.pdf"
+    },
+    {
+      "name": "文学 英米文 自己推薦",
+      "applicants": 250,
+      "passers": 73,
+      "ratio": 3.4,
+      "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p185_20260424_Psa51.pdf"
+    }
+  ],
+  "formula": "第一次審査の志願者数÷最終合格者数(第二次審査合格者数)(公表資料に受験者数が無いため)",
+  "source": {
+    "publisher": "青山学院大学",
+    "title": "2026年度 入学者選抜結果【学校推薦型選抜・総合型選抜】(入学案内2027 p.185)",
+    "url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p185_20260424_Psa51.pdf",
+    "index_url": "https://www.aoyama.ac.jp/admission/undergraduate/guide/",
+    "published": "2026-04",
+    "fetched": "2026-11-15",
+    "year_evidence": "PDF見出し「2026年度 入学者選抜結果【学校推薦型選抜・総合型選抜】」(文字がアウトライン化されており、画像化して目視で確認。2026-11-15)。大学公式「過去の入学者選抜試験結果・参考データ」ページ(year_page)の「2026年度」列に同PDFへのリンクあり。公表日の明記なし(PDF作成日2026-04-24)。2027年度の自己推薦は選考中で最終結果が未公表のため2026年度を使用。2026-11-15再確認: 200dpi以上で画像化し、自己推薦ブロックの志願者・第二次審査合格者の数字(英米文250/73、史52/14、比較芸術44/6、地球社会共生220/54、コミュニティ人間科学108/26)を目視で再照合(詳細は aoyama-sougou.ocr-check.md)",
+    "footer": "出典:青山学院大学「2026年度 入学者選抜結果」(2026/4公表)/自己推薦",
+    "year_page": "https://www.aoyama.ac.jp/admission/undergraduate/guide/"
   },
-  {
-   "name": "コミュニティ人間科学 自己推薦",
-   "applicants": 108,
-   "passers": 26,
-   "ratio": 4.2,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p185_20260424_Psa51.pdf"
+  "school_color": {
+    "hex": "#00a384",
+    "name": "青山学院グリーン(公式サイトのロゴ色)",
+    "note": "大学公式サイトのロゴ(new-logo.svg)の塗り色 #00a384。スクールカラーの公式な色名・RGB記載は見つからなかったため、公式ロゴ・サイトの基調色を採用"
   },
-  {
-   "name": "地球社会共生 自己推薦",
-   "applicants": 220,
-   "passers": 54,
-   "ratio": 4.1,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p185_20260424_Psa51.pdf"
+  "campus_photo": {
+    "path": "assets/campus_aoyama.jpg",
+    "credit": "写真:Kakidai / Wikimedia Commons(CC BY-SA 4.0)",
+    "source": "https://commons.wikimedia.org/wiki/File:2024_Aoyama_Gakuin_University_Goucher_Memorial_Hall.jpg",
+    "license": "CC BY-SA 4.0"
   },
-  {
-   "name": "文学 史 自己推薦",
-   "applicants": 52,
-   "passers": 14,
-   "ratio": 3.7,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p185_20260424_Psa51.pdf"
-  },
-  {
-   "name": "文学 英米文 自己推薦",
-   "applicants": 250,
-   "passers": 73,
-   "ratio": 3.4,
-   "source_url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p185_20260424_Psa51.pdf"
+  "caption": "青山学院で、自己推薦の倍率が一番高い学科、知ってる?\n\n2026年度の自己推薦(公募制推薦で代用)で倍率が高かったのはこの3つ。\n1位 文学 比較芸術 7.3倍\n2位 コミュニティ人間科学 4.2倍\n3位 地球社会共生 4.1倍\n(倍率=第一次審査の志願者数÷最終合格者数。公表資料に受験者数が無いため)\n\n出典:青山学院大学公式発表(2026年度 入学者選抜結果)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #青山学院大学 #自己推薦 #総合型選抜",
+  "factcheck": {
+    "status": "ng",
+    "checked_at": "2026-11-16",
+    "checker": "校正担当",
+    "notes": "機械チェックが全5行NG(志願者数・合格者数が出典に無い)。出典PDF(p.185)は文字がアウトライン化されfactcheck-sources/2.txtが空で、自己推薦の行・列(志願者/第二次審査合格者)の取り違えを照合できない。年度(2026)・count_key=applicants・source・写真クレジットは記載あり。機械照合できる形に直すこと。"
   }
- ],
- "formula": "第一次審査の志願者数÷最終合格者数(第二次審査合格者数)(公表資料に受験者数が無いため)",
- "source": {
-  "publisher": "青山学院大学",
-  "title": "2026年度 入学者選抜結果【学校推薦型選抜・総合型選抜】(入学案内2027 p.185)",
-  "url": "https://www.aoyama.ac.jp/wp-content/uploads/2026/04/ad_exam2027_p185_20260424_Psa51.pdf",
-  "index_url": "https://www.aoyama.ac.jp/admission/undergraduate/guide/",
-  "published": "2026-04",
-  "fetched": "2026-11-15",
-  "year_evidence": "PDF見出し「2026年度 入学者選抜結果【学校推薦型選抜・総合型選抜】」(文字がアウトライン化されており、画像化して目視で確認。2026-11-15)。大学公式「過去の入学者選抜試験結果・参考データ」ページ(year_page)の「2026年度」列に同PDFへのリンクあり。公表日の明記なし(PDF作成日2026-04-24)。2027年度の自己推薦は選考中で最終結果が未公表のため2026年度を使用。2026-11-15再確認: 200dpi以上で画像化し、自己推薦ブロックの志願者・第二次審査合格者の数字(英米文250/73、史52/14、比較芸術44/6、地球社会共生220/54、コミュニティ人間科学108/26)を目視で再照合(詳細は aoyama-sougou.ocr-check.md)",
-  "footer": "出典:青山学院大学「2026年度 入学者選抜結果」(2026/4公表)/自己推薦",
-  "year_page": "https://www.aoyama.ac.jp/admission/undergraduate/guide/"
- },
- "school_color": {
-  "hex": "#00a384",
-  "name": "青山学院グリーン(公式サイトのロゴ色)",
-  "note": "大学公式サイトのロゴ(new-logo.svg)の塗り色 #00a384。スクールカラーの公式な色名・RGB記載は見つからなかったため、公式ロゴ・サイトの基調色を採用"
- },
- "campus_photo": {
-  "path": "assets/campus_aoyama.jpg",
-  "credit": "写真:Kakidai / Wikimedia Commons(CC BY-SA 4.0)",
-  "source": "https://commons.wikimedia.org/wiki/File:2024_Aoyama_Gakuin_University_Goucher_Memorial_Hall.jpg",
-  "license": "CC BY-SA 4.0"
- },
- "caption": "青山学院で、自己推薦の倍率が一番高い学科、知ってる?\n\n2026年度の自己推薦(公募制推薦で代用)で倍率が高かったのはこの3つ。\n1位 文学 比較芸術 7.3倍\n2位 コミュニティ人間科学 4.2倍\n3位 地球社会共生 4.1倍\n(倍率=第一次審査の志願者数÷最終合格者数。公表資料に受験者数が無いため)\n\n出典:青山学院大学公式発表(2026年度 入学者選抜結果)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #青山学院大学 #自己推薦 #総合型選抜",
- "factcheck": {
-  "status": "ng",
-  "checked_at": "2026-11-15",
-  "checker": "校正担当",
-  "notes": "機械チェックが全5行NG(志願者数・合格者数が出典に無い)。出典PDF(p.185)は文字がアウトライン化されfactcheck-sources/2.txtが空のため、自己推薦の行・列(志願者/第二次審査合格者)の取り違えも照合できない。データ側の目視メモでは照合済みとあるが機械照合が通らないため不合格。年度・倍率定義・source・写真クレジットの記載は有り。"
- }
 }
