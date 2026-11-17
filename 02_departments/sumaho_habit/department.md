@@ -176,3 +176,15 @@ Canvaの「テンプレートへの自動流し込み」(有料のブランド�
 「詳細な解説はキャプションをcheck!!」「ここから積み上げていこう!」。15秒。
 `instagram-checkup-reel.yml` が `reel_format: canva_7rules` の日にこれを作り、`reel_quiz/rules7-daily/reel-<日付>.mp4` に保存する。
 
+## セルフチェックA/Bテストの投稿順(2026-11-17、週次提案3を採用)
+A/Bの台本・動画が投稿されないままたまっていたため、次の6本を dopamine → standard の交互で、同じ時間帯に予約投稿する。
+数値(再生数・保存・シェア・平均視聴・フォロー増)は毎週日曜の代替データ取得Routineが vidIQ で取り、版ごとに比べる。各版3本の数値がそろい、はっきり差が出たら片方に寄せる。
+
+| 順番 | 台本 | 版 | 動画 |
+|---|---|---|---|
+| 1 | task-2026-11-04-sumaho-001.md | dopamine | creative/reel_quiz/checkup-daily/reel-2026-11-04.mp4 |
+| 2 | task-2026-11-06-sumaho-001.md | standard | creative/reel_quiz/checkup-daily/reel-2026-11-06.mp4 |
+| 3 | task-2026-11-08-sumaho-001.md | dopamine | creative/reel_quiz/checkup-daily/reel-2026-11-08.mp4 |
+| 4 | task-2026-11-10-sumaho-001.md | standard | creative/reel_quiz/checkup-daily/reel-2026-11-10.mp4 |
+| 5 | task-2026-11-12-sumaho-001.md | dopamine | creative/reel_quiz/checkup-daily/reel-2026-11-12.mp4 |
+| 6 | task-2026-11-14-sumaho-001.md | standard | creative/reel_quiz/checkup-daily/reel-2026-11-14.mp4 |

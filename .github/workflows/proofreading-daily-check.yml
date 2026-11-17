@@ -6,7 +6,8 @@ on:
   # 2026-11-03追加: ③(sumaho_habit)の下書きは生成に時間がかかり06:10に間に合わないことが
   # あるため、下書き生成ワークフローの完了直後にも走らせる
   workflow_run:
-    workflows: ["sumaho-habit-daily-draft"]
+    # 2026-11-17追加(週次提案4): ②③のフィード台本ができたら、その場で校正する(予約実行の遅れで当日に画像ができない問題の対策)
+    workflows: ["sumaho-habit-daily-draft", "feed-daily-draft"]
     types: [completed]
   workflow_dispatch: {}
 
