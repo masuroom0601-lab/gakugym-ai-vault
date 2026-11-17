@@ -188,3 +188,15 @@ A/Bの台本・動画が投稿されないままたまっていたため、次�
 | 4 | task-2026-11-10-sumaho-001.md | standard | creative/reel_quiz/checkup-daily/reel-2026-11-10.mp4 |
 | 5 | task-2026-11-12-sumaho-001.md | dopamine | creative/reel_quiz/checkup-daily/reel-2026-11-12.mp4 |
 | 6 | task-2026-11-14-sumaho-001.md | standard | creative/reel_quiz/checkup-daily/reel-2026-11-14.mp4 |
+
+## 「〇選」リールをカード型・7秒に全面変更(2026-11-17、益田さん指示)
+@reo.toudai_mainichi_juku の伸びているリール(20万回以上)の作りを全部取り入れる。上の「7選リール(15秒)」節の作りは廃止。
+- 7秒。最初の1コマから最後まで同じ画面(項目を1つずつ出さない)。文字は小さめ・情報量多めで、止めて読ませる
+- 手元の実写を背景に、左右に余白を残した白いカード1枚(背景のぼかしはほぼ無し)
+- カードの中: 太字のタイトル(数字・強い言葉・絵文字) → 項目7〜8個(各1行、キーワードだけ太字+下線、行末に絵文字可。
+  見出し2〜3個×3〜5項目の形も可) → まとめの一言 → 締めの誘導(保存/本文へ/シェア)
+- カバー画像(暗くした背景に「＼小見出し／」+大きな2行)も一緒に作る。投稿時にリールのカバーに設定する
+- テーマは `reference-themes.md`(参考アカウントの再生数上位)から選ぶ。テーマと型だけ借り、項目は自分で作る
+- 描画: `creative/reel_quiz/render_rules7.py`。出力: `creative/reel_quiz/rules7-daily/reel-<日付>.mp4` と `reel-<日付>-cover.png`
+- 背景: `creative/reel_quiz/assets/rules7_bg/*.mp4` を日付で順番に使う。無い間は `creative/ranking/assets/study_bg.mp4`
+- 音は無音で書き出す。投稿時にInstagramの音源(流行りの曲)を付ける

@@ -57,7 +57,7 @@ jobs:
           OUT="02_departments/creative/reel_quiz/checkup-daily/reel-${D}.mp4"
           KIND=checkup
           # 2026-11-14追加: 「7選」リール(reel_format: canva_7rules)もここで作る。Canvaの自動流し込みが
-          # 使えなくなったため、render_rules7.py で同じ見た目の15秒動画を自前で描く(益田さん: 15秒版を継続)
+          # 使えなくなったため、render_rules7.py で自前で描く。2026-11-17からカード型・7秒+カバー画像(reel-<日付>-cover.png)
           if [ -f "$DRAFT" ] && grep -q "^reel_format: canva_7rules" "$DRAFT"; then
             KIND=rules7; OUT="02_departments/creative/reel_quiz/rules7-daily/reel-${D}.mp4"
           fi
@@ -80,7 +80,7 @@ jobs:
         if: steps.target.outputs.skip != 'true'
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq ffmpeg fonts-ipafont-gothic fonts-noto-cjk
+          sudo apt-get install -y -qq ffmpeg fonts-ipafont-gothic fonts-noto-cjk fonts-noto-color-emoji
           python3 -m pip install -q pillow
 
       - name: Generate reel
@@ -101,7 +101,7 @@ jobs:
           DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$OUT")
           SIZE=$(stat -c %s "$OUT")
           echo "duration=$DUR size=$SIZE"
-          python3 -c "import sys; d=float('$DUR'); s=int('$SIZE'); sys.exit(0 if 10.0<=d<=30.0 and s>100000 else 1)"
+          python3 -c "import sys; d=float('$DUR'); s=int('$SIZE'); sys.exit(0 if 5.0<=d<=30.0 and s>100000 else 1)  # 7選カード型は7秒"
 
       - name: Record path in draft
         if: steps.target.outputs.skip != 'true'
@@ -109,6 +109,10 @@ jobs:
           python3 - <<'PY'
           p = "${{ steps.target.outputs.draft }}"
           line = "- リール動画: ${{ steps.target.outputs.out }}"
+          cover = "${{ steps.target.outputs.out }}".removesuffix(".mp4") + "-cover.png"
+          import os
+          if os.path.exists(cover):  # 7選カード型はカバー画像も作る(2026-11-17)
+              line += "\n- カバー画像(投稿時にカバーに設定): " + cover
           t = open(p, encoding="utf-8").read()
           if line not in t:
               if "## リール動画" in t:
