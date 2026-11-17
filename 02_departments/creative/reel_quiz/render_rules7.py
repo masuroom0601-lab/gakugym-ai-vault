@@ -6,10 +6,10 @@
 - 手元の実写動画を背景に、左右に余白を残した細めの白いカードを1枚
 - カードの中: 太字のタイトル(1〜2行) → 小さめの文字で項目7〜8個(各1行。キーワードだけ太字+下線、
   行末に絵文字可。見出し3つ×3〜5項目の形も可) → まとめの一言 → 締めの誘導
-- あわせて、リールのカバー画像(暗くした背景に「＼上の小見出し／」+大きな2行)も作る
+- 冒頭0.1秒だけカバー(暗くした背景に「＼上の小見出し／」+大きな2行)を出し、そのあと本編7秒(計7.1秒)。
+  投稿時はリールのカバーに動画の先頭のコマを選べばよい(カバー画像を別に作らない。2026-11-17 益田さん指示)
 
 使い方: python3 render_rules7.py <台本 task-<日付>-sumaho-001.md> <出力mp4>
-  → <出力>.mp4 と <出力>-cover.png(投稿時にカバーとして設定する画像)を書き出す。
 背景: creative/reel_quiz/assets/rules7_bg/*.mp4 を日付で順番に使う(無ければ ranking/assets/study_bg.mp4)。
 
 台本の書式(「## リール台本」節の中):
@@ -27,6 +27,7 @@ import datetime, glob, io, os, re, subprocess, sys
 from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 W, H, FPS, DUR = 1080, 1920, 30, 7.0
+COVER_SEC = 0.1   # 冒頭のカバー(サムネ)表示
 HERE = os.path.dirname(os.path.abspath(__file__))
 BG_DIR = os.path.join(HERE, "assets", "rules7_bg")
 BG_FALLBACK = os.path.join(HERE, "..", "ranking", "assets", "study_bg.mp4")
@@ -248,21 +249,24 @@ def main():
     date = datetime.date.fromisoformat(m.group(1)) if m else datetime.date.today()
     bg = pick_bg(date)
     os.makedirs(os.path.dirname(os.path.abspath(out)) or ".", exist_ok=True)
-    ov = io.BytesIO(); card(sc).save(ov, "PNG")
-    tmp = out + ".card.png"
-    open(tmp, "wb").write(ov.getvalue())
-    vf = (f"[0:v]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},boxblur=1:1,fps={FPS}[bg];"
-          f"[bg][1:v]overlay=0:0,format=yuv420p[v]")
+    tmp = out + ".card.png"; tmpc = out + ".cover.png"
+    card(sc).save(tmp)
+    cover(sc, bg).save(tmpc)
+    # 冒頭0.1秒(3コマ)だけカバー(サムネ)を出し、そのあと本編7秒。サムネは動画の先頭から選べる(2026-11-17)
+    total = COVER_SEC + DUR
+    vf = (f"[2:v]scale={W}:{H},fps={FPS},trim=end_frame={round(COVER_SEC * FPS)},setpts=PTS-STARTPTS,format=yuv420p,setsar=1[c];"
+          f"[0:v]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},boxblur=1:1,fps={FPS}[bg];"
+          f"[bg][1:v]overlay=0:0,format=yuv420p,setsar=1,trim=duration={DUR},setpts=PTS-STARTPTS[m];"
+          f"[c][m]concat=n=2:v=1:a=0[v]")
     cmd = ["ffmpeg", "-y", "-loglevel", "error", "-stream_loop", "-1", "-i", bg, "-loop", "1", "-i", tmp,
-           "-f", "lavfi", "-t", str(DUR), "-i", "anullsrc=r=44100:cl=stereo",
-           "-filter_complex", vf, "-map", "[v]", "-map", "2:a",
-           "-c:v", "libx264", "-c:a", "aac", "-t", str(DUR), "-movflags", "+faststart", out]
+           "-loop", "1", "-t", str(COVER_SEC), "-i", tmpc,
+           "-f", "lavfi", "-t", str(total), "-i", "anullsrc=r=44100:cl=stereo",
+           "-filter_complex", vf, "-map", "[v]", "-map", "3:a",
+           "-c:v", "libx264", "-c:a", "aac", "-t", str(total), "-movflags", "+faststart", out]
     r = subprocess.run(cmd)
-    os.remove(tmp)
+    for f in (tmp, tmpc): os.remove(f)
     if r.returncode: sys.exit("動画の書き出しに失敗しました")
-    cv = re.sub(r"\.mp4$", "", out) + "-cover.png"
-    cover(sc, bg).save(cv)
-    print(out); print(cv)
+    print(out)
 
 
 if __name__ == "__main__":
