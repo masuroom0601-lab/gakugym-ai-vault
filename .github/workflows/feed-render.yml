@@ -44,7 +44,7 @@ jobs:
         run: |
           D="${{ github.event.inputs.date }}"; [ -z "$D" ] && D=$(date +%F)
           SKIP="${{ github.event.inputs.skip_status_check }}"
-          for DEPT in sumaho_habit sougou instagram_tiktok; do
+          for DEPT in sumaho_habit sougou; do  # ①今週の1問まとめは2026-11-17に廃止
             DRAFT=02_departments/$DEPT/drafts/feed-${D}-001.md
             # ①は日曜の「今週の1問まとめ」だけ(台本名が違う)。2026-11-14追加
             [ "$DEPT" = instagram_tiktok ] && DRAFT=02_departments/instagram_tiktok/drafts/task-${D}-ig-001.md
