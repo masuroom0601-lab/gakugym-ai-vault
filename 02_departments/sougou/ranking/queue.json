@@ -103,7 +103,9 @@
    "university": "青山学院大学",
    "short": "青山学院",
    "type": "private",
-   "kind": "sougou"
+   "kind": "sougou",
+   "done": true,
+   "skipped": "2026-11-17 益田さん判断で見送り。総合型の結果PDF(p.185)も文字のアウトライン化で本文テキストが無く、校正担当の機械チェックで数字を照合できず不合格が続いたため"
   },
   {
    "slug": "rikkyo",
