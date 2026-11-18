@@ -42,22 +42,26 @@ jobs:
           python3 -m pip install -q pillow
       - name: Render
         run: |
-          D="${{ github.event.inputs.date }}"; [ -z "$D" ] && D=$(date +%F)
+          # 2026-11-18変更(益田さん指示): 当日分だけでなく、直近7日分のうち校正に合格していて
+          # まだ画像がない台本もまとめて描く(校正が翌日にずれた日の分が描かれずに残る問題の対策)
+          DATES="${{ github.event.inputs.date }}"
+          [ -z "$DATES" ] && DATES=$(for i in 0 1 2 3 4 5 6; do date -d "-$i day" +%F; done)
           SKIP="${{ github.event.inputs.skip_status_check }}"
+          for D in $DATES; do
           for DEPT in sumaho_habit sougou; do  # ①今週の1問まとめは2026-11-17に廃止
             DRAFT=02_departments/$DEPT/drafts/feed-${D}-001.md
-            # ①は日曜の「今週の1問まとめ」だけ(台本名が違う)。2026-11-14追加
-            [ "$DEPT" = instagram_tiktok ] && DRAFT=02_departments/instagram_tiktok/drafts/task-${D}-ig-001.md
             OUT=02_departments/creative/feed/out/$DEPT/$D
-            [ -f "$DRAFT" ] || { echo "$DEPT: 台本なし"; continue; }
-            [ -d "$OUT" ] && { echo "$DEPT: 描画済み"; continue; }
+            [ -f "$DRAFT" ] || continue
+            [ -d "$OUT" ] && { echo "$D $DEPT: 描画済み"; continue; }
             if [ "$SKIP" != "true" ] && ! grep -Eq "^status: (review|approved)" "$DRAFT"; then
-              echo "$DEPT: 校正担当の合格前"; continue
+              echo "$D $DEPT: 校正担当の合格前"; continue
             fi
             if ! python3 02_departments/creative/feed/render_feed.py "$DRAFT" "$OUT"; then
-              echo "::error::$DEPT の描画に失敗(台本のスライドJSON・枚数を確認)"; rm -rf "$OUT"; echo "FAIL=1" >> "$GITHUB_ENV"; continue
+              echo "::error::$D $DEPT の描画に失敗(台本のスライドJSON・枚数を確認)"; rm -rf "$OUT"; echo "FAIL=1" >> "$GITHUB_ENV"; continue
             fi
+            echo "$D $DEPT: 描画した"
             grep -q "$OUT" "$DRAFT" || printf -- "- 画像フォルダ: %s\n" "$OUT" >> "$DRAFT"
+          done
           done
       - name: Commit
         if: github.event.inputs.skip_status_check != 'true'
