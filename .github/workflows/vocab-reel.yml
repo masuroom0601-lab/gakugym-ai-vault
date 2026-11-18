@@ -16,6 +16,10 @@ on:
         description: "試作用: 単語リスト(lists/ 内のファイル名、拡張子なし)。空なら今日の台本から作る"
         required: false
         default: ""
+      date:
+        description: "作り直す日付(例 2026-11-17)。指定するとその日の台本から作り直して上書きする"
+        required: false
+        default: ""
 
 concurrency:
   group: vocab-reel
@@ -38,6 +42,8 @@ jobs:
         id: t
         run: |
           D=$(date +%F)
+          RD="${{ github.event.inputs.date }}"
+          [ -n "$RD" ] && D="$RD"
           L="${{ github.event.inputs.list }}"
           V=02_departments/creative/vocab_reel
           if [ -n "$L" ]; then
@@ -49,7 +55,7 @@ jobs:
           echo "src=$DRAFT" >> "$GITHUB_OUTPUT"; echo "out=$OUT" >> "$GITHUB_OUTPUT"; echo "draft=$DRAFT" >> "$GITHUB_OUTPUT"
           if [ "$(python3 $V/post_kind.py $D)" != "vocab" ]; then echo "今日は英検クイズの日"; echo "go=false" >> "$GITHUB_OUTPUT"
           elif [ ! -f "$DRAFT" ]; then echo "台本がまだ無い"; echo "go=false" >> "$GITHUB_OUTPUT"
-          elif [ -f "$OUT" ]; then echo "生成済み"; echo "go=false" >> "$GITHUB_OUTPUT"
+          elif [ -f "$OUT" ] && [ -z "$RD" ]; then echo "生成済み"; echo "go=false" >> "$GITHUB_OUTPUT"
           elif ! grep -Eq "^status: (review|approved)" "$DRAFT"; then echo "校正担当の合格前(status が review でない)"; echo "go=false" >> "$GITHUB_OUTPUT"
           else echo "go=true" >> "$GITHUB_OUTPUT"; fi
       - name: Install tools
@@ -77,6 +83,6 @@ jobs:
           git config user.name "gakugym-ai-bot"
           git config user.email "bot@example.com"
           git add 02_departments/creative/vocab_reel/ 02_departments/x_threads/drafts/
-          git commit -m "爆速英単語リール $(date +%F)" || exit 0
+          git commit -m "爆速英単語リール $(basename "$OUT" .mp4)" || exit 0
           git pull --rebase -q origin main
           git push origin HEAD:main
