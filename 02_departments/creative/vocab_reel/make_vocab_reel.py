@@ -2,7 +2,7 @@
 """「爆速英単語」リールを単語リスト(JSON)から作る(2026-11-14追加)。
 
 1語1.5秒で英単語→0.5秒後に日本語訳を表示し、英単語の読み上げ音声を重ねる。
-40語なら本編60秒(+冒頭1.5秒・締め2.5秒)。
+40語なら本編60秒(+冒頭0.1秒・締め2.5秒)。冒頭の表紙はサムネイル用に0.1秒だけ表示する。
 
 使い方(入力は単語リストJSONか、台本 x_threads/drafts/task-<date>-vocab-001.md):
   python3 make_vocab_reel.py lists/pre1-001.json out/pre1-001.mp4            # 読み上げ音声あり(edge-tts)
@@ -13,7 +13,7 @@
 import json, os, subprocess, sys, tempfile
 
 W, H = 1080, 1920
-INTRO, PER, REVEAL, OUTRO = 1.5, 1.5, 0.5, 2.5
+INTRO, PER, REVEAL, OUTRO = 0.1, 1.5, 0.5, 2.5   # 2026-11-18: 表紙(冒頭)は0.1秒だけ。すぐ本編に入る
 VOICE = "en-US-AriaNeural"
 BLUE, RED, INK, SUB = "#4472c4", "#e60000", "#111111", "#555555"
 FONT_DIRS = ["/usr/share/fonts/opentype/noto", "/usr/share/fonts/truetype/noto"]
