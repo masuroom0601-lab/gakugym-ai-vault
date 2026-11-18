@@ -60,8 +60,9 @@ def obi(im, color):
 
 def obi_text(d, bg_dark=True, hi=YEL, chips_bg=WHITE, chips_fg=INK):
     fg = WHITE if bg_dark else INK
-    rich(d, W / 2, OBI + 60, [("やる気に頼らない", fg), ("「仕組み化」", hi), ("勉強法", fg)],
-         fitF(d, "やる気に頼らない「仕組み化」勉強法", "Black", W - 160, 100), center=True)
+    # 2026-11-18: サブタイトルを「やる気に頼らない学習「自動化」術」に変更
+    rich(d, W / 2, OBI + 60, [("やる気に頼らない学習", fg), ("「自動化」", hi), ("術", fg)],
+         fitF(d, "やる気に頼らない学習「自動化」術", "Black", W - 160, 100), center=True)
     d.line((120, OBI + 200, W - 120, OBI + 200), fill=fg, width=3)
     d.text((110, OBI + 240), "学年最下位・定期テスト0点から", font=F("Black", 74), fill=fg)
     rich(d, 100, OBI + 330, [("偏差値", fg), ("46→66", hi)], F("Black", 200))
@@ -140,7 +141,15 @@ def p4():
         d.polygon([(cx + r0 * math.cos(a), cy + r0 * math.sin(a)), (cx + r1 * math.cos(a - w), cy + r1 * math.sin(a - w)),
                    (cx + r1 * math.cos(a + w), cy + r1 * math.sin(a + w))], fill=hx("#FFE0CC"))
     title(d, hx("#AC3E00"))
-    obi_text(obi(im, hx("#541E00")), hi=hx("#FFC199"))
+    # 「のを」の右に「偏差値20UP!」のバッジ(サブタイトルの言葉に合わせる)
+    bx, by, r = 1250, 900, 160
+    pts = [(bx + (r if i % 2 == 0 else r * 0.86) * math.cos(math.pi * i / 22),
+            by + (r if i % 2 == 0 else r * 0.86) * math.sin(math.pi * i / 22)) for i in range(44)]
+    d.polygon(pts, fill=hx("#FB5B01"))
+    d.text((bx, by - 62), "偏差値", font=F("Black", 54), fill=WHITE, anchor="mm")
+    d.text((bx, by + 18), "20", font=F("Black", 112), fill=YEL, anchor="mm")
+    d.text((bx, by + 98), "UP!", font=F("Black", 54), fill=WHITE, anchor="mm")
+    obi_text(obi(im, hx("#541E00")), hi=YEL)
     return im
 
 
