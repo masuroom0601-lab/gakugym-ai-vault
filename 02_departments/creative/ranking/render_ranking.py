@@ -143,8 +143,10 @@ def cover(t):
 
 
 # 項目が少ない大学でも上に寄らないよう、行間を広げて縦方向の中央に配置する
-ROW_H = min(150, int(1460 / max(N, 1)))
-ROW_TOP = 300 + max(0, (1460 - N * ROW_H) // 2)
+# 2026-11-18: 見出しをInstagramのアカウント名表示と重ならないよう下げたぶん、表の開始位置も下げる(益田さんの指示)
+ROW_AREA = 1380
+ROW_H = min(150, int(ROW_AREA / max(N, 1)))
+ROW_TOP = 380 + max(0, (ROW_AREA - N * ROW_H) // 2)
 LABEL_X, BAR_X0, BAR_X1 = 165, 520, 830  # 2桁倍率(19.0倍等)と重ならない幅
 
 
@@ -165,8 +167,8 @@ def page_timing(pi):
         return (PSTEP, PHOLD)
     return (STEP, HOLD) if pi == 0 else (PSTEP, PHOLD)
 if MULTI:
-    ROW_H = int(1460 / PER_PAGE)
-    ROW_TOP = 300
+    ROW_H = int(ROW_AREA / PER_PAGE)
+    ROW_TOP = 380
 
 
 def ranking_page(pi, t):
@@ -175,9 +177,9 @@ def ranking_page(pi, t):
     n = len(rows_p)
     im, d = base()
     title = f"{data['short']} {data['selection']} 倍率ランキング"
-    bold(d, (540, 130), title, fit(d, title, 62, 980), NAVY, "mm", 2)
+    bold(d, (540, 250), title, fit(d, title, 62, 980), NAVY, "mm", 2)   # 2026-11-18: 130→250(アカウント名表示と重ならない位置)
     sub = f"{YEAR}年度入試結果" + (f"  ({pi + 1}/{len(PAGES)}ページ・全{N}学科/方式)" if MULTI else "")
-    d.text((540, 205), sub, font=fit(d, sub, 38, 980), fill=GRAY, anchor="mm")
+    d.text((540, 325), sub, font=fit(d, sub, 38, 980), fill=GRAY, anchor="mm")
     step, _ = page_timing(pi)
     shown = int(t / step) + 1
     for i, (rk, r) in enumerate(rows_p):
