@@ -1,329 +1,332 @@
 {
- "university": "立教大学",
- "short": "立教",
- "selection": "一般選抜",
- "year": 2026,
- "count_key": "examinees",
- "source": {
-  "publisher": "立教大学",
-  "title": "2026年度 入試結果(一般入試の表)",
-  "url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf",
-  "index_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/data.html",
-  "published": "2026-05",
-  "fetched": "2026-11-19",
-  "year_evidence": "PDF本文1行目・2ページ目見出し「2026年度 入試結果」(pdftotextで確認)。大学公式「入試結果・過去問題」ページの「2026年度入試データ」欄に「2026年度入試結果」として同PDFへのリンクあり。公表日の明記なし(PDF作成日2026-05-13のため「2026/5公表」)",
-  "footer": "出典:立教大学「2026年度 入試結果」(2026/5公表)"
- },
- "formula": "受験者数÷合格者数(合格者数=PDFの「合格者総数」=第1〜4回発表の合計で補欠・追加合格を含む)",
- "rows": [
-  {
-   "name": "経営 経営",
-   "examinees": 1981,
-   "passers": 227,
-   "ratio": 8.7,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+  "university": "立教大学",
+  "short": "立教",
+  "selection": "一般選抜",
+  "year": 2026,
+  "count_key": "examinees",
+  "source": {
+    "publisher": "立教大学",
+    "title": "2026年度 入試結果(一般入試の表)",
+    "url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf",
+    "index_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/data.html",
+    "published": "2026-05",
+    "fetched": "2026-11-19",
+    "year_evidence": "PDF本文1行目・2ページ目見出し「2026年度 入試結果」(pdftotextで確認)。大学公式「入試結果・過去問題」ページの「2026年度入試データ」欄に「2026年度入試結果」として同PDFへのリンクあり。公表日の明記なし(PDF作成日2026-05-13のため「2026/5公表」)",
+    "footer": "出典:立教大学「2026年度 入試結果」(2026/5公表)"
   },
-  {
-   "name": "文 ドイツ文学 2/6-13日程",
-   "examinees": 572,
-   "passers": 67,
-   "ratio": 8.5,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+  "formula": "受験者数÷合格者数(合格者数=PDFの「合格者総数」=第1〜4回発表の合計で補欠・追加合格を含む)",
+  "rows": [
+    {
+      "name": "経営 経営",
+      "examinees": 1981,
+      "passers": 227,
+      "ratio": 8.7,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 ドイツ文学 2/6-13日程",
+      "examinees": 572,
+      "passers": 67,
+      "ratio": 8.5,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 フランス文学 2/6-13日程",
+      "examinees": 694,
+      "passers": 83,
+      "ratio": 8.4,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 ドイツ文学 2/11日程",
+      "examinees": 249,
+      "passers": 30,
+      "ratio": 8.3,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 フランス文学 2/11日程",
+      "examinees": 317,
+      "passers": 41,
+      "ratio": 7.7,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 史 2/6-13日程",
+      "examinees": 1179,
+      "passers": 167,
+      "ratio": 7.1,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "環境 環境(文系型)",
+      "examinees": 741,
+      "passers": 106,
+      "ratio": 7.0,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 史 2/11日程",
+      "examinees": 481,
+      "passers": 72,
+      "ratio": 6.7,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "異文化コミュニケーション",
+      "examinees": 1726,
+      "passers": 260,
+      "ratio": 6.6,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 文芸・思想 2/6-13日程",
+      "examinees": 758,
+      "passers": 116,
+      "ratio": 6.5,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "現代心理 心理",
+      "examinees": 823,
+      "passers": 127,
+      "ratio": 6.5,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "スポーツウエルネス",
+      "examinees": 1688,
+      "passers": 275,
+      "ratio": 6.1,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 キリスト教 2/6-13日程",
+      "examinees": 207,
+      "passers": 35,
+      "ratio": 5.9,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 文芸・思想 2/11日程",
+      "examinees": 331,
+      "passers": 56,
+      "ratio": 5.9,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "社会 メディア社会",
+      "examinees": 1507,
+      "passers": 267,
+      "ratio": 5.6,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "社会 社会",
+      "examinees": 1644,
+      "passers": 294,
+      "ratio": 5.6,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 キリスト教 2/11日程",
+      "examinees": 78,
+      "passers": 14,
+      "ratio": 5.6,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "経済 会計ファイナンス",
+      "examinees": 1277,
+      "passers": 234,
+      "ratio": 5.5,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "観光 観光",
+      "examinees": 1733,
+      "passers": 319,
+      "ratio": 5.4,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "社会 現代文化",
+      "examinees": 1449,
+      "passers": 271,
+      "ratio": 5.3,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 教育 2/6-13日程",
+      "examinees": 799,
+      "passers": 151,
+      "ratio": 5.3,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "経営 国際経営",
+      "examinees": 755,
+      "passers": 145,
+      "ratio": 5.2,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 英米文学 2/6-13日程",
+      "examinees": 1150,
+      "passers": 229,
+      "ratio": 5.0,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "コミュニティ福祉 福祉",
+      "examinees": 785,
+      "passers": 162,
+      "ratio": 4.8,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "環境 環境(理系型)",
+      "examinees": 725,
+      "passers": 153,
+      "ratio": 4.7,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 日本文学 2/6-13日程",
+      "examinees": 598,
+      "passers": 127,
+      "ratio": 4.7,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 教育 2/11日程",
+      "examinees": 410,
+      "passers": 88,
+      "ratio": 4.7,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 日本文学 2/11日程",
+      "examinees": 325,
+      "passers": 70,
+      "ratio": 4.6,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "観光 交流文化",
+      "examinees": 1503,
+      "passers": 331,
+      "ratio": 4.5,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "経済 経済政策",
+      "examinees": 1070,
+      "passers": 243,
+      "ratio": 4.4,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "経済 経済",
+      "examinees": 3049,
+      "passers": 715,
+      "ratio": 4.3,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "理 生命理",
+      "examinees": 937,
+      "passers": 220,
+      "ratio": 4.3,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "法 法",
+      "examinees": 2423,
+      "passers": 582,
+      "ratio": 4.2,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "コミュニティ福祉 コミュニティ政策",
+      "examinees": 1491,
+      "passers": 359,
+      "ratio": 4.2,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 英米文学 2/11日程",
+      "examinees": 360,
+      "passers": 87,
+      "ratio": 4.1,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "理 物理",
+      "examinees": 1167,
+      "passers": 288,
+      "ratio": 4.1,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "現代心理 映像身体",
+      "examinees": 722,
+      "passers": 188,
+      "ratio": 3.8,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "理 数",
+      "examinees": 678,
+      "passers": 177,
+      "ratio": 3.8,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "法 政治",
+      "examinees": 742,
+      "passers": 196,
+      "ratio": 3.8,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "法 国際ビジネス法",
+      "examinees": 548,
+      "passers": 146,
+      "ratio": 3.8,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "法 国際ビジネス法 グローバルコース",
+      "examinees": 26,
+      "passers": 7,
+      "ratio": 3.7,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "理 化",
+      "examinees": 1125,
+      "passers": 347,
+      "ratio": 3.2,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    }
+  ],
+  "campus_photo": {
+    "path": "assets/campus_rikkyo.jpg",
+    "credit": "写真:Dick Thomas Johnson / Wikimedia Commons(CC BY 2.0)",
+    "source": "https://commons.wikimedia.org/wiki/File:Rikkyo_University_06.jpg",
+    "license": "CC BY 2.0"
   },
-  {
-   "name": "文 フランス文学 2/6-13日程",
-   "examinees": 694,
-   "passers": 83,
-   "ratio": 8.4,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+  "school_color": {
+    "hex": "#611f9b",
+    "name": "立教の紫(公式サイトの基調色)",
+    "note": "大学公式サイト(www.rikkyo.ac.jp)のCSSの基調色 #611f9b。スクールカラーの公式なRGB記載は見つからなかったため、公式サイトの基調色を採用"
   },
-  {
-   "name": "文 ドイツ文学 2/11日程",
-   "examinees": 249,
-   "passers": 30,
-   "ratio": 8.3,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "文 フランス文学 2/11日程",
-   "examinees": 317,
-   "passers": 41,
-   "ratio": 7.7,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "文 史 2/6-13日程",
-   "examinees": 1179,
-   "passers": 167,
-   "ratio": 7.1,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "環境 環境(文系型)",
-   "examinees": 741,
-   "passers": 106,
-   "ratio": 7.0,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "文 史 2/11日程",
-   "examinees": 481,
-   "passers": 72,
-   "ratio": 6.7,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "異文化コミュニケーション",
-   "examinees": 1726,
-   "passers": 260,
-   "ratio": 6.6,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "文 文芸・思想 2/6-13日程",
-   "examinees": 758,
-   "passers": 116,
-   "ratio": 6.5,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "現代心理 心理",
-   "examinees": 823,
-   "passers": 127,
-   "ratio": 6.5,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "スポーツウエルネス",
-   "examinees": 1688,
-   "passers": 275,
-   "ratio": 6.1,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "文 キリスト教 2/6-13日程",
-   "examinees": 207,
-   "passers": 35,
-   "ratio": 5.9,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "文 文芸・思想 2/11日程",
-   "examinees": 331,
-   "passers": 56,
-   "ratio": 5.9,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "社会 メディア社会",
-   "examinees": 1507,
-   "passers": 267,
-   "ratio": 5.6,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "社会 社会",
-   "examinees": 1644,
-   "passers": 294,
-   "ratio": 5.6,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "文 キリスト教 2/11日程",
-   "examinees": 78,
-   "passers": 14,
-   "ratio": 5.6,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "経済 会計ファイナンス",
-   "examinees": 1277,
-   "passers": 234,
-   "ratio": 5.5,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "観光 観光",
-   "examinees": 1733,
-   "passers": 319,
-   "ratio": 5.4,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "社会 現代文化",
-   "examinees": 1449,
-   "passers": 271,
-   "ratio": 5.3,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "文 教育 2/6-13日程",
-   "examinees": 799,
-   "passers": 151,
-   "ratio": 5.3,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "経営 国際経営",
-   "examinees": 755,
-   "passers": 145,
-   "ratio": 5.2,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "文 英米文学 2/6-13日程",
-   "examinees": 1150,
-   "passers": 229,
-   "ratio": 5.0,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "コミュニティ福祉 福祉",
-   "examinees": 785,
-   "passers": 162,
-   "ratio": 4.8,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "環境 環境(理系型)",
-   "examinees": 725,
-   "passers": 153,
-   "ratio": 4.7,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "文 日本文学 2/6-13日程",
-   "examinees": 598,
-   "passers": 127,
-   "ratio": 4.7,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "文 教育 2/11日程",
-   "examinees": 410,
-   "passers": 88,
-   "ratio": 4.7,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "文 日本文学 2/11日程",
-   "examinees": 325,
-   "passers": 70,
-   "ratio": 4.6,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "観光 交流文化",
-   "examinees": 1503,
-   "passers": 331,
-   "ratio": 4.5,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "経済 経済政策",
-   "examinees": 1070,
-   "passers": 243,
-   "ratio": 4.4,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "経済 経済",
-   "examinees": 3049,
-   "passers": 715,
-   "ratio": 4.3,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "理 生命理",
-   "examinees": 937,
-   "passers": 220,
-   "ratio": 4.3,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "法 法",
-   "examinees": 2423,
-   "passers": 582,
-   "ratio": 4.2,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "コミュニティ福祉 コミュニティ政策",
-   "examinees": 1491,
-   "passers": 359,
-   "ratio": 4.2,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "文 英米文学 2/11日程",
-   "examinees": 360,
-   "passers": 87,
-   "ratio": 4.1,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "理 物理",
-   "examinees": 1167,
-   "passers": 288,
-   "ratio": 4.1,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "現代心理 映像身体",
-   "examinees": 722,
-   "passers": 188,
-   "ratio": 3.8,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "理 数",
-   "examinees": 678,
-   "passers": 177,
-   "ratio": 3.8,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "法 政治",
-   "examinees": 742,
-   "passers": 196,
-   "ratio": 3.8,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "法 国際ビジネス法",
-   "examinees": 548,
-   "passers": 146,
-   "ratio": 3.8,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "法 国際ビジネス法 グローバルコース",
-   "examinees": 26,
-   "passers": 7,
-   "ratio": 3.7,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "理 化",
-   "examinees": 1125,
-   "passers": 347,
-   "ratio": 3.2,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+  "caption": "立教で一番倍率が高い学部・学科、知ってる?\n\n2026年度の一般入試(個別学部の入試)で倍率が高かったのはこの3つ。\n1位 経営 経営 8.7倍\n2位 文 ドイツ文学 2/6-13日程 8.5倍\n3位 文 フランス文学 2/6-13日程 8.4倍\n(倍率=受験者数÷合格者数。補欠・追加合格を含む。日程ごとの結果)\n\n出典:立教大学公式発表(2026年度 入試結果)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #立教大学 #一般選抜 #受験生",
+  "factcheck": {
+    "status": "ok",
+    "checked_at": "2026-11-19",
+    "checker": "校正担当",
+    "notes": "機械チェック42行すべてOK。出典PDF本文(実質倍率表の2/6-13日程・2/11日程、列は受験者数・合格者総数)と上位行(経営1981/227、ドイツ文学572/67・249/30、フランス文学694/83ほか)・国際ビジネス法GC(26/7)を目視照合し、行・列の取り違え無し。年度2026(PDF見出し+公式ページ)、倍率=受験者数÷合格者総数(第1〜4回の合計)で一致。全学科・日程を網羅、出典表記・写真クレジット有り。"
   }
- ],
- "campus_photo": {
-  "path": "assets/campus_rikkyo.jpg",
-  "credit": "写真:Dick Thomas Johnson / Wikimedia Commons(CC BY 2.0)",
-  "source": "https://commons.wikimedia.org/wiki/File:Rikkyo_University_06.jpg",
-  "license": "CC BY 2.0"
- },
- "school_color": {
-  "hex": "#611f9b",
-  "name": "立教の紫(公式サイトの基調色)",
-  "note": "大学公式サイト(www.rikkyo.ac.jp)のCSSの基調色 #611f9b。スクールカラーの公式なRGB記載は見つからなかったため、公式サイトの基調色を採用"
- },
- "caption": "立教で一番倍率が高い学部・学科、知ってる?\n\n2026年度の一般入試(個別学部の入試)で倍率が高かったのはこの3つ。\n1位 経営 経営 8.7倍\n2位 文 ドイツ文学 2/6-13日程 8.5倍\n3位 文 フランス文学 2/6-13日程 8.4倍\n(倍率=受験者数÷合格者数。補欠・追加合格を含む。日程ごとの結果)\n\n出典:立教大学公式発表(2026年度 入試結果)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #立教大学 #一般選抜 #受験生",
- "factcheck": {
-  "status": "pending"
- }
 }
