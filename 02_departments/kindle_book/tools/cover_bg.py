@@ -132,7 +132,7 @@ def p3():
 
 
 # ---- P4: Orange系。タイトルの奥から広がる集中線 ----
-def p4():
+def p4(art=None):
     im = Image.new("RGB", (W, H), hx("#FFF8F2")); d = ImageDraw.Draw(im)
     cx, cy = W / 2, 760; random.seed(3)
     for k in range(90):
@@ -140,6 +140,7 @@ def p4():
         r0, r1 = 520, 2600
         d.polygon([(cx + r0 * math.cos(a), cy + r0 * math.sin(a)), (cx + r1 * math.cos(a - w), cy + r1 * math.sin(a - w)),
                    (cx + r1 * math.cos(a + w), cy + r1 * math.sin(a + w))], fill=hx("#FFE0CC"))
+    if art: art(d)   # 背景の絵(cover_art.py)
     title(d, hx("#AC3E00"))
     # 「のを」の右に「偏差値20UP!」のバッジ(サブタイトルの言葉に合わせる)
     bx, by, r = 1250, 900, 160
