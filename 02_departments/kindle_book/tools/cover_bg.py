@@ -66,7 +66,7 @@ def obi_text(d, bg_dark=True, hi=YEL, chips_bg=WHITE, chips_fg=INK):
     d.line((120, OBI + 200, W - 120, OBI + 200), fill=fg, width=3)
     d.text((110, OBI + 240), "学年最下位・定期テスト0点から", font=F("Black", 74), fill=fg)
     rich(d, 100, OBI + 330, [("偏差値", fg), ("46→66", hi)], F("Black", 200))
-    items = ["スマホに負けない", "三日坊主にならない", "計画が崩れない"]
+    items = ["スマホ依存を克服", "三日坊主にならない", "計画が崩れない"]
     z = 56
     while sum(tw(d, t, F("Black", z)) + 60 for t in items) > W - 260: z -= 2
     f = F("Black", z); ws = [tw(d, t, f) + 60 for t in items]
