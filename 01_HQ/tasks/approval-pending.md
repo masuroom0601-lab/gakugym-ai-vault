@@ -4,7 +4,7 @@ description: 秘書担当AIが日次で更新する承認待ちリスト(手編�
 
 # 承認待ちリスト
 
-## 2026-11-18時点の承認待ち
+## 2026-11-19時点の承認待ち
 
 ### instagram_tiktok(57件)
 - 02_departments/instagram_tiktok/drafts/task-2026-09-14-ig-001.md
