@@ -61,8 +61,9 @@ def obi(im, color):
 def obi_text(d, bg_dark=True, hi=YEL, chips_bg=WHITE, chips_fg=INK):
     fg = WHITE if bg_dark else INK
     # 2026-11-18: サブタイトルを「やる気に頼らない学習「自動化」術」に変更
-    rich(d, W / 2, OBI + 60, [("やる気に頼らない学習", fg), ("“自動化”", hi), ("術", fg)],
-         fitF(d, "やる気に頼らない学習“自動化”術", "Black", W - 160, 100), center=True)
+    # 2026-11-20: サブタイトルを「モチベの波に左右されない学習“自動化”術」に変更
+    rich(d, W / 2, OBI + 60, [("モチベの波に左右されない学習", fg), ("“自動化”", hi), ("術", fg)],
+         fitF(d, "モチベの波に左右されない学習“自動化”術", "Black", W - 160, 100), center=True)
     d.line((120, OBI + 200, W - 120, OBI + 200), fill=fg, width=3)
     d.text((110, OBI + 240), "学年最下位・定期テスト0点から", font=F("Black", 74), fill=fg)
     rich(d, 100, OBI + 330, [("偏差値", fg), ("46→66", hi)], F("Black", 200))
