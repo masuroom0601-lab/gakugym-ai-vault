@@ -15,6 +15,18 @@ AIが描く漫画を、できるだけ「人間が描いたような」作風で
 - **公開前には必ず益田さんが確認する**(全部署共通ルール)。
 
 ## 制作方式
+### 画像生成AI(2026-11-21追加、作画の主力)
+- Hugging Faceで無料公開されているSpace「Asahina2K/animagine-xl-4.0」(アニメ絵の
+  画像生成AI Animagine XL 4.0)を、`tools/generate_hf.py`から呼び出す。
+- 益田さんの無料アカウントの鍵(Readトークン)を、クラウド環境のネットワーク設定に
+  保存済み(huggingface.co と asahina2k-animagine-xl-4-0.hf.space の2か所)。
+  鍵はファイルやチャットに書かない。
+- 無料枠(ZeroGPU)には1日あたりの上限がある。上限に達したら翌日に回す。
+- Gemini API(Google AI Studioの無料の鍵)も試したが、無料枠では画像生成の上限が0で
+  使えなかった(2026-11-21確認。Gemini Plusの加入はAPIの枠に影響しない)。
+- 公開・販売の前に、Animagine XL 4.0のライセンス条件を確認すること。
+
+### Blender(ポーズ・構図の下絵用)
 益田さんのPCはIntel UHD Graphics(独立GPUなし)のため、画像生成AIはローカルで動かせない。
 代わりに、Claude Code on the webのクラウド環境でBlender(PyPIの`bpy`)を動かし、
 Claudeがプログラムで直接操作して描く。MCP連携やプラグインは不要。
@@ -41,6 +53,7 @@ Claudeがプログラムで直接操作して描く。MCP連携やプラグイ�
 - `tools/`: 制作用スクリプト
   - `setup.sh`: 作業環境の準備(セッションの最初に実行)
   - `render_check.py`: 描画の動作確認
+  - `generate_hf.py`: 画像生成AIで1枚生成する
 
 ## 注意事項
 - 参考イラストは「作風・雰囲気の見本」として使う。既存の作品やキャラクターを
