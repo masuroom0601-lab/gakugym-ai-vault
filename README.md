@@ -8,6 +8,7 @@
 - 00_INBOX: ネタ・思いつきの一時置き場
 - 01_HQ: 統括・秘書担当が使うタスクカード/日次ログ/月間カレンダー/roadmap.md/setup guides
 - 02_departments: 各部署のdepartment.md(役割定義)とdrafts/review/publishedフォルダ
+  - 02_departments/manga: 漫画制作担当(AIがBlenderで作画。詳細は同フォルダのdepartment.md)
 - 03_assets: brand-guide.md(全部署共通ルール)と素材(画像・動画)
 - 04_analytics: 分析担当のレポート置き場
 - docs: GitHub Pagesで公開する静的サイト一式
