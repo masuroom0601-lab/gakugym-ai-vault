@@ -28,6 +28,7 @@ def main():
     ap.add_argument("out")
     ap.add_argument("--seed", type=int, default=0)
     ap.add_argument("--size", default="896x1152", choices=SIZES)
+    ap.add_argument("--neg", default="", help="この生成だけ追加で除外したいもの")
     a = ap.parse_args()
 
     # gradio_clientは鍵を独自のヘッダーで送るため、プロキシが鍵を差し込める
@@ -35,7 +36,7 @@ def main():
     client = Client(SPACE, headers={"Authorization": "Bearer proxy-injected"}, verbose=False)
     images, meta = client.predict(
         prompt=f"{a.prompt}, {STYLE}",
-        negative_prompt=NEGATIVE,
+        negative_prompt=f"{NEGATIVE}, {a.neg}" if a.neg else NEGATIVE,
         seed=a.seed,
         aspect_ratio_selector=a.size.replace("x", " x "),
         style_selector="(None)",
