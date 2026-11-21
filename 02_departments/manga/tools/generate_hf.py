@@ -17,7 +17,7 @@ STYLE = "monochrome, greyscale, manga, screentone, lineart"
 NEGATIVE = (
     "lowres, bad anatomy, bad hands, text, error, missing finger, extra digits, fewer digits, cropped, "
     "worst quality, low quality, low score, bad score, average score, signature, watermark, username, blurry, "
-    "color, large breasts, cleavage, nsfw"
+    "color, large breasts, cleavage, nsfw, animal ears, fox ears, cat ears, tail, kemonomimi"
 )
 SIZES = ["1024x1024", "1152x896", "896x1152", "1216x832", "832x1216", "1344x768", "768x1344"]
 
