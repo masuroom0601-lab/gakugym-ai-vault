@@ -1,0 +1,8 @@
+[
+ {"name": "front", "prompt": "1girl, solo, full body, standing, front view, arms at sides, gentle bright smile, long hair, blunt bangs, hair ribbon, white puffy short sleeves blouse, black necktie, black choker, high-waist dark flared skirt, black gloves, white background, simple background", "seeds": [1, 2, 3]},
+ {"name": "side", "prompt": "1girl, solo, full body, standing, from side, profile, long hair, hair ribbon, white puffy short sleeves blouse, black necktie, black choker, high-waist dark flared skirt, black gloves, white background, simple background", "seeds": [1, 2, 3]},
+ {"name": "happy", "prompt": "1girl, solo, portrait, happy, open mouth smile, fang, long hair, blunt bangs, hair ribbon, white blouse, black necktie, black choker, white background", "seeds": [1, 2], "w": 1024, "h": 1024},
+ {"name": "surprised", "prompt": "1girl, solo, portrait, surprised, wide eyes, open mouth, long hair, blunt bangs, hair ribbon, white blouse, black necktie, black choker, white background", "seeds": [1, 2], "w": 1024, "h": 1024},
+ {"name": "cry", "prompt": "1girl, solo, portrait, crying, tears, sad, long hair, blunt bangs, hair ribbon, white blouse, black necktie, black choker, white background", "seeds": [1, 2], "w": 1024, "h": 1024},
+ {"name": "blush", "prompt": "1girl, solo, portrait, embarrassed, blush, looking away, long hair, blunt bangs, hair ribbon, white blouse, black necktie, black choker, white background", "seeds": [1, 2], "w": 1024, "h": 1024}
+]
