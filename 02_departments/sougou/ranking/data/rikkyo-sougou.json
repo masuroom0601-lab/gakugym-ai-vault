@@ -1,301 +1,304 @@
 {
- "university": "立教大学",
- "short": "立教",
- "selection": "公募制推薦",
- "year": 2026,
- "count_key": "applicants",
- "source": {
-  "publisher": "立教大学",
-  "title": "2026年度 入試結果(自由選抜入試の表)",
-  "url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf",
-  "index_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/data.html",
-  "published": "2026-05",
-  "fetched": "2026-11-21",
-  "year_evidence": "PDF本文2ページ目(56ページ)見出し「2026年度 入試結果」内の「自由選抜入試」表(pdftotextと画像で確認)。大学公式「入試結果・過去問題」ページの「2026年度入試データ」欄に「2026年度入試結果」として同PDFへのリンクあり。公表日の明記なし(PDF作成日2026-05-13のため「2026/5公表」)。立教は「総合型選抜」名の入試が無く、書類選考+面接の自由選抜入試を公募制推薦として代用。国際コース選抜・アスリート選抜は対象外",
-  "footer": "出典:立教大学「2026年度 入試結果」自由選抜入試(2026/5公表)/公募制推薦として集計"
- },
- "formula": "志願者数÷合格者数(自由選抜入試の公表資料に受験者数が無いため。合格者数=表の「合格者数」)",
- "rows": [
-  {
-   "name": "文 キリスト教 自由選抜",
-   "applicants": 19,
-   "passers": 4,
-   "ratio": 4.8,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+  "university": "立教大学",
+  "short": "立教",
+  "selection": "公募制推薦",
+  "year": 2026,
+  "count_key": "applicants",
+  "source": {
+    "publisher": "立教大学",
+    "title": "2026年度 入試結果(自由選抜入試の表)",
+    "url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf",
+    "index_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/data.html",
+    "published": "2026-05",
+    "fetched": "2026-11-21",
+    "year_evidence": "PDF本文2ページ目(56ページ)見出し「2026年度 入試結果」内の「自由選抜入試」表(pdftotextと画像で確認)。大学公式「入試結果・過去問題」ページの「2026年度入試データ」欄に「2026年度入試結果」として同PDFへのリンクあり。公表日の明記なし(PDF作成日2026-05-13のため「2026/5公表」)。立教は「総合型選抜」名の入試が無く、書類選考+面接の自由選抜入試を公募制推薦として代用。国際コース選抜・アスリート選抜は対象外",
+    "footer": "出典:立教大学「2026年度 入試結果」自由選抜入試(2026/5公表)/公募制推薦として集計"
   },
-  {
-   "name": "文 英米文学 自由選抜",
-   "applicants": 54,
-   "passers": 21,
-   "ratio": 2.6,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+  "formula": "志願者数÷合格者数(自由選抜入試の公表資料に受験者数が無いため。合格者数=表の「合格者数」)",
+  "rows": [
+    {
+      "name": "文 キリスト教 自由選抜",
+      "applicants": 19,
+      "passers": 4,
+      "ratio": 4.8,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 英米文学 自由選抜",
+      "applicants": 54,
+      "passers": 21,
+      "ratio": 2.6,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 ドイツ文学 自由選抜",
+      "applicants": 21,
+      "passers": 10,
+      "ratio": 2.1,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 フランス文学 自由選抜",
+      "applicants": 19,
+      "passers": 7,
+      "ratio": 2.7,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 日本文学 自由選抜",
+      "applicants": 40,
+      "passers": 6,
+      "ratio": 6.7,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 文芸・思想 自由選抜",
+      "applicants": 52,
+      "passers": 6,
+      "ratio": 8.7,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 史 自由選抜",
+      "applicants": 51,
+      "passers": 32,
+      "ratio": 1.6,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "文 教育 自由選抜",
+      "applicants": 84,
+      "passers": 8,
+      "ratio": 10.5,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "異文化コミュ 方式A 自由選抜",
+      "applicants": 252,
+      "passers": 25,
+      "ratio": 10.1,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "異文化コミュ 方式B 自由選抜",
+      "applicants": 29,
+      "passers": 7,
+      "ratio": 4.1,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "経済 経済 自由選抜",
+      "applicants": 88,
+      "passers": 10,
+      "ratio": 8.8,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "経済 経済政策 自由選抜",
+      "applicants": 82,
+      "passers": 15,
+      "ratio": 5.5,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "経済 会計ファイナンス 自由選抜",
+      "applicants": 48,
+      "passers": 5,
+      "ratio": 9.6,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "経営 経営 方式A資格Ⅰ 自由選抜",
+      "applicants": 99,
+      "passers": 37,
+      "ratio": 2.7,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "経営 経営 方式A資格Ⅱ 自由選抜",
+      "applicants": 131,
+      "passers": 3,
+      "ratio": 43.7,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "経営 国際経営 方式A資格Ⅱ 自由選抜",
+      "applicants": 6,
+      "passers": 1,
+      "ratio": 6.0,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "経営 経営 方式A資格Ⅲ 自由選抜",
+      "applicants": 16,
+      "passers": 10,
+      "ratio": 1.6,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "経営 国際経営 方式A資格Ⅲ 自由選抜",
+      "applicants": 62,
+      "passers": 41,
+      "ratio": 1.5,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "経営 経営 方式B 自由選抜",
+      "applicants": 1,
+      "passers": 0,
+      "ratio": null,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "経営 国際経営 方式B 自由選抜",
+      "applicants": 14,
+      "passers": 4,
+      "ratio": 3.5,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "理 数 自由選抜",
+      "applicants": 13,
+      "passers": 2,
+      "ratio": 6.5,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "理 物理 自由選抜",
+      "applicants": 6,
+      "passers": 3,
+      "ratio": 2.0,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "理 化 自由選抜",
+      "applicants": 15,
+      "passers": 2,
+      "ratio": 7.5,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "理 生命理 自由選抜",
+      "applicants": 28,
+      "passers": 9,
+      "ratio": 3.1,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "環境 環境 自由選抜",
+      "applicants": 192,
+      "passers": 59,
+      "ratio": 3.3,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "社会 社会 自由選抜",
+      "applicants": 139,
+      "passers": 7,
+      "ratio": 19.9,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "社会 現代文化 自由選抜",
+      "applicants": 94,
+      "passers": 6,
+      "ratio": 15.7,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "社会 メディア社会 自由選抜",
+      "applicants": 106,
+      "passers": 8,
+      "ratio": 13.3,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "法 法 自由選抜",
+      "applicants": 55,
+      "passers": 12,
+      "ratio": 4.6,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "法 国際ビジネス法 自由選抜",
+      "applicants": 22,
+      "passers": 3,
+      "ratio": 7.3,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "法 政治 自由選抜",
+      "applicants": 52,
+      "passers": 5,
+      "ratio": 10.4,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "観光 観光 自由選抜",
+      "applicants": 93,
+      "passers": 10,
+      "ratio": 9.3,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "観光 交流文化 自由選抜",
+      "applicants": 67,
+      "passers": 10,
+      "ratio": 6.7,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "コミュニティ福祉 コミュニティ政策 自由選抜",
+      "applicants": 88,
+      "passers": 15,
+      "ratio": 5.9,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "コミュニティ福祉 福祉 自由選抜",
+      "applicants": 29,
+      "passers": 9,
+      "ratio": 3.2,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "現代心理 心理 自由選抜",
+      "applicants": 84,
+      "passers": 18,
+      "ratio": 4.7,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "現代心理 映像身体 自由選抜",
+      "applicants": 145,
+      "passers": 32,
+      "ratio": 4.5,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    },
+    {
+      "name": "スポーツウエルネス 自由選抜",
+      "applicants": 216,
+      "passers": 46,
+      "ratio": 4.7,
+      "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+    }
+  ],
+  "campus_photo": {
+    "path": "assets/campus_rikkyo.jpg",
+    "credit": "写真:Dick Thomas Johnson / Wikimedia Commons(CC BY 2.0)",
+    "source": "https://commons.wikimedia.org/wiki/File:Rikkyo_University_06.jpg",
+    "license": "CC BY 2.0"
   },
-  {
-   "name": "文 ドイツ文学 自由選抜",
-   "applicants": 21,
-   "passers": 10,
-   "ratio": 2.1,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+  "school_color": {
+    "hex": "#611f9b",
+    "name": "立教の紫(公式サイトの基調色)",
+    "note": "大学公式サイト(www.rikkyo.ac.jp)のCSSの基調色 #611f9b。スクールカラーの公式なRGB記載は見つからなかったため、公式サイトの基調色を採用"
   },
-  {
-   "name": "文 フランス文学 自由選抜",
-   "applicants": 19,
-   "passers": 7,
-   "ratio": 2.7,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "文 日本文学 自由選抜",
-   "applicants": 40,
-   "passers": 6,
-   "ratio": 6.7,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "文 文芸・思想 自由選抜",
-   "applicants": 52,
-   "passers": 6,
-   "ratio": 8.7,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "文 史 自由選抜",
-   "applicants": 51,
-   "passers": 32,
-   "ratio": 1.6,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "文 教育 自由選抜",
-   "applicants": 84,
-   "passers": 8,
-   "ratio": 10.5,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "異文化コミュ 方式A 自由選抜",
-   "applicants": 252,
-   "passers": 25,
-   "ratio": 10.1,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "異文化コミュ 方式B 自由選抜",
-   "applicants": 29,
-   "passers": 7,
-   "ratio": 4.1,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "経済 経済 自由選抜",
-   "applicants": 88,
-   "passers": 10,
-   "ratio": 8.8,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "経済 経済政策 自由選抜",
-   "applicants": 82,
-   "passers": 15,
-   "ratio": 5.5,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "経済 会計ファイナンス 自由選抜",
-   "applicants": 48,
-   "passers": 5,
-   "ratio": 9.6,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "経営 経営 方式A資格Ⅰ 自由選抜",
-   "applicants": 99,
-   "passers": 37,
-   "ratio": 2.7,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "経営 経営 方式A資格Ⅱ 自由選抜",
-   "applicants": 131,
-   "passers": 3,
-   "ratio": 43.7,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "経営 国際経営 方式A資格Ⅱ 自由選抜",
-   "applicants": 6,
-   "passers": 1,
-   "ratio": 6.0,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "経営 経営 方式A資格Ⅲ 自由選抜",
-   "applicants": 16,
-   "passers": 10,
-   "ratio": 1.6,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "経営 国際経営 方式A資格Ⅲ 自由選抜",
-   "applicants": 62,
-   "passers": 41,
-   "ratio": 1.5,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "経営 経営 方式B 自由選抜",
-   "applicants": 1,
-   "passers": 0,
-   "ratio": null,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "経営 国際経営 方式B 自由選抜",
-   "applicants": 14,
-   "passers": 4,
-   "ratio": 3.5,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "理 数 自由選抜",
-   "applicants": 13,
-   "passers": 2,
-   "ratio": 6.5,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "理 物理 自由選抜",
-   "applicants": 6,
-   "passers": 3,
-   "ratio": 2.0,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "理 化 自由選抜",
-   "applicants": 15,
-   "passers": 2,
-   "ratio": 7.5,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "理 生命理 自由選抜",
-   "applicants": 28,
-   "passers": 9,
-   "ratio": 3.1,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "環境 環境 自由選抜",
-   "applicants": 192,
-   "passers": 59,
-   "ratio": 3.3,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "社会 社会 自由選抜",
-   "applicants": 139,
-   "passers": 7,
-   "ratio": 19.9,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "社会 現代文化 自由選抜",
-   "applicants": 94,
-   "passers": 6,
-   "ratio": 15.7,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "社会 メディア社会 自由選抜",
-   "applicants": 106,
-   "passers": 8,
-   "ratio": 13.3,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "法 法 自由選抜",
-   "applicants": 55,
-   "passers": 12,
-   "ratio": 4.6,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "法 国際ビジネス法 自由選抜",
-   "applicants": 22,
-   "passers": 3,
-   "ratio": 7.3,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "法 政治 自由選抜",
-   "applicants": 52,
-   "passers": 5,
-   "ratio": 10.4,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "観光 観光 自由選抜",
-   "applicants": 93,
-   "passers": 10,
-   "ratio": 9.3,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "観光 交流文化 自由選抜",
-   "applicants": 67,
-   "passers": 10,
-   "ratio": 6.7,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "コミュニティ福祉 コミュニティ政策 自由選抜",
-   "applicants": 88,
-   "passers": 15,
-   "ratio": 5.9,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "コミュニティ福祉 福祉 自由選抜",
-   "applicants": 29,
-   "passers": 9,
-   "ratio": 3.2,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "現代心理 心理 自由選抜",
-   "applicants": 84,
-   "passers": 18,
-   "ratio": 4.7,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "現代心理 映像身体 自由選抜",
-   "applicants": 145,
-   "passers": 32,
-   "ratio": 4.5,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
-  },
-  {
-   "name": "スポーツウエルネス 自由選抜",
-   "applicants": 216,
-   "passers": 46,
-   "ratio": 4.7,
-   "source_url": "https://www.rikkyo.ac.jp/admissions/undergraduate/mknpps00000072lq-att/mknpps000004k1py.pdf"
+  "caption": "立教で、自由選抜入試の倍率が一番高い学部・学科、知ってる?\n\n立教には総合型選抜の名前の入試がないので、書類選考などで選ぶ「自由選抜入試」(公募制推薦として集計)を見てみたよ。\n2026年度で倍率が高かったのはこの3つ。\n1位 経営 経営 方式A資格Ⅱ 43.7倍\n2位 社会 社会 19.9倍\n3位 社会 現代文化 15.7倍\n(倍率=志願者数÷合格者数。受験者数は非公表。方式・資格ごとの結果)\n\n出典:立教大学公式発表(2026年度 入試結果)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #立教大学 #公募制推薦 #受験生",
+  "factcheck": {
+    "status": "ok",
+    "checked_at": "2026-11-21",
+    "checker": "校正担当",
+    "notes": "機械チェック全38行OK。出典PDF(2026年度 入試結果)の自由選抜入試表で、志願者数・最終の合格者数の列から取られていることを上位10行(経営 方式A資格Ⅱ 131/3、社会 139/7、現代文化 94/6 など)と、国際経営 方式A資格Ⅱ/Ⅲ・経営 方式B(合格者0人で倍率なし)を目視確認。書類選考合格者の列は使っていない。年度・志願者数÷合格者数の定義・出典・写真クレジットも問題なし。"
   }
- ],
- "campus_photo": {
-  "path": "assets/campus_rikkyo.jpg",
-  "credit": "写真:Dick Thomas Johnson / Wikimedia Commons(CC BY 2.0)",
-  "source": "https://commons.wikimedia.org/wiki/File:Rikkyo_University_06.jpg",
-  "license": "CC BY 2.0"
- },
- "school_color": {
-  "hex": "#611f9b",
-  "name": "立教の紫(公式サイトの基調色)",
-  "note": "大学公式サイト(www.rikkyo.ac.jp)のCSSの基調色 #611f9b。スクールカラーの公式なRGB記載は見つからなかったため、公式サイトの基調色を採用"
- },
- "caption": "立教で、自由選抜入試の倍率が一番高い学部・学科、知ってる?\n\n立教には総合型選抜の名前の入試がないので、書類選考などで選ぶ「自由選抜入試」(公募制推薦として集計)を見てみたよ。\n2026年度で倍率が高かったのはこの3つ。\n1位 経営 経営 方式A資格Ⅱ 43.7倍\n2位 社会 社会 19.9倍\n3位 社会 現代文化 15.7倍\n(倍率=志願者数÷合格者数。受験者数は非公表。方式・資格ごとの結果)\n\n出典:立教大学公式発表(2026年度 入試結果)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #立教大学 #公募制推薦 #受験生",
- "factcheck": {
-  "status": "pending"
- }
 }
