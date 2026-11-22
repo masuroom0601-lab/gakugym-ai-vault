@@ -1,0 +1,170 @@
+[
+ {
+  "name": "A_base_shiina",
+  "prompt": "1girl, solo, portrait, happy, open mouth smile, fang, long hair, blunt bangs, hair ribbon, white blouse, black necktie, black choker, white background",
+  "ip_scale": 0.35,
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 1024,
+  "h": 1024
+ },
+ {
+  "name": "A_base_izuru",
+  "prompt": "1boy, solo, male focus, college student, upper body, looking at viewer, arms at sides, slightly messy black hair, bangs, gentle tired eyes, grey hoodie over white t-shirt, backpack strap, shy smile, white background",
+  "ip_scale": 0.0,
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 896,
+  "h": 1152
+ },
+ {
+  "name": "A_base_shiro",
+  "prompt": "1boy, solo, male focus, upper body, handsome, blond hair swept back, arrogant smirk, flashy jacket with gold trim, necklace, white background",
+  "ip_scale": 0.0,
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 896,
+  "h": 1152
+ },
+ {
+  "name": "B_ink_shiina",
+  "prompt": "1girl, solo, portrait, happy, open mouth smile, fang, long hair, blunt bangs, hair ribbon, white blouse, black necktie, black choker, white background",
+  "ip_scale": 0.35,
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 1024,
+  "h": 1024,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, traditional media, sketch, rough lines",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle"
+ },
+ {
+  "name": "B_ink_izuru",
+  "prompt": "1boy, solo, male focus, college student, upper body, looking at viewer, arms at sides, slightly messy black hair, bangs, gentle tired eyes, grey hoodie over white t-shirt, backpack strap, shy smile, white background",
+  "ip_scale": 0.0,
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 896,
+  "h": 1152,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, traditional media, sketch, rough lines",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle"
+ },
+ {
+  "name": "B_ink_shiro",
+  "prompt": "1boy, solo, male focus, upper body, handsome, blond hair swept back, arrogant smirk, flashy jacket with gold trim, necklace, white background",
+  "ip_scale": 0.0,
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 896,
+  "h": 1152,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, traditional media, sketch, rough lines",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle"
+ },
+ {
+  "name": "C_old_shiina",
+  "prompt": "1girl, solo, portrait, happy, open mouth smile, fang, long hair, blunt bangs, hair ribbon, white blouse, black necktie, black choker, white background",
+  "ip_scale": 0.35,
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 1024,
+  "h": 1024,
+  "quality": "",
+  "style": "monochrome, manga, comic, screentone, retro artstyle, 2000s (style), traditional media",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle"
+ },
+ {
+  "name": "C_old_izuru",
+  "prompt": "1boy, solo, male focus, college student, upper body, looking at viewer, arms at sides, slightly messy black hair, bangs, gentle tired eyes, grey hoodie over white t-shirt, backpack strap, shy smile, white background",
+  "ip_scale": 0.0,
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 896,
+  "h": 1152,
+  "quality": "",
+  "style": "monochrome, manga, comic, screentone, retro artstyle, 2000s (style), traditional media",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle"
+ },
+ {
+  "name": "C_old_shiro",
+  "prompt": "1boy, solo, male focus, upper body, handsome, blond hair swept back, arrogant smirk, flashy jacket with gold trim, necklace, white background",
+  "ip_scale": 0.0,
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 896,
+  "h": 1152,
+  "quality": "",
+  "style": "monochrome, manga, comic, screentone, retro artstyle, 2000s (style), traditional media",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle"
+ },
+ {
+  "name": "D_flat_shiina",
+  "prompt": "1girl, solo, portrait, happy, open mouth smile, fang, long hair, blunt bangs, hair ribbon, white blouse, black necktie, black choker, white background",
+  "ip_scale": 0.35,
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 1024,
+  "h": 1024,
+  "quality": "",
+  "style": "monochrome, manga, comic, screentone, lineart, flat color, simple shading, thick outlines",
+  "cfg": 3.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle"
+ },
+ {
+  "name": "D_flat_izuru",
+  "prompt": "1boy, solo, male focus, college student, upper body, looking at viewer, arms at sides, slightly messy black hair, bangs, gentle tired eyes, grey hoodie over white t-shirt, backpack strap, shy smile, white background",
+  "ip_scale": 0.0,
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 896,
+  "h": 1152,
+  "quality": "",
+  "style": "monochrome, manga, comic, screentone, lineart, flat color, simple shading, thick outlines",
+  "cfg": 3.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle"
+ },
+ {
+  "name": "D_flat_shiro",
+  "prompt": "1boy, solo, male focus, upper body, handsome, blond hair swept back, arrogant smirk, flashy jacket with gold trim, necklace, white background",
+  "ip_scale": 0.0,
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 896,
+  "h": 1152,
+  "quality": "",
+  "style": "monochrome, manga, comic, screentone, lineart, flat color, simple shading, thick outlines",
+  "cfg": 3.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle"
+ }
+]

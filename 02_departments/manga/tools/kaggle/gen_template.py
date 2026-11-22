@@ -36,11 +36,11 @@ try:
         for seed in job["seeds"]:
             t = time.time()
             img = pipe(
-                prompt=f'{job["prompt"]}, {CFG["style"]}, {CFG["quality"]}',
-                negative_prompt=CFG["negative"],
+                prompt=", ".join(x for x in (job["prompt"], job.get("style", CFG["style"]), job.get("quality", CFG["quality"])) if x),
+                negative_prompt=CFG["negative"] + (", " + job["neg"] if job.get("neg") else ""),
                 ip_adapter_image=REF,
                 width=job.get("w", 832), height=job.get("h", 1216),
-                num_inference_steps=CFG["steps"], guidance_scale=CFG["cfg"],
+                num_inference_steps=CFG["steps"], guidance_scale=job.get("cfg", CFG["cfg"]),
                 generator=torch.Generator("cuda").manual_seed(seed),
             ).images[0]
             img.save(f'{OUT}/{job["name"]}_s{seed}.png')
