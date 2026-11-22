@@ -15,6 +15,8 @@ try:
     import torch, diffusers
     log("torch", torch.__version__, "diffusers", diffusers.__version__, torch.cuda.get_device_name(0))
     run([sys.executable, "-m", "pip", "install", "-q", "peft", "bitsandbytes", "datasets"])
+    # Kaggleに入っている古いtorchaoは新しいpeftと衝突するため外す(学習には不要)
+    subprocess.run([sys.executable, "-m", "pip", "uninstall", "-y", "-q", "torchao"])
     ver = diffusers.__version__.split(".dev")[0]
     script = "/kaggle/working/train_lora_sdxl.py"
     tag = f"v{ver}"
