@@ -1,0 +1,62 @@
+[
+ {
+  "name": "izuru_D_bust",
+  "prompt": "1boy, solo, male focus, college student, slightly messy black hair, bangs, gentle tired eyes, grey hoodie over white t-shirt, dark jeans, sneakers, backpack, shy smile, looking at viewer, upper body, white background",
+  "style": "monochrome, manga, comic, screentone, lineart, flat color, simple shading, thick outlines",
+  "cfg": 3.5,
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 896,
+  "h": 1152,
+  "ip_scale": 0.0,
+  "quality": "",
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, speech bubble, border, frame"
+ },
+ {
+  "name": "izuru_D_full",
+  "prompt": "1boy, solo, male focus, college student, slightly messy black hair, bangs, gentle tired eyes, grey hoodie over white t-shirt, dark jeans, sneakers, backpack, shy smile, looking at viewer, full body, standing, white background",
+  "style": "monochrome, manga, comic, screentone, lineart, flat color, simple shading, thick outlines",
+  "cfg": 3.5,
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 832,
+  "h": 1216,
+  "ip_scale": 0.0,
+  "quality": "",
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, speech bubble, border, frame"
+ },
+ {
+  "name": "izuru_Bmature_bust",
+  "prompt": "1boy, solo, male focus, college student, slightly messy black hair, bangs, gentle tired eyes, grey hoodie over white t-shirt, dark jeans, sneakers, backpack, shy smile, looking at viewer, adult, 20 years old, mature male, sharp jawline, narrow eyes, tall, upper body, white background",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, traditional media, clean ink lines",
+  "cfg": 4.0,
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 896,
+  "h": 1152,
+  "ip_scale": 0.0,
+  "quality": "",
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, speech bubble, border, frame"
+ },
+ {
+  "name": "izuru_Bmature_full",
+  "prompt": "1boy, solo, male focus, college student, slightly messy black hair, bangs, gentle tired eyes, grey hoodie over white t-shirt, dark jeans, sneakers, backpack, shy smile, looking at viewer, adult, 20 years old, mature male, sharp jawline, narrow eyes, tall, full body, standing, white background",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, traditional media, clean ink lines",
+  "cfg": 4.0,
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 832,
+  "h": 1216,
+  "ip_scale": 0.0,
+  "quality": "",
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, speech bubble, border, frame"
+ }
+]
