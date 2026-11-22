@@ -11,6 +11,9 @@ name: sumaho-habit-daily-draft
 #   claude.aiのCanva Routine(01_HQ/setup guides/canva-routine-setup.md.md
 #   「③用テンプレートについて」節)がAutofillで動画生成
 #
+# 【2026-11-22 益田さん指示】セルフチェック診断(checkup)は伸びが悪いため廃止。
+# 偶数日はリール台本を作らない(7選=奇数日のペースはそのまま)。
+#
 # 単純な日付の偶奇で決めているのは、2日以上同じ形式が連続しないことを
 # 機械的に保証するため(履歴を確認するロジックより単純・確実)。
 
@@ -55,8 +58,10 @@ jobs:
             echo "直前のセルフチェック台本: $LAST ($LASTVAR) → 今回: $VAR"
           fi
           echo "variant=$VAR" >> "$GITHUB_OUTPUT"
+          if [ "$FMT" = checkup ]; then echo "セルフチェック診断は2026-11-22に廃止。今日(偶数日)はリール台本を作らない"; fi
 
       - name: Generate sumaho_habit draft
+        if: steps.format.outputs.format != 'checkup'   # 2026-11-22: セルフチェック診断は廃止
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}

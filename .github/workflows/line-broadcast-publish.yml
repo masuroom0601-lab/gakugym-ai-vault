@@ -5,8 +5,8 @@ on:
     branches: [main]
     paths:
       - '02_departments/line/drafts/**'
-  schedule:
-    - cron: '15 21 * * *'   # 毎日06:15 JST相当のフォールバック(pushトリガーの取りこぼし対策)
+  # 2026-11-22 益田さん指示: LINE配信は今は行っていないため、毎日の予約実行を止めた。
+  # 再開するときは schedule: - cron: '15 21 * * *'(毎日06:15 JST)を戻す。
   workflow_dispatch: {}
 
 env:

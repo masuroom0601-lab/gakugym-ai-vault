@@ -1,4 +1,6 @@
 ---
+
+**【2026-11-22 益田さん指示】LINE配信は今は行っていないため休止中。下書きの自動作成(line-select-draft.yml)と毎日の配信チェック(line-broadcast-publish.yml)の予約実行を止めた。**
 department: line
 role: LINE公式担当
 reports_to: 統括担当

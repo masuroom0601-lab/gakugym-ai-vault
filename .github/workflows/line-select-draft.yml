@@ -1,8 +1,8 @@
 name: line-select-draft
 
 on:
-  schedule:
-    - cron: '0 21 * * 1,4'   # 毎週月・木 06:00 JST
+  # 2026-11-22 益田さん指示: LINE配信は今は行っていないため、予約実行を止めた。
+  # 再開するときは schedule: - cron: '0 21 * * 1,4'(毎週月・木 06:00 JST)を戻す。
   workflow_dispatch: {}
 
 env:
