@@ -100,15 +100,20 @@ def compose(name_mod, page, img_dir, pick, finishing=True):
                 draw_vtext(d, cols, x0 + bw + 20, ytop, fsfx, fill=0, gap=4); continue
             font = fb if kind in ("narr", "cap", "status") else f
             per = max(4, min(11, int((h - 70) / 23)))
-            cols, bw, bh = text_box_size(body, font, per)
-            if kind == "speech":
-                padx, pady = int(bw*0.28) + 16, int(bh*0.16) + 18
-            else:
-                padx, pady = 12, 12
+            while True:  # フキダシがコマの高さに収まるまで、1列の文字数を減らす
+                cols, bw, bh = text_box_size(body, font, per)
+                if kind == "speech":
+                    padx, pady = int(bw*0.22) + 16, int(bh*0.2) + 20
+                else:
+                    padx, pady = 12, 12
+                if bh + 2*pady <= h - 24 or per <= 4: break
+                per -= 1
             bx1 = xr; bx0 = bx1 - bw - 2*padx
             if bx0 < x0 + 6:  # 入りきらなければ下の段へ
                 xr = x1 - 10; ytop = ytop + bh + 2*pady + 8; bx1 = xr; bx0 = bx1 - bw - 2*padx
-            by0 = ytop; by1 = min(by0 + bh + 2*pady, y1 - 6)
+            by0 = ytop
+            if by0 + bh + 2*pady > y1 - 6: by0 = max(y0 + 6, y1 - 6 - bh - 2*pady)
+            by1 = by0 + bh + 2*pady
             if kind == "speech":
                 d.ellipse([bx0, by0, bx1, by1], fill=255, outline=0, width=3)
             elif kind == "mono":
