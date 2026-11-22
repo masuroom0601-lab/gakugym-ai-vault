@@ -1,0 +1,15 @@
+{
+ "dataset": "manga-shiina-ds2",
+ "resolution": 1024,
+ "steps": 1400,
+ "lr": 0.0001,
+ "rank": 16,
+ "flip": false,
+ "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+ "negative": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, text, speech bubble, border, frame, ink splatter, chibi, super deformed, multiple views, comic panels, lowres, bad anatomy, bad hands, worst quality, low quality, cat, animal on head, twintails, hairband, onomatopoeia, sound effects, inset, speech bubble",
+ "tests": [
+  "shiina_kc, 1girl, monochrome, manga, upper body, smile, fang, looking at viewer, simple white background",
+  "shiina_kc, 1girl, monochrome, manga, full body, running, outdoors, campus",
+  "shiina_kc, 1girl, monochrome, manga, upper body, surprised, from side, simple background"
+ ]
+}
