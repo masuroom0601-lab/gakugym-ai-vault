@@ -43,10 +43,12 @@ _fc = {}
 def F(s, w="Regular"):
     k = (s, w)
     if k not in _fc:
-        for d in FD:
-            p = os.path.join(d, f"NotoSansCJK-{w}.ttc")
-            if os.path.exists(p):
-                _fc[k] = ImageFont.truetype(p, s); break
+        # 2026-11-22: Black は fonts-noto-cjk-extra にしか無い。無い環境では Bold で代用する
+        for ww in (w, "Bold", "Regular"):
+            ps = [os.path.join(d, f"NotoSansCJK-{ww}.ttc") for d in FD]
+            ps = [p for p in ps if os.path.exists(p)]
+            if ps:
+                _fc[k] = ImageFont.truetype(ps[0], s); break
         else:
             sys.exit("フォントがありません(fonts-noto-cjk)")
     return _fc[k]

@@ -80,7 +80,7 @@ jobs:
         if: steps.target.outputs.skip != 'true'
         run: |
           sudo apt-get update -qq
-          sudo apt-get install -y -qq ffmpeg fonts-ipafont-gothic fonts-noto-cjk fonts-noto-color-emoji
+          sudo apt-get install -y -qq ffmpeg fonts-ipafont-gothic fonts-noto-cjk fonts-noto-cjk-extra fonts-noto-color-emoji  # extra=Black(7選のカバー)。2026-11-22追加
           python3 -m pip install -q pillow
 
       - name: Generate reel
