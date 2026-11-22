@@ -1,0 +1,15 @@
+{
+ "dataset": "manga-izuru-ds",
+ "resolution": 1024,
+ "steps": 1200,
+ "lr": 0.0001,
+ "rank": 16,
+ "flip": false,
+ "style": "monochrome, manga, comic, screentone, lineart, flat color, simple shading, thick outlines",
+ "negative": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, text, speech bubble, border, frame, ink splatter, chibi, super deformed, multiple views, comic panels, lowres, bad anatomy, bad hands, worst quality, low quality",
+ "tests": [
+  "izuru_kc, 1boy, male focus, monochrome, manga, upper body, smile, looking at viewer, simple white background",
+  "izuru_kc, 1boy, male focus, monochrome, manga, full body, sitting on a bench, sad, outdoors, campus",
+  "izuru_kc, 1boy, male focus, monochrome, manga, upper body, determined, from side"
+ ]
+}
