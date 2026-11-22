@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-21T02:43:43Z",
+  "updated_at": "2026-11-22T01:31:00Z",
   "departments": {
     "hq_director": {
       "todo": 0,
@@ -20,7 +20,7 @@
       "mood": "review"
     },
     "x_threads": {
-      "todo": 23,
+      "todo": 24,
       "review": 46,
       "published_today": 0,
       "mood": "review"
