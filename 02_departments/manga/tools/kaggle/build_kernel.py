@@ -15,7 +15,7 @@ CFG = {
     "quality": "masterpiece, high score, great score, absurdres",
     "negative": ("lowres, bad anatomy, bad hands, text, error, missing finger, extra digits, fewer digits, cropped, "
                  "worst quality, low quality, low score, bad score, average score, signature, watermark, username, blurry, "
-                 "color, large breasts, cleavage, nsfw, animal ears, tail, smug, smirk"),
+                 "color, large breasts, cleavage, nsfw, animal ears, tail"),
     "steps": 28, "cfg": 5.0, "ip_scale": 0.55,
 }
 
