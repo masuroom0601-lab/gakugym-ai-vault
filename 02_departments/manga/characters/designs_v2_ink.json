@@ -1,0 +1,184 @@
+[
+ {
+  "name": "shiina_bust",
+  "prompt": "1girl, solo, platinum blonde hair, long hair, blunt bangs, streaked hair, small side tails tied with black frilled ribbons, black hairband, hair clip, big round eyes, black and white cat on head, white puffy short sleeves blouse, black necktie, black choker, black high-waist pleated skirt, black gloves, upper body, cheerful smile, open mouth, fang, looking at viewer, white background",
+  "seeds": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "w": 896,
+  "h": 1152,
+  "ip_scale": 0.0,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, traditional media, clean ink lines",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, speech bubble, border, frame"
+ },
+ {
+  "name": "shiina_full",
+  "prompt": "1girl, solo, platinum blonde hair, long hair, blunt bangs, streaked hair, small side tails tied with black frilled ribbons, black hairband, hair clip, big round eyes, black and white cat on head, white puffy short sleeves blouse, black necktie, black choker, black high-waist pleated skirt, black gloves, full body, standing, front view, smile, white background",
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 832,
+  "h": 1216,
+  "ip_scale": 0.0,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, traditional media, clean ink lines",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, speech bubble, border, frame"
+ },
+ {
+  "name": "izuru",
+  "prompt": "1boy, solo, male focus, college student, slightly messy black hair, bangs, gentle tired eyes, grey hoodie over white t-shirt, dark jeans, sneakers, backpack, shy smile, looking at viewer, full body, standing, white background",
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 832,
+  "h": 1216,
+  "ip_scale": 0.0,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, traditional media, clean ink lines",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, speech bubble, border, frame"
+ },
+ {
+  "name": "dsuke",
+  "prompt": "1boy, solo, male focus, college student, sunglasses, short spiky hair, confident grin, chunky knit sweater with a cartoon face on the chest, the sweater face wears sunglasses, jeans, full body, standing, white background",
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 832,
+  "h": 1216,
+  "ip_scale": 0.0,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, traditional media, clean ink lines",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, speech bubble, border, frame"
+ },
+ {
+  "name": "saitsuyo",
+  "prompt": "1girl, solo, mature gentle older sister, tall, long wavy hair in a loose low side ponytail, droopy eyes, warm kind smile, soft cardigan, long skirt, hands together, full body, standing, white background",
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 832,
+  "h": 1216,
+  "ip_scale": 0.0,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, traditional media, clean ink lines",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, speech bubble, border, frame"
+ },
+ {
+  "name": "hisa",
+  "prompt": "1boy, solo, male focus, college student, short neat hair, cheerful grin, headphones around neck, bomber jacket, t-shirt, cargo pants, thumbs up, full body, standing, white background",
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 832,
+  "h": 1216,
+  "ip_scale": 0.0,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, traditional media, clean ink lines",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, speech bubble, border, frame"
+ },
+ {
+  "name": "shiro",
+  "prompt": "1boy, solo, male focus, handsome, blond hair swept back, arrogant smirk, flashy jacket with gold trim, necklace, rings, holding a sword over shoulder, full body, standing, white background",
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 832,
+  "h": 1216,
+  "ip_scale": 0.0,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, traditional media, clean ink lines",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, speech bubble, border, frame"
+ },
+ {
+  "name": "yasu",
+  "prompt": "1boy, solo, male focus, quiet, expressionless, glasses, straight black hair, long dark coat, reading a thick book, full body, standing, white background",
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 832,
+  "h": 1216,
+  "ip_scale": 0.0,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, traditional media, clean ink lines",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, speech bubble, border, frame"
+ },
+ {
+  "name": "isshi",
+  "prompt": "1girl, solo, petite, twintails, witch hat, oversized hoodie, short skirt, magic wand, mischievous annoying grin, tongue out, hand on hip, full body, standing, white background",
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 832,
+  "h": 1216,
+  "ip_scale": 0.0,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, traditional media, clean ink lines",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, speech bubble, border, frame"
+ },
+ {
+  "name": "tsubu",
+  "prompt": "1girl, solo, saint, long straight black hair, calm smile, cold eyes, long white cardigan, long dress, cross necklace, hands clasped, full body, standing, white background",
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 832,
+  "h": 1216,
+  "ip_scale": 0.0,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, traditional media, clean ink lines",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, speech bubble, border, frame"
+ },
+ {
+  "name": "nabesan",
+  "prompt": "no humans, mascot character, japanese donabe earthen pot with lid and two small handles, cute face with dot eyes and smiling mouth on the pot body, steam from the lid, chibi, white background",
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 1024,
+  "h": 1024,
+  "ip_scale": 0.0,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, traditional media, clean ink lines",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, speech bubble, border, frame"
+ },
+ {
+  "name": "haniwa",
+  "prompt": "no humans, mascot character, japanese haniwa clay figure, cylindrical body, two simple arms raised, round hollow eyes and mouth, chibi, white background",
+  "seeds": [
+   1,
+   2
+  ],
+  "w": 1024,
+  "h": 1024,
+  "ip_scale": 0.0,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, traditional media, clean ink lines",
+  "cfg": 4.0,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, speech bubble, border, frame"
+ }
+]
