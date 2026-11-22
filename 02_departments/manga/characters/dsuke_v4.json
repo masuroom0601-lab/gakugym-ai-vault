@@ -1,0 +1,30 @@
+[
+ {
+  "name": "dsuke_full",
+  "prompt": "1boy, solo, male focus, college student, small round sunglasses, short spiky hair, confident grin, chunky knit sweater with a cartoon face on the chest, the sweater face wears tiny sunglasses, jeans, full body, standing, simple white background",
+  "seeds": [
+   1,
+   2,
+   3
+  ],
+  "ip_scale": 0.4,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, multiple views, comic panels, cat, animal on head, large sunglasses, oversized sunglasses"
+ },
+ {
+  "name": "dsuke_bust",
+  "prompt": "1boy, solo, male focus, college student, small round sunglasses, short spiky hair, confident grin, chunky knit sweater with a cartoon face on the chest, the sweater face wears tiny sunglasses, jeans, upper body, looking at viewer, simple white background",
+  "seeds": [
+   1,
+   2,
+   3
+  ],
+  "ip_scale": 0.4,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, multiple views, comic panels, cat, animal on head, large sunglasses, oversized sunglasses"
+ }
+]

@@ -1,0 +1,170 @@
+[
+ {
+  "name": "d01",
+  "prompt": "1girl, solo, long hair, light hair, blunt bangs, one side up, hair ribbon, black ribbon, fang, black choker, white collared shirt, puffy short sleeves, black necktie, black high-waist pleated skirt, black gloves, front view, upper body, smile, looking at viewer, simple white background",
+  "seeds": [
+   1,
+   101,
+   201
+  ],
+  "ip_scale": 0.5,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, multiple views, comic panels, cat, animal on head, twintails, hairband"
+ },
+ {
+  "name": "d02",
+  "prompt": "1girl, solo, long hair, light hair, blunt bangs, one side up, hair ribbon, black ribbon, fang, black choker, white collared shirt, puffy short sleeves, black necktie, black high-waist pleated skirt, black gloves, from side, upper body, looking ahead, simple white background",
+  "seeds": [
+   2,
+   102,
+   202
+  ],
+  "ip_scale": 0.5,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, multiple views, comic panels, cat, animal on head, twintails, hairband"
+ },
+ {
+  "name": "d03",
+  "prompt": "1girl, solo, long hair, light hair, blunt bangs, one side up, hair ribbon, black ribbon, fang, black choker, white collared shirt, puffy short sleeves, black necktie, black high-waist pleated skirt, black gloves, three quarter view, upper body, surprised, open mouth, simple white background",
+  "seeds": [
+   3,
+   103,
+   203
+  ],
+  "ip_scale": 0.5,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, multiple views, comic panels, cat, animal on head, twintails, hairband"
+ },
+ {
+  "name": "d04",
+  "prompt": "1girl, solo, long hair, light hair, blunt bangs, one side up, hair ribbon, black ribbon, fang, black choker, white collared shirt, puffy short sleeves, black necktie, black high-waist pleated skirt, black gloves, upper body, embarrassed, blush, looking away, simple white background",
+  "seeds": [
+   4,
+   104,
+   204
+  ],
+  "ip_scale": 0.5,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, multiple views, comic panels, cat, animal on head, twintails, hairband"
+ },
+ {
+  "name": "d05",
+  "prompt": "1girl, solo, long hair, light hair, blunt bangs, one side up, hair ribbon, black ribbon, fang, black choker, white collared shirt, puffy short sleeves, black necktie, black high-waist pleated skirt, black gloves, upper body, angry, pout, simple white background",
+  "seeds": [
+   5,
+   105,
+   205
+  ],
+  "ip_scale": 0.5,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, multiple views, comic panels, cat, animal on head, twintails, hairband"
+ },
+ {
+  "name": "d06",
+  "prompt": "1girl, solo, long hair, light hair, blunt bangs, one side up, hair ribbon, black ribbon, fang, black choker, white collared shirt, puffy short sleeves, black necktie, black high-waist pleated skirt, black gloves, upper body, crying, tears, simple white background",
+  "seeds": [
+   6,
+   106,
+   206
+  ],
+  "ip_scale": 0.5,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, multiple views, comic panels, cat, animal on head, twintails, hairband"
+ },
+ {
+  "name": "d07",
+  "prompt": "1girl, solo, long hair, light hair, blunt bangs, one side up, hair ribbon, black ribbon, fang, black choker, white collared shirt, puffy short sleeves, black necktie, black high-waist pleated skirt, black gloves, full body, walking, simple white background",
+  "seeds": [
+   7,
+   107,
+   207
+  ],
+  "ip_scale": 0.5,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, multiple views, comic panels, cat, animal on head, twintails, hairband"
+ },
+ {
+  "name": "d08",
+  "prompt": "1girl, solo, long hair, light hair, blunt bangs, one side up, hair ribbon, black ribbon, fang, black choker, white collared shirt, puffy short sleeves, black necktie, black high-waist pleated skirt, black gloves, full body, sitting on a bench, simple white background",
+  "seeds": [
+   8,
+   108,
+   208
+  ],
+  "ip_scale": 0.5,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, multiple views, comic panels, cat, animal on head, twintails, hairband"
+ },
+ {
+  "name": "d09",
+  "prompt": "1girl, solo, long hair, light hair, blunt bangs, one side up, hair ribbon, black ribbon, fang, black choker, white collared shirt, puffy short sleeves, black necktie, black high-waist pleated skirt, black gloves, upper body, laughing, fang, eyes open, simple white background",
+  "seeds": [
+   9,
+   109,
+   209
+  ],
+  "ip_scale": 0.5,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, multiple views, comic panels, cat, animal on head, twintails, hairband"
+ },
+ {
+  "name": "d10",
+  "prompt": "1girl, solo, long hair, light hair, blunt bangs, one side up, hair ribbon, black ribbon, fang, black choker, white collared shirt, puffy short sleeves, black necktie, black high-waist pleated skirt, black gloves, portrait, serious expression, looking at viewer, simple white background",
+  "seeds": [
+   10,
+   110,
+   210
+  ],
+  "ip_scale": 0.5,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, multiple views, comic panels, cat, animal on head, twintails, hairband"
+ },
+ {
+  "name": "d11",
+  "prompt": "1girl, solo, long hair, light hair, blunt bangs, one side up, hair ribbon, black ribbon, fang, black choker, white collared shirt, puffy short sleeves, black necktie, black high-waist pleated skirt, black gloves, from behind, looking back, upper body, simple white background",
+  "seeds": [
+   11,
+   111,
+   211
+  ],
+  "ip_scale": 0.5,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, multiple views, comic panels, cat, animal on head, twintails, hairband"
+ },
+ {
+  "name": "d12",
+  "prompt": "1girl, solo, long hair, light hair, blunt bangs, one side up, hair ribbon, black ribbon, fang, black choker, white collared shirt, puffy short sleeves, black necktie, black high-waist pleated skirt, black gloves, full body, standing, hands behind back, simple white background",
+  "seeds": [
+   12,
+   112,
+   212
+  ],
+  "ip_scale": 0.5,
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, multiple views, comic panels, cat, animal on head, twintails, hairband"
+ }
+]

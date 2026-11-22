@@ -5,8 +5,8 @@
 | キャラ | 基準画 | 絵柄 |
 |---|---|---|
 | イヅル | `izuru/base_v1.jpg`(= `izuru_style_v1/izuru_D_full_s2.jpg`) | D方式 |
-| 片倉椎菜 | `shiina/base_v3.jpg`(= `designs_v3/shiina_full_s1.jpg`) | B方式 |
-| D助・セーター | `designs_v3/dsuke_s2.jpg` | B方式 |
+| 片倉椎菜 | `shiina/base_final.jpg`(2026-11-22 最終決定) | B方式 |
+| D助・セーター | `designs_v3/dsuke_s2.jpg`(サングラスを小さく修正中 → dsuke_v4) | B方式 |
 | さいつよ | `designs_v3/saitsuyo_s2.jpg` | B方式 |
 | ヒサ | `designs_v2_ink/hisa_s1.jpg` | B方式 |
 | 鍋さん | `designs_v2_ink/nabesan_s1.jpg` | B方式 |
