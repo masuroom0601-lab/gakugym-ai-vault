@@ -20,10 +20,12 @@ try:
     tag = f"v{ver}"
     run(["wget", "-q", "-O", script, f"https://raw.githubusercontent.com/huggingface/diffusers/{tag}/examples/text_to_image/train_text_to_image_lora_sdxl.py"])
     # 学習データ: Kaggleデータセットから作業フォルダにコピーし、metadata.jsonlを作る
-    src = glob.glob(f"/kaggle/input/{CFG['dataset']}*")[0]
+    imgs = sorted(glob.glob("/kaggle/input/**/*.jpg", recursive=True))
+    log("input files", len(imgs), sorted({os.path.dirname(x) for x in imgs}))
+    if not imgs: raise RuntimeError("no training images under /kaggle/input")
     data = "/kaggle/working/data"; os.makedirs(data, exist_ok=True)
     with open(f"{data}/metadata.jsonl", "w") as f:
-        for img in sorted(glob.glob(f"{src}/**/*.jpg", recursive=True)):
+        for img in imgs:
             name = os.path.basename(img); shutil.copy(img, f"{data}/{name}")
             cap = open(img[:-4] + ".txt").read().strip()
             f.write(json.dumps({"file_name": name, "text": cap}, ensure_ascii=False) + "\n")
