@@ -249,7 +249,7 @@ def build_action(spec):
     cache = {}
     last = None
     for fi in range(total):
-        ang = -math.pi / 2 + 2 * math.pi * fi / FPS * 1.8   # 1秒に1.8周(2026-11-23に2倍速)
+        ang = -math.pi / 2 + 2 * math.pi * fi / FPS * 3.6   # 1秒に3.6周(2026-11-23に4倍速)
         k = round(((ang + math.pi / 2) / (2 * math.pi)) * n) % n
         key = (k, round(ang, 2))
         im = base.copy(); dd = ImageDraw.Draw(im)

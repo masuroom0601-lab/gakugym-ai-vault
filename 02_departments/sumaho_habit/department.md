@@ -44,7 +44,7 @@ daily-draft生成ワークフロー(`.github/workflows/sumaho-habit-daily-draft.
   名言は偉人3個(出典が確かで、作者の死後70年以上たったもの)+オリジナル3個(by: まっすー)。
   アニメ・漫画・映画・歌詞のセリフやキャラクターは使わない(著作権)。背景は和紙と墨の円相で、円相の中に名言の人物の肖像
   (偉人はパブリックドメインの肖像 `reel_quiz/assets/portraits/`、まっすーはアバター)を置く。偉人は肖像がある人だけから選ぶ。カードは約0.08秒ごとに切り替わる(2026-11-23に2倍速)
-- **止まったことをするルーレット**(reel_format: roulette_action): 針が回り(1秒に1.8周)、指した行動が黄色く光る約7秒の動画。
+- **止まったことをするルーレット**(reel_format: roulette_action): 針が回り(1秒に3.6周)、指した行動が黄色く光る約7秒の動画。
   選択肢は8個(勉強を始める行動・スマホを遠ざける行動が中心)。人は映らない
 - 描画: `02_departments/creative/reel_quiz/render_roulette.py`、出力: `02_departments/creative/reel_quiz/roulette-daily/reel-<日付>.mp4`
   (カバー画像 `-cover.png` も作る)。参考: 益田さんが2026-11-23に送った参考リール2本(構成だけ借りる)
