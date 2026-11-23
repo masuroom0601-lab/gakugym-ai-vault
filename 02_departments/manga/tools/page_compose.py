@@ -143,57 +143,94 @@ def place_items(d, items, r, fboxes, fsfx):
             d.rectangle([bx0, by0, bx1, by1], fill=255, outline=0, width=2)
         draw_vtext(d, cols, bx1 - padx + 3, by0 + pady, font)
 
+def _cutout_alpha(im):
+    """キャラクターの切り抜き用の透明度(はみ出し演出用)。切り抜きモデルが無ければ None"""
+    try:
+        from rembg import remove, new_session
+        global _RB
+        if "_RB" not in globals(): _RB = new_session("isnet-anime")
+        return remove(im.convert("RGB"), session=_RB).getchannel("A").point(lambda v: 255 if v > 128 else 0)
+    except ImportError:
+        return None
+
 def compose(name_mod, page, img_dir, pick, finishing=True):
-    rows = name_mod.PAGES[page]; rects = panel_rects(rows)
+    import layout
+    pans = layout.page_panels(name_mod, page)
     page_img = Image.new("L", (W, H), 255); d = ImageDraw.Draw(page_img)
     f = ImageFont.truetype(FONT, 21); fb = ImageFont.truetype(FONT_B, 21); fsfx = ImageFont.truetype(FONT_B, 46)
-    flat = [p for _, ps in rows for p in ps]
-    for i, (r, p) in enumerate(zip(rects, flat), 1):
-        x0, y0, x1, y1 = r; w, h = x1-x0, y1-y0
-        shot = p[1]; fboxes = []
+    breakouts = []; texts = []
+    for i, pan in enumerate(pans, 1):
+        _, shot, desc, lines = pan["data"]; opts = pan["opts"]; poly = pan["poly"]
+        bx0, by0, bx1, by1 = pan["bbox"]
+        mask = Image.new("L", (W, H), 0); ImageDraw.Draw(mask).polygon(poly, fill=255)
+        fboxes = []
         path = os.path.join(img_dir, f"p{page:02d}_{i}_{pick.get(i, 's1')}.png")
         if shot == "黒ベタ":
-            d.rectangle(r, fill=0)
+            page_img.paste(0, (0, 0), mask)
         elif shot == "文字":
-            d.rectangle(r, fill=255)  # 文字だけのコマ(ステータス表示など)
+            page_img.paste(255, (0, 0), mask)  # 文字だけのコマ(ステータス表示など)
         elif os.path.exists(path):
-            im = cover(Image.open(path).convert("L"), w, h)
-            fboxes = [(x0+a, y0+b, x0+c, y0+e) for a, b, c, e in faces_in(im)]
+            src = Image.open(path)
+            if opts.get("breakout"):  # はみ出し用に、コマより一回り大きく貼る
+                ex = int(0.08 * max(bx1 - bx0, by1 - by0))
+                ox0, oy0, ox1, oy1 = max(0, bx0 - ex), max(0, by0 - ex), min(W, bx1 + ex), min(H, by1 + ex)
+            else:
+                ox0, oy0, ox1, oy1 = bx0, by0, bx1, by1
+            im = cover(src.convert("L"), ox1 - ox0, oy1 - oy0)
+            fboxes = [(ox0+a, oy0+b, ox0+c, oy0+e) for a, b, c, e in faces_in(im)]
             if finishing:
                 im = Image.fromarray(finish(np.array(im.convert("RGB"))[:, :, ::-1].copy(), cell=4))
-            page_img.paste(im, (x0, y0))
+            layer = Image.new("L", (W, H), 255); layer.paste(im, (ox0, oy0))
+            page_img.paste(layer, (0, 0), mask)
+            if opts.get("breakout"):
+                a = _cutout_alpha(cover(src.convert("RGB"), ox1 - ox0, oy1 - oy0))
+                if a is not None:
+                    full = Image.new("L", (W, H), 0); full.paste(a, (ox0, oy0)); breakouts.append((layer, full))
         else:
-            d.rectangle(r, fill=235); d.text((x0+8, y0+8), f"[{shot}] {p[2][:40]}", font=ImageFont.truetype(FONT, 16), fill=90)
-        d.rectangle(r, outline=0, width=4)
-        # フキダシ(右から左へ並べる)。まず配置を計算し、顔に重ならない位置へずらしてから描く
-        items = []
-        xr = x1 - 10; ytop = y0 + 10
-        for line in p[3]:
-            kind, who, body = parse(line)
-            if kind == "note": continue
-            if kind == "sfx":
-                cols, bw, bh = text_box_size(body, fsfx, max(3, int((h-30)/48)), 4)
-                items.append(("sfx", None, None, cols, [x0 + 20, ytop, x0 + bw + 20, ytop + bh], 0, 0)); continue
-            font = fb if kind in ("narr", "cap", "status") else f
-            per = max(4, min(11, int((h - 70) / 23)))
-            while True:  # フキダシがコマの高さに収まるまで、1列の文字数を減らす
-                cols, bw, bh = text_box_size(body, font, per)
-                if kind == "speech":
-                    padx, pady = int(bw*0.22) + 16, int(bh*0.2) + 20
-                else:
-                    padx, pady = 12, 12
-                if bh + 2*pady <= h - 24 or per <= 4: break
-                per -= 1
-            bx1 = xr; bx0 = bx1 - bw - 2*padx
-            if bx0 < x0 + 6:  # 入りきらなければ下の段へ
-                xr = x1 - 10; ytop = ytop + bh + 2*pady + 8; bx1 = xr; bx0 = bx1 - bw - 2*padx
-            by0 = ytop
-            if by0 + bh + 2*pady > y1 - 6: by0 = max(y0 + 6, y1 - 6 - bh - 2*pady)
-            by1 = by0 + bh + 2*pady
-            items.append((kind, font, None, cols, [bx0, by0, bx1, by1], padx, pady))
-            xr = bx0 - 8
-        place_items(d, items, r, fboxes, fsfx)
+            page_img.paste(235, (0, 0), mask)
+            d.text((pan["inner"][0]+8, pan["inner"][1]+8), f"[{shot}] {desc[:40]}", font=ImageFont.truetype(FONT, 16), fill=90)
+        if pan["inset"]:  # 重ねゴマは白いふちで浮かせる
+            d.line(poly + [poly[0]], fill=255, width=14)
+        if pan["frame"]:
+            for a, b in layout.frame_edges(poly): d.line([a, b], fill=0, width=4)
+            for pt in poly: d.ellipse([pt[0]-2, pt[1]-2, pt[0]+2, pt[1]+2], fill=0)
+        texts.append((pan, lines, fboxes))
+    for layer, a in breakouts:  # キャラクターを枠の上に重ねる(はみ出し)
+        page_img.paste(layer, (0, 0), a)
+    for pan, lines, fboxes in texts:
+        draw_texts(d, pan["inner"], lines, fboxes, f, fb, fsfx)
     return page_img
+
+def draw_texts(d, r, lines, fboxes, f, fb, fsfx):
+    """コマの中にフキダシ・ナレーション・効果音を置く(右から左へ並べ、顔に重ならない位置へずらす)"""
+    x0, y0, x1, y1 = r; h = y1 - y0
+    items = []
+    xr = x1 - 10; ytop = y0 + 10
+    for line in lines:
+        kind, who, body = parse(line)
+        if kind == "note": continue
+        if kind == "sfx":
+            cols, bw, bh = text_box_size(body, fsfx, max(3, int((h-30)/48)), 4)
+            items.append(("sfx", None, None, cols, [x0 + 20, ytop, x0 + bw + 20, ytop + bh], 0, 0)); continue
+        font = fb if kind in ("narr", "cap", "status") else f
+        per = max(4, min(11, int((h - 70) / 23)))
+        while True:  # フキダシがコマの高さに収まるまで、1列の文字数を減らす
+            cols, bw, bh = text_box_size(body, font, per)
+            if kind == "speech":
+                padx, pady = int(bw*0.22) + 16, int(bh*0.2) + 20
+            else:
+                padx, pady = 12, 12
+            if bh + 2*pady <= h - 24 or per <= 4: break
+            per -= 1
+        bx1 = xr; bx0 = bx1 - bw - 2*padx
+        if bx0 < x0 + 6:  # 入りきらなければ下の段へ
+            xr = x1 - 10; ytop = ytop + bh + 2*pady + 8; bx1 = xr; bx0 = bx1 - bw - 2*padx
+        by0 = ytop
+        if by0 + bh + 2*pady > y1 - 6: by0 = max(y0 + 6, y1 - 6 - bh - 2*pady)
+        by1 = by0 + bh + 2*pady
+        items.append((kind, font, None, cols, [bx0, by0, bx1, by1], padx, pady))
+        xr = bx0 - 8
+    place_items(d, items, r, fboxes, fsfx)
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("name"); ap.add_argument("page", type=int); ap.add_argument("img_dir"); ap.add_argument("out")

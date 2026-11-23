@@ -6,6 +6,8 @@
 import argparse, base64, importlib.util, io, json, os, subprocess
 from PIL import Image
 HERE = os.path.dirname(os.path.abspath(__file__))
+import sys; sys.path.insert(0, os.path.join(HERE, ".."))
+import layout
 SIZES = [(1024,1024),(1152,896),(896,1152),(1216,832),(832,1216),(1344,768),(768,1344),(1536,640),(640,1536)]
 W, H, M, G = 1000, 1414, 60, 14
 def load(p):
@@ -28,7 +30,7 @@ if __name__ == "__main__":
     pages = [int(x) for x in a.pages.split(",")]
     jobs = []
     for p in pages:
-        rects = panel_rects(name.PAGES[p])
+        rects = [q["bbox"] for q in layout.page_panels(name, p)]  # 斜めのコマ・重ねゴマも、外接する長方形の大きさで描く
         for i, r in enumerate(rects, 1):
             spec = pan.PANELS.get((p, i))
             if not spec: continue
