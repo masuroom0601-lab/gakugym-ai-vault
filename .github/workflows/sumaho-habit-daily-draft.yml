@@ -41,9 +41,24 @@ jobs:
           D=$(date +%F)
           DAY=$(date +%-d)
           if [ $((DAY % 2)) -eq 0 ]; then
-            FMT="checkup"
+            FMT="checkup"   # 2026-11-22廃止。下のルーレット判定で置き換える
           else
             FMT="canva_7rules"
+          fi
+          # 2026-11-23追加(益田さん指示): 偶数日に「ルーレットシリーズ」を週2本まで(月〜日で数える)。
+          # 名言ルーレット(roulette_quote)と止まったことをするルーレット(roulette_action)を交互に作る
+          if [ "$FMT" = checkup ]; then
+            WS=$(date -d "$D -$(( $(date +%u) - 1 )) days" +%F)
+            CNT=0; LASTK=""
+            for f in $(ls 02_departments/sumaho_habit/drafts/task-*-sumaho-001.md 2>/dev/null | sort); do
+              FD=$(basename "$f" | cut -c6-15); K=$(grep -m1 "^reel_format:" "$f" | awk '{print $2}')
+              [ "$FD" = "$D" ] && continue
+              case "$K" in roulette_*) LASTK=$K; if [[ ! "$FD" < "$WS" ]]; then CNT=$((CNT+1)); fi;; esac
+            done
+            if [ $CNT -lt 2 ]; then
+              if [ "$LASTK" = roulette_quote ]; then FMT=roulette_action; else FMT=roulette_quote; fi
+            fi
+            echo "今週($WS〜)のルーレット: ${CNT}本 / 直前: ${LASTK:-なし} → 今日: $FMT"
           fi
           echo "date=$D" >> "$GITHUB_OUTPUT"
           echo "format=$FMT" >> "$GITHUB_OUTPUT"
@@ -58,10 +73,10 @@ jobs:
             echo "直前のセルフチェック台本: $LAST ($LASTVAR) → 今回: $VAR"
           fi
           echo "variant=$VAR" >> "$GITHUB_OUTPUT"
-          if [ "$FMT" = checkup ]; then echo "セルフチェック診断は2026-11-22に廃止。今日(偶数日)はリール台本を作らない"; fi
+          if [ "$FMT" = checkup ]; then echo "セルフチェック診断は2026-11-22に廃止。今日(偶数日)は今週のルーレットが作成済みのため、リール台本を作らない"; fi
 
       - name: Generate sumaho_habit draft
-        if: steps.format.outputs.format != 'checkup'   # 2026-11-22: セルフチェック診断は廃止
+        if: steps.format.outputs.format != 'checkup'   # 2026-11-22: セルフチェック診断は廃止(偶数日はルーレットが週2本まで)
         uses: anthropics/claude-code-action@v1
         with:
           claude_code_oauth_token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
@@ -156,6 +171,42 @@ jobs:
             - 実績・学校名・年齢・大学生であること・学ジムの名前は書かない。「学年1位の〜」「東大生の〜」のような
               第三者の型は使ってよいが、自分がそうだったとは書かない
             - 絵文字はカラー絵文字で描かれる。使ってよいのは一般的な絵文字だけ(国旗・肌色違いは使わない)
+
+            ## reel_format: roulette_quote の場合(名言ルーレット)【2026-11-23追加】
+            視聴者が画面を長押しして止めた名言を受け取る参加型リール(約9秒、カードが0.17秒ごとに切り替わる)。
+            描画は render_roulette.py。テーマ制限は〇選と同じく受験生向け全般でよい。
+            - 名言は6個: **偉人の名言3個+オリジナル3個**(オリジナルは by を「まっすー」にする)
+            - 偉人の名言は、出典(人物名と書名)がはっきりしていて、作者の死後70年以上たったものだけ。
+              例: 論語(孔子)、老子、自助論(スマイルズ)、福沢諭吉『学問のすゝめ』など。
+              ネットで広まっているだけの出典不明の「〇〇の名言」は使わない。迷ったら使わない
+            - **アニメ・漫画・映画・ドラマ・歌詞のセリフやキャラクター名は絶対に使わない**(著作権)
+            - 過去60日のルーレット台本と同じ名言は使わない
+            以下の見出し・書式で台本を書くこと(JSONは動画生成が機械的に読む):
+            ```
+            ## リール台本(名言ルーレット)
+            ```json
+            {"title": "勉強したくなる名言", "quotes": [
+             {"lead": "<前置き。任意、15字以内>", "main": "<大きく出す一言。1行9字以内×2行まで、/で改行>",
+              "tail": "<補足。任意、20字以内>", "by": "<老子 / 孔子『論語』 / まっすー など>", "mark": "<円相の中に置く漢字1字>"},
+             ...(6個)],
+             "save": "保存して、/勉強前に見返そう。", "save_sub": "<コメント誘導。20字以内>"}
+            ```
+            ```
+
+            ## reel_format: roulette_action の場合(止まったことをするルーレット)【2026-11-23追加】
+            針が回り続け、視聴者が長押しで止めた行動を今すぐやる参加型リール(約7秒)。描画は render_roulette.py。
+            - 選択肢は8個。勉強を始める行動とスマホを遠ざける行動を中心に、1個だけ遊び(例: 次の動画へスクロール)を入れてよい
+            - 1行6字以内×2行まで(/で改行)。すぐできる具体的な行動にする(「頑張る」だけは不可)
+            - 過去60日のルーレット台本と選択肢の半分以上が同じにならないこと
+            ```
+            ## リール台本(止まったことをするルーレット)
+            ```json
+            {"title": "止まったことをする/受験生ルーレット", "sub": "長押しで行動を決めよう!",
+             "options": ["勉強10分", "スマホを/別の部屋へ", ... 8個]}
+            ```
+            ```
+            ルーレットのキャプションは「長押しで止めて、出たものを今すぐやってみて」という参加の呼びかけと、
+            止まった結果をコメントで教えてもらう誘導を入れる。
 
             ## 【重要・2026-11-03追加】直近の台本と重ならないこと
             台本を書く前に、02_departments/sumaho_habit/drafts/ にある直近30日分の
