@@ -15,7 +15,7 @@ if not os.path.exists(FONT): FONT = "/usr/share/fonts/opentype/noto/NotoSansCJK-
 FONT_B = "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
 if not os.path.exists(FONT_B): FONT_B = FONT
 W, H, M, G = 1000, 1414, 60, 14
-VERT = {"ー": "丨", "—": "丨", "―": "丨", "…": "︙", "〜": "≀", "(": "︵", ")": "︶", "「": "﹁", "」": "﹂", "『": "﹃", "』": "﹄"}
+VERT = {"ー": "丨", "—": "丨", "―": "丨", "…": "︙", "〜": "\x01", "～": "\x01", "▮": "■", "▯": "□", "(": "︵", ")": "︶", "「": "﹁", "」": "﹂", "『": "﹃", "』": "﹄"}
 PUNCT_SHIFT = set("、。")
 
 def load(p):
@@ -71,7 +71,14 @@ def draw_vtext(d, cols, x_right, y_top, font, fill=0, gap=6):
         spans = {}
         for ri, (ch, gid) in enumerate(col):
             dx, dy = (fs*0.55, -fs*0.45) if ch in PUNCT_SHIFT else (0, 0)
-            d.text((x+dx, y_top + ri*(fs+2) + dy), ch, font=font, fill=fill)
+            if ch == "\x01":  # 波ダッシュは横向きの字形を90度回して縦にする
+                g = Image.new("L", (fs*2, fs*2), 0); gd = ImageDraw.Draw(g)
+                bx = gd.textbbox((0, 0), "〜", font=font)
+                gd.text((fs - (bx[0]+bx[2])/2, fs - (bx[1]+bx[3])/2), "〜", font=font, fill=255)
+                g = g.rotate(-90); cb = font.getbbox("国")
+                d._image.paste(fill, (int(x + (cb[0]+cb[2])/2 - fs), int(y_top + ri*(fs+2) + (cb[1]+cb[3])/2 - fs)), g)
+            else:
+                d.text((x+dx, y_top + ri*(fs+2) + dy), ch, font=font, fill=fill)
             if gid is not None: spans.setdefault(gid, []).append(ri)
         for gid, rows in spans.items():  # ルビは親文字の右側に、親文字の範囲いっぱいに並べる
             ruby = rubies.get(gid, ""); top = y_top + rows[0]*(fs+2); span = len(rows)*(fs+2)
