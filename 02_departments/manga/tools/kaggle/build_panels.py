@@ -35,6 +35,10 @@ if __name__ == "__main__":
             w, h = best_size(r[2]-r[0], r[3]-r[1])
             j = {"name": f"p{p:02d}_{i}", "w": w, "h": h, "seeds": spec.get("seeds", [1, 2])}
             j.update({k: v for k, v in spec.items() if k != "seeds"}); jobs.append(j)
+    # コマ以外の部品(合成用のキャラ・背景など)。EXTRA = {"名前": {"w":..,"h":.., "prompt":..}}
+    for nm, spec in getattr(pan, "EXTRA", {}).items():
+        j = {"name": nm, "w": spec.get("w", 832), "h": spec.get("h", 1216), "seeds": spec.get("seeds", [1, 2])}
+        j.update({k: v for k, v in spec.items() if k not in ("seeds", "w", "h")}); jobs.append(j)
     refs = {}
     for k, path in pan.REFS.items():
         im = Image.open(os.path.join(HERE, "..", "..", path)).convert("RGB"); im.thumbnail((512, 512))
