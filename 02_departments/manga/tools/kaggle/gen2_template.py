@@ -39,7 +39,7 @@ try:
         pipe.set_ip_adapter_scale(job.get("ip_scale", 0.0) if job.get("ref") in REFS else 0.0)
         for seed in job["seeds"]:
             t = time.time()
-            img = pipe(prompt=job["prompt"] + ", " + CFG["style"], negative_prompt=CFG["negative"] + (", " + job["neg"] if job.get("neg") else ""),
+            img = pipe(prompt=CFG["style"] + ", " + job["prompt"], negative_prompt=CFG["negative"] + (", " + job["neg"] if job.get("neg") else ""),
                        ip_adapter_image=ref, width=job["w"], height=job["h"], num_inference_steps=CFG["steps"],
                        guidance_scale=job.get("cfg", CFG["cfg"]), generator=torch.Generator("cuda").manual_seed(seed)).images[0]
             img.save(f'{OUT}/{job["name"]}_s{seed}.png'); log("saved", job["name"], seed, round(time.time() - t, 1))
