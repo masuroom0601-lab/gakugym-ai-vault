@@ -1,0 +1,52 @@
+name: roulette-portraits-fetch
+
+# 2026-11-23追加: 名言ルーレット(③)で使う偉人の肖像を Wikimedia Commons から取り込む(手動実行のみ)。
+# 開発環境からは Wikimedia に直接つながらないため Actions 経由で取り込む。
+# 対象は 02_departments/creative/reel_quiz/assets/portraits/sources.json(すべてパブリックドメインの絵・写真)。
+# 取り込んだ画像の出典は同じフォルダの CREDITS.md に自動で書く。
+on:
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: asset-fetch
+  cancel-in-progress: false
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Download portraits
+        run: |
+          python3 - <<'PY'
+          import json, os, subprocess, urllib.parse
+          d = "02_departments/creative/reel_quiz/assets/portraits"
+          src = json.load(open(f"{d}/sources.json", encoding="utf-8"))
+          credits = ["# 名言ルーレットの肖像の出典", "", "すべて Wikimedia Commons のパブリックドメインの画像(取り込み: roulette-portraits-fetch.yml)。", ""]
+          ok, ng = [], []
+          for p in src["people"]:
+              out = f"{d}/{p['key']}.jpg"
+              url = "https://commons.wikimedia.org/wiki/Special:FilePath/" + urllib.parse.quote(p["file"]) + "?width=800"
+              r = subprocess.run(["curl", "-sSLf", "-A", "gakugym-asset-fetch/1.0 (contact via GitHub repo)", "-o", out, url])
+              if r.returncode == 0 and os.path.getsize(out) > 5000:
+                  ok.append(p["key"])
+                  credits.append(f"- {p['key']}.jpg: https://commons.wikimedia.org/wiki/File:{urllib.parse.quote(p['file'])} (Public domain)")
+              else:
+                  ng.append(p["key"])
+                  if os.path.exists(out): os.remove(out)
+          open(f"{d}/CREDITS.md", "w", encoding="utf-8").write("\n".join(credits) + "\n")
+          print("取り込めた:", ok); print("取り込めなかった:", ng)
+          PY
+      - name: Commit
+        run: |
+          git config user.name "gakugym-ai-bot"
+          git config user.email "bot@example.com"
+          git add 02_departments/creative/reel_quiz/assets/portraits/
+          git commit -m "roulette portraits fetch" || exit 0
+          git pull --rebase -q origin main
+          git push origin HEAD:main
