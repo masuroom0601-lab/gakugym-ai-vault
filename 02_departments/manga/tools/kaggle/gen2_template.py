@@ -13,7 +13,12 @@ try:
     from transformers import CLIPVisionModelWithProjection
     JOBS = json.loads(r'''__JOBS__''')
     CFG = json.loads(r'''__CFG__''')
-    REFS = {k: Image.open(io.BytesIO(base64.b64decode(v))).convert("RGB") for k, v in json.loads(r'''__REFS__''').items()}
+    # 見本の絵は、データセット masuppp/manga-refs に置いてある(プログラムに埋め込むと、Kaggleで順番待ちのまま動かなくなるため)
+    REFS = {}
+    for k in json.loads(r'''__REFS__'''):
+        hit = glob.glob(f"/kaggle/input/**/ref_{k}.jpg", recursive=True)
+        if hit: REFS[k] = Image.open(hit[0]).convert("RGB")
+        else: print("見本が見つからない:", k, flush=True)
     blank = Image.new("RGB", (512, 512), "white")
     t0 = time.time()
     enc = CLIPVisionModelWithProjection.from_pretrained("h94/IP-Adapter", subfolder="models/image_encoder", torch_dtype=torch.float16)

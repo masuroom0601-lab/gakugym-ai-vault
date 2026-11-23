@@ -10,6 +10,30 @@ import sys; sys.path.insert(0, os.path.join(HERE, ".."))
 import layout
 SIZES = [(1024,1024),(1152,896),(896,1152),(1216,832),(832,1216),(1344,768),(768,1344),(1536,640),(640,1536)]
 W, H, M, G = 1000, 1414, 60, 14
+def sync_refs(REFS, user):
+    """見本の絵を、非公開データセット user/manga-refs にアップロードする(中身が変わったときだけ)。
+    Kaggleでは、プログラムのファイルが大きい(約900KB以上)と順番待ちのまま動かないため、絵はプログラムに埋め込まない"""
+    import hashlib, shutil, time
+    d = os.path.join(HERE, "..", "..", ".kaggle_refs"); os.makedirs(d, exist_ok=True)
+    h = hashlib.md5()
+    for k, path in sorted(REFS.items()):
+        im = Image.open(os.path.join(HERE, "..", "..", path)).convert("RGB"); im.thumbnail((512, 512))
+        out = os.path.join(d, f"ref_{k}.jpg"); im.save(out, "JPEG", quality=90); h.update(open(out, "rb").read())
+    stamp = os.path.join(d, ".hash"); new = h.hexdigest()
+    if os.path.exists(stamp) and open(stamp).read() == new: return REFS
+    meta = {"title": "manga-refs", "id": f"{user}/manga-refs", "licenses": [{"name": "other"}]}
+    json.dump(meta, open(os.path.join(d, "dataset-metadata.json"), "w"))
+    exists = subprocess.run(["kaggle", "datasets", "status", f"{user}/manga-refs"], capture_output=True, text=True).returncode == 0 and \
+        "ready" in subprocess.run(["kaggle", "datasets", "status", f"{user}/manga-refs"], capture_output=True, text=True).stdout.lower()
+    cmd = ["kaggle", "datasets", "version", "-p", d, "-m", "見本の絵を更新"] if exists else ["kaggle", "datasets", "create", "-p", d]
+    r = subprocess.run(cmd, capture_output=True, text=True); print("見本のアップロード:", "成功" if r.returncode == 0 else "失敗 " + r.stdout[-300:] + r.stderr[-300:])
+    for _ in range(30):  # データセットの準備ができるまで待つ
+        st = subprocess.run(["kaggle", "datasets", "status", f"{user}/manga-refs"], capture_output=True, text=True).stdout.lower()
+        if "ready" in st: break
+        time.sleep(10)
+    open(stamp, "w").write(new)
+    return REFS
+
 def load(p):
     s = importlib.util.spec_from_file_location(os.path.basename(p)[:-3], p); m = importlib.util.module_from_spec(s); s.loader.exec_module(m); return m
 def panel_rects(rows):
@@ -41,16 +65,13 @@ if __name__ == "__main__":
     for nm, spec in getattr(pan, "EXTRA", {}).items():
         j = {"name": nm, "w": spec.get("w", 832), "h": spec.get("h", 1216), "seeds": spec.get("seeds", [1, 2])}
         j.update({k: v for k, v in spec.items() if k not in ("seeds", "w", "h")}); jobs.append(j)
-    refs = {}
-    for k, path in pan.REFS.items():
-        im = Image.open(os.path.join(HERE, "..", "..", path)).convert("RGB"); im.thumbnail((512, 512))
-        b = io.BytesIO(); im.save(b, "JPEG", quality=90); refs[k] = base64.b64encode(b.getvalue()).decode()
+    refs = sync_refs(pan.REFS, a.user)
     src = open(os.path.join(HERE, "gen2_template.py")).read()
-    src = src.replace("__JOBS__", json.dumps(jobs, ensure_ascii=False)).replace("__CFG__", json.dumps(pan.CFG, ensure_ascii=False)).replace("__REFS__", json.dumps(refs))
+    src = src.replace("__JOBS__", json.dumps(jobs, ensure_ascii=False)).replace("__CFG__", json.dumps(pan.CFG, ensure_ascii=False)).replace("__REFS__", json.dumps(sorted(refs)))
     os.makedirs(a.workdir, exist_ok=True); open(os.path.join(a.workdir, "gen.py"), "w").write(src)
     json.dump({"id": f"{a.user}/{a.slug}", "title": a.slug, "code_file": "gen.py", "language": "python", "kernel_type": "script",
                "is_private": True, "enable_gpu": True, "enable_internet": True, "machine_shape": "NvidiaTeslaT4",
-               "dataset_sources": [f"{a.user}/manga-loras"], "competition_sources": [], "kernel_sources": []},
+               "dataset_sources": [f"{a.user}/manga-loras", f"{a.user}/manga-refs"], "competition_sources": [], "kernel_sources": []},
               open(os.path.join(a.workdir, "kernel-metadata.json"), "w"), indent=1)
     print(len(jobs), "panels,", sum(len(j["seeds"]) for j in jobs), "images")
     subprocess.run(["kaggle", "kernels", "push", "-p", a.workdir], check=True)
