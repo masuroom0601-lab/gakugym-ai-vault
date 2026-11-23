@@ -1,0 +1,70 @@
+[
+ {
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, simple background effects, fang",
+  "name": "sai_bust",
+  "prompt": "1girl, solo, young woman, light brown hair, long hair, wavy hair ends, ahoge, small red flower hair ornament, brown eyes, gentle smile, closed mouth, cream knit cardigan over white blouse, upper body, looking at viewer, white background",
+  "ip_scale": 0.3,
+  "seeds": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "w": 896,
+  "h": 1152
+ },
+ {
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, simple background effects, fang",
+  "name": "sai_full",
+  "prompt": "1girl, solo, young woman, light brown hair, long hair, wavy hair ends, ahoge, small red flower hair ornament, gentle smile, cream knit cardigan, white blouse, long flared skirt, ankle boots, full body, standing, white background",
+  "ip_scale": 0.3,
+  "seeds": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "w": 768,
+  "h": 1344
+ },
+ {
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, simple background effects, fang",
+  "name": "sweater",
+  "prompt": "no humans, a knitted sweater hanging on a wooden coat hanger, the sweater has a cute face on its chest, two eyes and a smiling mouth knitted into the sweater, cable knit, sleeves hanging down, simple, white background",
+  "ip_scale": 0.0,
+  "seeds": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "w": 896,
+  "h": 1152
+ },
+ {
+  "quality": "",
+  "style": "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching",
+  "cfg": 4.5,
+  "neg": "shiny skin, glossy, airbrushed, 3d, realistic, smooth shading, gradient, bloom, sparkle, photo, sketchbook, notebook, spiral binding, paper texture, text, japanese text, calligraphy, speech bubble, border, frame, ink splatter, splashes, chibi, super deformed, empty eyes, simple background effects, fang",
+  "name": "nabe",
+  "prompt": "no humans, japanese donabe clay pot with a lid, the pot has a cute face on its body, two big round eyes and a small smiling mouth below the lid, steam rising from the lid, simple, white background",
+  "ip_scale": 0.0,
+  "seeds": [
+   1,
+   2,
+   3,
+   4
+  ],
+  "w": 1024,
+  "h": 1024
+ }
+]

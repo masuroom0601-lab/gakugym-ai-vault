@@ -15,6 +15,16 @@ if not os.path.exists(FONT): FONT = "/usr/share/fonts/opentype/noto/NotoSansCJK-
 FONT_B = "/usr/share/fonts/opentype/noto/NotoSansCJK-Bold.ttc"
 if not os.path.exists(FONT_B): FONT_B = FONT
 W, H, M, G = 1000, 1414, 60, 14
+_CASCADE = None
+def faces_in(im):
+    """コマ画像の中のアニメ顔を検出する(lbpcascade_animeface, MITライセンス)。(x0,y0,x1,y1)のリスト"""
+    global _CASCADE
+    import cv2
+    if _CASCADE is None:
+        _CASCADE = cv2.CascadeClassifier(os.path.join(os.path.dirname(os.path.abspath(__file__)), "lbpcascade_animeface.xml"))
+    a = cv2.equalizeHist(np.array(im.convert("L")))
+    m = max(24, min(im.width, im.height) // 10)
+    return [(x, y, x+w, y+h) for x, y, w, h in _CASCADE.detectMultiScale(a, 1.1, 4, minSize=(m, m))]
 VERT = {"ー": "丨", "—": "丨", "―": "丨", "…": "︙", "〜": "\x01", "～": "\x01", "▮": "■", "▯": "□", "(": "︵", ")": "︶", "「": "﹁", "」": "﹂", "『": "﹃", "』": "﹄"}
 PUNCT_SHIFT = set("、。")
 
@@ -101,6 +111,38 @@ def parse(line):
     if who in ("次回予告", "タイトルロゴ"): return ("narr", who, body)
     return ("mono" if br == "(" else "speech", who, body)
 
+def _overlap(a, b):
+    return max(0, min(a[2], b[2]) - max(a[0], b[0])) * max(0, min(a[3], b[3]) - max(a[1], b[1]))
+
+def place_items(d, items, r, fboxes, fsfx):
+    """フキダシの組を、コマの四隅のうち顔との重なりが最も小さい位置へ平行移動して描く(同点なら右上)"""
+    x0, y0, x1, y1 = r
+    boxes = [it[4] for it in items if it[0] != "sfx"]
+    dx = dy = 0
+    if boxes and fboxes:
+        gx0 = min(b[0] for b in boxes); gx1 = max(b[2] for b in boxes)
+        gy0 = min(b[1] for b in boxes); gy1 = max(b[3] for b in boxes)
+        best = None
+        for cdx in (0, (x0 + 10) - gx0):
+            for cdy in (0, (y1 - 10) - gy1):
+                sc = sum(_overlap((b[0]+cdx, b[1]+cdy, b[2]+cdx, b[3]+cdy), f) for b in boxes for f in fboxes)
+                sc += 1 if (cdx or cdy) else 0  # 同点なら右上を優先
+                if best is None or sc < best[0]: best = (sc, cdx, cdy)
+        _, dx, dy = best
+    for kind, font, _, cols, (bx0, by0, bx1, by1), padx, pady in items:
+        if kind == "sfx":
+            draw_vtext(d, cols, bx1, by0, fsfx, fill=0, gap=4); continue
+        bx0, bx1, by0, by1 = bx0+dx, bx1+dx, by0+dy, by1+dy
+        if kind == "speech":
+            d.ellipse([bx0, by0, bx1, by1], fill=255, outline=0, width=3)
+        elif kind == "mono":
+            d.rounded_rectangle([bx0, by0, bx1, by1], radius=18, fill=255, outline=110, width=2)
+        elif kind == "status":
+            d.rectangle([bx0, by0, bx1, by1], fill=255, outline=0, width=3); d.rectangle([bx0+5, by0+5, bx1-5, by1-5], outline=0, width=1)
+        else:
+            d.rectangle([bx0, by0, bx1, by1], fill=255, outline=0, width=2)
+        draw_vtext(d, cols, bx1 - padx + 3, by0 + pady, font)
+
 def compose(name_mod, page, img_dir, pick, finishing=True):
     rows = name_mod.PAGES[page]; rects = panel_rects(rows)
     page_img = Image.new("L", (W, H), 255); d = ImageDraw.Draw(page_img)
@@ -108,7 +150,7 @@ def compose(name_mod, page, img_dir, pick, finishing=True):
     flat = [p for _, ps in rows for p in ps]
     for i, (r, p) in enumerate(zip(rects, flat), 1):
         x0, y0, x1, y1 = r; w, h = x1-x0, y1-y0
-        shot = p[1]
+        shot = p[1]; fboxes = []
         path = os.path.join(img_dir, f"p{page:02d}_{i}_{pick.get(i, 's1')}.png")
         if shot == "黒ベタ":
             d.rectangle(r, fill=0)
@@ -116,20 +158,22 @@ def compose(name_mod, page, img_dir, pick, finishing=True):
             d.rectangle(r, fill=255)  # 文字だけのコマ(ステータス表示など)
         elif os.path.exists(path):
             im = cover(Image.open(path).convert("L"), w, h)
+            fboxes = [(x0+a, y0+b, x0+c, y0+e) for a, b, c, e in faces_in(im)]
             if finishing:
                 im = Image.fromarray(finish(np.array(im.convert("RGB"))[:, :, ::-1].copy(), cell=4))
             page_img.paste(im, (x0, y0))
         else:
             d.rectangle(r, fill=235); d.text((x0+8, y0+8), f"[{shot}] {p[2][:40]}", font=ImageFont.truetype(FONT, 16), fill=90)
         d.rectangle(r, outline=0, width=4)
-        # フキダシ(右から左へ並べる)
+        # フキダシ(右から左へ並べる)。まず配置を計算し、顔に重ならない位置へずらしてから描く
+        items = []
         xr = x1 - 10; ytop = y0 + 10
         for line in p[3]:
             kind, who, body = parse(line)
             if kind == "note": continue
             if kind == "sfx":
                 cols, bw, bh = text_box_size(body, fsfx, max(3, int((h-30)/48)), 4)
-                draw_vtext(d, cols, x0 + bw + 20, ytop, fsfx, fill=0, gap=4); continue
+                items.append(("sfx", None, None, cols, [x0 + 20, ytop, x0 + bw + 20, ytop + bh], 0, 0)); continue
             font = fb if kind in ("narr", "cap", "status") else f
             per = max(4, min(11, int((h - 70) / 23)))
             while True:  # フキダシがコマの高さに収まるまで、1列の文字数を減らす
@@ -146,16 +190,9 @@ def compose(name_mod, page, img_dir, pick, finishing=True):
             by0 = ytop
             if by0 + bh + 2*pady > y1 - 6: by0 = max(y0 + 6, y1 - 6 - bh - 2*pady)
             by1 = by0 + bh + 2*pady
-            if kind == "speech":
-                d.ellipse([bx0, by0, bx1, by1], fill=255, outline=0, width=3)
-            elif kind == "mono":
-                d.rounded_rectangle([bx0, by0, bx1, by1], radius=18, fill=255, outline=110, width=2)
-            elif kind == "status":
-                d.rectangle([bx0, by0, bx1, by1], fill=255, outline=0, width=3); d.rectangle([bx0+5, by0+5, bx1-5, by1-5], outline=0, width=1)
-            else:
-                d.rectangle([bx0, by0, bx1, by1], fill=255, outline=0, width=2)
-            draw_vtext(d, cols, bx1 - padx + 3, by0 + pady, font)
+            items.append((kind, font, None, cols, [bx0, by0, bx1, by1], padx, pady))
             xr = bx0 - 8
+        place_items(d, items, r, fboxes, fsfx)
     return page_img
 
 if __name__ == "__main__":

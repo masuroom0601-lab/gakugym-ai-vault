@@ -12,9 +12,9 @@
 | 鍋さん | `designs_v2_ink/nabesan_s1.jpg` | B方式 |
 | ハニワ君 | `designs_v2_ink/haniwa_s2.jpg` | B方式 |
 | シロ | `designs_v2_ink/shiro_s1.jpg` | B方式 |
-| ヤス | `designs_v3/yasu_s2.jpg` | B方式 |
-| イッシ | `designs_v2_ink/isshi_s1.jpg` | B方式 |
-| つぶ | `designs_v3/tsubu_s2.jpg` | B方式 |
+| リュウセイ | `designs_v3/yasu_s2.jpg` | B方式 |
+| アイミ | `designs_v2_ink/isshi_s1.jpg` | B方式 |
+| タマキ | `designs_v3/tsubu_s2.jpg` | B方式 |
 
 ## 長編で見た目をそろえる方針
 1. 基準画を見本(IP-Adapter)にして、角度・表情・ポーズ違いを大量に描く
