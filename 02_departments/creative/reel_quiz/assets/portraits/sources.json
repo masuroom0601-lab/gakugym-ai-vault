@@ -1,15 +1,105 @@
 {
-  "_note": "名言ルーレットで使う偉人の肖像(Wikimedia Commonsのパブリックドメイン画像)。key は台本の by に含まれる人物名。file は Commons のファイル名。roulette-portraits-fetch.yml で取り込む",
+  "_note": "名言ルーレットで使う偉人の肖像(Wikimedia Commonsのパブリックドメイン画像)。key は台本の by に含まれる人物名。file は Commons のファイル名。roulette-portraits-fetch.yml で取り込む。focus は [顔の中心のx割合, y割合, 拡大率](丸く切り抜くときの位置)",
   "people": [
-    {"key": "孔子", "file": "Konfuzius-1770.jpg", "works": "論語"},
-    {"key": "老子", "file": "Lao_Tzu_-_Project_Gutenberg_eText_15250.jpg", "works": "老子(道徳経)"},
-    {"key": "スマイルズ", "file": "Samuel_Smiles_by_Sir_George_Reid.jpg", "works": "自助論"},
-    {"key": "福沢諭吉", "file": "Yukichi_Fukuzawa_1891.jpg", "works": "学問のすゝめ"},
-    {"key": "ゲーテ", "file": "Goethe_(Stieler_1828).jpg", "works": "ゲーテとの対話 ほか"},
-    {"key": "フランクリン", "file": "BenFranklinDuplessis.jpg", "works": "貧しいリチャードの暦"},
-    {"key": "セネカ", "file": "Seneca-berlinantikensammlung-1.jpg", "works": "人生の短さについて"},
-    {"key": "吉田松陰", "file": "Yoshida_Shoin2.jpg", "works": "講孟余話 ほか"},
-    {"key": "夏目漱石", "file": "Natsume_Soseki_photo.jpg", "works": "書簡 ほか"},
-    {"key": "アリストテレス", "file": "Aristotle_Altemps_Inv8575.jpg", "works": "ニコマコス倫理学"}
+    {
+      "key": "孔子",
+      "file": "Konfuzius-1770.jpg",
+      "works": "論語",
+      "focus": [
+        0.47,
+        0.21,
+        3.0
+      ]
+    },
+    {
+      "key": "老子",
+      "file": "Lao_Tzu_-_Project_Gutenberg_eText_15250.jpg",
+      "works": "老子(道徳経)",
+      "focus": [
+        0.5,
+        0.26,
+        3.0
+      ]
+    },
+    {
+      "key": "スマイルズ",
+      "file": "Samuel_Smiles_by_Sir_George_Reid.jpg",
+      "works": "自助論",
+      "focus": [
+        0.55,
+        0.28,
+        1.4
+      ]
+    },
+    {
+      "key": "福沢諭吉",
+      "file": "Yukichi_Fukuzawa_1891.jpg",
+      "works": "学問のすゝめ",
+      "focus": [
+        0.5,
+        0.3,
+        1.5
+      ]
+    },
+    {
+      "key": "ゲーテ",
+      "file": "Goethe_(Stieler_1828).jpg",
+      "works": "ゲーテとの対話 ほか",
+      "focus": [
+        0.5,
+        0.25,
+        1.5
+      ]
+    },
+    {
+      "key": "フランクリン",
+      "file": "BenFranklinDuplessis.jpg",
+      "works": "貧しいリチャードの暦",
+      "focus": [
+        0.5,
+        0.3,
+        1.4
+      ]
+    },
+    {
+      "key": "セネカ",
+      "file": "Seneca-berlinantikensammlung-1.jpg",
+      "works": "人生の短さについて",
+      "focus": [
+        0.45,
+        0.35,
+        1.2
+      ]
+    },
+    {
+      "key": "吉田松陰",
+      "file": "Yoshida_Shoin2.jpg",
+      "works": "講孟余話 ほか",
+      "focus": [
+        0.55,
+        0.28,
+        3.4
+      ]
+    },
+    {
+      "key": "夏目漱石",
+      "file": "Natsume_Soseki_photo.jpg",
+      "works": "書簡 ほか",
+      "focus": [
+        0.5,
+        0.3,
+        1.4
+      ]
+    },
+    {
+      "key": "アリストテレス",
+      "file": "Aristotle_Altemps_Inv8575.jpg",
+      "works": "ニコマコス倫理学",
+      "focus": [
+        0.5,
+        0.3,
+        1.3
+      ]
+    }
   ]
 }

@@ -2,7 +2,7 @@
 """③スマホ対策の「ルーレットシリーズ」リールを台本から作る(2026-11-23追加、益田さん指示)。
 
 視聴者が画面を長押しして止めた所で、名言/やることが決まる参加型リール。
-  - roulette_quote : 名言ルーレット。名言カードが約0.17秒ごとに切り替わる(約9秒)
+  - roulette_quote : 名言ルーレット。名言カードが約0.08秒ごとに切り替わる(約9秒)
   - roulette_action: 止まったことをするルーレット。中央の針が回り、指した行動が光る(約7秒)
 参考: 益田さんが送った2本の参考リール(構成だけ借りる。アニメのキャラ・セリフは使わない)。
 
@@ -22,6 +22,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 BG_VIDEO = os.path.join(HERE, "..", "ranking", "assets", "study_bg.mp4")
 FD = ["/usr/share/fonts/opentype/noto", "/usr/share/fonts/truetype/noto"]
 INK, GOLD, NAVY = (28, 30, 40), (205, 150, 60), (38, 58, 110)
+PORTRAITS = os.path.join(HERE, "assets", "portraits")   # 偉人の肖像(パブリックドメイン、sources.json)
+AVATAR = os.path.join(HERE, "avatar.png")                # まっすー(オリジナルの言葉)
 _fc = {}
 
 
@@ -92,9 +94,43 @@ def brush(d, x0, x1, y, h=14, color=GOLD):
         d.line((x0 + (1 - a) * 30, y + i, x1 - (1 - a) * 60, y + i), fill=color, width=1)
 
 
+def portrait_for(by):
+    """台本の by(例: 孔子『論語』/ まっすー)から肖像の画像と切り抜き位置を探す。無ければ (None, None)"""
+    if "まっすー" in by and os.path.exists(AVATAR):
+        return AVATAR, [0.5, 0.5, 1.0]
+    try:
+        people = json.load(open(os.path.join(PORTRAITS, "sources.json"), encoding="utf-8"))["people"]
+    except Exception:
+        return None, None
+    for p in people:
+        f = os.path.join(PORTRAITS, p["key"] + ".jpg")
+        if p["key"] in by and os.path.exists(f):
+            return f, p.get("focus", [0.5, 0.3, 1.3])
+    return None, None
+
+
+def put_portrait(im, path, focus, cx=W // 2, cy=640, r=235):
+    """円相の中に、肖像を丸く切り抜いて置く(偉人は和紙になじむよう少しセピアに)"""
+    src = Image.open(path).convert("RGB")
+    fx, fy, zoom = focus
+    side = min(src.width, src.height) / zoom
+    x0 = min(max(0, fx * src.width - side / 2), src.width - side)
+    y0 = min(max(0, fy * src.height - side / 2), src.height - side)
+    src = src.crop((round(x0), round(y0), round(x0 + side), round(y0 + side))).resize((2 * r, 2 * r), Image.LANCZOS)
+    if path != AVATAR:
+        g = src.convert("L")
+        src = Image.merge("RGB", [g.point(lambda v: min(255, v * 1.02 + 18)), g.point(lambda v: v * 0.95 + 12), g.point(lambda v: v * 0.82 + 8)])
+    mask = Image.new("L", (2 * r, 2 * r), 0); ImageDraw.Draw(mask).ellipse((0, 0, 2 * r - 1, 2 * r - 1), fill=255)
+    im.paste(src, (cx - r, cy - r), mask.filter(ImageFilter.GaussianBlur(2)))
+
+
 def quote_card(spec, q, seed):
     im = washi(seed); d = ImageDraw.Draw(im)
-    d.text((W // 2, 640), q.get("mark", "学"), font=F(300, "Black", True), fill=(40, 50, 80), anchor="mm")
+    pic, focus = portrait_for(q.get("by", ""))
+    if pic:
+        put_portrait(im, pic, focus); d = ImageDraw.Draw(im)
+    else:
+        d.text((W // 2, 640), q.get("mark", "学"), font=F(300, "Black", True), fill=(40, 50, 80), anchor="mm")
     title = spec.get("title", "勉強したくなる名言")
     ft = fit(d, [title], "Black", True, 96, W - 160)
     d.text((W // 2, 190), title, font=ft, fill=INK, anchor="mm")
@@ -145,13 +181,14 @@ def build_quote(spec):
     order = []
     n = len(cards)
     rnd = random.Random(7)
-    while len(order) < int(9.0 * FPS / 5):          # 5コマ(約0.17秒)ごとに切り替え、約9秒
+    # 2026-11-23 益田さん指示で2倍速: 2コマと3コマを交互(平均2.5コマ=約0.083秒)ごとに切り替え、約9秒
+    frames, ticks = [], []
+    while len(frames) < int(9.0 * FPS):
         i = rnd.randrange(n)
         if order and order[-1] == i: continue
-        order.append(i)
-    frames = []
-    for i in order: frames += [i] * 5
-    return cards, frames, [k * 5 for k in range(len(order))]
+        order.append(i); ticks.append(len(frames))
+        frames += [i] * (2 if len(order) % 2 else 3)
+    return cards, frames, ticks
 
 
 # ---------------- 止まったことをするルーレット ----------------
@@ -212,7 +249,7 @@ def build_action(spec):
     cache = {}
     last = None
     for fi in range(total):
-        ang = -math.pi / 2 + 2 * math.pi * fi / FPS * 0.9   # 1秒に0.9周
+        ang = -math.pi / 2 + 2 * math.pi * fi / FPS * 1.8   # 1秒に1.8周(2026-11-23に2倍速)
         k = round(((ang + math.pi / 2) / (2 * math.pi)) * n) % n
         key = (k, round(ang, 2))
         im = base.copy(); dd = ImageDraw.Draw(im)
