@@ -48,7 +48,7 @@ def best_size(w, h):
     r = w/h; return min(SIZES, key=lambda s: abs(s[0]/s[1]-r))
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("name"); ap.add_argument("panels"); ap.add_argument("workdir")
-    ap.add_argument("--user", required=True); ap.add_argument("--pages", required=True); ap.add_argument("--slug", default="manga-gen")
+    ap.add_argument("--user", required=True); ap.add_argument("--pages", required=True); ap.add_argument("--slug", default="manga-art")
     a = ap.parse_args()
     name = load(a.name); pan = load(a.panels)
     pages = [int(x) for x in a.pages.split(",")]
