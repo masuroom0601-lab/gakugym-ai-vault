@@ -1,0 +1,294 @@
+{
+ "university": "中央大学",
+ "short": "中央",
+ "selection": "一般選抜",
+ "year": 2026,
+ "count_key": "examinees",
+ "rows": [
+  {
+   "name": "総合政策 学部全体",
+   "examinees": 1366,
+   "passers": 179,
+   "ratio": 7.6,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "国際情報",
+   "examinees": 922,
+   "passers": 143,
+   "ratio": 6.4,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "経済 Ⅰ方式",
+   "examinees": 2775,
+   "passers": 450,
+   "ratio": 6.2,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "社会理工 都市環境",
+   "examinees": 764,
+   "passers": 134,
+   "ratio": 5.7,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "社会理工 人間総合理工",
+   "examinees": 293,
+   "passers": 52,
+   "ratio": 5.6,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "先進理工 情報工",
+   "examinees": 1574,
+   "passers": 289,
+   "ratio": 5.4,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "基幹理工 物理",
+   "examinees": 766,
+   "passers": 142,
+   "ratio": 5.4,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "先進理工 精密機械工",
+   "examinees": 1369,
+   "passers": 268,
+   "ratio": 5.1,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "基幹理工 応用化学",
+   "examinees": 1127,
+   "passers": 225,
+   "ratio": 5.0,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "先進理工 電気電子情報通信工",
+   "examinees": 1227,
+   "passers": 262,
+   "ratio": 4.7,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "経済 Ⅱ方式",
+   "examinees": 2036,
+   "passers": 436,
+   "ratio": 4.7,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "法 3教科型 法律",
+   "examinees": 2731,
+   "passers": 603,
+   "ratio": 4.5,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "国際経営",
+   "examinees": 1028,
+   "passers": 235,
+   "ratio": 4.4,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "商 B方式",
+   "examinees": 2236,
+   "passers": 518,
+   "ratio": 4.3,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "文 心理学",
+   "examinees": 371,
+   "passers": 93,
+   "ratio": 4.0,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "基幹理工 数学",
+   "examinees": 569,
+   "passers": 144,
+   "ratio": 4.0,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "文 フランス語文学文化",
+   "examinees": 358,
+   "passers": 91,
+   "ratio": 3.9,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "文 西洋史学",
+   "examinees": 288,
+   "passers": 75,
+   "ratio": 3.8,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "法 3教科型 政治",
+   "examinees": 1275,
+   "passers": 333,
+   "ratio": 3.8,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "基幹理工 生命科学",
+   "examinees": 515,
+   "passers": 138,
+   "ratio": 3.7,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "法 3教科型 国際企業関係法",
+   "examinees": 444,
+   "passers": 121,
+   "ratio": 3.7,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "文 社会情報学",
+   "examinees": 208,
+   "passers": 59,
+   "ratio": 3.5,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "文 国文学",
+   "examinees": 409,
+   "passers": 118,
+   "ratio": 3.5,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "社会理工 ビジネスデータサイエンス",
+   "examinees": 711,
+   "passers": 206,
+   "ratio": 3.5,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "商 A方式",
+   "examinees": 2234,
+   "passers": 654,
+   "ratio": 3.4,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "文 ドイツ語文学文化",
+   "examinees": 200,
+   "passers": 63,
+   "ratio": 3.2,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "文 日本史学",
+   "examinees": 471,
+   "passers": 154,
+   "ratio": 3.1,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "文 東洋史学",
+   "examinees": 229,
+   "passers": 78,
+   "ratio": 2.9,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "法 4教科型 国際企業関係法",
+   "examinees": 52,
+   "passers": 18,
+   "ratio": 2.9,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "文 中国言語文化",
+   "examinees": 141,
+   "passers": 50,
+   "ratio": 2.8,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "法 4教科型 法律",
+   "examinees": 575,
+   "passers": 210,
+   "ratio": 2.7,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "文 哲学",
+   "examinees": 337,
+   "passers": 128,
+   "ratio": 2.6,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "文 学びのパスポート",
+   "examinees": 65,
+   "passers": 25,
+   "ratio": 2.6,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "文 英語文学文化",
+   "examinees": 500,
+   "passers": 207,
+   "ratio": 2.4,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "文 教育学",
+   "examinees": 266,
+   "passers": 111,
+   "ratio": 2.4,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "文 社会学",
+   "examinees": 347,
+   "passers": 146,
+   "ratio": 2.4,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  },
+  {
+   "name": "法 4教科型 政治",
+   "examinees": 141,
+   "passers": 64,
+   "ratio": 2.2,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf"
+  }
+ ],
+ "source": {
+  "publisher": "中央大学",
+  "title": "一般選抜 2026年度入試データ(学部別選抜〔一般方式〕)",
+  "url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/ippan_data2026.pdf",
+  "index_url": "https://www.chuo-u.ac.jp/connect/admission/data/",
+  "published": "2026-06",
+  "fetched": "2026-11-23",
+  "year_evidence": "PDF本文の見出し「一般選抜」「2026 年度入試データ」/掲載ページ(過去の入試データ)の「2026年度 入試データ」リンク。公表日の明記なし(PDF作成日2026-06-01)",
+  "footer": "出典:中央大学「2026年度入試データ(学部別選抜・一般方式)」(2026/6公表)"
+ },
+ "formula": "受験者数÷合格者数(学部別選抜〔一般方式〕。経済・商・総合政策は志望順位制のため大学が学科ごとの倍率を算出しておらず、方式(経済Ⅰ/Ⅱ・商A/B)または学部の小計・合計行を使用)",
+ "school_color": {
+  "hex": "#d6001c",
+  "name": "朱色",
+  "note": "中央大学ブランドマークは『箱根駅伝で広く知られた朱色の「C」マーク』(大学公式 https://www.chuo-u.ac.jp/aboutus/communication/brand_mark/)。RGB値の公式記載はないため近似値を使用"
+ },
+ "campus_photo": {
+  "path": "assets/campus_chuo.jpg",
+  "credit": "写真:Asanagi / Wikimedia Commons(CC0)",
+  "source": "https://commons.wikimedia.org/wiki/File:Chuo_University_Surugadai_Campus_2023-05-18.jpg",
+  "license": "CC0"
+ },
+ "caption": "中央で一番倍率が高い学部・方式、知ってる?\n\n2026年度の一般選抜(学部別選抜・一般方式)で倍率が高かったのはこの3つ。\n1位 総合政策 学部全体 7.6倍\n2位 国際情報 6.4倍\n3位 経済 Ⅰ方式 6.2倍\n(倍率=受験者数÷合格者数。2026年度入試)\n\n出典:中央大学公式発表(2026年度入試データ)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #中央大学 #一般選抜 #受験生",
+ "factcheck": {
+  "status": "pending"
+ }
+}
