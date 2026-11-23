@@ -4,7 +4,7 @@ description: 秘書担当AIが日次で更新する承認待ちリスト(手編�
 
 # 承認待ちリスト
 
-## 2026-11-22時点の承認待ち
+## 2026-11-23時点の承認待ち
 
 ### instagram_tiktok(57件)
 - 02_departments/instagram_tiktok/drafts/task-2026-09-14-ig-001.md
@@ -65,7 +65,7 @@ description: 秘書担当AIが日次で更新する承認待ちリスト(手編�
 - 02_departments/instagram_tiktok/drafts/task-2026-11-09-ig-001.md
 - 02_departments/instagram_tiktok/drafts/task-2026-11-15-ig-001.md
 
-### x_threads(46件)
+### x_threads(47件)
 - 02_departments/x_threads/drafts/task-2026-09-12-x-001.md
 - 02_departments/x_threads/drafts/task-2026-09-12-x-002.md
 - 02_departments/x_threads/drafts/task-2026-09-14-x-001.md
@@ -112,8 +112,9 @@ description: 秘書担当AIが日次で更新する承認待ちリスト(手編�
 - 02_departments/x_threads/drafts/task-2026-11-18-quiz-001.md
 - 02_departments/x_threads/drafts/task-2026-11-20-quiz-001.md
 - 02_departments/x_threads/drafts/task-2026-11-21-vocab-001.md
+- 02_departments/x_threads/drafts/task-2026-11-23-vocab-001.md
 
-### note_ameba(11件)
+### note_ameba(12件)
 - 02_departments/note_ameba/drafts/task-2026-09-12-note-001.md
 - 02_departments/note_ameba/drafts/task-2026-09-14-note-001.md
 - 02_departments/note_ameba/drafts/task-2026-09-21-note-001.md
@@ -125,6 +126,6 @@ description: 秘書担当AIが日次で更新する承認待ちリスト(手編�
 - 02_departments/note_ameba/drafts/task-2026-11-02-note-001.md
 - 02_departments/note_ameba/drafts/task-2026-11-09-note-001.md
 - 02_departments/note_ameba/drafts/task-2026-11-16-note-001.md
+- 02_departments/note_ameba/drafts/task-2026-11-23-note-001.md
 
 ### line(0件)
-- なし
