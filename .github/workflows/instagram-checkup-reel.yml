@@ -61,13 +61,17 @@ jobs:
           if [ -f "$DRAFT" ] && grep -q "^reel_format: canva_7rules" "$DRAFT"; then
             KIND=rules7; OUT="02_departments/creative/reel_quiz/rules7-daily/reel-${D}.mp4"
           fi
+          # 2026-11-23追加: ルーレットシリーズ(名言/止まったことをする)は render_roulette.py で作る
+          if [ -f "$DRAFT" ] && grep -Eq "^reel_format: roulette_(quote|action)" "$DRAFT"; then
+            KIND=roulette; OUT="02_departments/creative/reel_quiz/roulette-daily/reel-${D}.mp4"
+          fi
           echo "kind=$KIND" >> "$GITHUB_OUTPUT"
           echo "date=$D" >> "$GITHUB_OUTPUT"
           echo "draft=$DRAFT" >> "$GITHUB_OUTPUT"
           echo "out=$OUT" >> "$GITHUB_OUTPUT"
           if [ ! -f "$DRAFT" ]; then
             echo "台本が無いためスキップ: $DRAFT"; echo "skip=true" >> "$GITHUB_OUTPUT"
-          elif ! grep -Eq "^reel_format: (checkup|canva_7rules)" "$DRAFT"; then
+          elif ! grep -Eq "^reel_format: (checkup|canva_7rules|roulette_quote|roulette_action)" "$DRAFT"; then
             echo "本日はリールの台本ではない(reel_format が checkup / canva_7rules ではない)ためスキップ"
             echo "skip=true" >> "$GITHUB_OUTPUT"
           elif grep -q "reel-${D}.mp4" "$DRAFT" && [ -f "$OUT" ]; then
@@ -86,7 +90,10 @@ jobs:
       - name: Generate reel
         if: steps.target.outputs.skip != 'true'
         run: |
-          if [ "${{ steps.target.outputs.kind }}" = rules7 ]; then
+          if [ "${{ steps.target.outputs.kind }}" = roulette ]; then
+            python3 02_departments/creative/reel_quiz/render_roulette.py \
+              "${{ steps.target.outputs.draft }}" "${{ steps.target.outputs.out }}"
+          elif [ "${{ steps.target.outputs.kind }}" = rules7 ]; then
             python3 02_departments/creative/reel_quiz/render_rules7.py \
               "${{ steps.target.outputs.draft }}" "${{ steps.target.outputs.out }}"
           else
@@ -127,7 +134,7 @@ jobs:
         run: |
           git config user.name "gakugym-ai-bot"
           git config user.email "bot@example.com"
-          git add 02_departments/sumaho_habit/drafts/ 02_departments/creative/reel_quiz/checkup-daily/ 02_departments/creative/reel_quiz/rules7-daily/
+          git add 02_departments/sumaho_habit/drafts/ 02_departments/creative/reel_quiz/checkup-daily/ 02_departments/creative/reel_quiz/rules7-daily/ 02_departments/creative/reel_quiz/roulette-daily/
           git commit -m "sumaho habit checkup reel generation ${{ steps.target.outputs.date }}"
           git pull --rebase origin main
           git push origin main
