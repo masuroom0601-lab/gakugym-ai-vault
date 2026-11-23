@@ -10,7 +10,22 @@ import numpy as np
 from PIL import Image, ImageFilter
 from scipy import ndimage
 
+_SESSION = None
 def cutout(path, tol=30):
+    """背景を透明にする。アニメ絵用の切り抜きモデル(rembg / isnet-anime)を使い、
+    使えないときは、絵の縁の色に近い領域を背景とみなす方法に切り替える"""
+    global _SESSION
+    try:
+        from rembg import remove, new_session
+        if _SESSION is None: _SESSION = new_session("isnet-anime")
+        im = remove(Image.open(path).convert("RGB"), session=_SESSION)
+        a = im.getchannel("A").point(lambda v: 255 if v > 128 else 0).filter(ImageFilter.GaussianBlur(0.7))
+        im.putalpha(a); box = a.getbbox()
+        return im.crop(box) if box else im
+    except ImportError:
+        return cutout_key(path, tol)
+
+def cutout_key(path, tol=30):
     """背景を透明にする。絵の縁の色(白・薄いグレーなど)に近く、縁からつながっている領域だけを背景とみなす
     (服の白い部分など、キャラの内側にある同じ色は残る)"""
     im = Image.open(path).convert("RGB"); a = np.array(im).astype(int)
@@ -26,8 +41,14 @@ def cutout(path, tol=30):
     box = alpha.getbbox()
     return im.crop(box) if box else im
 
-def compose_group(bg_path, items, out_path):
-    bg = Image.open(bg_path).convert("RGBA"); W, H = bg.size
+def compose_group(bg_path, items, out_path, aspect=None):
+    """aspect: コマの横÷縦。指定すると、背景をその形に切り取ってから重ねる"""
+    bg = Image.open(bg_path).convert("RGBA")
+    if aspect:
+        W, H = bg.size
+        if W / H > aspect: nw = int(H * aspect); bg = bg.crop(((W - nw) // 2, 0, (W - nw) // 2 + nw, H))
+        else: nh = int(W / aspect); bg = bg.crop((0, (H - nh) // 2, W, (H - nh) // 2 + nh))
+    W, H = bg.size
     for path, cx, foot, hfrac, flip in items:
         c = cutout(path)
         if flip: c = c.transpose(Image.FLIP_LEFT_RIGHT)
