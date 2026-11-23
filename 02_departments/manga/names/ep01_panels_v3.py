@@ -5,8 +5,8 @@ sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from ep01_panels import CFG, REFS, IZ, SHIRO, ISSHI as AIMI, HISA, THUG, EV, R
 CFG = dict(CFG)
 REFS = dict(REFS)
-REFS.update({"aimi": REFS["isshi"], "sai4": "characters/designs_v4/sai_bust_s1.jpg",
-             "sweater": "characters/designs_v4/sweater_s1.jpg", "nabe2": "characters/designs_v4/nabe_s1.jpg"})
+REFS.update({"aimi": REFS["isshi"], "sai4": "characters/designs_v4/sai_bust_s3c.jpg",
+             "sweater": "characters/designs_v4/sweater_s1.jpg", "nabe2": "characters/designs_v4/nabe_s2.jpg"})
 # 椎菜: 髪の色をそろえ、八重歯をなくす
 SH = ("shiina_kc, 1girl, long hair, platinum blonde hair, white hair, one side up, black hair ribbon, black choker, "
       "white collared shirt, black necktie")
