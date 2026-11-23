@@ -1,5 +1,5 @@
 ---
-character: 片倉椎菜(かたくら しいな)
+character: 椎菜(かたくら しいな)
 status: デザイン検討中
 ---
 

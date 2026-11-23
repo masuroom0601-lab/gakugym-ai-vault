@@ -35,26 +35,49 @@ def cover(im, w, h, gravity=0.3):
     x = (im.width - w)//2; y = int((im.height - h)*gravity)
     return im.crop((x, y, x+w, y+h))
 
+def tokens(text):
+    """文字列を(文字, ルビ番号)の列に分ける。「漢字《よみ》」の形をルビとして扱う"""
+    out = []; rubies = {}
+    pos = 0
+    for m in re.finditer(r"([一-龥々〆ヶ]+)《([^》]+)》", text):
+        out += [(VERT.get(c, c), None) for c in text[pos:m.start()] if c != " "]
+        gid = len(rubies); rubies[gid] = m.group(2)
+        out += [(VERT.get(c, c), gid) for c in m.group(1)]
+        pos = m.end()
+    out += [(VERT.get(c, c), None) for c in text[pos:] if c != " "]
+    return out, rubies
+
 def vcols(text, per_col):
     """縦書きの列に分ける。読点・句点のあとで、列の半分を超えていれば改行する(漫画の写植の慣習)"""
-    chars = [VERT.get(c, c) for c in text if c not in " "]
+    toks, rubies = tokens(text)
     cols = []; cur = []
-    for c in chars:
+    for t in toks:
+        c = t[0]
         if not cur and cols and c in "、。!?！？﹂︶︙":
-            cols[-1].append(c); continue  # 行頭禁則: 句読点・感嘆符は前の列にぶら下げる
-        cur.append(c)
+            cols[-1].append(t); continue  # 行頭禁則: 句読点・感嘆符は前の列にぶら下げる
+        cur.append(t)
         if len(cur) >= per_col or (c in "、。!?！？" and len(cur) >= per_col*0.5):
             cols.append(cur); cur = []
     if cur: cols.append(cur)
+    cols = [c for c in cols]
+    vcols.rubies = rubies
     return cols
 
 def draw_vtext(d, cols, x_right, y_top, font, fill=0, gap=6):
-    fs = font.size
+    fs = font.size; rubies = getattr(vcols, "rubies", {})
+    rf = ImageFont.truetype(FONT, max(9, fs // 2))
     for ci, col in enumerate(cols):
         x = x_right - (ci+1)*(fs+gap)
-        for ri, ch in enumerate(col):
+        spans = {}
+        for ri, (ch, gid) in enumerate(col):
             dx, dy = (fs*0.55, -fs*0.45) if ch in PUNCT_SHIFT else (0, 0)
             d.text((x+dx, y_top + ri*(fs+2) + dy), ch, font=font, fill=fill)
+            if gid is not None: spans.setdefault(gid, []).append(ri)
+        for gid, rows in spans.items():  # ルビは親文字の右側に、親文字の範囲いっぱいに並べる
+            ruby = rubies.get(gid, ""); top = y_top + rows[0]*(fs+2); span = len(rows)*(fs+2)
+            step = span / max(1, len(ruby))
+            for k, rc in enumerate(ruby):
+                d.text((x + fs + 1, top + k*step + (step - rf.size)/2), rc, font=rf, fill=fill)
 
 def text_box_size(text, font, per_col, gap=6):
     cols = vcols(text, per_col); fs = font.size
@@ -82,6 +105,8 @@ def compose(name_mod, page, img_dir, pick, finishing=True):
         path = os.path.join(img_dir, f"p{page:02d}_{i}_{pick.get(i, 's1')}.png")
         if shot == "黒ベタ":
             d.rectangle(r, fill=0)
+        elif shot == "文字":
+            d.rectangle(r, fill=255)  # 文字だけのコマ(ステータス表示など)
         elif os.path.exists(path):
             im = cover(Image.open(path).convert("L"), w, h)
             if finishing:

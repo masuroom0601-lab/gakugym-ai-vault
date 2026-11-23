@@ -37,7 +37,7 @@ if __name__ == "__main__":
             j.update({k: v for k, v in spec.items() if k != "seeds"}); jobs.append(j)
     refs = {}
     for k, path in pan.REFS.items():
-        im = Image.open(os.path.join(HERE, "..", path)).convert("RGB"); im.thumbnail((512, 512))
+        im = Image.open(os.path.join(HERE, "..", "..", path)).convert("RGB"); im.thumbnail((512, 512))
         b = io.BytesIO(); im.save(b, "JPEG", quality=90); refs[k] = base64.b64encode(b.getvalue()).decode()
     src = open(os.path.join(HERE, "gen2_template.py")).read()
     src = src.replace("__JOBS__", json.dumps(jobs, ensure_ascii=False)).replace("__CFG__", json.dumps(pan.CFG, ensure_ascii=False)).replace("__REFS__", json.dumps(refs))

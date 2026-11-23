@@ -1,4 +1,4 @@
-# 第1話 コマごとの作画指示(プロンプト)。キーは (ページ, コマ番号)
+# 第1話 コマごとの作画指示(プロンプト)。キーは (ページ, コマ番号)。コマ番号はネームの読み順
 STYLE = "monochrome, greyscale, manga, comic, screentone, ink, clean ink lines, hatching"
 CFG = {
     "style": STYLE, "steps": 28, "cfg": 4.5,
@@ -8,13 +8,95 @@ CFG = {
                  "sound effects, signature, watermark, border, frame, inset, multiple views, comic panels, chibi, cat, animal on head, "
                  "twintails, hairband, large breasts, nsfw"),
 }
-REFS = {}
-S = {"shiina_lora_v2": 0.9}
-I = {"izuru_lora_v1": 0.9}
-SI = {"shiina_lora_v2": 0.7, "izuru_lora_v1": 0.7}
+# 学習していないキャラは、基準画を見本(IP-Adapter)にして描く
+REFS = {
+    "shiro": "characters/designs_v2_ink/shiro_s1.jpg", "isshi": "characters/designs_v2_ink/isshi_s1.jpg",
+    "yasu": "characters/designs_v3/yasu_s2.jpg", "tsubu": "characters/designs_v3/tsubu_s2.jpg",
+    "dsuke": "characters/dsuke/base_v4.jpg", "sai": "characters/designs_v3/saitsuyo_s2.jpg",
+    "hisa": "characters/designs_v2_ink/hisa_s1.jpg", "nabe": "characters/designs_v2_ink/nabesan_s1.jpg",
+    "haniwa": "characters/designs_v2_ink/haniwa_s2.jpg",
+}
+S = {"shiina_lora_v2": 0.9}; I = {"izuru_lora_v1": 0.9}; I6 = {"izuru_lora_v1": 0.6}
+SI = {"shiina_lora_v2": 0.6, "izuru_lora_v1": 0.6}
 SH = "shiina_kc, 1girl, long hair, light hair, one side up, black hair ribbon, black choker, white collared shirt, black necktie"
 IZ = "izuru_kc, 1boy, male focus, black messy hair, grey hoodie"
+SHIRO = "1boy, solo, male focus, handsome, blond hair swept back, arrogant, flashy jacket with gold trim, necklace"
+ISSHI = "1girl, solo, petite, light hair, twintails, witch hat, oversized hoodie, mischievous grin"
+YASU = "1boy, solo, male focus, glasses, straight black hair, long dark coat, expressionless"
+TSUBU = "1girl, solo, long straight black hair, calm smile, long white cardigan, cross necklace"
+DSUKE = "1boy, solo, male focus, small round sunglasses, spiky light hair, chunky knit sweater with a cartoon face on the chest"
+SAI = "1girl, solo, young woman, long wavy hair in a low side ponytail, droopy eyes, gentle smile, cardigan"
+HISA = "1boy, solo, male focus, short hair, cheerful grin, headphones around neck, bomber jacket"
+NABE = "no humans, japanese donabe clay pot with lid, cute simple face on the pot, steam, on a table"
+HANIWA = "no humans, haniwa clay figure, round hollow eyes and mouth, short arms, on a table"
+THUG = "1boy, delinquent college student, dyed hair, earrings, sneer"
+EV = "evening, campus"
+def R(ref, scale=0.5): return {"ref": ref, "ip_scale": scale}
 PANELS = {
+    (1, 1): {"loras": I, "prompt": f"{IZ}, solo, walking under cherry blossoms, university campus, spring, many students walking past, floating idea sketches around his head, wide shot, cheerful"},
+    (2, 1): {"loras": I6, "prompt": f"{IZ}, group of college students celebrating with a banner on a campus path, evening, one boy walking behind carrying cardboard boxes, wide shot"},
+    (2, 2): {"prompt": "4 college students laughing together, from behind, campus path, evening, no faces visible"},
+    (2, 3): {"loras": I, "prompt": f"{IZ}, solo, carrying cardboard boxes, faint lonely smile, {EV}"},
+    (3, 1): {"loras": I, "prompt": f"{IZ}, solo, opening a door, club room, evening light, from behind, wide shot"},
+    (3, 2): {**R("shiro"), "prompt": f"{SHIRO}, sitting on a sofa with legs crossed, looking down at viewer, club room, from below"},
+    (3, 3): {"prompt": "3 college students standing in a club room, petite girl with twintails and witch hat, tall boy with glasses reading a book, girl with long black hair and white cardigan, smirking, evening"},
+    (3, 4): {**R("shiro", 0.6), "prompt": f"{SHIRO}, close-up, face, cold eyes, cruel smile, dramatic shadow"},
+    (4, 1): {"loras": I, "prompt": f"{IZ}, solo, extreme close-up, eyes, shocked, wide eyes"},
+    (4, 2): {**R("shiro"), "prompt": f"{SHIRO}, upper body, arrogant, looking down, club room"},
+    (4, 3): {**R("isshi"), "prompt": f"{ISSHI}, upper body, leaning forward, mocking grin, club room"},
+    (4, 4): {**R("yasu"), "prompt": f"{YASU}, upper body, reading a book, not looking up, cold, club room"},
+    (4, 5): {**R("tsubu"), "prompt": f"{TSUBU}, upper body, gentle smile, eyes not smiling, cold, club room"},
+    (5, 1): {"loras": I, "prompt": f"{IZ}, solo, cowboy shot, flustered, protesting, hand raised, club room"},
+    (5, 2): {**R("shiro"), "prompt": f"{SHIRO}, upper body, interrupting, annoyed, club room"},
+    (5, 3): {**R("shiro"), "prompt": f"{SHIRO}, close-up, sneering, looking down, from below"},
+    (5, 4): {**R("shiro"), "prompt": f"{SHIRO}, upper body, pointing at viewer, arrogant, dramatic"},
+    (5, 5): {"loras": I, "prompt": f"{IZ}, solo, upper body, looking down, shadowed eyes, club room"},
+    (6, 1): {"loras": I, "prompt": f"{IZ}, solo, working on a laptop at night, desk with energy drink bottles, club room, dark"},
+    (6, 2): {"loras": I, "prompt": f"{IZ}, solo, putting up a poster on a bulletin board in the rain, wet"},
+    (6, 3): {"loras": I6, "prompt": f"{IZ}, smiling softly, standing behind a group of celebrating students, from behind the group"},
+    (6, 5): {**R("shiro"), "prompt": f"{SHIRO}, upper body, looking at smartphone, indifferent, club room"},
+    (6, 6): {"prompt": "close-up of hands, a hand taking a key from another hand, no humans visible"},
+    (7, 1): {"prompt": "close-up of an empty open hand, palm up, dramatic shadow"},
+    (7, 2): {"loras": I, "prompt": f"{IZ}, solo, upper body, blank cold expression, empty eyes, club room"},
+    (7, 3): {"loras": I, "prompt": f"{IZ}, solo, bowing politely, club room"},
+    (7, 4): {"prompt": "closed door of a club room, school hallway, no humans, evening light"},
+    (7, 5): {"loras": I, "prompt": f"{IZ}, solo, sitting alone on a bench, from behind, small figure, {EV}, wide shot, lonely"},
+    (7, 6): {"prompt": "close-up of a hand holding a smartphone, chat app screen, no face"},
+    (8, 1): {"loras": I, "prompt": f"{IZ}, solo, looking up at the evening sky, sitting on a bench, wide shot, big sky, clouds"},
+    (8, 2): {"loras": I, "prompt": f"{IZ}, solo, upper body, looking up, thinking, {EV}"},
+    (8, 3): {"loras": I, "prompt": f"{IZ}, solo, close-up, slapping own cheeks with both hands, eyes closed"},
+    (8, 4): {"loras": I, "prompt": f"{IZ}, solo, standing up, determined expression, clenched fist, {EV}"},
+    (9, 1): {"loras": I, "prompt": f"{IZ}, solo, walking on a campus path, slightly cheerful, {EV}, wide shot"},
+    (9, 2): {"prompt": "back of a school building, alley behind the building, no humans, evening shadows"},
+    (9, 3): {"loras": I, "prompt": f"{IZ}, solo, upper body, stopping, turning head, surprised, {EV}"},
+    (10, 1): {"loras": S, "prompt": f"{SH}, cornered against a wall by two delinquent boys, behind a school building, scared but glaring, evening, wide shot"},
+    (10, 2): {"prompt": f"{THUG}, solo, upper body, smirking, leaning on a wall, evening"},
+    (10, 3): {"loras": S, "prompt": f"{SH}, solo, upper body, scared but glaring, angry, against a wall, evening"},
+    (10, 4): {"prompt": "close-up of a male hand grabbing a girl's wrist, no faces"},
+    (11, 1): {"loras": I, "prompt": f"{IZ}, solo, upper body, hiding behind a wall corner, peeking, cold sweat, nervous"},
+    (11, 2): {"loras": I6, "prompt": f"{IZ}, solo, punching and getting knocked down, simple sketchy drawing, imagination"},
+    (11, 3): {"loras": I6, "prompt": f"{IZ}, solo, running away to call a teacher, simple sketchy drawing, imagination"},
+    (11, 4): {"loras": I6, "prompt": f"{IZ}, solo, secretly holding a smartphone, recording, simple sketchy drawing, imagination"},
+    (11, 5): {"loras": I, "prompt": f"{IZ}, solo, extreme close-up, eyes, sharp determined look"},
+    (11, 6): {"prompt": "close-up of a smartphone screen in a hand, video recording, red record button, no face"},
+    (12, 1): {"loras": I, "prompt": f"{IZ}, close-up, putting a smartphone into the chest pocket of a hoodie, deep breath"},
+    (12, 2): {"loras": I, "prompt": f"{IZ}, stepping between a girl and two delinquent boys, from behind, back view, protective, behind a school building, evening"},
+    (12, 3): {"prompt": f"{THUG}, solo, upper body, glaring, annoyed, evening"},
+    (12, 4): {"loras": S, "prompt": f"{SH}, solo, upper body, surprised, wide eyes, evening"},
+    (13, 1): {"loras": I6, "prompt": f"{IZ}, a delinquent boy grabbing his collar, threatening, behind a school building, evening"},
+    (13, 2): {"loras": I, "prompt": f"{IZ}, solo, close-up, cold sweat, calm determined eyes"},
+    (13, 3): {"loras": I, "prompt": f"{IZ}, solo, upper body, calm, speaking quietly, evening"},
+    (14, 1): {"loras": I, "prompt": f"{IZ}, solo, holding up a smartphone toward viewer, screen showing a video recording, dramatic, evening, from below"},
+    (14, 2): {"loras": I, "prompt": f"{IZ}, solo, upper body, calm, serious, evening"},
+    (14, 3): {"prompt": f"{THUG}, solo, close-up, pale, shocked, sweating"},
+    (14, 4): {"prompt": "1boy, delinquent college student, buzz cut, close-up, pale, shocked, sweating"},
+    (15, 1): {"loras": I, "prompt": f"{IZ}, solo, upper body, calm, expressionless, evening"},
+    (15, 2): {"prompt": f"{THUG}, solo, upper body, clicking tongue, annoyed, turning away"},
+    (15, 3): {"prompt": "2 delinquent college boys running away, from behind, behind a school building, evening, wide shot"},
+    (15, 4): {"loras": SI, "prompt": f"{IZ}, {SH}, 1boy 1girl, standing in an empty alley behind a school building, silence, evening, wide shot"},
+    (16, 1): {"prompt": "close-up of legs in jeans and sneakers, trembling, motion lines"},
+    (16, 2): {"loras": I, "prompt": f"{IZ}, solo, upper body, pale face, relieved, trembling, evening"},
+    (16, 3): {"loras": S, "prompt": f"{SH}, holding a boy's hand with both hands, worried, close to the boy, evening, boy blushing, black messy hair boy"},
     (17, 1): {"loras": SI, "prompt": f"{SH}, {IZ}, 1boy 1girl, sitting side by side on a bench, campus, evening, girl handing a can of juice to the boy, wide shot, from front"},
     (17, 2): {"loras": S, "prompt": f"{SH}, solo, upper body, gentle smile, sitting on a bench, evening, campus background, looking at viewer"},
     (17, 3): {"loras": I, "prompt": f"{IZ}, solo, upper body, embarrassed shy smile, holding a can of juice, evening, campus background"},
@@ -24,4 +106,41 @@ PANELS = {
     (19, 1): {"loras": S, "prompt": f"{SH}, solo, standing up suddenly from a bench, determined, evening, motion lines"},
     (19, 2): {"loras": S, "prompt": f"{SH}, solo, standing, serious expression, looking at viewer, from below, evening sky, cowboy shot, hand on chest"},
     (19, 3): {"loras": I, "prompt": f"{IZ}, solo, close-up, eyes wide open, surprised, evening"},
+    (20, 1): {"loras": S, "prompt": f"{SH}, solo, upper body, thoughtful, soft expression, sparkles in background, evening"},
+    (20, 2): {"loras": S, "prompt": f"{SH}, solo, upper body, bright smile, fang, evening"},
+    (21, 1): {"prompt": "close-up of a girl's hand taking a boy's hand, evening light"},
+    (21, 2): {"loras": S, "prompt": f"{SH}, solo, upper body, eager, leaning forward, evening"},
+    (21, 3): {"loras": I, "prompt": f"{IZ}, solo, upper body, confused, evening"},
+    (21, 4): {"loras": S, "prompt": f"{SH}, solo, upper body, big smile, excited, evening"},
+    (22, 1): {"loras": SI, "prompt": f"{SH}, {IZ}, 1boy 1girl, girl pulling the boy by the hand, running, sunset campus, wide shot, from side"},
+    (22, 2): {"prompt": "hallway of a club building, a door with a sign, no humans, evening light"},
+    (23, 1): {"loras": S, "prompt": f"{SH}, solo, opening a door energetically, smiling, club room"},
+    (23, 2): {**R("dsuke", 0.3), "prompt": "lively club room, a boy with small sunglasses in a knit sweater, a gentle young woman with wavy hair, a boy with headphones, a clay pot and a haniwa figure on the table, everyone looking at viewer, wide shot"},
+    (24, 1): {**R("dsuke"), "prompt": f"{DSUKE}, upper body, relaxed, club room"},
+    (24, 2): {**R("dsuke", 0.6), "prompt": f"{DSUKE}, close-up of the chest, the cartoon face on the sweater talking happily, sweater face with tiny sunglasses"},
+    (24, 3): {"loras": I, "prompt": f"{IZ}, solo, close-up, surprised, wide eyes"},
+    (24, 4): {**R("dsuke"), "prompt": f"{DSUKE}, upper body, grinning, club room"},
+    (25, 1): {**R("nabe", 0.6), "prompt": f"{NABE}, lid rattling, steam"},
+    (25, 2): {**R("haniwa", 0.6), "prompt": f"{HANIWA}, nodding"},
+    (25, 3): {**R("hisa"), "prompt": f"{HISA}, upper body, big grin, club room"},
+    (25, 4): {"loras": I, "prompt": f"{IZ}, solo, cowboy shot, slightly relaxed smile, club room"},
+    (26, 1): {**R("sai"), "prompt": f"{SAI}, upper body, offering a cup of tea, gentle, club room"},
+    (26, 2): {**R("sai", 0.4), "loras": I6, "prompt": f"{SAI}, patting the head of a boy with black messy hair in a grey hoodie, gentle, club room"},
+    (26, 3): {"loras": I, "prompt": f"{IZ}, solo, close-up, teary eyes, moved"},
+    (27, 1): {"loras": {"shiina_lora_v2": 0.6}, "prompt": f"{SH}, explaining to friends in a club room, wide shot, people listening"},
+    (27, 2): {**R("dsuke"), "prompt": f"{DSUKE}, upper body, listening, club room"},
+    (27, 3): {**R("dsuke", 0.6), "prompt": f"{DSUKE}, close-up of the cartoon face on the sweater, serious expression"},
+    (28, 1): {"loras": I, "prompt": f"{IZ}, solo, cowboy shot, talking, sitting at a table, club room"},
+    (28, 2): {"prompt": "club members surprised, a boy with sunglasses, a young woman, a boy with headphones, a clay pot and haniwa, shocked faces, club room, wide shot"},
+    (28, 3): {"loras": I, "prompt": f"{IZ}, solo, upper body, looking down a little, club room"},
+    (28, 4): {**R("hisa"), "prompt": f"{HISA}, upper body, leaning forward, excited, club room"},
+    (28, 5): {**R("dsuke"), "prompt": f"{DSUKE}, upper body, confident, explaining, club room"},
+    (29, 1): {**R("dsuke"), "prompt": f"{DSUKE}, upper body, looking straight at viewer, warm, club room"},
+    (29, 2): {"prompt": "club members smiling warmly at viewer, a boy with sunglasses, a young woman, a boy with headphones, a girl with light hair and black ribbon, club room, wide shot, pov"},
+    (29, 3): {"loras": I, "prompt": f"{IZ}, solo, close-up, determined, hopeful"},
+    (30, 1): {"loras": I, "prompt": f"{IZ}, solo, bowing, standing, club room"},
+    (30, 2): {"prompt": "club members cheering and welcoming, a boy with sunglasses in a knit sweater, a young woman with wavy hair, a boy with headphones, a girl with light hair, a clay pot and haniwa, happy, club room, wide shot"},
+    (30, 3): {"loras": S, "prompt": f"{SH}, solo, upper body, pinching a boy's sleeve, happy smile, club room"},
+    (31, 1): {"loras": I, "prompt": f"{IZ}, solo, walking home on a road, sunset, small smile, wide shot"},
+    (31, 3): {"prompt": "dark club room, silhouettes of 4 people, ominous, night, wide shot"},
 }
