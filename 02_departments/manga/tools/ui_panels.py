@@ -269,13 +269,10 @@ def p13_3(w=880, h=549):
     return im
 
 def p18_4(w=880, h=357):
-    """イヅルの手もとのネタ帳。「1. 履修登録のコツ」に丸がつく(ステータス表示は page_compose が重ねる)"""
+    """イヅルの手もとのネタ帳。「1. 履修登録のコツ」に丸がつく"""
     im = canvas(w, h, 200); d = ImageDraw.Draw(im); W, H = im.size
     for y in range(0, H, 9): d.line([(0, y), (W, y + 60)], fill=170, width=2)  # 机
     notebook(d, W, H, (W * 0.06, H * 0.04, W * 0.7, H * 1.1), IDEAS[:3], F(60, True), F(60, True), 130, circle=0)
-    # 小さなきらめき(ピロン)
-    for cx, cy, r in ((W * 0.6, H * 0.36, 40), (W * 0.66, H * 0.22, 24)):
-        d.polygon([(cx, cy - r), (cx + r * 0.25, cy - r * 0.25), (cx + r, cy), (cx + r * 0.25, cy + r * 0.25), (cx, cy + r), (cx - r * 0.25, cy + r * 0.25), (cx - r, cy), (cx - r * 0.25, cy - r * 0.25)], fill=0)
     return im
 
 ALL = {"p06_2": p06_2, "p11_2": p11_2, "p12_1": p12_1, "p13_2": p13_2, "p14_2": p14_2, "p15_1": p15_1, "p15_2": p15_2, "p17_2": p17_2, "p07_4": p07_4, "p13_3": p13_3, "p18_4": p18_4}
