@@ -1,0 +1,130 @@
+# 第7話 コマごとの作画指示(2026-11-24、ネーム初稿用)。キーは (ページ, コマ番号)。コマ番号はネームの読み順
+# - 画面のコマ(2-1, 4-3, 4-4, 7-1, 7-3, 23-4)は tools/ui_panels.py で描く(B1)
+# - 前の話の作画を使い回す回想(ここには指示を書かない): 5-4=第4話12-4(あくびの小学生)/6-2=第4話13-2(くらげを見上げる女の子)/
+#   6-4=第4話10-2(ペンライトの客席)/7-2=第3話のカメラを構えるイヅル(c_izuru_camera)
+# - 集合ゴマ(8-1, 10-3, 11-1, 16-1, 17-1, 19-2, 19-3, 20-1, 21-1, 22-2, 23-3, 25-1, 25-2)は names/ep07_group.py で重ねる
+import os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from ep03_panels_redo import CFG, REFS, R, NG, NEG, WB, LOOK, s as shiro
+from ep04_panels import x, iz, sh, hisa, dsuke, sai, sw, part, bg
+from ep05_panels import b, ry, ta, ai
+from ep06_panels import st, hr, sitting, OUT
+from ep01_panels import NABE, HANIWA
+
+ROOM = "small cozy club room, daytime, warm, detailed background, indoors"
+SUNSET = "in front of a university career center building, sunset, orange sky, long shadows, detailed background"
+FB1 = "flashback, soft focus"
+
+PANELS = {
+    (1, 1): hr(sitting("upper body, asking a question, friendly, character on the right side")),
+    (1, 2): iz(sitting("cowboy shot, straightening his back, character on the left side")),
+    (1, 3): iz(sitting("upper body, looking straight ahead, calm, confident, speaking, character on the right side")),
+    (2, 2): iz(sitting("upper body, remembering, speaking, character on the left side")),
+    (2, 3): hr(sitting("upper body, nodding while taking notes, character on the right side")),
+    (3, 1): iz(sitting("upper body, gesturing with one hand while explaining, character on the right side")),
+    (3, 2): iz(sitting("upper body, continuing to explain, confident, character on the left side")),
+    (3, 3): sw(f"{FB1}, tears in its eyes, overjoyed, shouting"),
+    (3, 4): st(sitting("upper body, eyes widening, taking notes, impressed, character on the right side")),
+    (4, 1): hr(sitting("upper body, asking a deeper question, character on the right side")),
+    (4, 2): iz(sitting("upper body, answering honestly, character on the left side")),
+    (4, 5): iz(sitting("upper body, speaking firmly, determined, character on the right side")),
+    (5, 1): st(sitting("upper body, asking a question, character on the left side")),
+    (5, 2): iz(sitting("upper body, answering, character on the right side")),
+    (5, 3): iz(sitting("upper body, wry smile, slightly embarrassed, character on the left side")),
+    (6, 1): iz(sitting("upper body, explaining earnestly, character on the right side")),
+    (6, 3): iz(sitting("upper body, speaking with warmth, character on the left side")),
+    (6, 5): iz(sitting("upper body, looking straight ahead, speaking")),
+    (6, 6): sh(sitting("upper body, sitting in the corner, teary eyes, moved")),
+    (7, 4): iz(sitting("upper body, eyes closed, reflecting, gentle smile, character on the right side")),
+    (7, 5): hr(sitting("upper body, putting down his pen, character on the left side")),
+    (7, 6): hr(sitting("upper body, impressed, smiling")),
+    (7, 7): st(sitting("upper body, smiling and nodding")),
+    (8, 2): shiro(sitting("close-up, face, holding his breath, tense")),
+    (8, 3): sh(sitting("upper body, hands clasped in front of her chest, nervous")),
+    (8, 4): hr(sitting("upper body, announcing clearly, serious, dignified")),
+    (9, 1): shiro(sitting("cowboy shot, standing up from a chair, shouting angrily, character on the right side")),
+    (9, 2): hr(sitting("upper body, looking calmly, character on the left side")),
+    (9, 3): hr(sitting("upper body, calm but stern eyes, character on the right side")),
+    (10, 1): st(sitting("upper body, speaking quietly, firm, character on the right side")),
+    (10, 2): shiro(sitting("close-up, face, speechless, shocked")),
+    (11, 2): sh(f"upper body, calling out, serious, {SUNSET}, character on the right side"),
+    (11, 3): sh(f"cowboy shot, stepping forward, looking straight ahead, firm, {SUNSET}, character on the left side"),
+    (12, 1): sh(f"upper body, speaking quietly, firm, {SUNSET}, character on the right side"),
+    (12, 2): ai(f"upper body, flinching, awkward, {SUNSET}, character on the left side"),
+    (12, 3): sh(f"close-up, face, strong eyes, serious, {SUNSET}"),
+    (13, 1): ai(f"upper body, looking away, {SUNSET}"),
+    (13, 2): ta(f"upper body, smile frozen, {SUNSET}"),
+    (13, 3): ry(f"upper body, looking down silently, {SUNSET}"),
+    (13, 4): ai(f"cowboy shot, bowing her head reluctantly, {SUNSET}, character on the right side"),
+    (13, 5): ta(f"cowboy shot, bowing her head, no smile, {SUNSET}, character on the left side"),
+    (13, 6): ry(f"cowboy shot, bowing his head slightly, avoiding eye contact, {SUNSET}, character on the right side"),
+    (14, 1): shiro(f"cowboy shot, gritting his teeth, shoulders trembling, {SUNSET}, character on the left side"),
+    (14, 2): sh(f"upper body, calling his name, serious, {SUNSET}, character on the right side"),
+    (14, 3): shiro(f"cowboy shot, looking away, bowing his head slightly, reluctant, {SUNSET}, character on the left side"),
+    (14, 4): iz(f"upper body, calmly accepting, {SUNSET}, character on the right side"),
+    (15, 1): shiro(f"upper body, forced fake smile, {SUNSET}, character on the right side"),
+    (15, 2): shiro(f"upper body, smooth talking, grin, {SUNSET}, character on the left side"),
+    (15, 3): iz(f"close-up, face, dumbfounded, {SUNSET}"),
+    (16, 2): shiro(f"upper body, boasting, spreading his arms, {SUNSET}, character on the right side"),
+    (16, 3): ai(f"upper body, flustered, backing him up, {SUNSET}, character on the left side"),
+    (16, 4): sh(f"upper body, stepping forward calmly, {SUNSET}, character on the right side"),
+    (16, 5): shiro(f"upper body, flustered, panicking, {SUNSET}, character on the left side"),
+    (17, 2): sh(f"{FB1}, upper body, sitting on a bench at night, bright encouraging smile, campus"),
+    (17, 3): sw(f"{FB1}, tears in its eyes, joyful"),
+    (17, 4): sai(f"{FB1}, upper body, gently reaching out to pat someone's head, kind smile, club room"),
+    (17, 5): hisa(f"{FB1}, upper body, big grin, club room"),
+    (17, 6): x(f"{FB1}, {HANIWA}, raising one short arm, next to a donabe clay pot with a cute face and steam"),
+    (17, 7): iz(f"upper body, hand on his chest, thoughtful, resolved, {SUNSET}, character on the right side"),
+    (18, 1): iz(f"upper body, staring straight ahead, determined, unwavering eyes, sunset behind him, backlight, {SUNSET}"),
+    (18, 2): iz(f"close-up, face, determined, shouting, {SUNSET}"),
+    (19, 1): shiro(f"full body, falling to his knees, devastated, {SUNSET}, character on the right side"),
+    (20, 2): sh("upper body, shy smile, walking, campus path at sunset, detailed background, character on the right side"),
+    (20, 3): iz("upper body, embarrassed smile, walking, campus path at sunset, detailed background, character on the left side"),
+    (20, 4): sh("upper body, playful smile, campus path at sunset, detailed background, character on the right side"),
+    (21, 2): sw("tears in its eyes, joyful smile"),
+    (21, 3): dsuke(f"upper body, thumbs up, grin, {ROOM}, character on the left side"),
+    (22, 1): x(f"{NABE}, steam bursting out vigorously, cheerful, {ROOM}"),
+    (22, 3): hisa(f"upper body, fist pump, excited, {ROOM}, character on the left side"),
+    (22, 4): x(f"{HANIWA}, clapping its short arms quietly, {ROOM}"),
+    (23, 1): iz(f"cowboy shot, puffing out his chest, happy, {ROOM}, character on the right side"),
+    (23, 2): iz(f"upper body, big smile, declaring, {ROOM}, character on the left side"),
+    (24, 1): x(f"no humans, close-up of a club room door from inside, being knocked, {ROOM}"),
+    (24, 2): x(f"1girl, solo, freshman college student, nervous, standing at an open door, upper body, {ROOM}, character on the right side"),
+    (24, 3): iz(f"cowboy shot, walking forward and holding out his hand with a warm welcoming smile, {ROOM}, character on the left side"),
+}
+
+EXTRA = {
+    "c_hr_nod": part(hr(f"upper body, sitting, nodding, {WB}")),
+    "c_staff_nod": part(st(f"upper body, sitting, nodding, {WB}")),
+    "c_shiro_slump": part(shiro(f"full body, slumped in a chair, defeated, {WB}", scale=0.35)),
+    "c_shiro_leave": part(shiro(f"full body, from behind, walking away, {WB}", scale=0.35)),
+    "c_shiro_hand": part(shiro(f"full body, reaching out to put his hand on someone's shoulder, fake smile, {WB}", scale=0.35)),
+    "c_izuru_calm": part(iz(f"full body, standing, calm, serious, {WB}")),
+    "c_izuru_lower": part(iz(f"upper body, gently pushing someone's hand away, calm, {WB}")),
+    "c_izuru_walk": part(iz(f"full body, walking, smiling, {WB}")),
+    "c_shiina_walk": part(sh(f"full body, walking, smiling, {WB}")),
+    "c_izuru_back": part(iz(f"full body, from behind, walking away, {WB}")),
+    "c_shiina_back": part(sh(f"full body, from behind, walking away, {WB}")),
+    "c_dsuke_cracker": part(dsuke(f"full body, popping a party cracker, cheering, {WB}")),
+    "c_hisa_cracker": part(hisa(f"full body, popping a party cracker, cheering, {WB}")),
+    "c_sai_cracker": part(sai(f"full body, popping a party cracker, cheering, {WB}")),
+    "c_sai_pat": part(sai(f"upper body, reaching out to pat someone's head, kind smile, {WB}")),
+    "c_izuru_patted": part(iz(f"upper body, head slightly lowered, embarrassed happy smile, {WB}")),
+    "c_dsuke_fist": part(dsuke(f"full body, raising a fist, cheering, {WB}")),
+    "c_hisa_fist": part(hisa(f"full body, raising a fist, cheering, {WB}")),
+    "c_sai_fist": part(sai(f"full body, raising a fist, cheering, {WB}")),
+    "c_shiina_fist": part(sh(f"full body, raising a fist, cheering, {WB}")),
+    "c_newbie": part(x(f"1girl, solo, freshman college student, shy happy smile, full body, {WB}")),
+    "c_izuru_smile": part(iz(f"full body, warm smile, {WB}")),
+    "c_shiina_smile": part(sh(f"full body, warm smile, {WB}")),
+    "c_dsuke_smile": part(dsuke(f"full body, grin, {WB}")),
+    "c_sai_smile": part(sai(f"full body, laughing, {WB}")),
+    "c_hisa_smile": part(hisa(f"full body, laughing, {WB}")),
+    "c_haniwa": part(x(f"{HANIWA.replace(', on a table', '')}, {WB}")),
+    "bg_sunset": bg("in front of a university career center building, sunset, orange sky, long shadows"),
+    "bg_path_sunset": bg("university campus path with trees at sunset"),
+    "bg_caps_room": bg("small cozy club room, sofa, table, daytime, warm"),
+}
+for who in ("aimi", "ryusei", "tamaki"):
+    EXTRA[f"c_{who}_down"] = part(b(who, f"full body, standing, head down, defeated, {WB}"))
+    EXTRA[f"c_{who}_leave"] = part(b(who, f"full body, from behind, walking away, {WB}"))
