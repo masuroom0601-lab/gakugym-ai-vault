@@ -216,7 +216,57 @@ def p17_2(w=463, h=278):
     paste(scr)
     return im
 
-ALL = {"p06_2": p06_2, "p11_2": p11_2, "p12_1": p12_1, "p13_2": p13_2, "p14_2": p14_2, "p15_1": p15_1, "p15_2": p15_2, "p17_2": p17_2}
+def p07_4(w=430, h=269):
+    """ノートパソコンの画面: 手描き風のイラストと図解が並ぶ、投稿のデザイン"""
+    im = canvas(w, h, 255); tone(im, 215, 12); d = ImageDraw.Draw(im); W, H = im.size
+    d.rounded_rectangle([W * 0.06, H * 0.06, W * 0.94, H * 1.02], radius=24, fill=30)
+    x0, y0, x1, y1 = W * 0.1, H * 0.13, W * 0.9, H * 0.98
+    d.rectangle([x0, y0, x1, y1], fill=255)
+    pw = (x1 - x0 - 60) / 3
+    for k, t in enumerate(["コツ1", "コツ2", "コツ3"]):
+        px = x0 + 15 + k * (pw + 15)
+        d.rectangle([px, y0 + 20, px + pw, y1 - 20], outline=0, width=4)
+        d.text((px + 16, y0 + 32), t, font=F(30, True), fill=0)
+        # 手描き風の小さなキャラ(丸い顔)と、矢印の図解
+        cx, cy = px + pw / 2, y0 + 150
+        d.ellipse([cx - 38, cy - 38, cx + 38, cy + 38], outline=0, width=4)
+        d.ellipse([cx - 16, cy - 8, cx - 6, cy + 2], fill=0); d.ellipse([cx + 6, cy - 8, cx + 16, cy + 2], fill=0)
+        d.arc([cx - 14, cy + 4, cx + 14, cy + 22], 20, 160, fill=0, width=3)
+        for j in range(3):
+            d.rounded_rectangle([px + 14, cy + 60 + j * 46, px + pw - 14, cy + 96 + j * 46], radius=8, outline=0, width=3)
+    return im
+
+def p13_3(w=880, h=549):
+    """ノートに、次の投稿のアイデアを書き出していく"""
+    im = canvas(w, h, 200); d = ImageDraw.Draw(im); W, H = im.size
+    for y in range(0, H, 9): d.line([(0, y), (W, y + 60)], fill=170, width=2)  # 机
+    nx0, ny0, nx1, ny1 = W * 0.08, H * 0.05, W * 0.86, H * 1.05
+    d.rectangle([nx0, ny0, nx1, ny1], fill=255, outline=0, width=6)
+    for k in range(12): d.ellipse([nx0 - 18, ny0 + 40 + k * 82, nx0 + 18, ny0 + 64 + k * 82], outline=0, width=4)  # リング
+    ideas = ["履修登録のコツ ✓", "サークルの選び方", "空きコマの過ごし方", "学食ランキング", "図書館の使い方",
+             "時間割の組み方", "教科書の買い方", "バイトとの両立", "先輩に聞きたいこと", "CAPSってどんなところ?"]
+    f = F(52, True)
+    for k, t in enumerate(ideas):
+        col, row = k // 5, k % 5
+        x = nx0 + 60 + col * (nx1 - nx0) * 0.5; y = ny0 + 50 + row * 150
+        d.line([(nx0 + 40, y + 80), (nx1 - 30, y + 80)], fill=190, width=2)
+        d.text((x, y), f"{k + 1}. {t}", font=f, fill=0)
+    # ペン
+    d.polygon([(W * 0.9, H * 0.97), (W * 1.02, H * 0.5), (W * 1.06, H * 0.53), (W * 0.93, H * 1.0)], fill=255, outline=0, width=6)
+    d.polygon([(W * 0.9, H * 0.97), (W * 0.93, H * 1.0), (W * 0.89, H * 1.04)], fill=0)
+    return im
+
+def p18_4(w=880, h=357):
+    """ステータス表示の後ろの絵: はしゃぐ部室の気配(紙吹雪と、ぼんやりした網点)"""
+    import random; rnd = random.Random(7)
+    im = canvas(w, h, 255); tone(im, 205, 14); d = ImageDraw.Draw(im); W, H = im.size
+    for _ in range(90):
+        x, y, s, a = rnd.uniform(0, W), rnd.uniform(0, H), rnd.uniform(10, 26), rnd.uniform(0, math.pi)
+        pts = [(x + math.cos(a + t) * s, y + math.sin(a + t) * s * 0.5) for t in (0, math.pi / 2, math.pi, 3 * math.pi / 2)]
+        d.polygon(pts, fill=255 if rnd.random() < 0.5 else 60, outline=0)
+    return im
+
+ALL = {"p06_2": p06_2, "p11_2": p11_2, "p12_1": p12_1, "p13_2": p13_2, "p14_2": p14_2, "p15_1": p15_1, "p15_2": p15_2, "p17_2": p17_2, "p07_4": p07_4, "p13_3": p13_3, "p18_4": p18_4}
 
 if __name__ == "__main__":
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))

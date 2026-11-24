@@ -20,3 +20,25 @@ P={1:{1:'s1',2:'s1',3:'c',4:'s1',5:'s2',6:'s2'},2:{1:'s1',2:'s1',3:'s2',4:'s1'},
 # for (pg,i),(bg,asp,items) in G.items():
 #     if len(sys.argv)>1 and f'{pg}-{i}' not in sys.argv[1:]: continue
 #     compose_group(bg,items,E+f'p{pg:02d}_{i}_c.png',aspect=asp); print(f'{pg}ページ {i}コマ目 合成済み')
+
+# ---- 第2版(2026-11-24) ----
+# s=初版の作画、r=描き直し1回目、q=描き直し2回目、f=切り出し・書き込み・合成、ui=tools/ui_panels.py で描いた画面、c=集合ゴマ
+# for (pg, i), v in {(1,2):'f',(1,4):'f',(2,3):'f',(2,4):'r1',(3,1):'ui',(4,3):'f',(6,2):'ui',(6,3):'r1',(6,4):'r3',(6,5):'r3',(7,3):'q3',
+#     (10,2):'f',(10,3):'r3',(11,1):'f',(11,2):'ui',(12,1):'ui',(12,2):'r3',(13,2):'ui',(14,2):'ui',(15,1):'ui',(15,2):'ui',(15,3):'r3',
+#     (17,1):'f',(17,2):'ui',(18,1):'r3',(18,4):'r2'}.items():
+#     P[pg][i] = v
+# P[7][4] = 'ui'; P[13][3] = 'ui'; P[18][4] = 'ui'
+# 集合ゴマの合成(第2版)
+# import sys; sys.path.insert(0,'/home/user/gakugym-ai-vault/02_departments/manga/tools')
+# from group_composite import compose_group
+# E='ep2out/out/'; V='v3bout/out/'
+# G={
+#  (1,3):(E+'bg_room_day_s1.png',1000/574,[(V+'c_sweater_chair_s1.png',.36,.92,.62,False),(V+'c_dsuke_look_s1.png',.13,1.02,.9,False),(V+'c_hisa_look_s1.png',.86,1.02,.88,True),(V+'c_sai_look_s1.png',.62,1.05,.95,True)]),
+#  (8,1):(E+'bg_room_night_s1.png',940/555,[(V+'c_sweater_chair_s1.png',.5,.88,.55,False),(V+'c_dsuke_look_s1.png',.15,1.05,.95,False),(V+'c_shiina_wall_s1.png',.35,1.1,1.0,False),(V+'c_sai_look_s1.png',.68,1.08,.98,True),(V+'c_hisa_look_s1.png',.88,1.05,.92,True)]),
+#  (16,1):(E+'bg_room_day_s1.png',1000/695,[(E+'c_dsuke_phone_s2.png',.1,.93,.74,False),(E+'c_shiina_phone_s1.png',.27,.95,.78,False),(E+'c_sai_phone_s2.png',.44,.95,.78,False),(E+'c_hisa_phone_s2.png',.6,.93,.74,False),(E+'c_izuru_burst_s1.png',.86,1.04,1.0,True)]),
+#  (17,3):(E+'bg_room_day_s1.png',462/278,[(V+'c_dsuke_cheer_s1.png',.19,1.3,1.22,False),(V+'c_hisa_cheer_s1.png',.81,1.3,1.22,True),(V+'c_sai_cheer_s1.png',.5,1.36,1.2,False)]),
+#  (20,3):(E+'bg_brave_room_s2.png',463/318,[(E+'c_aimi_away_s2.png',.2,1.8,1.7,False),(E+'c_ryusei_away_s1.png',.5,1.75,1.75,False),(E+'c_tamaki_away_s2.png',.8,1.8,1.7,True)]),
+# }
+# for (pg,i),(bg,asp,items) in G.items():
+#     if len(sys.argv)>1 and f'{pg}-{i}' not in sys.argv[1:]: continue
+#     compose_group(bg,items,E+f'p{pg:02d}_{i}_c.png',aspect=asp); print(f'{pg}ページ {i}コマ目 合成済み')
