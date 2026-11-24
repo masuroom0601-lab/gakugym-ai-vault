@@ -4,12 +4,12 @@ import sys
 sys.path.insert(0, '/home/user/gakugym-ai-vault/02_departments/manga/tools')
 from group_composite import compose_group, add_net
 E = 'ep3out/out/'; V = 'v3bout/out/'; E2 = 'ep2out/out/'
-PICK = {'c_shiro_stand':'s2','c_aimi_stand':'s2','c_ryusei_stand':'s1','c_tamaki_stand':'s2',
- 'c_shiro_back':'s2','c_aimi_back':'s2','c_ryusei_back':'s2','c_tamaki_back':'s2',
- 'c_shiro_sit':'s2','c_aimi_sit':'s1','c_ryusei_sit':'s1','c_tamaki_sit':'s2',
- 'c_shiro_net':'s3','c_aimi_net':'s1','c_ryusei_net':'s1','c_tamaki_net':'s2',
- 'c_shiro_walk':'s2','c_aimi_walk':'s1','c_ryusei_walk':'s2','c_tamaki_walk':'s2',
- 'c_shiro_back_c':'s2','c_aimi_back_c':'s2','c_fresh_a':'s1','c_fresh_b':'s2','c_dsuke_mic':'s2',
+PICK = {'c_shiro_tired':'r3','c_aimi_tired':'r2','c_ryusei_tired':'r3','c_tamaki_tired':'r3','c_shiro_stand':'r2','c_aimi_stand':'s2','c_ryusei_stand':'s1','c_tamaki_stand':'s2',
+ 'c_shiro_back':'r2','c_aimi_back':'s2','c_ryusei_back':'s2','c_tamaki_back':'s2',
+ 'c_shiro_sit':'r3','c_aimi_sit':'s1','c_ryusei_sit':'s1','c_tamaki_sit':'s2',
+ 'c_shiro_net':'r2','c_aimi_net':'s1','c_ryusei_net':'s1','c_tamaki_net':'s2',
+ 'c_shiro_walk':'r3','c_aimi_walk':'s1','c_ryusei_walk':'s2','c_tamaki_walk':'s2',
+ 'c_shiro_back_c':'r2','c_aimi_back_c':'s2','c_fresh_a':'s1','c_fresh_b':'s2','c_dsuke_mic':'s2',
  'c_izuru_camera':'s2','c_shiina_memo':'s2','c_hisa_sweater':'s2',
  'bg_gate':'s2','bg_gate_dusk':'s2','bg_corridor':'s2','bg_corridor_scar':'s1','bg_campus_path':'s1','bg_courtyard':'s1'}
 def P(n, base=E):
