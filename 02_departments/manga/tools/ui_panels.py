@@ -113,7 +113,7 @@ def p11_2(w=1000, h=321, finger=None):
                 d.arc([x - 30, y - 40, x + 30, y + 40], 60 if s > 0 else 240, 120 if s > 0 else 300, fill=0, width=5)
     return im
 
-def draw_finger(d, tx, ty, H):
+def draw_finger(d, tx, ty, H, shake=True):
     """上から伸びて、ボタンの少し上で止まる人差し指(線画)。まわりに震えを表す線を入れる"""
     fw = 120  # 指の太さ
     top = -40
@@ -129,6 +129,7 @@ def draw_finger(d, tx, ty, H):
     d.arc([tx - fw / 2 + 8, ty - 330, tx + fw / 2 - 8, ty - 290], 200, 340, fill=0, width=4)  # 関節のしわ
     d.arc([tx - fw / 2 + 8, ty - 200, tx + fw / 2 - 8, ty - 160], 200, 340, fill=0, width=4)
     d.rounded_rectangle([tx - fw / 2 + 22, ty - 95, tx + fw / 2 - 22, ty - 18], radius=24, outline=0, width=5)  # 爪
+    if not shake: return
     # 震え: 指の両わきの短い線と、汗
     for s in (-1, 1):
         for k in range(3):
@@ -379,6 +380,167 @@ def ep3_p18_3(w=880, h=268):
     return im
 
 ALL = {"p06_2": p06_2, "p11_2": p11_2, "p12_1": p12_1, "p13_2": p13_2, "p14_2": p14_2, "p15_1": p15_1, "p15_2": p15_2, "p17_2": p17_2, "p07_4": p07_4, "p13_3": p13_3, "p18_4": p18_4, "ep3_p04_1": ep3_p04_1, "ep3_p09_3": ep3_p09_3, "ep3_p10_2": ep3_p10_2, "ep3_p11_2": ep3_p11_2, "ep3_p13_1": ep3_p13_1, "ep3_p17_2": ep3_p17_2, "ep3_p18_3": ep3_p18_3}
+
+# ---- 第4話 ----
+def marker(d, xy, text, f, seed=0):
+    """ホワイトボードのマーカーの手書き風(少しだけ揺らす)"""
+    messy(d, xy, text, f, jitter=3, seed=seed)
+
+def whiteboard(w, h):
+    im = canvas(w, h, 150); d = ImageDraw.Draw(im); W, H = im.size
+    d.rectangle([W * 0.04, H * 0.05, W * 0.96, H * 0.92], fill=255, outline=0, width=10)
+    d.rectangle([W * 0.04, H * 0.92, W * 0.96, H * 0.96], fill=90)  # ペン置き
+    return im, d, W, H
+
+def ep4_p01_2(w=880, h=269):
+    """ノートパソコンの動画編集の画面。書き出し完了"""
+    im = canvas(w, h, 30); d = ImageDraw.Draw(im); W, H = im.size
+    d.rectangle([W * 0.03, H * 0.08, W * 0.55, H * 0.7], fill=200)  # 映像のプレビュー
+    d.rounded_rectangle([W * 0.05, H * 0.5, W * 0.53, H * 0.66], radius=12, fill=255)
+    d.text((W * 0.07, H * 0.52), "〇〇大生の1日に密着してみた", font=F(40, True), fill=0)
+    for k in range(3):  # タイムライン
+        y = H * 0.76 + k * 34
+        for j in range(6): d.rounded_rectangle([W * (0.03 + j * 0.155), y, W * (0.03 + j * 0.155 + 0.14), y + 24], radius=6, fill=120 + k * 30)
+    d.rounded_rectangle([W * 0.6, H * 0.18, W * 0.97, H * 0.62], radius=20, fill=255)
+    d.text((W * 0.63, H * 0.24), "書き出し完了", font=F(56, True), fill=0)
+    d.line([(W * 0.66, H * 0.5), (W * 0.69, H * 0.56), (W * 0.75, H * 0.43)], fill=0, width=10)
+    d.text((W * 0.78, H * 0.45), "100%", font=F(40, True), fill=0)
+    return im
+
+def ep4_p01_4(w=459, h=321):
+    """「投稿する」ボタンに、まっすぐ伸びる指(今度は震えていない)"""
+    im = canvas(w, h, 255); d = ImageDraw.Draw(im); W, H = im.size
+    bx0, by0, bx1, by1 = W * 0.18, H * 0.66, W * 0.82, H * 0.92
+    d.rounded_rectangle([bx0, by0, bx1, by1], radius=int((by1 - by0) / 2), fill=0)
+    t = "投稿する"; f = F(int((by1 - by0) * 0.5), True); tw = d.textlength(t, font=f)
+    d.text(((bx0 + bx1) / 2 - tw / 2, by0 + (by1 - by0) * 0.16), t, font=f, fill=255)
+    draw_finger(d, (bx0 + bx1) / 2, by0 + 10, H, shake=False)
+    return im
+
+def ep4_p02_4(w=880, h=637):
+    """動画の画面。再生数2.4万回と、コメント"""
+    im = canvas(w, h, 245); tone(im, 220, 12)
+    (sw, sh), paste = phone(im, (w * K * 0.26, h * K * 0.03, w * K * 0.74, h * K * 1.12), angle=-3)
+    scr = Image.new("L", (sw, sh), 255); d = ImageDraw.Draw(scr)
+    d.rectangle([0, 0, sw, sh * 0.38], fill=60)
+    d.polygon([(sw * 0.44, sh * 0.13), (sw * 0.44, sh * 0.25), (sw * 0.58, sh * 0.19)], fill=255)  # 再生ボタン
+    d.text((24, sh * 0.41), "〇〇大生の1日に密着してみた", font=F(int(sw * 0.06), True), fill=0)
+    d.text((24, sh * 0.48), "再生数 2.4万回", font=F(int(sw * 0.075), True), fill=0)
+    d.line([(24, sh * 0.57), (sw - 24, sh * 0.57)], fill=150, width=3)
+    for k, c in enumerate(["大学生活、楽しみになった", "次は理系の人も見たい", "出てみたい!"]):
+        y = sh * 0.6 + k * sh * 0.12
+        d.ellipse([24, y, 24 + sw * 0.08, y + sw * 0.08], outline=0, width=3)
+        d.text((40 + sw * 0.1, y + 4), c, font=F(int(sw * 0.055), True), fill=0)
+    paste(scr)
+    return im
+
+def storyboard(d, x0, y0, x1, y1, seed=0, crossed=True):
+    """絵コンテ1枚(コマの枠と、手書きの線)"""
+    import random; rnd = random.Random(seed)
+    d.rectangle([x0, y0, x1, y1], fill=255, outline=0, width=4)
+    fh = (y1 - y0 - 40) / 3
+    for k in range(3):
+        fy = y0 + 20 + k * fh
+        d.rectangle([x0 + 20, fy, x0 + (x1 - x0) * 0.55, fy + fh - 14], outline=0, width=3)
+        cx, cy = x0 + (x1 - x0) * 0.3, fy + fh * 0.45
+        d.ellipse([cx - 20, cy - 26, cx + 20, cy + 14], outline=0, width=3); d.line([(cx, cy + 14), (cx, cy + 50)], fill=0, width=3)
+        for j in range(3):
+            ly = fy + 14 + j * 22; d.line([(x0 + (x1 - x0) * 0.6, ly), (x1 - 20 - rnd.uniform(0, 60), ly)], fill=0, width=3)
+        if crossed and rnd.random() < 0.5:
+            d.line([(x0 + (x1 - x0) * 0.6, fy + 10), (x1 - 30, fy + 70)], fill=0, width=4)  # 書き直した跡
+
+def ep4_p04_2(w=880, h=474):
+    """イヅルのカバンからのぞく、何度も書き直した撮影メモと絵コンテの束"""
+    im = canvas(w, h, 210); d = ImageDraw.Draw(im); W, H = im.size
+    for y in range(0, H, 10): d.line([(0, y), (W, y + 40)], fill=190, width=2)
+    for k in range(5):  # 紙の束(少しずつずらす)
+        ox = W * (0.2 + k * 0.05); oy = H * (0.05 + k * 0.03)
+        storyboard(d, ox, oy, ox + W * 0.38, oy + H * 0.9, seed=k)
+    d.text((W * 0.42, H * 0.08), "撮影メモ", font=F(48, True), fill=0)
+    d.rounded_rectangle([W * 0.08, H * 0.55, W * 0.92, H * 1.2], radius=60, fill=60, outline=0, width=8)  # カバン
+    d.line([(W * 0.08, H * 0.7), (W * 0.92, H * 0.7)], fill=20, width=8)
+    return im
+
+def ep4_p04_3(w=880, h=442):
+    """絵コンテの束のアップ。ステータス表示の窓は page_compose が文字として重ねる"""
+    im = canvas(w, h, 230); d = ImageDraw.Draw(im); W, H = im.size
+    storyboard(d, W * 0.55, H * 0.06, W * 0.95, H * 1.1, seed=7)
+    storyboard(d, W * 0.5, H * 0.1, W * 0.9, H * 1.15, seed=8)
+    focus_lines(im, W * 0.35, H * 0.5, n=60, inner=0.45, seed=4)
+    return im
+
+def ep4_p09_2(w=880, h=847):
+    """ホワイトボード。フェス/小学生の学習支援/大学生向けのアプリ"""
+    im, d, W, H = whiteboard(w, h)
+    for k, t in enumerate(["フェス", "小学生の学習支援", "大学生向けのアプリ"]):
+        y = H * (0.16 + k * 0.25)
+        d.ellipse([W * 0.12, y + 20, W * 0.12 + 40, y + 60], fill=0)
+        marker(d, (W * 0.18, y), t, F(120, True), seed=k)
+    return im
+
+def ep4_p12_1(w=940, h=439):
+    """会場の壁のポスター(架空のもの)"""
+    im = canvas(w, h, 190); d = ImageDraw.Draw(im); W, H = im.size
+    for x in range(0, W, 120): d.line([(x, 0), (x, H)], fill=175, width=3)  # 壁
+    x0, y0, x1, y1 = W * 0.2, H * 0.05, W * 0.8, H * 0.97
+    d.rectangle([x0, y0, x1, y1], fill=255, outline=0, width=6)
+    d.text((x0 + 50, y0 + 40), "夏休み親子理科実験教室", font=F(78, True), fill=0)
+    d.rounded_rectangle([x0 + 50, y0 + 160, x1 - 50, y0 + 250], radius=40, fill=0)
+    d.text((x0 + 80, y0 + 172), "たった1.5時間で自由研究が完結!", font=F(54, True), fill=255)
+    # くらげとばねの絵
+    cx, cy = x0 + 200, y0 + 450
+    d.pieslice([cx - 90, cy - 90, cx + 90, cy + 90], 180, 360, outline=0, width=6, fill=255)
+    for k in range(5): d.line([(cx - 70 + k * 35, cy), (cx - 80 + k * 35, cy + 130)], fill=0, width=5)
+    for k in range(10): d.arc([x1 - 420 + k * 30, cy - 30, x1 - 380 + k * 30, cy + 30], 0, 360, fill=0, width=5)
+    d.text((x1 - 300, y1 - 90), "主催 CAPS", font=F(50, True), fill=0)
+    return im
+
+def ep4_p14_1(w=940, h=453):
+    """新入生Cが手で描いた、アプリの画面の設計図"""
+    im = canvas(w, h, 215); d = ImageDraw.Draw(im); W, H = im.size
+    d.polygon([(W * 0.06, H * 0.06), (W * 0.94, H * 0.02), (W * 0.96, H * 0.98), (W * 0.04, H * 1.0)], fill=255, outline=0)
+    f = F(40, True)
+    px0, py0, px1, py1 = W * 0.1, H * 0.1, W * 0.42, H * 0.95  # 手描きのスマホの枠
+    d.rounded_rectangle([px0, py0, px1, py1], radius=40, outline=0, width=5)
+    messy(d, (px0 + 30, py0 + 30), "時間割", f, seed=1)
+    for r in range(3):
+        for c in range(4): d.rectangle([px0 + 30 + c * 60, py0 + 100 + r * 50, px0 + 80 + c * 60, py0 + 140 + r * 50], outline=0, width=3)
+    d.rectangle([px0 + 90, py0 + 150, px0 + 140, py0 + 190], fill=0)  # 空きコマ
+    messy(d, (px0 + 30, py0 + 280), "学内イベント", f, seed=2)
+    for k in range(3): d.line([(px0 + 30, py0 + 360 + k * 50), (px1 - 40, py0 + 360 + k * 50)], fill=0, width=3)
+    notes = [("← 空きコマが", 0.2), ("   ひと目で分かる", 0.3), ("← イベントも同じ画面に", 0.62)]
+    for k, (t, yy) in enumerate(notes): messy(d, (W * 0.47, H * yy), t, F(52, True), seed=k + 5)
+    return im
+
+def ep4_p14_5(w=452, h=300):
+    """スマホの画面「CAPSナビ リリースしました」"""
+    im = canvas(w, h, 245); tone(im, 220, 12)
+    (sw, sh), paste = phone(im, (w * K * 0.12, h * K * 0.03, w * K * 0.88, h * K * 1.4), angle=3)
+    scr = Image.new("L", (sw, sh), 255); d = ImageDraw.Draw(scr)
+    s = int(sw * 0.22); d.rounded_rectangle([sw / 2 - s / 2, 30, sw / 2 + s / 2, 30 + s], radius=s // 4, fill=0)
+    d.text((sw / 2 - s * 0.28, 30 + s * 0.16), "C", font=F(int(s * 0.6), True), fill=255)
+    t = "CAPSナビ"; f = F(int(sw * 0.1), True); d.text((sw / 2 - d.textlength(t, font=f) / 2, 50 + s), t, font=f, fill=0)
+    d.rounded_rectangle([30, 90 + s + sw * 0.1, sw - 30, 90 + s + sw * 0.25], radius=20, fill=0)
+    t = "リリースしました"; f = F(int(sw * 0.075), True); d.text((sw / 2 - d.textlength(t, font=f) / 2, 100 + s + sw * 0.12), t, font=f, fill=255)
+    paste(scr)
+    return im
+
+def ep4_p15_1(w=940, h=617):
+    """ホワイトボードいっぱいの「みんなの“想像”リスト」"""
+    im, d, W, H = whiteboard(w, h)
+    marker(d, (W * 0.1, H * 0.09), "みんなの“想像”リスト", F(84, True), seed=9)
+    done = ["フェス", "小学生の学習支援", "大学生向けのアプリ"]
+    todo = ["留学生との交流会", "学園祭で謎解き", "ゼミ紹介の動画", "1日密着 理系編", "みんなでボードゲーム会", "就活の先輩に聞く会"]
+    for k, t in enumerate(done + todo):
+        col, row = (0, k) if k < 5 else (1, k - 5)
+        x = W * (0.1 + col * 0.45); y = H * (0.26 + row * 0.13)
+        d.rectangle([x, y + 10, x + 46, y + 56], outline=0, width=6)
+        if t in done: d.line([(x + 6, y + 30), (x + 20, y + 50), (x + 56, y)], fill=0, width=9)
+        marker(d, (x + 66, y), t, F(52, True), seed=k + 20)
+    return im
+
+ALL.update({"ep4_p01_2": ep4_p01_2, "ep4_p01_4": ep4_p01_4, "ep4_p02_4": ep4_p02_4, "ep4_p04_2": ep4_p04_2, "ep4_p04_3": ep4_p04_3,
+            "ep4_p09_2": ep4_p09_2, "ep4_p12_1": ep4_p12_1, "ep4_p14_1": ep4_p14_1, "ep4_p14_5": ep4_p14_5, "ep4_p15_1": ep4_p15_1})
 
 if __name__ == "__main__":
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
