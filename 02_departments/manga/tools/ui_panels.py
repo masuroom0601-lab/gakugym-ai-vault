@@ -542,6 +542,118 @@ def ep4_p15_1(w=940, h=617):
 ALL.update({"ep4_p01_2": ep4_p01_2, "ep4_p01_4": ep4_p01_4, "ep4_p02_4": ep4_p02_4, "ep4_p04_2": ep4_p04_2, "ep4_p04_3": ep4_p04_3,
             "ep4_p09_2": ep4_p09_2, "ep4_p12_1": ep4_p12_1, "ep4_p14_1": ep4_p14_1, "ep4_p14_5": ep4_p14_5, "ep4_p15_1": ep4_p15_1})
 
+# ---- 第5話 ----
+def ep5_p06_2(w=880, h=474):
+    """テーブルの上のイヅルの手に、椎菜の手がそっと重なる(袖口と手だけ、線画)"""
+    im = canvas(w, h, 225); d = ImageDraw.Draw(im); W, H = im.size
+    for y in range(0, H, 10): d.line([(0, y), (W, y + 30)], fill=205, width=2)  # テーブル
+    # イヅルの手(左から。グレーのパーカーの袖)
+    d.polygon([(-20, H * 0.45), (W * 0.36, H * 0.42), (W * 0.38, H * 0.82), (-20, H * 0.86)], fill=150, outline=0, width=6)
+    for k in range(5): d.line([(W * (0.3 + k * 0.012), H * 0.43), (W * (0.3 + k * 0.012), H * 0.82)], fill=0, width=3)  # 袖のリブ
+    d.rounded_rectangle([W * 0.36, H * 0.48, W * 0.62, H * 0.78], radius=70, fill=255, outline=0, width=6)  # 手の甲
+    for k in range(4): d.rounded_rectangle([W * 0.58, H * (0.47 + k * 0.08), W * 0.72, H * (0.47 + k * 0.08) + 52], radius=26, fill=255, outline=0, width=5)
+    # 椎菜の手(右上から。白いシャツの袖口)
+    d.polygon([(W + 20, H * 0.05), (W * 0.7, H * 0.12), (W * 0.62, H * 0.42), (W + 20, H * 0.36)], fill=255, outline=0, width=6)
+    d.line([(W * 0.71, H * 0.14), (W * 0.64, H * 0.4)], fill=0, width=5)  # カフス
+    d.rounded_rectangle([W * 0.42, H * 0.34, W * 0.66, H * 0.6], radius=60, fill=255, outline=0, width=6)
+    for k in range(4): d.rounded_rectangle([W * (0.33 + k * 0.035), H * 0.36, W * (0.33 + k * 0.035) + 44, H * 0.66], radius=22, fill=255, outline=0, width=5)
+    for k in range(10):  # きらめき
+        import random; rnd = random.Random(k); cx, cy, r = rnd.uniform(0.1, 0.95) * W, rnd.uniform(0.05, 0.3) * H, rnd.uniform(6, 14)
+        d.line([(cx - r, cy), (cx + r, cy)], fill=0, width=3); d.line([(cx, cy - r), (cx, cy + r)], fill=0, width=3)
+    return im
+
+def ep5_p07_3(w=320, h=379):
+    """これまでのイヅル: ネタ帳(第2話)"""
+    im = canvas(w, h, 200); d = ImageDraw.Draw(im); W, H = im.size
+    notebook(d, W, H, (W * 0.12, H * 0.04, W * 0.95, H * 1.02), IDEAS[:3], F(34, True), F(44, True), 110)
+    return im
+
+def ep5_p07_4(w=301, h=379):
+    """これまでのイヅル: 何度も書き直した撮影メモ(第3話)"""
+    im = canvas(w, h, 200); d = ImageDraw.Draw(im); W, H = im.size
+    d.rectangle([W * 0.08, H * 0.04, W * 0.94, H * 1.02], fill=255, outline=0, width=5)
+    d.text((W * 0.14, H * 0.07), "撮影メモ", font=F(46, True), fill=0)
+    qs = [("好きな授業は?", True), ("今日のファッションは?", False), ("おすすめの学食は?", True), ("今日の予定は?", False), ("一言どうぞ", True)]
+    for k, (q, cut) in enumerate(qs):
+        y = H * (0.22 + k * 0.15); d.text((W * 0.14, y), q, font=F(32, True), fill=0)
+        if cut: d.line([(W * 0.12, y + 22), (W * 0.14 + d.textlength(q, font=F(32, True)) + 8, y + 22)], fill=0, width=5)
+    return im
+
+def ep5_p11_4(w=453, h=300):
+    """勇者サークルの公式SNS。最後の投稿は1年前のまま"""
+    im = canvas(w, h, 245); tone(im, 220, 12)
+    (sw, sh), paste = phone(im, (w * K * 0.12, h * K * 0.03, w * K * 0.88, h * K * 1.4), angle=-4)
+    scr = Image.new("L", (sw, sh), 255); d = ImageDraw.Draw(scr)
+    d.text((24, 24), "勇者サークル 公式", font=F(int(sw * 0.075), True), fill=0)
+    d.text((24, 24 + sw * 0.1), "最後の投稿: 1年前", font=F(int(sw * 0.055)), fill=80)
+    d.rectangle([24, 40 + sw * 0.18, sw - 24, 40 + sw * 0.6], fill=170)
+    d.text((24, 60 + sw * 0.62), "冒険の記録 第3層到達!", font=F(int(sw * 0.065), True), fill=0)
+    paste(scr)
+    return im
+
+def ep5_p12_2(w=454, h=276):
+    """アイミの手描きの、ぐちゃぐちゃな地図"""
+    import random; rnd = random.Random(5)
+    im = canvas(w, h, 215); d = ImageDraw.Draw(im); W, H = im.size
+    d.polygon([(W * 0.05, H * 0.1), (W * 0.93, H * 0.04), (W * 0.97, H * 0.95), (W * 0.08, H * 0.98)], fill=245, outline=0)
+    x, y = W * 0.15, H * 0.8
+    for k in range(40):  # 行ったり来たりする線
+        nx, ny = x + rnd.uniform(-70, 90), y + rnd.uniform(-60, 50)
+        nx, ny = min(max(nx, W * 0.12), W * 0.9), min(max(ny, H * 0.15), H * 0.88)
+        d.line([(x, y), (nx, ny)], fill=0, width=4); x, y = nx, ny
+    for k in range(5): d.text((rnd.uniform(0.2, 0.8) * W, rnd.uniform(0.2, 0.75) * H), "?", font=F(64, True), fill=0)
+    messy(d, (W * 0.12, H * 0.12), "たぶんこっち", F(40, True), seed=2)
+    return im
+
+def credit_screen(w, h, title, body, angle, seed):
+    im = canvas(w, h, 245); tone(im, 220, 12)
+    (sw, sh), paste = phone(im, (w * K * 0.14, h * K * 0.03, w * K * 0.86, h * K * 1.4), angle=angle)
+    scr = Image.new("L", (sw, sh), 255); d = ImageDraw.Draw(scr)
+    d.rectangle([0, 0, sw, sh * 0.42], fill=150)
+    body(d, sw, sh)
+    d.text((20, sh * 0.45), title, font=F(int(sw * 0.065), True), fill=0)
+    d.rounded_rectangle([sw * 0.38, sh * 0.56, sw - 16, sh * 0.56 + sw * 0.1], radius=10, fill=0)
+    d.text((sw * 0.41, sh * 0.565), "企画・制作:イヅル", font=F(int(sw * 0.055), True), fill=255)
+    paste(scr)
+    return im
+
+def ep5_p16_2(w=453, h=319):
+    def body(d, sw, sh):
+        for k in range(3): d.rounded_rectangle([20 + k * sw * 0.31, sh * 0.15, sw * 0.28 + k * sw * 0.31, sh * 0.35], radius=10, outline=0, width=3, fill=255)
+    return credit_screen(w, h, "履修登録で失敗しない5つのコツ", body, 3, 1)
+
+def ep5_p16_3(w=453, h=301):
+    def body(d, sw, sh): d.polygon([(sw * 0.44, sh * 0.12), (sw * 0.44, sh * 0.3), (sw * 0.58, sh * 0.21)], fill=255)
+    return credit_screen(w, h, "〇〇大生の1日に密着してみた", body, -3, 2)
+
+def ep5_p16_4(w=453, h=300):
+    def body(d, sw, sh):
+        d.text((sw * 0.08, sh * 0.1), "CAPS", font=F(int(sw * 0.12), True), fill=0)
+        d.text((sw * 0.08, sh * 0.22), "ENTERTAINMENT FES", font=F(int(sw * 0.075), True), fill=0)
+    return credit_screen(w, h, "フェス開催のお知らせ", body, 2, 3)
+
+def ep5_p16_5(w=452, h=300):
+    def body(d, sw, sh):
+        s = sw * 0.22; d.rounded_rectangle([sw / 2 - s / 2, sh * 0.08, sw / 2 + s / 2, sh * 0.08 + s], radius=s / 4, fill=0)
+        d.text((sw / 2 - s * 0.25, sh * 0.08 + s * 0.12), "C", font=F(int(s * 0.6), True), fill=255)
+    return credit_screen(w, h, "アプリ「CAPSナビ」", body, -2, 4)
+
+def ep5_p19_1(w=940, h=559):
+    """シロのスマホに届いた、勇者サークルのOBからのメッセージ"""
+    im = canvas(w, h, 60); d0 = ImageDraw.Draw(im)
+    (sw, sh), paste = phone(im, (w * K * 0.22, h * K * 0.03, w * K * 0.78, h * K * 1.3), angle=-3)
+    scr = Image.new("L", (sw, sh), 240); d = ImageDraw.Draw(scr)
+    d.rectangle([0, 0, sw, sh * 0.1], fill=255); d.text((24, sh * 0.025), "勇者サークル OB", font=F(int(sw * 0.05), True), fill=0)
+    msg = ["去年は春のうちに第3層まで", "行ったのに、今年はまだ", "第1層だって?", "公式SNSも、全然", "更新されてないぞ。", "部長として、しっかりしろよ"]
+    fs = int(sw * 0.048); bx1 = sw * 0.92
+    d.rounded_rectangle([24, sh * 0.14, bx1, sh * 0.14 + fs * 1.5 * len(msg) + 40], radius=26, fill=255, outline=0, width=3)
+    for k, t in enumerate(msg): d.text((48, sh * 0.14 + 20 + k * fs * 1.5), t, font=F(fs, True), fill=0)
+    paste(scr)
+    return im
+
+ALL.update({"ep5_p06_2": ep5_p06_2, "ep5_p07_3": ep5_p07_3, "ep5_p07_4": ep5_p07_4, "ep5_p11_4": ep5_p11_4, "ep5_p12_2": ep5_p12_2,
+            "ep5_p16_2": ep5_p16_2, "ep5_p16_3": ep5_p16_3, "ep5_p16_4": ep5_p16_4, "ep5_p16_5": ep5_p16_5, "ep5_p19_1": ep5_p19_1})
+
 if __name__ == "__main__":
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     args = sys.argv[1:]; finger = None
