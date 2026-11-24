@@ -63,3 +63,37 @@ def compose_group(bg_path, items, out_path, aspect=None):
         bg.alpha_composite(c, (int(W * cx - w / 2), int(H * foot - h)))
     bg.convert("RGB").save(out_path)
     return out_path
+
+def add_net(path, out_path, top=0.0, bottom=0.8, cols=11, rows=7, seed=0):
+    """集合ゴマの上から、天井から落ちてきたネバネバの網を線で描き足す(AIは網をうまく描けないため)。
+    白い糸に黒いふちを付け、ところどころから糸を垂らす"""
+    import random
+    from PIL import ImageDraw
+    rnd = random.Random(seed)
+    im = Image.open(path).convert("RGB"); W, H = im.size; d = ImageDraw.Draw(im)
+    lw = max(3, W // 220)
+    pts = []
+    for r in range(rows):
+        row = []
+        for c in range(cols):
+            u = c / (cols - 1); v = r / (rows - 1)
+            sag = 0.12 * H * (1 - (2 * u - 1) ** 2) * v  # 真ん中ほど重みで垂れ下がる
+            row.append((W * (-0.03 + 1.06 * u) + rnd.uniform(-1, 1) * W / cols * 0.25,
+                        H * (top + (bottom - top) * v) + sag + rnd.uniform(-1, 1) * H / rows * 0.2))
+        pts.append(row)
+    segs = []
+    for r in range(rows):
+        for c in range(cols):
+            if c + 1 < cols: segs.append((pts[r][c], pts[r][c + 1]))
+            if r + 1 < rows: segs.append((pts[r][c], pts[r + 1][c]))
+    def curve(a, b):
+        mx, my = (a[0] + b[0]) / 2, (a[1] + b[1]) / 2 + abs(b[0] - a[0]) * 0.12
+        return [((1 - t) ** 2 * a[0] + 2 * (1 - t) * t * mx + t * t * b[0], (1 - t) ** 2 * a[1] + 2 * (1 - t) * t * my + t * t * b[1]) for t in [i / 12 for i in range(13)]]
+    for w, col in ((lw * 2 + 2, "black"), (lw, "white")):
+        for a, b in segs: d.line(curve(a, b), fill=col, width=w, joint="curve")
+    for _ in range(cols * 2):  # 垂れる糸としずく
+        r, c = rnd.randrange(1, rows), rnd.randrange(cols); x0, y0 = pts[r][c]; L = rnd.uniform(0.04, 0.1) * H
+        d.line([(x0, y0), (x0 + rnd.uniform(-4, 4), y0 + L)], fill="black", width=lw + 4)
+        d.line([(x0, y0), (x0, y0 + L)], fill="white", width=lw)
+        rr = lw * 1.6; d.ellipse((x0 - rr, y0 + L - rr, x0 + rr, y0 + L + rr * 1.4), fill="white", outline="black", width=2)
+    im.save(out_path); return out_path
