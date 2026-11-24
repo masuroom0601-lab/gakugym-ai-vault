@@ -19,7 +19,13 @@ def cutout(path, tol=30):
         from rembg import remove, new_session
         if _SESSION is None: _SESSION = new_session("isnet-anime")
         im = remove(Image.open(path).convert("RGB"), session=_SESSION)
-        a = im.getchannel("A").point(lambda v: 255 if v > 128 else 0).filter(ImageFilter.GaussianBlur(0.7))
+        m = np.array(im.getchannel("A")) > 128
+        # 人物から離れた墨や集中線のかけらは捨てる(いちばん大きいかたまりと、それに近い大きさのものだけ残す)
+        lab, n = ndimage.label(ndimage.binary_opening(m, iterations=2))
+        if n > 1:
+            sz = ndimage.sum(np.ones_like(lab), lab, range(1, n + 1))
+            m = np.isin(lab, [i + 1 for i, s in enumerate(sz) if s >= sz.max() * 0.15])
+        a = Image.fromarray((m * 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.7))
         im.putalpha(a); box = a.getbbox()
         return im.crop(box) if box else im
     except ImportError:
