@@ -114,21 +114,61 @@ def parse(line):
 def _overlap(a, b):
     return max(0, min(a[2], b[2]) - max(a[0], b[0])) * max(0, min(a[3], b[3]) - max(a[1], b[1]))
 
-def place_items(d, items, r, fboxes, fsfx):
-    """フキダシの組を、コマの四隅のうち顔との重なりが最も小さい位置へ平行移動して描く(同点なら右上)"""
+SC = 4  # 重なり判定に使う地図の縮小率
+
+def avoid_layer(cost, im_rgb, ox0, oy0, fboxes):
+    """フキダシを避けたい場所の重みを、ページ全体の地図 cost に書き込む。
+    切り抜きモデルでキャラクターの形を取り、頭のあたり(各人物の上の方)を重く、体を軽くする。顔検出の枠はいちばん重くする"""
+    from scipy import ndimage
+    w, h = im_rgb.size
+    a = _cutout_alpha(im_rgb)
+    if a is not None:
+        m = np.array(a.resize((max(1, w // SC), max(1, h // SC)))) > 128
+        lab, n = ndimage.label(m)
+        layer = m.astype(np.float32)
+        for k, sl in enumerate(ndimage.find_objects(lab), 1):
+            if sl is None: continue
+            comp = lab[sl] == k
+            if comp.sum() < 0.02 * m.size: continue
+            ys, xs = sl; hh = ys.stop - ys.start
+            big = comp.sum() > 0.45 * m.size  # 顔のアップ: 顔が上の方とは限らないので、範囲を広げる
+            hz = ys.start + int(hh * (0.6 if big else 0.32))
+            sub = layer[ys.start:hz, xs]; sub[lab[ys.start:hz, xs] == k] = 6
+        y0, x0 = oy0 // SC, ox0 // SC
+        hh, ww = cost[y0:y0 + layer.shape[0], x0:x0 + layer.shape[1]].shape
+        cost[y0:y0 + hh, x0:x0 + ww] = np.maximum(cost[y0:y0 + hh, x0:x0 + ww], layer[:hh, :ww])
+    for fx0, fy0, fx1, fy1 in fboxes:
+        ex = int((fx1 - fx0) * 0.2)
+        cost[max(0, (fy0 - ex) // SC):(fy1 + ex) // SC, max(0, (fx0 - ex) // SC):(fx1 + ex) // SC] = 14
+
+def place_items(d, items, r, cost, fsfx, fixed=None):
+    """フキダシの組を、コマの中で、人物(特に顔・頭)との重なりが最も小さい位置へ平行移動して描く。
+    重なりが同じくらいなら、読み始めの右上に近い位置を選ぶ。fixed=(横0〜1, 縦0〜1) で位置を手で指定できる"""
     x0, y0, x1, y1 = r
     boxes = [it[4] for it in items if it[0] != "sfx"]
     dx = dy = 0
-    if boxes and fboxes:
+    if boxes:
         gx0 = min(b[0] for b in boxes); gx1 = max(b[2] for b in boxes)
         gy0 = min(b[1] for b in boxes); gy1 = max(b[3] for b in boxes)
-        best = None
-        for cdx in (0, (x0 + 10) - gx0):
-            for cdy in (0, (y1 - 10) - gy1):
-                sc = sum(_overlap((b[0]+cdx, b[1]+cdy, b[2]+cdx, b[3]+cdy), f) for b in boxes for f in fboxes)
-                sc += 1 if (cdx or cdy) else 0  # 同点なら右上を優先
-                if best is None or sc < best[0]: best = (sc, cdx, cdy)
-        _, dx, dy = best
+        lo_x, hi_x = (x0 + 6) - gx0, (x1 - 6) - gx1
+        lo_y, hi_y = (y0 + 6) - gy0, (y1 - 6) - gy1
+        if fixed is not None:
+            dx = int(lo_x + (hi_x - lo_x) * (1 - fixed[0])) if hi_x > lo_x else 0
+            dy = int(lo_y + (hi_y - lo_y) * fixed[1]) if hi_y > lo_y else 0
+        elif cost is not None and hi_x >= lo_x and hi_y >= lo_y:
+            ii = np.pad(cost, ((1, 0), (1, 0))).cumsum(0).cumsum(1)
+            def rect(bx0, by0, bx1, by1):
+                a, b, c, e = max(0, bx0 // SC), max(0, by0 // SC), max(0, bx1 // SC), max(0, by1 // SC)
+                c = min(c, cost.shape[1]); e = min(e, cost.shape[0])
+                if c <= a or e <= b: return 0.0
+                return ii[e, c] - ii[b, c] - ii[e, a] + ii[b, a]
+            best = None
+            for cdx in list(range(int(hi_x), int(lo_x) - 1, -8)) or [0]:
+                for cdy in list(range(int(lo_y), int(hi_y) + 1, 8)) or [0]:
+                    sc = sum(rect(b[0] + cdx, b[1] + cdy, b[2] + cdx, b[3] + cdy) for b in boxes)
+                    sc += 0.5 * ((hi_x - cdx) + (cdy - lo_y)) / SC  # 右上から離れるほど少し不利
+                    if best is None or sc < best[0]: best = (sc, cdx, cdy)
+            _, dx, dy = best
     for kind, font, _, cols, (bx0, by0, bx1, by1), padx, pady in items:
         if kind == "sfx":
             draw_vtext(d, cols, bx1, by0, fsfx, fill=0, gap=4); continue
@@ -159,6 +199,7 @@ def compose(name_mod, page, img_dir, pick, finishing=True):
     page_img = Image.new("L", (W, H), 255); d = ImageDraw.Draw(page_img)
     f = ImageFont.truetype(FONT, 21); fb = ImageFont.truetype(FONT_B, 21); fsfx = ImageFont.truetype(FONT_B, 46)
     breakouts = []; texts = []
+    cost = np.zeros((H // SC + 1, W // SC + 1), np.float32)
     for i, pan in enumerate(pans, 1):
         _, shot, desc, lines = pan["data"]; opts = pan["opts"]; poly = pan["poly"]
         bx0, by0, bx1, by1 = pan["bbox"]
@@ -178,6 +219,7 @@ def compose(name_mod, page, img_dir, pick, finishing=True):
                 ox0, oy0, ox1, oy1 = bx0, by0, bx1, by1
             im = cover(src.convert("L"), ox1 - ox0, oy1 - oy0)
             fboxes = [(ox0+a, oy0+b, ox0+c, oy0+e) for a, b, c, e in faces_in(im)]
+            avoid_layer(cost, cover(src.convert("RGB"), ox1 - ox0, oy1 - oy0), ox0, oy0, fboxes)
             if finishing:
                 im = Image.fromarray(finish(np.array(im.convert("RGB"))[:, :, ::-1].copy(), cell=4))
             layer = Image.new("L", (W, H), 255); layer.paste(im, (ox0, oy0))
@@ -198,10 +240,10 @@ def compose(name_mod, page, img_dir, pick, finishing=True):
     for layer, a in breakouts:  # キャラクターを枠の上に重ねる(はみ出し)
         page_img.paste(layer, (0, 0), a)
     for pan, lines, fboxes in texts:
-        draw_texts(d, pan["inner"], lines, fboxes, f, fb, fsfx)
+        draw_texts(d, pan["inner"], lines, cost, f, fb, fsfx, pan["opts"].get("fuki"))
     return page_img
 
-def draw_texts(d, r, lines, fboxes, f, fb, fsfx):
+def draw_texts(d, r, lines, cost, f, fb, fsfx, fixed=None):
     """コマの中にフキダシ・ナレーション・効果音を置く(右から左へ並べ、顔に重ならない位置へずらす)"""
     x0, y0, x1, y1 = r; h = y1 - y0
     items = []
@@ -230,7 +272,7 @@ def draw_texts(d, r, lines, fboxes, f, fb, fsfx):
         by1 = by0 + bh + 2*pady
         items.append((kind, font, None, cols, [bx0, by0, bx1, by1], padx, pady))
         xr = bx0 - 8
-    place_items(d, items, r, fboxes, fsfx)
+    place_items(d, items, r, cost, fsfx, fixed)
 
 if __name__ == "__main__":
     ap = argparse.ArgumentParser(); ap.add_argument("name"); ap.add_argument("page", type=int); ap.add_argument("img_dir"); ap.add_argument("out")
