@@ -275,7 +275,110 @@ def p18_4(w=880, h=357):
     notebook(d, W, H, (W * 0.06, H * 0.04, W * 0.7, H * 1.1), IDEAS[:3], F(60, True), F(60, True), 130, circle=0)
     return im
 
-ALL = {"p06_2": p06_2, "p11_2": p11_2, "p12_1": p12_1, "p13_2": p13_2, "p14_2": p14_2, "p15_1": p15_1, "p15_2": p15_2, "p17_2": p17_2, "p07_4": p07_4, "p13_3": p13_3, "p18_4": p18_4}
+# ---- 第3話(冒険サークル版)の画面のコマ ----
+def messy(d, xy, text, f, jitter=6, seed=0, fill=0):
+    """手書きの乱れた字(一文字ずつ少しずらし、傾ける)"""
+    import random; rnd = random.Random(seed); x, y = xy
+    for ch in text:
+        im = Image.new("LA", (f.size * 2, f.size * 2), (0, 0)); ImageDraw.Draw(im).text((f.size // 2, f.size // 4), ch, font=f, fill=(fill, 255))
+        im = im.rotate(rnd.uniform(-14, 14), resample=Image.BICUBIC)
+        d._image.paste(im.getchannel(0), (int(x - f.size // 2), int(y + rnd.uniform(-jitter, jitter) - f.size // 4)), im.getchannel(1))
+        x += d.textlength(ch, font=f) * rnd.uniform(0.95, 1.15)
+
+def ep3_p04_1(w=940, h=410):
+    """その場で書いた冒険許可書の申請書(字が乱れている)を、職員の手が受け取る"""
+    im = canvas(w, h, 225); tone(im, 215, 12); d = ImageDraw.Draw(im); W, H = im.size
+    x0, y0, x1, y1 = W * 0.18, H * 0.08, W * 0.82, H * 1.05
+    d.polygon([(x0, y0 + 20), (x1, y0), (x1 + 20, y1), (x0 + 10, y1)], fill=255, outline=0)
+    d.text((x0 + 60, y0 + 40), "冒険許可書 申請書", font=F(64, True), fill=0)
+    rows = [("団体名", "勇者サークル"), ("代表者", "シロ"), ("入る層", "第3そう"), ("目的", "まおう とうばつ")]
+    for k, (a, v) in enumerate(rows):
+        y = y0 + 170 + k * 120
+        d.text((x0 + 60, y), a, font=F(40, True), fill=0); d.line([(x0 + 260, y + 60), (x1 - 60, y + 60)], fill=0, width=3)
+        messy(d, (x0 + 290, y - 4), v, F(52, True), seed=k)
+    # 受け取る職員の手(袖と指先だけ、線で)
+    d.rounded_rectangle([W * 0.82, H * 0.55, W * 1.02, H * 0.85], radius=40, fill=255, outline=0, width=6)
+    for k in range(4): d.rounded_rectangle([W * 0.75, H * 0.55 + k * 70, W * 0.86, H * 0.55 + k * 70 + 56], radius=28, fill=255, outline=0, width=5)
+    return im
+
+def ep3_p09_3(w=457, h=322):
+    """受付の机に置かれたメモ「先に帰ります」"""
+    im = canvas(w, h, 200); d = ImageDraw.Draw(im); W, H = im.size
+    for y in range(0, H, 10): d.line([(0, y), (W, y + 50)], fill=180, width=2)  # 机の木目
+    d.polygon([(W * 0.2, H * 0.18), (W * 0.82, H * 0.12), (W * 0.86, H * 0.86), (W * 0.24, H * 0.9)], fill=255, outline=0)
+    messy(d, (W * 0.3, H * 0.4), "先に帰ります", F(84, True), jitter=4, seed=3)
+    return im
+
+def ep3_p10_2(w=501, h=319):
+    """公式SNSのログイン画面「パスワードが違います」"""
+    im = canvas(w, h, 245); tone(im, 220, 12)
+    (sw, sh), paste = phone(im, (w * K * 0.18, h * K * 0.04, w * K * 0.82, h * K * 1.3), angle=-5)
+    scr = Image.new("L", (sw, sh), 255); d = ImageDraw.Draw(scr)
+    d.text((30, 40), "勇者サークル 公式", font=F(34, True), fill=0)
+    d.rounded_rectangle([30, 110, sw - 30, 170], radius=12, outline=0, width=3); d.text((46, 124), "yuusha_circle", font=F(26), fill=0)
+    d.rounded_rectangle([30, 190, sw - 30, 250], radius=12, outline=0, width=3); d.text((46, 204), "●●●●●●", font=F(26), fill=0)
+    d.rounded_rectangle([30, 280, sw - 30, 360], radius=14, fill=0); d.text((50, 296), "パスワードが違います", font=F(32, True), fill=255)
+    paste(scr)
+    return im
+
+def ep3_p11_2(w=880, h=550, selfie=None):
+    """シロの個人アカウントの投稿(キメ顔の自撮り+「第1層、余裕だった」)。いいね2、コメント2件"""
+    im = canvas(w, h, 255); tone(im, 215, 12); d = ImageDraw.Draw(im); W, H = im.size
+    x0, y0, x1, y1 = W * 0.16, H * 0.04, W * 0.84, H * 0.98
+    d.rounded_rectangle([x0, y0, x1, y1], radius=30, fill=255, outline=0, width=6)
+    d.ellipse([x0 + 30, y0 + 26, x0 + 96, y0 + 92], outline=0, width=4); d.text((x0 + 116, y0 + 36), "shiro_yuusha", font=F(34, True), fill=0)
+    ix0, iy0, ix1, iy1 = x0 + 30, y0 + 120, x1 - 30, y0 + 120 + (x1 - x0 - 60) * 0.5
+    if selfie:
+        s = Image.open(selfie).convert("L"); r = max((ix1 - ix0) / s.width, (iy1 - iy0) / s.height)
+        s = s.resize((int(s.width * r) + 1, int(s.height * r) + 1)); s = s.crop((0, 0, int(ix1 - ix0), int(iy1 - iy0))); im.paste(s, (int(ix0), int(iy0)))
+    d.rectangle([ix0, iy0, ix1, iy1], outline=0, width=4)
+    y = iy1 + 20
+    d.text((ix0, y), "第1層、余裕だった", font=F(40, True), fill=0)
+    heart(d, ix0 + 20, y + 84, 20, fill=None, outline=0); d.text((ix0 + 50, y + 62), "2", font=F(34, True), fill=0)
+    for k, c in enumerate(["髪、なんかついてない?", "第1層で?"]):
+        d.text((ix0, y + 130 + k * 56), f"・{c}", font=F(32), fill=0)
+    return im
+
+def ep3_p13_1(w=458, h=377):
+    """アイミのスマホ。履修登録の投稿(インプレッション3.2万)。作成者の名前は、アイミの指に隠れて見えない"""
+    im = canvas(w, h, 245); tone(im, 220, 12)
+    (sw, sh), paste = phone(im, (w * K * 0.14, h * K * 0.04, w * K * 0.86, h * K * 1.25), angle=4)
+    scr = Image.new("L", (sw, sh), 255); d = ImageDraw.Draw(scr)
+    post_card(d, 24, 24, sw - 24, TITLE, sz=0.9)
+    d.text((24, sh * 0.66), "インプレッション 3.2万", font=F(34, True), fill=0)
+    paste(scr)
+    d = ImageDraw.Draw(im); W, H = im.size
+    # 作成者名を隠す指(線画)
+    fx, fy = W * 0.36, H * 0.12
+    d.rounded_rectangle([fx - 40, fy - 30, fx + 260, fy + 70], radius=50, fill=255, outline=0, width=6)
+    d.rounded_rectangle([fx + 180, fy - 14, fx + 250, fy + 50], radius=20, outline=0, width=4)
+    return im
+
+def ep3_p17_2(w=880, h=169):
+    """動画の画面の端の文字「〇〇大生の1日に密着してみた」"""
+    im = canvas(w, h, 40); d = ImageDraw.Draw(im); W, H = im.size
+    d.rectangle([0, 0, W, H], fill=40)
+    d.rounded_rectangle([40, H * 0.2, W * 0.75, H * 0.8], radius=20, fill=255)
+    d.text((80, H * 0.27), "〇〇大生の1日に密着してみた", font=F(78, True), fill=0)
+    d.ellipse([W * 0.86, H * 0.3, W * 0.86 + 60, H * 0.3 + 60], fill=255); d.text((W * 0.86 + 80, H * 0.3), "REC", font=F(54, True), fill=255)
+    return im
+
+def ep3_p18_3(w=880, h=268):
+    """イヅルの撮影メモ。何度も書き直した質問のリスト"""
+    im = canvas(w, h, 200); d = ImageDraw.Draw(im); W, H = im.size
+    for y in range(0, H, 9): d.line([(0, y), (W, y + 60)], fill=170, width=2)
+    nx0, ny0, nx1 = W * 0.08, H * 0.06, W * 0.92
+    d.rectangle([nx0, ny0, nx1, H * 1.05], fill=255, outline=0, width=5)
+    d.text((nx0 + 40, ny0 + 16), "撮影メモ  質問リスト", font=F(46, True), fill=0)
+    qs = [("好きな授業は?", True), ("今日のファッションを教えてください", False), ("今日の予定を教えてください", False), ("おすすめの学食は?", True)]
+    for k, (q, cut) in enumerate(qs):
+        y = ny0 + 100 + k * 92; col = k % 2
+        x = nx0 + 40 + col * (nx1 - nx0) * 0.5; yy = ny0 + 100 + (k // 2) * 92
+        d.text((x, yy), q, font=F(38, True), fill=0)
+        if cut: d.line([(x - 6, yy + 26), (x + d.textlength(q, font=F(38, True)) + 6, yy + 26)], fill=0, width=5)  # 書き直した跡
+    return im
+
+ALL = {"p06_2": p06_2, "p11_2": p11_2, "p12_1": p12_1, "p13_2": p13_2, "p14_2": p14_2, "p15_1": p15_1, "p15_2": p15_2, "p17_2": p17_2, "p07_4": p07_4, "p13_3": p13_3, "p18_4": p18_4, "ep3_p04_1": ep3_p04_1, "ep3_p09_3": ep3_p09_3, "ep3_p10_2": ep3_p10_2, "ep3_p11_2": ep3_p11_2, "ep3_p13_1": ep3_p13_1, "ep3_p17_2": ep3_p17_2, "ep3_p18_3": ep3_p18_3}
 
 if __name__ == "__main__":
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
