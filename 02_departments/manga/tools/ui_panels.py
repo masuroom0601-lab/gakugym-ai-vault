@@ -99,6 +99,8 @@ def p11_2(w=1000, h=321, finger=None):
     d.rounded_rectangle([bx0, by0, bx1, by1], radius=int((by1 - by0) / 2), fill=0)
     t = "投稿する"; f = F(int((by1 - by0) * 0.5), True); tw = d.textlength(t, font=f)
     d.text(((bx0 + bx1) / 2 - tw / 2, by0 + (by1 - by0) * 0.16), t, font=f, fill=255)
+    if not finger:
+        draw_finger(d, (bx0 + bx1) / 2, by0 - 60, H)
     if finger:
         fg = finger_cutout(finger); fh = int(H * 0.95); fg = fg.resize((int(fg.width * fh / fg.height), fh))
         fx, fy = int((bx0 + bx1) / 2 - fg.width * 0.45), int(by0 - fh * 0.98)
@@ -110,6 +112,29 @@ def p11_2(w=1000, h=321, finger=None):
                 x = cx + s * (fg.width * 0.32 + k * 22); y = by0 - 120 - k * 18
                 d.arc([x - 30, y - 40, x + 30, y + 40], 60 if s > 0 else 240, 120 if s > 0 else 300, fill=0, width=5)
     return im
+
+def draw_finger(d, tx, ty, H):
+    """上から伸びて、ボタンの少し上で止まる人差し指(線画)。まわりに震えを表す線を入れる"""
+    fw = 120  # 指の太さ
+    top = -40
+    # 手の甲とパーカーの袖(コマの上の端から入ってくる)
+    d.polygon([(tx - 330, top), (tx + 260, top), (tx + 170, ty - 380), (tx - 140, ty - 400)], fill=255, outline=0, width=7)
+    d.line([(tx - 330, top + 90), (tx + 240, top + 90)], fill=0, width=6)
+    for k in range(6): d.line([(tx - 300 + k * 90, top), (tx - 280 + k * 90, top + 90)], fill=0, width=4)  # 袖のリブ
+    # 曲げたほかの指
+    for k, ox in enumerate((60, 150, 225)):
+        d.rounded_rectangle([tx + ox - 40, ty - 430 + k * 25, tx + ox + 50, ty - 300 + k * 25], radius=40, fill=255, outline=0, width=6)
+    # 伸ばした人差し指と爪
+    d.rounded_rectangle([tx - fw / 2, ty - 520, tx + fw / 2, ty], radius=fw / 2, fill=255, outline=0, width=7)
+    d.arc([tx - fw / 2 + 8, ty - 330, tx + fw / 2 - 8, ty - 290], 200, 340, fill=0, width=4)  # 関節のしわ
+    d.arc([tx - fw / 2 + 8, ty - 200, tx + fw / 2 - 8, ty - 160], 200, 340, fill=0, width=4)
+    d.rounded_rectangle([tx - fw / 2 + 22, ty - 95, tx + fw / 2 - 22, ty - 18], radius=24, outline=0, width=5)  # 爪
+    # 震え: 指の両わきの短い線と、汗
+    for s in (-1, 1):
+        for k in range(3):
+            x = tx + s * (fw / 2 + 30 + k * 26); y0 = ty - 230 + k * 50
+            d.line([(x, y0), (x + s * 8, y0 + 40), (x, y0 + 80)], fill=0, width=6)
+    d.ellipse([tx + fw / 2 + 120, ty - 360, tx + fw / 2 + 150, ty - 315], outline=0, width=5)
 
 def finger_cutout(path):
     from group_composite import cutout
