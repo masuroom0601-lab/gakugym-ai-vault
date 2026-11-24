@@ -1,7 +1,12 @@
 """第7話の集合ゴマの合成。作業フォルダで実行: python3 ep07_group.py [8-1 ...]"""
 import sys; sys.path.insert(0, '/home/user/gakugym-ai-vault/02_departments/manga/names')
 from group_common import finder, run
-PICK = {}
+PICK = {'bg_caps_room':'s2','bg_path_sunset':'s2','bg_sunset':'s1','c_aimi_down':'s2','c_aimi_leave':'s2','c_dsuke_cracker':'s1','c_dsuke_fist':'s1',
+        'c_dsuke_smile':'s2','c_haniwa':'s1','c_hisa_cracker':'s2','c_hisa_fist':'s2','c_hisa_smile':'s2','c_hr_nod':'s1','c_staff_nod':'s1',
+        'c_izuru_back':'s1','c_izuru_calm':'s2','c_izuru_lower':'s2','c_izuru_patted':'s2','c_izuru_smile':'s2','c_izuru_walk':'s2','c_newbie':'s2',
+        'c_ryusei_down':'s1','c_ryusei_leave':'s2','c_sai_cracker':'s2','c_sai_fist':'s2','c_sai_pat':'s1','c_sai_smile':'s2','c_shiina_back':'s2',
+        'c_shiina_smile':'s1','c_shiina_walk':'s2','c_shiro_hand':'s3','c_shiro_leave':'s2','c_shiro_slump':'s3','c_tamaki_down':'s2','c_tamaki_leave':'s1'}
+# しいなの「こぶしを上げる」は2案とも描き文字と墨が多いので、第1話の応援する姿(c_shiina_cheer)を使う
 P = finder('ep7out/out/', PICK)
 G = {
     (8, 1): (P('bg_interview'), [(P('c_hr_nod'), .3, 1.1, .95, False), (P('c_staff_nod'), .72, 1.1, .92, True)]),
@@ -17,7 +22,7 @@ G = {
     (21, 1): (P('bg_caps_room'), [(P('c_hisa_cracker'), .2, 1.02, .9, False), (P('c_sai_cracker'), .5, 1.02, .88, False), (P('c_dsuke_cracker'), .8, 1.02, .92, True)]),
     (22, 2): (P('bg_caps_room'), [(P('c_izuru_patted'), .62, 1.1, 1.0, True), (P('c_sai_pat'), .3, 1.1, 1.05, False)]),
     (23, 3): (P('bg_caps_room'), [(P('c_dsuke_fist'), .14, 1.05, .95, False), (P('c_hisa_fist'), .38, 1.05, .92, False),
-                                  (P('c_sai_fist'), .62, 1.05, .92, True), (P('c_shiina_fist'), .86, 1.05, .9, True)]),
+                                  (P('c_sai_fist'), .62, 1.05, .92, True), (P('c_shiina_cheer'), .86, 1.05, .9, True)]),
     (25, 1): (P('bg_caps_room'), [(P('c_sweater_chair'), .5, .85, .45, False), (P('c_dsuke_smile'), .14, 1.05, .95, False),
                                   (P('c_newbie'), .38, 1.05, .88, False), (P('c_izuru_smile'), .62, 1.05, .95, True), (P('c_shiina_smile'), .86, 1.05, .92, True)]),
     (25, 2): (P('bg_caps_room'), [(P('c_nabe'), .45, .95, .32, False), (P('c_haniwa'), .6, .95, .35, False),
