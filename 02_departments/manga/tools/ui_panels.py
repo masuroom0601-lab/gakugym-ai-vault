@@ -151,13 +151,14 @@ def p12_1(w=501, h=384):
     return im
 
 def p13_2(w=366, h=379):
-    """夜の机の上のスマホ。いいねは0のまま"""
+    """夜の机の上のスマホ。投稿から数時間たっても、いいねは3"""
     im = canvas(w, h, 60); d = ImageDraw.Draw(im); W, H = im.size
     for y in range(0, H, 6): d.line([(0, y), (W, y + 30)], fill=40, width=2)  # 暗い机
     (sw, sh), paste = phone(im, (W * 0.2, H * 0.08, W * 0.8, H * 1.05), angle=-10)
     scr = Image.new("L", (sw, sh), 255); s = ImageDraw.Draw(scr)
-    post_card(s, 20, 30, sw - 20, TITLE, likes="0", sz=0.75)
-    heart(s, sw / 2 - 30, sh * 0.78, 48, fill=None, outline=0); s.text((sw / 2 + 30, sh * 0.78 - 46), "0", font=F(80, True), fill=0)
+    s.text((24, 12), "3時間前", font=F(26, True), fill=90)
+    post_card(s, 20, 52, sw - 20, TITLE, likes="3", sz=0.75)
+    heart(s, sw / 2 - 30, sh * 0.8, 48, fill=0, outline=0); s.text((sw / 2 + 30, sh * 0.8 - 46), "3", font=F(80, True), fill=0)
     paste(scr)
     return im
 
@@ -236,34 +237,45 @@ def p07_4(w=430, h=269):
             d.rounded_rectangle([px + 14, cy + 60 + j * 46, px + pw - 14, cy + 96 + j * 46], radius=8, outline=0, width=3)
     return im
 
+def notebook(d, W, H, box, ideas, f, title_f, row_h, circle=None):
+    """リングノートのページ。上に「ネタ帳」の見出し、下に番号つきのアイデアを2列で並べる"""
+    nx0, ny0, nx1, ny1 = box
+    d.rectangle([nx0, ny0, nx1, ny1], fill=255, outline=0, width=6)
+    for k in range(int((ny1 - ny0) / 82) + 1): d.ellipse([nx0 - 18, ny0 + 40 + k * 82, nx0 + 18, ny0 + 64 + k * 82], outline=0, width=4)  # リング
+    tw = d.textlength("ネタ帳", font=title_f); tx = (nx0 + nx1) / 2 - tw / 2
+    d.rounded_rectangle([tx - 40, ny0 + 24, tx + tw + 40, ny0 + 24 + title_f.size * 1.5], radius=16, outline=0, width=5)
+    d.text((tx, ny0 + 24 + title_f.size * 0.12), "ネタ帳", font=title_f, fill=0)
+    top = ny0 + 24 + title_f.size * 1.5 + 40; per = (len(ideas) + 1) // 2
+    for k, t in enumerate(ideas):
+        col, row = (k // per, k % per) if len(ideas) > 3 else (0, k)
+        x = nx0 + 60 + col * (nx1 - nx0) * 0.5; y = top + row * row_h
+        d.line([(nx0 + 40, y + f.size * 1.5), (nx1 - 30, y + f.size * 1.5)], fill=190, width=2)
+        d.text((x, y), f"{k + 1}. {t}", font=f, fill=0)
+        if circle == k:  # 手描きの丸
+            tl = d.textlength(f"{k + 1}. {t}", font=f)
+            d.ellipse([x - 30, y - 22, x + tl + 30, y + f.size * 1.45], outline=0, width=7)
+
+IDEAS = ["履修登録のコツ", "サークルの選び方", "空きコマの過ごし方", "学食ランキング", "図書館の使い方",
+         "時間割の組み方", "教科書の買い方", "バイトとの両立", "先輩に聞きたいこと", "CAPSってどんなところ?"]
+
 def p13_3(w=880, h=549):
-    """ノートに、次の投稿のアイデアを書き出していく"""
+    """ノート(ネタ帳)に、次の投稿のアイデアを書き出していく"""
     im = canvas(w, h, 200); d = ImageDraw.Draw(im); W, H = im.size
     for y in range(0, H, 9): d.line([(0, y), (W, y + 60)], fill=170, width=2)  # 机
-    nx0, ny0, nx1, ny1 = W * 0.08, H * 0.05, W * 0.86, H * 1.05
-    d.rectangle([nx0, ny0, nx1, ny1], fill=255, outline=0, width=6)
-    for k in range(12): d.ellipse([nx0 - 18, ny0 + 40 + k * 82, nx0 + 18, ny0 + 64 + k * 82], outline=0, width=4)  # リング
-    ideas = ["履修登録のコツ ✓", "サークルの選び方", "空きコマの過ごし方", "学食ランキング", "図書館の使い方",
-             "時間割の組み方", "教科書の買い方", "バイトとの両立", "先輩に聞きたいこと", "CAPSってどんなところ?"]
-    f = F(52, True)
-    for k, t in enumerate(ideas):
-        col, row = k // 5, k % 5
-        x = nx0 + 60 + col * (nx1 - nx0) * 0.5; y = ny0 + 50 + row * 150
-        d.line([(nx0 + 40, y + 80), (nx1 - 30, y + 80)], fill=190, width=2)
-        d.text((x, y), f"{k + 1}. {t}", font=f, fill=0)
+    notebook(d, W, H, (W * 0.08, H * 0.03, W * 0.86, H * 1.05), IDEAS, F(48, True), F(64, True), 108)
     # ペン
     d.polygon([(W * 0.9, H * 0.97), (W * 1.02, H * 0.5), (W * 1.06, H * 0.53), (W * 0.93, H * 1.0)], fill=255, outline=0, width=6)
     d.polygon([(W * 0.9, H * 0.97), (W * 0.93, H * 1.0), (W * 0.89, H * 1.04)], fill=0)
     return im
 
 def p18_4(w=880, h=357):
-    """ステータス表示の後ろの絵: はしゃぐ部室の気配(紙吹雪と、ぼんやりした網点)"""
-    import random; rnd = random.Random(7)
-    im = canvas(w, h, 255); tone(im, 205, 14); d = ImageDraw.Draw(im); W, H = im.size
-    for _ in range(90):
-        x, y, s, a = rnd.uniform(0, W), rnd.uniform(0, H), rnd.uniform(10, 26), rnd.uniform(0, math.pi)
-        pts = [(x + math.cos(a + t) * s, y + math.sin(a + t) * s * 0.5) for t in (0, math.pi / 2, math.pi, 3 * math.pi / 2)]
-        d.polygon(pts, fill=255 if rnd.random() < 0.5 else 60, outline=0)
+    """イヅルの手もとのネタ帳。「1. 履修登録のコツ」に丸がつく(ステータス表示は page_compose が重ねる)"""
+    im = canvas(w, h, 200); d = ImageDraw.Draw(im); W, H = im.size
+    for y in range(0, H, 9): d.line([(0, y), (W, y + 60)], fill=170, width=2)  # 机
+    notebook(d, W, H, (W * 0.06, H * 0.04, W * 0.7, H * 1.1), IDEAS[:3], F(60, True), F(60, True), 130, circle=0)
+    # 小さなきらめき(ピロン)
+    for cx, cy, r in ((W * 0.6, H * 0.36, 40), (W * 0.66, H * 0.22, 24)):
+        d.polygon([(cx, cy - r), (cx + r * 0.25, cy - r * 0.25), (cx + r, cy), (cx + r * 0.25, cy + r * 0.25), (cx, cy + r), (cx - r * 0.25, cy + r * 0.25), (cx - r, cy), (cx - r * 0.25, cy - r * 0.25)], fill=0)
     return im
 
 ALL = {"p06_2": p06_2, "p11_2": p11_2, "p12_1": p12_1, "p13_2": p13_2, "p14_2": p14_2, "p15_1": p15_1, "p15_2": p15_2, "p17_2": p17_2, "p07_4": p07_4, "p13_3": p13_3, "p18_4": p18_4}
