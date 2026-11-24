@@ -654,6 +654,33 @@ def ep5_p19_1(w=940, h=559):
 ALL.update({"ep5_p06_2": ep5_p06_2, "ep5_p07_3": ep5_p07_3, "ep5_p07_4": ep5_p07_4, "ep5_p11_4": ep5_p11_4, "ep5_p12_2": ep5_p12_2,
             "ep5_p16_2": ep5_p16_2, "ep5_p16_3": ep5_p16_3, "ep5_p16_4": ep5_p16_4, "ep5_p16_5": ep5_p16_5, "ep5_p19_1": ep5_p19_1})
 
+# ---- 第7話(前の話の画面を、コマの大きさに合わせて描き直す) ----
+def ep7_post(w, h, likes=None):
+    im = canvas(w, h, 245); tone(im, 220, 12); d = ImageDraw.Draw(im); W, H = im.size
+    cw = min(W * 0.8, H * 1.05); x0 = (W - cw) / 2
+    d.rounded_rectangle([x0 - 20, H * 0.04, x0 + cw + 20, H * 1.1], radius=30, fill=255, outline=0, width=6)
+    post_card(d, x0, H * 0.08, x0 + cw, TITLE, likes=likes, sz=cw / 900)
+    return im
+def ep7_p02_1(w=940, h=490): return ep7_post(w, h, likes="1.2万")
+def ep7_p07_1(w=309, h=325): return ep7_post(w, h)
+def ep7_p04_3(w=454, h=301): return p13_2(w, h)
+def ep7_p04_4(w=452, h=319):
+    im = canvas(w, h, 200); d = ImageDraw.Draw(im); W, H = im.size
+    notebook(d, W, H, (W * 0.08, H * 0.03, W * 0.95, H * 1.05), IDEAS[:6], F(30, True), F(44, True), 72)
+    return im
+def ep7_p07_3(w=301, h=325): return ep4_p14_5(w, h)
+def ep7_p23_4(w=880, h=331):
+    """イヅルのカバンからのぞく、何冊目かのネタ帳"""
+    im = canvas(w, h, 210); d = ImageDraw.Draw(im); W, H = im.size
+    for k in range(3):  # ノートの束
+        x0 = W * (0.25 + k * 0.08); y0 = H * (0.08 + k * 0.06)
+        d.rectangle([x0, y0, x0 + W * 0.36, y0 + H * 0.9], fill=255, outline=0, width=5)
+        d.rounded_rectangle([x0 + 30, y0 + 24, x0 + 230, y0 + 90], radius=14, outline=0, width=4)
+        d.text((x0 + 44, y0 + 30), f"ネタ帳 {k + 3}", font=F(44, True), fill=0)
+    d.rounded_rectangle([W * 0.08, H * 0.6, W * 0.92, H * 1.3], radius=60, fill=60, outline=0, width=8)  # カバン
+    return im
+ALL.update({"ep7_p02_1": ep7_p02_1, "ep7_p07_1": ep7_p07_1, "ep7_p04_3": ep7_p04_3, "ep7_p04_4": ep7_p04_4, "ep7_p07_3": ep7_p07_3, "ep7_p23_4": ep7_p23_4})
+
 if __name__ == "__main__":
     sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
     args = sys.argv[1:]; finger = None
