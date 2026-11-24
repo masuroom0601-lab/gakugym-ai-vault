@@ -6,7 +6,9 @@ sys.path.insert(0, T + 'tools')
 from group_composite import compose_group
 import layout
 E = 'ep4out/out/'; V = 'v3bout/out/'; E2 = 'ep2out/out/'
-PICK = {}  # 部品名: シード(例 'c_fa_peek': 's2')。無ければ s1
+PICK = {'c_fa_peek':'s1','c_fb_peek':'s1','c_fc_peek':'s1','c_fa_look':'s2','c_fb_look':'s2','c_fc_look':'s1','c_fa_raise':'s1','c_fb_raise':'s1','c_fc_raise':'s2',
+        'c_izuru_look':'s1','c_shiina_look':'s2','c_nabe':'s1','c_izuru_nod':'s1','c_shiina_nod':'s1','c_izuru_laugh':'s1','c_sai_laugh':'s2','c_fb_laugh':'s2',
+        'c_kidb_sit':'s2','c_kidg_sit':'s1','c_parent_sit':'s1','c_dsuke_raise':'s2','bg_caps_door':'s2','bg_backstage':'s2','bg_hall_table':'s1'}
 def P(n, base=E): return f"{base}{n}_{PICK.get(n, 's1')}.png"
 spec = importlib.util.spec_from_file_location('n', T + 'names/ep04_name.py'); NAME = importlib.util.module_from_spec(spec); spec.loader.exec_module(NAME)
 def aspect(pg, i):
