@@ -15,5 +15,5 @@
 - 最後の「フォローして〜」の帯は押せないので、投稿時にリンクスタンプ(またはメンション)を重ねる
 
 ## 怪我をしていました(2026-11-25追加)
-- 台本: `creative/highlights/kega.md`(10枚。①②③共通)→ `out/common/kega/`
+- 台本: `creative/highlights/kega.md`(13枚。①②③共通)→ `out/common/kega/`
 - 描画: `python3 render_intro.py kega.md out/common/kega`。写真は `[photo] ファイル名` で `assets/photos/` から載せる(益田さん提供の写真)
