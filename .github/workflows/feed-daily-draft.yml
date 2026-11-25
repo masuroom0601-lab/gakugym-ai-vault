@@ -1,7 +1,7 @@
 name: feed-daily-draft
 
 # 2026-11-14追加(益田さん指示): ②総合型(@gakugym_sougougata)・③スマホ対策(@massu_smartphone)の
-# フィード(カルーセル)台本を作る。一覧型は2日に1本、実話型は③だけ週1(土曜)。判定は feed_kind.py。
+# フィード(カルーセル)台本を作る。一覧型は週1(水曜。2026-11-25から)、実話型は③だけ週1(土曜)。判定は feed_kind.py。
 # 台本の「## スライド」(JSON)から feed-render.yml が画像を描く(校正担当の合格後)。
 on:
   schedule:

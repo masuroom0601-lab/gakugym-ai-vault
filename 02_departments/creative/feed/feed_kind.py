@@ -4,11 +4,13 @@
 益田さんの決定(2026-11-14): 一覧型は2日に1本、実話型は週1本。
 - 実話型は③(sumaho_habit)だけ、毎週土曜(実話は益田さん自身の話で、総合型の内容ではないため②では作らない)
 - 一覧型は 2026-11-16 を起点に1日おき(②③とも同じ日)。③の土曜は実話型を優先する
+2026-11-25 益田さん変更: 一覧型は2日に1本 → **週1本(毎週水曜、②③とも)**。実話型(③・土曜)はそのまま
 使い方: python3 feed_kind.py <sumaho_habit|sougou> [YYYY-MM-DD]  → list / story / none
 """
 import datetime as dt, sys
 
 START = dt.date(2026, 11, 16)
+WEEKLY_FROM = dt.date(2026, 11, 26)   # この日から一覧型は週1(水曜)。初回は12/2
 
 
 def kind(dept, day):
@@ -16,6 +18,8 @@ def kind(dept, day):
         return "none"
     if dept == "sumaho_habit" and day.weekday() == 5:
         return "story"
+    if day >= WEEKLY_FROM:
+        return "list" if day.weekday() == 2 else "none"   # 水曜だけ
     return "list" if (day - START).days % 2 == 0 else "none"
 
 
