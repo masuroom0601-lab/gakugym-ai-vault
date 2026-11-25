@@ -6,8 +6,9 @@ sys.path.insert(0, T + 'tools')
 from group_composite import compose_group, add_net
 import layout
 DIRS = ['ep7out/out/', 'ep6out/out/', 'ep5out/out/', 'ep4out/out/', 'ep3r/out/', 'ep3out/out/', 'ep2out/out/', 'v3bout/out/']
-def finder(first, pick):
-    dirs = [first] + [d for d in DIRS if d != first]
+def finder(first, pick, extra=()):
+    """extra: 先に探すフォルダ(第6・7話の普段着の描き直し fix3out など)"""
+    dirs = list(extra) + [first] + [d for d in DIRS if d != first]
     def P(n):
         s = pick.get(n, 's1')
         for d in dirs:
