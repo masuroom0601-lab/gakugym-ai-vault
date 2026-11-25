@@ -580,12 +580,12 @@ def ep5_p07_4(w=301, h=379):
     return im
 
 def ep5_p11_4(w=453, h=300):
-    """勇者サークルの公式SNS。最後の投稿は1年前のまま"""
+    """勇者サークルの公式SNS。最後の投稿は半年前のまま"""
     im = canvas(w, h, 245); tone(im, 220, 12)
     (sw, sh), paste = phone(im, (w * K * 0.12, h * K * 0.03, w * K * 0.88, h * K * 1.4), angle=-4)
     scr = Image.new("L", (sw, sh), 255); d = ImageDraw.Draw(scr)
     d.text((24, 24), "勇者サークル 公式", font=F(int(sw * 0.075), True), fill=0)
-    d.text((24, 24 + sw * 0.1), "最後の投稿: 1年前", font=F(int(sw * 0.055)), fill=80)
+    d.text((24, 24 + sw * 0.1), "最後の投稿: 半年前", font=F(int(sw * 0.055)), fill=80)
     d.rectangle([24, 40 + sw * 0.18, sw - 24, 40 + sw * 0.6], fill=170)
     d.text((24, 60 + sw * 0.62), "冒険の記録 第3層到達!", font=F(int(sw * 0.065), True), fill=0)
     paste(scr)
@@ -644,7 +644,7 @@ def ep5_p19_1(w=940, h=559):
     (sw, sh), paste = phone(im, (w * K * 0.22, h * K * 0.03, w * K * 0.78, h * K * 1.3), angle=-3)
     scr = Image.new("L", (sw, sh), 240); d = ImageDraw.Draw(scr)
     d.rectangle([0, 0, sw, sh * 0.1], fill=255); d.text((24, sh * 0.025), "勇者サークル OB", font=F(int(sw * 0.05), True), fill=0)
-    msg = ["去年は春のうちに第3層まで", "行ったのに、今年はまだ", "第1層だって?", "公式SNSも、全然", "更新されてないぞ。", "部長として、しっかりしろよ"]
+    msg = ["去年は第3層まで", "行ったのに、今年はまだ", "第2層の手前だって?", "公式SNSも、全然", "更新されてないぞ。", "部長として、しっかりしろよ"]
     fs = int(sw * 0.048); bx1 = sw * 0.92
     d.rounded_rectangle([24, sh * 0.14, bx1, sh * 0.14 + fs * 1.5 * len(msg) + 40], radius=26, fill=255, outline=0, width=3)
     for k, t in enumerate(msg): d.text((48, sh * 0.14 + 20 + k * fs * 1.5), t, font=F(fs, True), fill=0)
