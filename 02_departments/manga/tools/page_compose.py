@@ -212,6 +212,9 @@ def compose(name_mod, page, img_dir, pick, finishing=True):
             page_img.paste(255, (0, 0), mask)  # 文字だけのコマ(ステータス表示など)
         elif os.path.exists(path):
             src = Image.open(path)
+            if os.environ.get("DEINK", "1") == "1" and not path.endswith("_ui.png"):  # 白地に落ちた墨の飛び散りを消す(tools/deink.py)
+                from deink import clean
+                src = clean(src, path)
             if opts.get("breakout"):  # はみ出し用に、コマより一回り大きく貼る
                 ex = int(0.08 * max(bx1 - bx0, by1 - by0))
                 ox0, oy0, ox1, oy1 = max(0, bx0 - ex), max(0, by0 - ex), min(W, bx1 + ex), min(H, by1 + ex)
