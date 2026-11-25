@@ -17,6 +17,7 @@
     "[box] 項目:内容|項目:内容"  … 枠で囲んだプロフィール表
     "[btn] テキスト"  … リンクボタン風の帯(押せるリンクにはならない。投稿時にリンクスタンプを重ねる)
     "[proof]"     … ぼかし済みの合格通知の画像(creative/feed/assets/proof.jpg)
+    "[fx] テキスト"  … とても大きな赤い文字に、にじむ影と震えたような残像をつけて強調する(2026-11-25追加)
     "[photo] ファイル名"  … 益田さんの写真を白枠つきで大きく載せる(assets/photos/ のファイル。2026-11-25追加)
   1行の中の **…** は赤字になる。
 """
@@ -76,6 +77,7 @@ def layout(lines):
             out.append(("box", items, 58, 82 * len(items) + 90)); continue
         if ln.startswith("[btn]"): out.append(("btn", ln[5:].strip(), 64, 150)); continue
         if ln.startswith("[proof]"): out.append(("proof", None, 0, 470)); continue
+        if ln.startswith("[fx]"): out.append(("fx", ln[4:].strip(), 300, 400)); continue
         if ln.startswith("[photo]"): out.append(("photo", ln[7:].strip(), 0, 1180)); continue
         kind, size, col = "text", 60, INK
         m = re.match(r"^(#?)(!?)(~?)\s*(.*)$", ln)
@@ -120,6 +122,15 @@ def slide(lines, photo):
             d.rectangle((120, y + 104, W - 220, y + 126), fill=MARK + (255,))
             d.rounded_rectangle((190, y + 22, W - 190, y + 118), 30, fill=(255, 255, 255, 255))
             d.text((W // 2, y + 70), v, font=F(size), fill=BLUE + (255,), anchor="mm")
+        elif kind == "fx":
+            cx, cy = W // 2, y + h // 2
+            glow = Image.new("RGBA", (W, H), (0, 0, 0, 0)); gd = ImageDraw.Draw(glow)
+            gd.text((cx, cy), v, font=F(size), fill=(90, 0, 10, 230), anchor="mm")
+            glow = glow.filter(ImageFilter.GaussianBlur(28))
+            im.alpha_composite(glow)
+            for dx, dy, a in ((-14, 6, 70), (12, -8, 70), (-6, -4, 110)):   # 震えたような残像
+                d.text((cx + dx, cy + dy), v, font=F(size), fill=RED + (a,), anchor="mm")
+            d.text((cx, cy), v, font=F(size), fill=(150, 10, 25, 255), anchor="mm")
         elif kind == "photo":
             p = ImageOps.exif_transpose(Image.open(os.path.join(HERE, "assets", "photos", v))).convert("RGB"); p.thumbnail((W - 200, 1120))
             px = (W - p.width) // 2
