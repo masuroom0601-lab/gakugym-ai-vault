@@ -1,0 +1,371 @@
+{
+ "university": "中央大学",
+ "short": "中央",
+ "selection": "総合型選抜",
+ "year": 2026,
+ "count_key": "applicants",
+ "source": {
+  "publisher": "中央大学",
+  "title": "総合型選抜 過年度入試データ(2026年度・2025年度)",
+  "url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf",
+  "index_url": "https://www.chuo-u.ac.jp/connect/admission/data/",
+  "published": "2026-06",
+  "fetched": "2026-11-25",
+  "year_evidence": "PDF本文の表見出し「2026年度」「2025年度」と、ページ見出し「総合型選抜 過年度入試データ」。掲載ページのリンク名「2026・2025年度 入試データ」。公表日の明記なし(PDF作成日2026-06-01)。2027年度の結果はまだ無く、2026年度が最終結果のそろった最新年度",
+  "footer": "出典:中央大学「総合型選抜 過年度入試データ(2026年度)」(2026/6公表)"
+ },
+ "formula": "志願者数÷最終合格者数(公表資料に受験者数が無いため。2段階選考は書類審査・1次の合格者ではなく最終・2次選考の合格者数)",
+ "rows": [
+  {
+   "name": "法 国際企業関係法 チャレンジ",
+   "applicants": 27,
+   "passers": 1,
+   "ratio": 27.0,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "経済 経済 高大接続 自己推薦型",
+   "applicants": 17,
+   "passers": 1,
+   "ratio": 17.0,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "法 法律 チャレンジ",
+   "applicants": 279,
+   "passers": 22,
+   "ratio": 12.7,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "文 学びのパスポート 自己推薦 専攻適性型",
+   "applicants": 89,
+   "passers": 10,
+   "ratio": 8.9,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "法 政治 チャレンジ",
+   "applicants": 170,
+   "passers": 21,
+   "ratio": 8.1,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "商 国際マーケティング 外国語能力",
+   "applicants": 24,
+   "passers": 3,
+   "ratio": 8.0,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "文 心理学 自己推薦 専攻適性型",
+   "applicants": 20,
+   "passers": 3,
+   "ratio": 6.7,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "社会理工 都市環境 高大接続型自己推薦",
+   "applicants": 13,
+   "passers": 2,
+   "ratio": 6.5,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "商 経営 英語運用",
+   "applicants": 23,
+   "passers": 4,
+   "ratio": 5.8,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "経済 公共・環境経済 高大接続 自己推薦型",
+   "applicants": 16,
+   "passers": 3,
+   "ratio": 5.3,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "文 社会学 自己推薦 専攻適性型",
+   "applicants": 69,
+   "passers": 13,
+   "ratio": 5.3,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "経済 国際経済 高大接続 自己推薦型",
+   "applicants": 10,
+   "passers": 2,
+   "ratio": 5.0,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "商 会計 外国語能力",
+   "applicants": 5,
+   "passers": 1,
+   "ratio": 5.0,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "商 金融 外国語能力",
+   "applicants": 5,
+   "passers": 1,
+   "ratio": 5.0,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "経済 国際経済 外国語能力",
+   "applicants": 19,
+   "passers": 4,
+   "ratio": 4.8,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "経済 経済情報システム 外国語能力",
+   "applicants": 9,
+   "passers": 2,
+   "ratio": 4.5,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "商 国際マーケティング 英語運用",
+   "applicants": 17,
+   "passers": 4,
+   "ratio": 4.3,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "経済 経済情報システム 高大接続 資格・実績型",
+   "applicants": 21,
+   "passers": 5,
+   "ratio": 4.2,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "経済 国際経済 高大接続 資格・実績型",
+   "applicants": 8,
+   "passers": 2,
+   "ratio": 4.0,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "文 日本史学 自己推薦 専攻適性型",
+   "applicants": 16,
+   "passers": 4,
+   "ratio": 4.0,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "文 哲学 自己推薦 専攻適性型",
+   "applicants": 8,
+   "passers": 2,
+   "ratio": 4.0,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "先進理工 電気電子情報通信工 高大接続型自己推薦",
+   "applicants": 7,
+   "passers": 2,
+   "ratio": 3.5,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "文 人文社会 自己推薦 外国語型",
+   "applicants": 211,
+   "passers": 60,
+   "ratio": 3.5,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "法 国際企業関係法 英語運用",
+   "applicants": 31,
+   "passers": 9,
+   "ratio": 3.4,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "国際経営 国際経営 自己推薦",
+   "applicants": 125,
+   "passers": 37,
+   "ratio": 3.4,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "経済 経済 英語運用",
+   "applicants": 52,
+   "passers": 17,
+   "ratio": 3.1,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "経済 公共・環境経済 英語運用",
+   "applicants": 50,
+   "passers": 16,
+   "ratio": 3.1,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "経済 経済 高大接続 資格・実績型",
+   "applicants": 9,
+   "passers": 3,
+   "ratio": 3.0,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "基幹理工 数学 高大接続型自己推薦",
+   "applicants": 15,
+   "passers": 5,
+   "ratio": 3.0,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "基幹理工 応用化学 高大接続型自己推薦",
+   "applicants": 3,
+   "passers": 1,
+   "ratio": 3.0,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "法 政治 英語運用",
+   "applicants": 52,
+   "passers": 18,
+   "ratio": 2.9,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "経済 国際経済 英語運用",
+   "applicants": 47,
+   "passers": 16,
+   "ratio": 2.9,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "経済 公共・環境経済 高大接続 資格・実績型",
+   "applicants": 5,
+   "passers": 2,
+   "ratio": 2.5,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "経済 経済情報システム 高大接続 自己推薦型",
+   "applicants": 10,
+   "passers": 4,
+   "ratio": 2.5,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "文 フランス語文学文化 自己推薦 専攻適性型",
+   "applicants": 5,
+   "passers": 2,
+   "ratio": 2.5,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "社会理工 人間総合理工 高大接続型自己推薦",
+   "applicants": 17,
+   "passers": 7,
+   "ratio": 2.4,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "法 法律 英語運用",
+   "applicants": 55,
+   "passers": 24,
+   "ratio": 2.3,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "経済 経済情報システム 英語運用",
+   "applicants": 36,
+   "passers": 16,
+   "ratio": 2.3,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "基幹理工 物理 高大接続型自己推薦",
+   "applicants": 3,
+   "passers": 3,
+   "ratio": 1.0,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "経済 経済 外国語能力",
+   "applicants": 1,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "経済 公共・環境経済 外国語能力",
+   "applicants": 5,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "商 会計 英語運用",
+   "applicants": 5,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "商 金融 英語運用",
+   "applicants": 2,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "商 経営 外国語能力",
+   "applicants": 17,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "基幹理工 生命科学 高大接続型自己推薦",
+   "applicants": 2,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "社会理工 ビジネスデータサイエンス 高大接続型自己推薦",
+   "applicants": 2,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "先進理工 精密機械工 高大接続型自己推薦",
+   "applicants": 0,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  },
+  {
+   "name": "先進理工 情報工 高大接続型自己推薦",
+   "applicants": 3,
+   "passers": 0,
+   "ratio": null,
+   "source_url": "https://www.chuo-u.ac.jp/common_d/connect/admission/2027/overview/tokubetsu_data2026.pdf"
+  }
+ ],
+ "school_color": {
+  "hex": "#d6001c",
+  "name": "朱色",
+  "note": "中央大学ブランドマークは『箱根駅伝で広く知られた朱色の「C」マーク』(大学公式 https://www.chuo-u.ac.jp/aboutus/communication/brand_mark/)。RGB値の公式記載はないため近似値を使用"
+ },
+ "campus_photo": {
+  "path": "assets/campus_chuo.jpg",
+  "credit": "写真:Asanagi / Wikimedia Commons(CC0)",
+  "source": "https://commons.wikimedia.org/wiki/File:Chuo_University_Surugadai_Campus_2023-05-18.jpg",
+  "license": "CC0"
+ },
+ "caption": "中央の総合型選抜で一番倍率が高いのは?\n\n2026年度の総合型選抜(中央大学「総合型選抜」の公表データ)で倍率が高かったのはこの3つ。\n1位 法 国際企業関係法 チャレンジ 27.0倍\n2位 経済 経済 高大接続 自己推薦型 17.0倍\n3位 法 法律 チャレンジ 12.7倍\n(倍率=志願者数÷最終合格者数。受験者数が公表されていないため。2026年度入試)\n\n出典:中央大学公式発表(総合型選抜 過年度入試データ 2026年度)\n\nオープンチャットで学部研究シートを配布中。プロフィールのリンクから参加してね。\n\n私は受験の数字を見ていくのが好き。きみの志望校選びにも役立つはずだから、保存してフォローしておいてね。\n\n#大学受験 #倍率 #中央大学 #総合型選抜 #受験生",
+ "factcheck": {
+  "status": "pending"
+ }
+}
