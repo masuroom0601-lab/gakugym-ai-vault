@@ -17,10 +17,11 @@
     "[box] 項目:内容|項目:内容"  … 枠で囲んだプロフィール表
     "[btn] テキスト"  … リンクボタン風の帯(押せるリンクにはならない。投稿時にリンクスタンプを重ねる)
     "[proof]"     … ぼかし済みの合格通知の画像(creative/feed/assets/proof.jpg)
+    "[photo] ファイル名"  … 益田さんの写真を白枠つきで大きく載せる(assets/photos/ のファイル。2026-11-25追加)
   1行の中の **…** は赤字になる。
 """
 import glob, io, json, os, re, subprocess, sys
-from PIL import Image, ImageDraw, ImageFilter, ImageFont
+from PIL import Image, ImageDraw, ImageFilter, ImageFont, ImageOps
 
 W, H = 1080, 1920
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -75,6 +76,7 @@ def layout(lines):
             out.append(("box", items, 58, 82 * len(items) + 90)); continue
         if ln.startswith("[btn]"): out.append(("btn", ln[5:].strip(), 64, 150)); continue
         if ln.startswith("[proof]"): out.append(("proof", None, 0, 470)); continue
+        if ln.startswith("[photo]"): out.append(("photo", ln[7:].strip(), 0, 1180)); continue
         kind, size, col = "text", 60, INK
         m = re.match(r"^(#?)(!?)(~?)\s*(.*)$", ln)
         big, red, mark, t = m.group(1), m.group(2), m.group(3), m.group(4)
@@ -118,6 +120,11 @@ def slide(lines, photo):
             d.rectangle((120, y + 104, W - 220, y + 126), fill=MARK + (255,))
             d.rounded_rectangle((190, y + 22, W - 190, y + 118), 30, fill=(255, 255, 255, 255))
             d.text((W // 2, y + 70), v, font=F(size), fill=BLUE + (255,), anchor="mm")
+        elif kind == "photo":
+            p = ImageOps.exif_transpose(Image.open(os.path.join(HERE, "assets", "photos", v))).convert("RGB"); p.thumbnail((W - 200, 1120))
+            px = (W - p.width) // 2
+            d.rectangle((px - 18, y + 10 - 18, px + p.width + 18, y + 10 + p.height + 18), fill=(255, 255, 255, 255))
+            im.paste(p, (px, y + 10))
         elif kind == "proof":
             p = Image.open(PROOF).convert("RGB"); p.thumbnail((W - 200, 440))
             im.paste(p, ((W - p.width) // 2, y + 10))
