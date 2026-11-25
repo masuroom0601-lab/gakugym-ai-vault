@@ -23,8 +23,8 @@ G = {
     (22, 2): (P('bg_caps_room'), [(P('c_izuru_patted'), .62, 1.1, 1.0, True), (P('c_sai_pat'), .3, 1.1, 1.05, False)]),
     (23, 3): (P('bg_caps_room'), [(P('c_dsuke_fist'), .14, 1.05, .95, False), (P('c_hisa_fist'), .38, 1.05, .92, False),
                                   (P('c_sai_fist'), .62, 1.05, .92, True), (P('c_shiina_cheer'), .86, 1.05, .9, True)]),
-    (25, 1): (P('bg_caps_room'), [(P('c_sweater_chair'), .5, .85, .45, False), (P('c_dsuke_smile'), .14, 1.05, .95, False),
-                                  (P('c_newbie'), .38, 1.05, .88, False), (P('c_izuru_smile'), .62, 1.05, .8, True), (P('c_shiina_smile'), .87, 1.05, .8, True)]),
+    (25, 1): (P('bg_caps_room'), [(P('c_sweater_chair'), .49, 1.12, .55, False), (P('c_dsuke_smile'), .1, 1.05, .9, False),
+                                  (P('c_newbie'), .3, 1.05, .84, False), (P('c_izuru_walk'), .68, 1.04, .86, True), (P('c_shiina_cheer'), .9, 1.12, .92, True)]),
     (25, 2): (P('bg_caps_room'), [(P('c_nabe'), .45, .95, .32, False), (P('c_haniwa'), .6, .95, .35, False),
                                   (P('c_sai_smile'), .2, 1.1, 1.0, False), (P('c_hisa_smile'), .82, 1.1, 1.0, True)]),
 }
