@@ -6,8 +6,8 @@
 ## A. 今の作り方がそのまま動く(GPU付きのノートブック)
 | 方法 | 無料の量(目安) | 自動で送れるか | 評価 |
 |---|---|---|---|
-| Lightning AI Studio | 毎月の無料クレジット(T4で約20時間前後。数字は資料で食い違うので登録時に確認) | ○ API鍵で外から動かせる | **第一候補**。Kaggleと同じ流れに一番近い |
-| Google Colab(無料) | T4。1回最大12時間だが、空き次第で使えない日もある | × ブラウザで開いて手動実行 | 予備。益田さんがPCで開けば確実に動く |
+| Lightning AI Studio | 毎月の無料クレジット(T4で約20時間前後) | ○ API鍵で外から動かせる | **新規登録を受け付けていない(2026-11-25、益田さんが確認)**。使えない |
+| Google Colab(無料) | T4。1回最大12時間だが、空き次第で使えない日もある | × ブラウザで開いて手動実行 | **第一候補(2026-11-25から)**。益田さんがPCで開けば動く |
 | Paperspace Gradient(無料) | 古いGPU(M4000)、1回6時間 | △ | 遅い。最後の手段 |
 | SageMaker Studio Lab | 1日4時間 | — | 新規登録が2026年7月で終了。使えない |
 
@@ -23,9 +23,9 @@
 → Bだけでは椎菜・イヅルの顔がそろわない。背景や小物、見本の絵が要らないコマの「つなぎ」に使う。
 
 ## おすすめの備え
-1. Lightning AI に無料アカウントを作り、API鍵をクラウド環境に保存しておく(鍵はチャットに貼らない)
-2. 試しに数枚描いて、Kaggle と同じ絵柄になるか確かめる
-3. Kaggle が使えない日は Lightning AI、それも駄目なら益田さんの PC で Colab を開いて動かす
+1. Lightning AI は新規登録を受け付けていないため見送り(2026-11-25)
+2. Kaggle が使えない日は、Claude が Colab 用のノートブック(生成スクリプト・LoRA・見本の絵の読み込みつき)を用意し、益田さんがPCで開いて実行する
+3. 背景・小物だけなら、B の無料サービスでつなぐ
 
 参考: https://fastero.com/blog/kaggle-alternatives / https://gputracker.dev/blog/google-colab-alternatives /
 https://huggingface.co/docs/hub/spaces-zerogpu / https://dbzer0.com/blog/tag/lora/
