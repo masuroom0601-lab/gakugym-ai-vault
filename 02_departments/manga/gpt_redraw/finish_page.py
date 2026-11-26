@@ -2,7 +2,7 @@
 使い方: python3 finish_page.py 元の絵.png 出力.png 'balloon|cx|cy|文字' 'box|x|y|文字' ...
   balloon = だ円のフキダシ(中心の座標)、box = ナレーションの四角、think = 心の声(角の丸い四角)。座標は元の絵(1024x1536)の上で指定する
   末尾に |fs をつけると文字の大きさ(既定 30)、|per で1列の文字数(既定 8)"""
-import sys, numpy as np, cv2
+import sys, os, numpy as np, cv2
 HERE = sys.path[0]; sys.path.insert(0, HERE + '/../tools')
 import page_compose as pc
 from manga_finish import xdog, halftone
@@ -14,8 +14,11 @@ def finish_gpt(gray, cell=4, black=40, white=215):
     そこで段に分けず、灰色の濃さに比例した大きさの網点にする(白っぽい所は白、真っ黒な所はベタ)"""
     lines = xdog(gray) < 0.97
     sm = cv2.GaussianBlur(cv2.bilateralFilter(gray, 9, 40, 9), (0, 0), 1.5)
-    out = halftone(sm, cell=cell)
-    out[sm >= white] = 255; out[sm < black] = 0
+    # GAMMA(1未満)で、黒以外の灰色を明るくする。全体が灰色っぽい絵を、今の原稿の白っぽさに寄せるため
+    gm = float(os.environ.get('GAMMA', 1.0))
+    lt = (255 * (sm / 255.0) ** gm).astype(np.uint8) if gm != 1.0 else sm
+    out = halftone(lt, cell=cell)
+    out[lt >= white] = 255; out[sm < black] = 0
     out[lines] = 0
     return out
 # BLACK: これより暗い所はベタ(黒)にする。イヅルの黒髪が灰色に描かれたときは、上げて黒くする(例: BLACK=90)
