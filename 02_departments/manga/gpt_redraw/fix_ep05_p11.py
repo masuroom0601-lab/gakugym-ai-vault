@@ -11,11 +11,14 @@ def white_mask(x0,y0,x1,y1):
     i=1+np.argmax(st[1:,4]); m=np.zeros(raw.shape,np.uint8); m[y0:y1,x0:x1]=(l==i)*255
     m=cv2.morphologyEx(m,cv2.MORPH_CLOSE,np.ones((9,9),np.uint8))
     return cv2.erode(cv2.warpAffine(m,A,(W0,H0)),np.ones((3,3),np.uint8))
-lay=Image.new('L',(1024,1536),255); d=ImageDraw.Draw(lay)
-f=ImageFont.truetype(pc.FONT_B,25); pc.vcols.rubies={}
-pc.draw_vtext(d,[[(c,None) for c in '目指せ'],[(c,None) for c in '魔王討伐!']],948,112,f,gap=6)
-L=cv2.warpAffine(np.array(lay),A,(W0,H0),borderValue=255,flags=cv2.INTER_AREA)
-pm=white_mask(850,0,1010,300); pg[pm>0]=255; pg[(pm>0)&(L<128)]=0
+# 貼り紙は、手前に向いた斜めの四角(上の辺は右上がり、下の辺は右下がり)。平らな紙に文字を書いてから、その四角にはめこむ
+PW,PH=180,360; pl=Image.new('L',(PW,PH),255); d=ImageDraw.Draw(pl)
+f=ImageFont.truetype(pc.FONT_B,44); pc.vcols.rubies={}
+pc.draw_vtext(d,[[(c,None) for c in '目指せ'],[(c,None) for c in '魔王討伐!']],PW-22,70,f,gap=10)
+q=np.float32([[882,85],[974,27],[975,270],[882,251]]); q=(np.c_[q,np.ones(4)]@A.T).astype(np.float32)
+Mp=cv2.getPerspectiveTransform(np.float32([[0,0],[PW,0],[PW,PH],[0,PH]]),q)
+L=cv2.warpPerspective(np.array(pl),Mp,(W0,H0),flags=cv2.INTER_AREA,borderValue=255)
+pm=white_mask(850,0,1010,300); pg[pm>0]=255; pg[(pm>0)&(L<140)]=0
 W,H=300,520; s=Image.new('L',(W,H),255); sd=ImageDraw.Draw(s)
 B=lambda n:ImageFont.truetype(pc.FONT_B,n); R=lambda n:ImageFont.truetype(pc.FONT,n)
 sd.rectangle([0,0,W,58],fill=40); sd.text((14,14),'勇者サークル 公式',font=B(24),fill=255)
