@@ -27,4 +27,5 @@ GAMMA=0.5 BLACK=30 $F ep03_p06_raw.webp ep03_p06_final.png 'balloon|100|482|…�
 GAMMA=0.4 BLACK=30 $F ep03_p07_raw.webp ep03_p07_final.png 'balloon|120|470|雑魚だ! 俺が片づける!|22|6' 'sfx|170|690|カチリ|40|4' 'sfx|560|900|ばさっ|56|4' >/dev/null && put 3 07 ep03_p07_final.png
 python3 combine_ep03_p08.py && GAMMA=0.45 BLACK=30 $F ep03_p08_raw.png ep03_p08_final.png 'oval|800|590|……この先に罠があることも、去年は、あいつのノートに書いてあった|16|9' 'oval|215|880|回復の薬も……あら。ひとつも、持ってきていませんね|17|8' 'balloon|890|1200|誰も持ってこなかったのかよ!|22|6' >/dev/null && put 3 08 ep03_p08_final.png
 GAMMA=0.5 BLACK=40 $F ep03_p09_raw.webp ep03_p09_final.png 'box|895|1045|その日、勇者サークルは——第1層すら、突破できなかった|20|11' 'box|945|24|夕方|24|8' >/dev/null && python3 memo_ep03_p09.py && put 3 09 ep03_p09_final.png
+GAMMA=0.5 BLACK=50 $F ep03_p10_raw.webp ep03_p10_final.png 'oval|370|175|せめて、公式SNSで冒険の写真くらい上げとかないと……|18|8' 'oval|470|600|……あれ? パスワード、誰か知ってる?|16|6' 'oval|820|920|……冒険の発信も、アカウントの管理も、全部イヅルだった|17|10' 'think|40|1130|……あいつに聞くとか、ありえねえ|20|8' >/dev/null && python3 phone_screen.py ep03_p10_raw.webp ep03_p10_final.png 620 380 1000 760 login && put 3 10 ep03_p10_final.png
 echo "GPTのページ 文字を入れ直し済み"

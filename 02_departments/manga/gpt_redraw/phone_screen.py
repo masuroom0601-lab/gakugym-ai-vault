@@ -24,6 +24,12 @@ if kind=='post':
     d.rectangle([18,120,W-18,320],outline=0,width=2); d.line([18,320,110,230,170,280,220,240,W-18,320],fill=0,width=2)
     d.text((18,336),'今日の冒険 第2層へ!',font=R(20),fill=0)
     d.rounded_rectangle([W-130,H-70,W-18,H-26],radius=10,fill=40); d.text((W-112,H-62),'投稿する',font=B(20),fill=255)
+if kind=='login':
+    d.text((18,90),'ログイン',font=B(26),fill=0)
+    d.rectangle([18,140,W-18,186],outline=0,width=2); d.text((28,150),'yusha_circle',font=R(20),fill=0)
+    d.rectangle([18,206,W-18,252],outline=0,width=2); d.text((28,216),'●●●●●●',font=R(20),fill=0)
+    d.text((18,266),'パスワードが違います',font=B(20),fill=0)
+    d.rounded_rectangle([18,316,W-18,366],radius=10,fill=40); d.text((W//2-44,326),'ログイン',font=B(22),fill=255)
 dst=(np.c_[np.float32([tl,tr,br,bl]),np.ones(4)]@A.T).astype(np.float32)
 Mx=cv2.getPerspectiveTransform(np.float32([[0,0],[W,0],[W,H],[0,H]]),dst)
 w=cv2.warpPerspective(np.array(s),Mx,(W0,H0),flags=cv2.INTER_AREA,borderValue=255)
