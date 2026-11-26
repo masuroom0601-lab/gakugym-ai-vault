@@ -23,4 +23,5 @@ GAMMA=0.4 BLACK=30 $F ep05_p22_raw.webp ep05_p22_final.png 'oval|128|752|待っ�
 GAMMA=0.6 BLACK=55 $F ep03_p01_raw.webp ep03_p01_final.png 'box|945|24|イヅルの追放から3日後|22|11' 'balloon|560|150|今日は、第3層まで一気に突破するぞ|20|8' 'oval|700|690|魔王討伐を果たし、強いガクチカ作りへの一歩にするぞ!|19|9' 'balloon|920|1080|さんせ〜い!|24|6' >/dev/null && python3 sign_ep03_p01.py && put 3 01 ep03_p01_final.png
 GAMMA=0.6 BLACK=55 $F ep03_p02_raw.webp ep03_p02_final.png 'oval|150|210|よく聞け! 俺たち勇者サークルは、魔王討伐という最大のガクチカ作りを目指している!|19|10' 'balloon|870|880|おお……!|26|5' >/dev/null && put 3 02 ep03_p02_final.png
 GAMMA=0.5 BLACK=30 $F ep03_p05_raw.webp ep03_p05_final.png 'box|945|24|北の迷宮 第1層|22|10' 'oval|600|680|ねえ、地図は? いつもイヅルくんが持ってたじゃん|18|8' 'oval|380|820|……ルートの下調べも、毎回あいつにやらせていた|17|8' 'box|950|1020|去年の春|22|8' >/dev/null && put 3 05 ep03_p05_final.png
+python3 combine_ep03_p06.py && GAMMA=0.5 BLACK=30 $F ep03_p06_raw.png ep03_p06_final.png 'oval|925|690|あら。この傷、さっきも見ましたね|17|6' 'balloon|420|600|……うるせえ。こっちだ!|20|6' 'box|950|900|1時間後|22|8' 'oval|930|1290|おなかすいた〜……お弁当は?|17|6' 'oval|440|1300|……いつも、イヅルくんが用意してたやつ|17|7' >/dev/null && put 3 06 ep03_p06_final.png
 echo "GPTのページ 文字を入れ直し済み"
