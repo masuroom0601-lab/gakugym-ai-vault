@@ -46,6 +46,9 @@ def first_page(ep, im):
 def build(ep):
     d = os.path.join(ROOT, "names", f"ep{ep:02d}", "pages")
     fs = sorted(glob.glob(os.path.join(d, "p[0-9][0-9].png")))
+    # GPTで描き直したページ(names/epNN/gpt/pXX.png)があれば、そちらを使う(組み直しで上書きされても戻らないように)
+    g = os.path.join(ROOT, "names", f"ep{ep:02d}", "gpt")
+    fs = [os.path.join(g, os.path.basename(f)) if os.path.exists(os.path.join(g, os.path.basename(f))) else f for f in fs]
     ims = [Image.open(f).convert("L") for f in fs]
     ims[0] = first_page(ep, ims[0])
     ims = [i.convert("RGB") for i in ims]
