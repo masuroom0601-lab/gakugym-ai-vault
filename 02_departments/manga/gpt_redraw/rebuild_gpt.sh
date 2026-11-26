@@ -25,4 +25,5 @@ GAMMA=0.6 BLACK=55 $F ep03_p02_raw.webp ep03_p02_final.png 'oval|150|210|よく�
 GAMMA=0.5 BLACK=30 $F ep03_p05_raw.webp ep03_p05_final.png 'box|945|24|北の迷宮 第1層|22|10' 'oval|600|680|ねえ、地図は? いつもイヅルくんが持ってたじゃん|18|8' 'oval|380|820|……ルートの下調べも、毎回あいつにやらせていた|17|8' 'box|950|1020|去年の春|22|8' >/dev/null && put 3 05 ep03_p05_final.png
 GAMMA=0.5 BLACK=30 $F ep03_p06_raw.webp ep03_p06_final.png 'balloon|100|482|……うるせえ。こっちだ!|17|4' 'oval|595|600|あら。この傷、さっきも見ましたね|17|6' 'box|950|778|1時間後|22|8' 'oval|945|1290|おなかすいた〜……お弁当は?|17|6' 'oval|440|1400|……いつも、イヅルくんが用意してたやつ|16|7' >/dev/null && put 3 06 ep03_p06_final.png
 GAMMA=0.4 BLACK=30 $F ep03_p07_raw.webp ep03_p07_final.png 'balloon|120|470|雑魚だ! 俺が片づける!|22|6' 'sfx|170|690|カチリ|40|4' 'sfx|560|900|ばさっ|56|4' >/dev/null && put 3 07 ep03_p07_final.png
+python3 combine_ep03_p08.py && GAMMA=0.45 BLACK=30 $F ep03_p08_raw.png ep03_p08_final.png 'oval|800|590|……この先に罠があることも、去年は、あいつのノートに書いてあった|16|9' 'oval|215|880|回復の薬も……あら。ひとつも、持ってきていませんね|17|8' 'balloon|890|1200|誰も持ってこなかったのかよ!|22|6' >/dev/null && put 3 08 ep03_p08_final.png
 echo "GPTのページ 文字を入れ直し済み"
