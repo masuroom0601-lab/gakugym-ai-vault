@@ -30,6 +30,12 @@ for it in items:
     fs = int(p[4]) if len(p) > 4 else 30; per = int(p[5]) if len(p) > 5 else 8
     f = ImageFont.truetype(pc.FONT_B if kind in ('balloon', 'oval') else pc.FONT, fs)
     cols, w, h = pc.text_box_size(text, f, per)
+    if kind == 'sfx':  # 効果音: 太い字を白でふちどって、絵の上に直接置く(縦書き)
+        f = ImageFont.truetype(pc.FONT_B, fs); cols = pc.vcols(text, per); lay = Image.new('L', im.size, 0); dl = ImageDraw.Draw(lay)
+        pc.draw_vtext(dl, cols, x, y, f, fill=255)
+        from PIL import ImageFilter
+        halo = lay.filter(ImageFilter.MaxFilter(9)); im.paste(255, (0, 0), halo); im.paste(0, (0, 0), lay); d = ImageDraw.Draw(im)
+        print(kind, int(x), int(y)); continue
     if kind in ('balloon', 'oval'):
         # oval: 文字の四すみまでだ円の内側に収まる大きさ(長いセリフ用)
         rw, rh = (w / 2 + fs * 1.4, h / 2 + fs * 1.4) if kind == 'balloon' else ((w / 2 + fs * 0.6) * 1.42, (h / 2 + fs * 0.6) * 1.42)
