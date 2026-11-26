@@ -17,4 +17,5 @@ GAMMA=0.6 BLACK=72 $F ep05_p05_raw.webp ep05_p05_final.png 'box|950|24|去年|24
 GAMMA=0.5 BLACK=40 $F ep05_p11_raw.webp ep05_p11_final.png 'box|800|24|同じころ 勇者サークル|22|12' 'box|30|24|一方、その頃——勇者サークルは、落ちぶれる一方だった|22|9' >/dev/null && python3 fix_ep05_p11.py && put 5 11 ep05_p11_final.png
 GAMMA=0.55 BLACK=50 $F ep05_p12_raw4.webp ep05_p12_final.png 'box|945|24|北の迷宮 第2層の手前|22|12' 'balloon|468|640|……ねえ、ここ、どこ?|20|6' 'balloon|955|880|薬も、もう残っていませんね|20|7' 'balloon|380|865|……今日は、ここまでだ。戻るぞ|22|7' 'box|28|1108|去年の今ごろは、第3層まで進んでいた。今年は半年たっても、まだ第2層にすら届いていない|20|12' >/dev/null && put 5 12 ep05_p12_final.png
 GAMMA=0.6 BLACK=60 $F ep05_p14_raw.webp ep05_p14_final.png 'balloon|445|190|去年までは、毎回ちゃんと作戦があっただろ。どうやってたんだよ|22|11' 'oval|820|548|……地図も、作戦も、補給も、許可書も、公式SNSも。全部イヅルにやらせていたからな|16|10' 'box|954|732|去年|22|8' 'balloon|920|935|先輩、次の冒険の作戦、10個考えてきました!|17|8' 'balloon|165|1250|はいはい、使えそうなのがあったら、俺が使ってやるよ|20|9' >/dev/null && put 5 14 ep05_p14_final.png
+GAMMA=0.6 BLACK=60 $F ep05_p20_raw.webp ep05_p20_final.png 'box|945|385|去年 北の迷宮 第3層|20|10' 'think|25|800|俺が見ていなかっただけで——ずっと、あいつが支えてたのか|20|10' 'balloon|105|1370|……だったら、取り返せばいい|24|7' >/dev/null && put 5 20 ep05_p20_final.png
 echo "GPTのページ 文字を入れ直し済み"
