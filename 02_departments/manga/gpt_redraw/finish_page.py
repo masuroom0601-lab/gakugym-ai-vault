@@ -28,10 +28,11 @@ d = ImageDraw.Draw(im)
 for it in items:
     p = it.split('|'); kind, x, y, text = p[0], float(p[1]), float(p[2]), p[3]
     fs = int(p[4]) if len(p) > 4 else 30; per = int(p[5]) if len(p) > 5 else 8
-    f = ImageFont.truetype(pc.FONT_B if kind == 'balloon' else pc.FONT, fs)
+    f = ImageFont.truetype(pc.FONT_B if kind in ('balloon', 'oval') else pc.FONT, fs)
     cols, w, h = pc.text_box_size(text, f, per)
-    if kind == 'balloon':
-        rw, rh = w / 2 + fs * 1.4, h / 2 + fs * 1.4
+    if kind in ('balloon', 'oval'):
+        # oval: 文字の四すみまでだ円の内側に収まる大きさ(長いセリフ用)
+        rw, rh = (w / 2 + fs * 1.4, h / 2 + fs * 1.4) if kind == 'balloon' else ((w / 2 + fs * 0.6) * 1.42, (h / 2 + fs * 0.6) * 1.42)
         d.ellipse([x - rw, y - rh, x + rw, y + rh], fill=255, outline=0, width=3)
         pc.draw_vtext(d, cols, x + w / 2, y - h / 2, f); print(kind, int(x - rw), int(y - rh), int(x + rw), int(y + rh))
     else:
