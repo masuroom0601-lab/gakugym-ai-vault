@@ -18,7 +18,9 @@ def finish_gpt(gray, cell=4, black=40, white=215):
     out[sm >= white] = 255; out[sm < black] = 0
     out[lines] = 0
     return out
-im = Image.fromarray(finish_gpt(np.array(im.convert('L')))).convert('L')
+# BLACK: これより暗い所はベタ(黒)にする。イヅルの黒髪が灰色に描かれたときは、上げて黒くする(例: BLACK=90)
+import os
+im = Image.fromarray(finish_gpt(np.array(im.convert('L')), black=int(os.environ.get('BLACK', 40)))).convert('L')
 d = ImageDraw.Draw(im)
 for it in items:
     p = it.split('|'); kind, x, y, text = p[0], float(p[1]), float(p[2]), p[3]
