@@ -25,7 +25,7 @@ def faces_in(im):
     a = cv2.equalizeHist(np.array(im.convert("L")))
     m = max(24, min(im.width, im.height) // 10)
     return [(x, y, x+w, y+h) for x, y, w, h in _CASCADE.detectMultiScale(a, 1.1, 4, minSize=(m, m))]
-VERT = {"ー": "丨", "—": "丨", "―": "丨", "…": "︙", "〜": "\x01", "～": "\x01", "▮": "■", "▯": "□", "(": "︵", ")": "︶", "「": "﹁", "」": "﹂", "『": "﹃", "』": "﹄"}
+VERT = {"!": "！", "?": "？", "ー": "丨", "—": "丨", "―": "丨", "…": "︙", "〜": "\x01", "～": "\x01", "▮": "■", "▯": "□", "(": "︵", ")": "︶", "「": "﹁", "」": "﹂", "『": "﹃", "』": "﹄"}
 PUNCT_SHIFT = set("、。")
 
 def load(p):
@@ -55,6 +55,21 @@ def tokens(text):
         out += [(VERT.get(c, c), gid) for c in m.group(1)]
         pos = m.end()
     out += [(VERT.get(c, c), None) for c in text[pos:] if c != " "]
+    # 縦中横: ちょうど2けたの数字(「10個」など)と「!?」「!!」は、1マスに横に並べる(3けた以上は1字ずつ縦に)
+    merged = []; i = 0
+    isd = lambda t: t[1] is None and len(t[0]) == 1 and t[0].isascii() and t[0].isdigit()
+    while i < len(out):
+        t = out[i]
+        if isd(t):
+            j = i
+            while j < len(out) and isd(out[j]): j += 1
+            if j - i == 2: merged.append((out[i][0] + out[i + 1][0], None))
+            else: merged += out[i:j]
+            i = j; continue
+        if merged and t[1] is None and merged[-1][1] is None and merged[-1][0] + t[0] in ("！？", "？！", "！！"):
+            merged[-1] = (merged[-1][0] + t[0], None); i += 1; continue
+        merged.append(t); i += 1
+    out = merged
     return out, rubies
 
 def vcols(text, per_col):
@@ -87,8 +102,16 @@ def draw_vtext(d, cols, x_right, y_top, font, fill=0, gap=6):
                 gd.text((fs - (bx[0]+bx[2])/2, fs - (bx[1]+bx[3])/2), "〜", font=font, fill=255)
                 g = g.rotate(-90); cb = font.getbbox("国")
                 d._image.paste(fill, (int(x + (cb[0]+cb[2])/2 - fs), int(y_top + ri*(fs+2) + (cb[1]+cb[3])/2 - fs)), g)
-            else:
+            elif len(ch) > 1:  # 縦中横: 小さめの字で、マスの中央に横に並べる
+                ch = ch.replace("！", "!").replace("？", "?")
+                tf = ImageFont.truetype(font.path, int(fs * (0.8 if ch.isdigit() else 0.85)))
+                bb = d.textbbox((0, 0), ch, font=tf); cb = font.getbbox("国")
+                d.text((x + (cb[0] + cb[2]) / 2 - (bb[0] + bb[2]) / 2, y_top + ri*(fs+2) + (cb[1] + cb[3]) / 2 - (bb[1] + bb[3]) / 2), ch, font=tf, fill=fill)
+            elif ch in PUNCT_SHIFT:
                 d.text((x+dx, y_top + ri*(fs+2) + dy), ch, font=font, fill=fill)
+            else:  # 字の幅が狭い字(数字・英字・！？など)も、列の中央にそろえる
+                bb = font.getbbox(ch); cb = font.getbbox("国")
+                d.text((x + (cb[0] + cb[2]) / 2 - (bb[0] + bb[2]) / 2, y_top + ri*(fs+2)), ch, font=font, fill=fill)
             if gid is not None: spans.setdefault(gid, []).append(ri)
         for gid, rows in spans.items():  # ルビは親文字の右側に、親文字の範囲いっぱいに並べる
             ruby = rubies.get(gid, ""); top = y_top + rows[0]*(fs+2); span = len(rows)*(fs+2)
