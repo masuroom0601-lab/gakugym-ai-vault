@@ -21,7 +21,8 @@ L=cv2.warpPerspective(np.array(pl),Mp,(W0,H0),flags=cv2.INTER_AREA,borderValue=2
 pm=white_mask(850,0,1010,300); pg[pm>0]=255; pg[(pm>0)&(L<140)]=0
 W,H=300,520; s=Image.new('L',(W,H),255); sd=ImageDraw.Draw(s)
 B=lambda n:ImageFont.truetype(pc.FONT_B,n); R=lambda n:ImageFont.truetype(pc.FONT,n)
-sd.rectangle([0,0,W,58],fill=40); sd.text((14,14),'勇者サークル 公式',font=B(24),fill=255)
+# 見出しは黒い帯にせず、文字と下線だけにする(画面の角の形と帯がずれて台形に見えたため)
+sd.text((18,22),'勇者サークル 公式',font=B(24),fill=0)
 sd.ellipse([14,74,64,124],outline=0,width=3); sd.text((76,78),'@yusha_circle',font=R(18),fill=0); sd.text((76,102),'最後の投稿: 半年前',font=B(18),fill=0)
 sd.line([0,138,W,138],fill=0,width=2)
 sd.rounded_rectangle([14,152,W-14,400],radius=10,outline=0,width=3)
