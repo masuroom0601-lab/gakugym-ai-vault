@@ -47,7 +47,7 @@ if kind=='caps':  # CAPS公式の履修登録の投稿。作った人の名前�
     for k in range(3): d.rectangle([L+14+k*76,210,L+72+k*76,240],outline=0,width=2)
     d.text((L,266),'インプレッション 13.2万',font=B(19),fill=0)
     d.text((L,298),'いいね 481  シェア 120',font=R(18),fill=0)
-    d.text((L,H-56),'作成: 東浜イヅル',font=R(18),fill=0)
+    import os; d.text((L+int(os.environ.get('AX',0)),H-int(os.environ.get('AY',56))),'作成: 東浜イヅル',font=R(int(os.environ.get('AS',18))),fill=0)
 dst=(np.c_[np.float32([tl,tr,br,bl]),np.ones(4)]@A.T).astype(np.float32)
 Mx=cv2.getPerspectiveTransform(np.float32([[0,0],[W,0],[W,H],[0,H]]),dst)
 w=cv2.warpPerspective(np.array(s),Mx,(W0,H0),flags=cv2.INTER_AREA,borderValue=255)
