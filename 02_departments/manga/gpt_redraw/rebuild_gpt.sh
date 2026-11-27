@@ -39,4 +39,5 @@ python3 combine_ep03_p17.py && GAMMA=0.6 BLACK=45 $F ep03_p17_raw.png ep03_p17_f
 GAMMA=0.55 BLACK=45 $F ep01_p02_raw.webp ep01_p02_final.png 'box|905|30|俺、東浜イヅルも、そのうちの一人だ|20|9' 'box|868|445|キャンパスの北の迷宮で、魔王討伐を目指す大学公認のサークル。通称『勇者サークル』|18|11' 'box|730|445|その冒険の実績は、就活で最強のガクチカになる|18|11' 'box|415|1000|俺はそのメンバーとして、戦闘未経験ながらも、地図づくりやサポートで必死にみんなを支えていた|16|10' >/dev/null && put 1 02 ep01_p02_final.png
 GAMMA=0.6 BLACK=45 $F ep06_p05_raw.webp ep06_p05_final.png 'oval|120|190|で、本題だ。イヅル、勇者サークルに戻ってこい|20|7' 'oval|880|620|迷宮の第4層を攻略するには、お前の地図と作戦が要る|19|8' 'oval|180|1140|魔王討伐は、この大学のみんなの誇りになりますもの。大学のためにも、必要なことなのです|17|9' >/dev/null && put 6 05 ep06_p05_final.png
 GAMMA=0.6 BLACK=60 $F ep06_p01_raw.webp ep06_p01_final.png 'box|955|24|キャリアセンターの前|22|10' 'oval|180|880|キャリアセンターの人、CAPSのチラシ、置いてくれるって!|18|8' 'oval|860|1300|よかった。いろんな学年の人が来る場所だしね|18|8' >/dev/null && put 6 01 ep06_p01_final.png
+GAMMA=0.6 BLACK=55 $F ep06_p02_raw.webp ep06_p02_final.png 'oval|180|190|やあ、イヅル。久しぶりだな|22|7' 'balloon|905|1380|……シロ先輩|22|7' >/dev/null && put 6 02 ep06_p02_final.png
 echo "GPTのページ 文字を入れ直し済み"
