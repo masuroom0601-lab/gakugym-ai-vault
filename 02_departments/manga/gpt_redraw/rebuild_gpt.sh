@@ -32,4 +32,5 @@ GAMMA=0.55 BLACK=45 $F ep03_p11_raw.webp ep03_p11_final.png 'box|950|505|数時�
 GAMMA=0.55 BLACK=40 $F ep03_p16_raw.webp ep03_p16_final.png 'think|40|560|……イヅルのサポートなんか、なくても|20|9' 'think|40|1000|俺たちは、勇者サークルだ|22|7' >/dev/null && put 3 16 ep03_p16_final.png
 GAMMA=0.6 BLACK=45 $F ep03_p12_raw.webp ep03_p12_final.png 'box|955|24|翌日|22|8' 'oval|880|270|ねえ見た? 履修登録のコツの投稿、めっちゃ分かりやすくない?|17|8' 'oval|110|230|見た! CAPSってサークルのでしょ? 入部説明会、行ってみようかな|17|8' >/dev/null && put 3 12 ep03_p12_final.png
 python3 combine_ep03_p18.py && GAMMA=0.6 BLACK=40 $F ep03_p18_raw.png ep03_p18_final.png 'oval|880|640|いいじゃないか! 新入生が見たら、大学生活が楽しみになる動画だ!|17|8' 'box|385|1052|同じ夜。二つの部室の明かりは、まるで正反対だった|19|9' >/dev/null && put 3 18 ep03_p18_final.png
+GAMMA=0.55 BLACK=45 $F ep03_p14_raw.webp ep03_p14_final.png 'oval|925|640|……部長のせいでしょ。許可書のことなんて、聞いてないし|16|8' 'oval|95|590|は? 地図くらい、広報のお前が用意しとけよ!|16|7' 'oval|940|990|薬を忘れたのはタマキちゃんだし!|17|6' 'oval|440|1010|用意するように、誰も言いませんでしたから|16|7' 'oval|850|1260|……去年は、全部イヅルにやらせていた。あいつが勝手に辞めたせいで、このざまだ|17|9' >/dev/null && put 3 14 ep03_p14_final.png
 echo "GPTのページ 文字を入れ直し済み"
