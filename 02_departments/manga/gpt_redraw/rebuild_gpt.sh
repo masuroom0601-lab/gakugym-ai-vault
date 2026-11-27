@@ -41,4 +41,5 @@ GAMMA=0.6 BLACK=45 $F ep06_p05_raw.webp ep06_p05_final.png 'oval|120|190|で、�
 GAMMA=0.6 BLACK=60 $F ep06_p01_raw.webp ep06_p01_final.png 'box|955|24|キャリアセンターの前|22|10' 'oval|180|880|キャリアセンターの人、CAPSのチラシ、置いてくれるって!|18|8' 'oval|860|1300|よかった。いろんな学年の人が来る場所だしね|18|8' >/dev/null && put 6 01 ep06_p01_final.png
 GAMMA=0.6 BLACK=55 $F ep06_p02_raw.webp ep06_p02_final.png 'oval|180|190|やあ、イヅル。久しぶりだな|22|7' 'balloon|905|1380|……シロ先輩|22|7' >/dev/null && put 6 02 ep06_p02_final.png
 GAMMA=0.6 BLACK=55 $F ep06_p03_raw.webp ep06_p03_final.png 'oval|200|230|元気にしてたか? CAPSで、ずいぶん楽しそうにやってるらしいじゃねえか|17|9' 'balloon|440|900|……行こう、椎菜|20|5' 'oval|880|1250|おいおい、そう冷たくすんなよ。元とはいえ、仲間だっただろ|16|8' >/dev/null && put 6 03 ep06_p03_final.png
+GAMMA=0.6 BLACK=55 $F ep06_p04_raw.webp ep06_p04_final.png 'oval|180|200|俺たちも、反省してるんだよ|22|9' 'oval|130|590|お前がいかに『役に立たなかった』とはいえ、もう少し言い方があったかもなって|14|12' 'oval|780|960|そうそう。あたしたち、大人だからさ〜|20|7' >/dev/null && put 6 04 ep06_p04_final.png
 echo "GPTのページ 文字を入れ直し済み"
