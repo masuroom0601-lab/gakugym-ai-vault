@@ -31,4 +31,5 @@ GAMMA=0.5 BLACK=50 $F ep03_p10_raw.webp ep03_p10_final.png 'oval|370|175|せめ�
 GAMMA=0.55 BLACK=45 $F ep03_p11_raw.webp ep03_p11_final.png 'box|950|505|数時間後|22|8' 'balloon|120|1180|……なんでだよ|22|5' >/dev/null && python3 phone_screen.py ep03_p11_raw.webp ep03_p11_final.png 230 500 800 1000 selfie && put 3 11 ep03_p11_final.png
 GAMMA=0.55 BLACK=40 $F ep03_p16_raw.webp ep03_p16_final.png 'think|40|560|……イヅルのサポートなんか、なくても|20|9' 'think|40|1000|俺たちは、勇者サークルだ|22|7' >/dev/null && put 3 16 ep03_p16_final.png
 GAMMA=0.6 BLACK=45 $F ep03_p12_raw.webp ep03_p12_final.png 'box|955|24|翌日|22|8' 'oval|880|270|ねえ見た? 履修登録のコツの投稿、めっちゃ分かりやすくない?|17|8' 'oval|110|230|見た! CAPSってサークルのでしょ? 入部説明会、行ってみようかな|17|8' >/dev/null && put 3 12 ep03_p12_final.png
+python3 combine_ep03_p18.py && GAMMA=0.6 BLACK=40 $F ep03_p18_raw.png ep03_p18_final.png 'oval|880|640|いいじゃないか! 新入生が見たら、大学生活が楽しみになる動画だ!|17|8' 'box|385|1052|同じ夜。二つの部室の明かりは、まるで正反対だった|19|9' >/dev/null && put 3 18 ep03_p18_final.png
 echo "GPTのページ 文字を入れ直し済み"
