@@ -30,4 +30,5 @@ GAMMA=0.5 BLACK=40 $F ep03_p09_raw.webp ep03_p09_final.png 'box|895|1045|その�
 GAMMA=0.5 BLACK=50 $F ep03_p10_raw.webp ep03_p10_final.png 'oval|370|175|せめて、公式SNSで冒険の写真くらい上げとかないと……|18|8' 'oval|470|600|……あれ? パスワード、誰か知ってる?|16|6' 'oval|820|920|……冒険の発信も、アカウントの管理も、全部イヅルだった|17|10' 'think|40|1130|……あいつに聞くとか、ありえねえ|20|8' >/dev/null && python3 phone_screen.py ep03_p10_raw.webp ep03_p10_final.png 620 380 1000 760 login && put 3 10 ep03_p10_final.png
 GAMMA=0.55 BLACK=45 $F ep03_p11_raw.webp ep03_p11_final.png 'box|950|505|数時間後|22|8' 'balloon|120|1180|……なんでだよ|22|5' >/dev/null && python3 phone_screen.py ep03_p11_raw.webp ep03_p11_final.png 230 500 800 1000 selfie && put 3 11 ep03_p11_final.png
 GAMMA=0.55 BLACK=40 $F ep03_p16_raw.webp ep03_p16_final.png 'think|40|560|……イヅルのサポートなんか、なくても|20|9' 'think|40|1000|俺たちは、勇者サークルだ|22|7' >/dev/null && put 3 16 ep03_p16_final.png
+GAMMA=0.6 BLACK=45 $F ep03_p12_raw.webp ep03_p12_final.png 'box|955|24|翌日|22|8' 'oval|880|270|ねえ見た? 履修登録のコツの投稿、めっちゃ分かりやすくない?|17|8' 'oval|110|230|見た! CAPSってサークルのでしょ? 入部説明会、行ってみようかな|17|8' >/dev/null && put 3 12 ep03_p12_final.png
 echo "GPTのページ 文字を入れ直し済み"
